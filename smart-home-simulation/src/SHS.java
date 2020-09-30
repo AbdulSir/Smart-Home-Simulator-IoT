@@ -12,7 +12,7 @@ public class SHS {
 	public static void main(String[] args) {
 
 		/* Responsible for managing the connection between SWT and OS */
-		Display display = new Display();
+		Display display = Display.getDefault();
 
 		/** Create the new window */
 		Shell shell = new Shell(display);
@@ -21,11 +21,17 @@ public class SHS {
 		/* Create a UI Object */
 		ui ui = new ui(shell, SWT.NONE);
 
-		/** This will open the window and will make it visible */
-		shell.open();
-		
+		/* Window Title */
+		shell.setText("Smart Home Simulation");
+
 		/* Center Ui */
 		setUiCenter(display, shell);
+
+		/* Pack the ui together */
+		shell.pack();
+
+		/** This will open the window and will make it visible */
+		shell.open();
 
 		/**
 		 * this loop is to maintain the window open until a dispose event is received

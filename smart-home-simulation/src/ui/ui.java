@@ -8,6 +8,20 @@ import org.eclipse.swt.awt.SWT_AWT;
 import java.awt.Panel;
 import java.awt.BorderLayout;
 import javax.swing.JRootPane;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.custom.CBanner;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.Slider;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.DateTime;
 
 public class ui extends Composite {
 
@@ -20,22 +34,30 @@ public class ui extends Composite {
 	public ui(Composite parent, int style) {
 		super(parent, style);
 		setLayout(null);
-
-		Label lblHelloWorld = new Label(this, SWT.NONE);
-		lblHelloWorld.setBounds(42, 46, 63, 15);
-		lblHelloWorld.setText("Hello World");
 		
-		Composite composite = new Composite(this, SWT.EMBEDDED);
-		composite.setBounds(234, 174, 64, 64);
+		TabFolder tabFolder = new TabFolder(this, SWT.BORDER);
+		tabFolder.setBounds(274, 10, 297, 369);
 		
-		Frame frame = SWT_AWT.new_Frame(composite);
+		TabItem tbtmShs = new TabItem(tabFolder, SWT.NONE);
+		tbtmShs.setText("SHS");
 		
-		Panel panel = new Panel();
-		frame.add(panel);
-		panel.setLayout(new BorderLayout(0, 0));
+		TabItem tbtmShc = new TabItem(tabFolder, SWT.NONE);
+		tbtmShc.setText("SHC");
 		
-		JRootPane rootPane = new JRootPane();
-		panel.add(rootPane);
+		TabItem tbtmShp = new TabItem(tabFolder, SWT.NONE);
+		tbtmShp.setText("SHP");
+		
+		TabItem tbtmShh = new TabItem(tabFolder, SWT.NONE);
+		tbtmShh.setText("SHH");
+		
+		Group group = new Group(this, SWT.BORDER);
+		group.setBounds(10, 10, 258, 369);
+		
+		DateTime dateTime = new DateTime(group, SWT.BORDER);
+		dateTime.setBounds(78, 287, 80, 24);
+		
+		Label lblNewLabel = new Label(this, SWT.BORDER);
+		lblNewLabel.setBounds(577, 10, 215, 369);
 
 	}
 

@@ -36,7 +36,7 @@ public class ui extends Composite {
 		setLayout(null);
 		
 		TabFolder tabFolder = new TabFolder(this, SWT.BORDER);
-		tabFolder.setBounds(274, 10, 297, 369);
+		tabFolder.setBounds(264, 0, 297, 369);
 		
 		TabItem tbtmShs = new TabItem(tabFolder, SWT.NONE);
 		tbtmShs.setText("SHS");
@@ -51,13 +51,13 @@ public class ui extends Composite {
 		tbtmShh.setText("SHH");
 		
 		Group group = new Group(this, SWT.BORDER);
-		group.setBounds(10, 10, 258, 369);
+		group.setBounds(0, 0, 258, 369);
 		
 		DateTime dateTime = new DateTime(group, SWT.BORDER);
 		dateTime.setBounds(78, 287, 80, 24);
 		
 		Label lblNewLabel = new Label(this, SWT.BORDER);
-		lblNewLabel.setBounds(577, 10, 215, 369);
+		lblNewLabel.setBounds(567, 0, 215, 369);
 
 	}
 

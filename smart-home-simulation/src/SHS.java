@@ -22,13 +22,13 @@ public class SHS {
 		ui ui = new ui(shell, SWT.NONE);
 
 		/* Window Title */
-		shell.setText("Smart Home Simulation");
-
-		/* Center Ui */
-		setUiCenter(display, shell);
+		shell.setText("Smart Home Simulation");		
 
 		/* Pack the ui together */
 		shell.pack();
+		
+		/* Center Ui */
+		setUiCenter(display, shell);
 
 		/** This will open the window and will make it visible */
 		shell.open();

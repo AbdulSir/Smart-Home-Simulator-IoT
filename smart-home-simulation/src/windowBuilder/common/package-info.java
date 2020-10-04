@@ -5,4 +5,4 @@
  * @author Siu
  *
  */
-package views;
+package windowBuilder.common;

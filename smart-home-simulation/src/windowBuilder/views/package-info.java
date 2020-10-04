@@ -5,4 +5,4 @@
  * @author Siu
  *
  */
-package resources;
+package windowBuilder.views;

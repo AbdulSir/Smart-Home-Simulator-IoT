@@ -5,4 +5,4 @@
  * @author Siu
  *
  */
-package common;
+package windowBuilder.resources;

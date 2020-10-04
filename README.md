@@ -18,7 +18,9 @@ A “Smart Home” system is a combination of hardware and software that allows 
 Provide graphical way to represent the interactions between the household, the devices and the IoT system.
 
 ## Core Features
-
-
-## Additional Features
+* House Layout 
+* Smart home dashboard 
+* Smart home core functionality (SHC) 
+* Smart home security (SHP) Module 
+* Smart heating (SHH) Module 
 

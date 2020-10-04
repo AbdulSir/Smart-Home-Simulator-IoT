@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+import java.awt.Toolkit;
 
 public class SHSGui extends JFrame {
 
@@ -42,6 +43,8 @@ public class SHSGui extends JFrame {
 	//////////////////////////////////////////////////////////////
 	private void initComponents() {
 		setTitle("Smart Home Simulation");
+		setIconImage(
+				Toolkit.getDefaultToolkit().getImage(SHSGui.class.getResource("/windowBuilder/resources/shs_128.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

@@ -1,11 +1,11 @@
 # SOEN343 Project Group 19
 
 ## Members:
-* Siu Ye
-* Annie Tran
-* Cheikh Diagne
-* Sujan Saravanamuthu
-* Abdul Sirawan
+* Siu Ye (40032209)
+* Annie Tran (40065592)
+* Cheikh Diagne (40094098)
+* Sujan Saravanamuthu (40044870)
+* Abdul Sirawan (40074202)
 
 ## Technologies:
 Java 

@@ -15,10 +15,16 @@ import java.awt.Color;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.Panel;
+import java.awt.TextField;
 
 public class SHSGui extends JFrame {
 
 	private JPanel contentPane;
+	/**
+	 * @wbp.nonvisual location=114,159
+	 */
+	private final TextField textField = new TextField();
 
 	/**
 	 * Launch the application.

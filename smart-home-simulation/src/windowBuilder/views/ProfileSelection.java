@@ -23,6 +23,7 @@ public class ProfileSelection extends JFrame {
 	private JLabel labelProfileSon;
 	private JLabel labelProfileDaughter;
 	private SHSGui frame;
+	private JLabel labelProfileGuest;
 
 	/**
 	 * Launch the application.
@@ -54,8 +55,8 @@ public class ProfileSelection extends JFrame {
 				.getImage(ProfileSelection.class.getResource("/windowBuilder/resources/shs_128.png")));
 		setTitle("Profile Select");
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 542, 218);
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 696, 208);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -74,30 +75,32 @@ public class ProfileSelection extends JFrame {
 		labelProfileDaughter = new JLabel("");
 		labelProfileDaughter
 				.setIcon(new ImageIcon(ProfileSelection.class.getResource("/windowBuilder/resources/daughter.png")));
+
+		labelProfileGuest = new JLabel("");
+		labelProfileGuest
+				.setIcon(new ImageIcon(ProfileSelection.class.getResource("/windowBuilder/resources/default.png")));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup().addContainerGap()
-						.addComponent(labelProfileFather, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-						.addGap(28)
-						.addComponent(labelProfileMother, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addComponent(labelProfileSon, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addComponent(labelProfileDaughter, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(61, Short.MAX_VALUE)));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
-				.createSequentialGroup().addContainerGap()
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(labelProfileDaughter, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
-						.addComponent(labelProfileMother, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
-						.addComponent(labelProfileFather, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
-						.addComponent(labelProfileSon, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE))
-				.addContainerGap(142, Short.MAX_VALUE)));
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(10)
+						.addComponent(labelProfileFather, GroupLayout.PREFERRED_SIZE, 109, Short.MAX_VALUE).addGap(28)
+						.addComponent(labelProfileMother, GroupLayout.PREFERRED_SIZE, 109, Short.MAX_VALUE).addGap(18)
+						.addComponent(labelProfileSon, GroupLayout.PREFERRED_SIZE, 109, Short.MAX_VALUE).addGap(18)
+						.addComponent(labelProfileDaughter, GroupLayout.PREFERRED_SIZE, 134, Short.MAX_VALUE).addGap(18)
+						.addComponent(labelProfileGuest, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE).addGap(8)));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(11)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(labelProfileFather, GroupLayout.PREFERRED_SIZE, 148, Short.MAX_VALUE)
+								.addComponent(labelProfileMother, GroupLayout.PREFERRED_SIZE, 148, Short.MAX_VALUE)
+								.addComponent(labelProfileSon, GroupLayout.PREFERRED_SIZE, 148, Short.MAX_VALUE)
+								.addComponent(labelProfileDaughter, GroupLayout.PREFERRED_SIZE, 148, Short.MAX_VALUE)
+								.addComponent(labelProfileGuest, GroupLayout.PREFERRED_SIZE, 148, Short.MAX_VALUE))));
 		contentPane.setLayout(gl_contentPane);
 
 	}
 
 	private void createEvents() {
+		/* Father Image OnClick */
 		labelProfileFather.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -108,6 +111,7 @@ public class ProfileSelection extends JFrame {
 			}
 		});
 
+		/* Mother Image OnClick */
 		labelProfileMother.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -118,6 +122,7 @@ public class ProfileSelection extends JFrame {
 			}
 		});
 
+		/* Son Image OnClick */
 		labelProfileSon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -128,6 +133,7 @@ public class ProfileSelection extends JFrame {
 			}
 		});
 
+		/* Daughter Image OnClick */
 		labelProfileDaughter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -137,6 +143,16 @@ public class ProfileSelection extends JFrame {
 					System.out.println("No frame");
 			}
 		});
-	}
 
+		/* Guest Image OnClick */
+		labelProfileGuest.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (frame != null)
+					frame.setLabelProfileImage("/windowBuilder/resources/default.png");
+				else
+					System.out.println("No frame");
+			}
+		});
+	}
 }

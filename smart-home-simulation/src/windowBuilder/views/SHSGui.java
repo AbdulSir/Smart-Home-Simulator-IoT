@@ -46,7 +46,7 @@ public class SHSGui extends JFrame {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}				
+				}
 			}
 		});
 	}
@@ -143,47 +143,39 @@ public class SHSGui extends JFrame {
 				gl_panelControl.createParallelGroup(Alignment.LEADING).addGap(0, 406, Short.MAX_VALUE));
 		panelControl.setLayout(gl_panelControl);
 		GroupLayout gl_panelContainer = new GroupLayout(panelContainer);
-		gl_panelContainer.setHorizontalGroup(
-			gl_panelContainer.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelContainer.createSequentialGroup()
-					.addGap(92)
-					.addComponent(labelLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(labelLocationValue, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-					.addGap(84))
-				.addGroup(gl_panelContainer.createSequentialGroup()
-					.addGap(112)
-					.addComponent(labelRole, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-					.addGap(118))
-				.addGroup(Alignment.LEADING, gl_panelContainer.createSequentialGroup()
-					.addGap(82)
-					.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelContainer.createSequentialGroup()
-							.addComponent(labelProfileImage)
-							.addContainerGap())
-						.addGroup(gl_panelContainer.createSequentialGroup()
-							.addComponent(labelTemperature, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(labelTemperaureValue, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-							.addGap(35))))
-		);
-		gl_panelContainer.setVerticalGroup(
-			gl_panelContainer.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelContainer.createSequentialGroup()
-					.addGap(72)
-					.addComponent(labelProfileImage, GroupLayout.PREFERRED_SIZE, 148, Short.MAX_VALUE)
-					.addGap(18)
-					.addComponent(labelRole)
-					.addGap(18)
-					.addGroup(gl_panelContainer.createParallelGroup(Alignment.BASELINE)
-						.addComponent(labelLocation)
-						.addComponent(labelLocationValue))
-					.addGap(40)
-					.addGroup(gl_panelContainer.createParallelGroup(Alignment.BASELINE)
-						.addComponent(labelTemperature, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(labelTemperaureValue, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(211))
-		);
+		gl_panelContainer.setHorizontalGroup(gl_panelContainer.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelContainer.createSequentialGroup().addGap(92)
+						.addComponent(labelLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(labelLocationValue, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE).addGap(84))
+				.addGroup(gl_panelContainer.createSequentialGroup().addGap(112)
+						.addComponent(labelRole, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE).addGap(118))
+				.addGroup(Alignment.LEADING,
+						gl_panelContainer.createSequentialGroup().addGap(82)
+								.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panelContainer.createSequentialGroup()
+												.addComponent(labelProfileImage).addContainerGap())
+										.addGroup(gl_panelContainer.createSequentialGroup()
+												.addComponent(labelTemperature, GroupLayout.DEFAULT_SIZE,
+														GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(labelTemperaureValue, GroupLayout.DEFAULT_SIZE, 70,
+														Short.MAX_VALUE)
+												.addGap(35)))));
+		gl_panelContainer.setVerticalGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelContainer.createSequentialGroup().addGap(72)
+						.addComponent(labelProfileImage, GroupLayout.PREFERRED_SIZE, 148, Short.MAX_VALUE).addGap(18)
+						.addComponent(labelRole).addGap(18)
+						.addGroup(gl_panelContainer.createParallelGroup(Alignment.BASELINE).addComponent(labelLocation)
+								.addComponent(labelLocationValue))
+						.addGap(40)
+						.addGroup(gl_panelContainer.createParallelGroup(Alignment.BASELINE)
+								.addComponent(labelTemperature, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)
+								.addComponent(labelTemperaureValue, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE))
+						.addGap(211)));
 		panelContainer.setLayout(gl_panelContainer);
 		contentPane.setLayout(gl_contentPane);
 	}

@@ -5,14 +5,21 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 
+import windowBuilder.views.ProfileSelection;
 import windowBuilder.views.SHSGui;
 
 public class SHSController {
 	private SHSGui frame;
+	private ProfileSelection profileselection;
 
 	public SHSController(SHSGui frame) {
+		// main ui
 		this.frame = frame;
 		createEvents();
+
+		// selection profile ui
+		profileselection = new ProfileSelection(frame);
+		this.profileselection = profileselection;
 	}
 
 	//////////////////////////////////////////////////////////////
@@ -22,8 +29,12 @@ public class SHSController {
 		this.frame.getLabelProfileImage().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("Profile");
-				frame.setLabelProfileImage("/windowBuilder/resources/father.jpg");
+
+				if (profileselection.isVisible()) {
+					System.out.println("already open!");
+				} else {
+					profileselection.setVisible(true);
+				}
 			}
 		});
 	}

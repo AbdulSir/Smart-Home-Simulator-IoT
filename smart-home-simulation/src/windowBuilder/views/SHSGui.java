@@ -195,7 +195,7 @@ public class SHSGui extends JFrame {
 		
 		JPanel panelProfileInfo = new JPanel();
 		
-		JToggleButton tooglebuttonSimulator = new JToggleButton("Simulator");
+		JToggleButton togglebuttonSimulator = new JToggleButton("Simulator");
 		GroupLayout gl_panelContainer = new GroupLayout(panelContainer);
 		gl_panelContainer.setHorizontalGroup(
 			gl_panelContainer.createParallelGroup(Alignment.TRAILING)
@@ -206,7 +206,7 @@ public class SHSGui extends JFrame {
 							.addComponent(labelProfileImage, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelContainer.createSequentialGroup()
 							.addGap(91)
-							.addComponent(tooglebuttonSimulator))
+							.addComponent(togglebuttonSimulator))
 						.addGroup(Alignment.TRAILING, gl_panelContainer.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 252, Short.MAX_VALUE)))
@@ -216,7 +216,7 @@ public class SHSGui extends JFrame {
 			gl_panelContainer.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelContainer.createSequentialGroup()
 					.addContainerGap(24, Short.MAX_VALUE)
-					.addComponent(tooglebuttonSimulator)
+					.addComponent(togglebuttonSimulator)
 					.addGap(18)
 					.addComponent(labelProfileImage)
 					.addGap(55)

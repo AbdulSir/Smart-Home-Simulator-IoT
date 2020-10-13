@@ -35,6 +35,7 @@ public class SHSController {
 	// This method contains all of the code for creating events
 	//////////////////////////////////////////////////////////////
 	private void createEvents() {
+		// Clicking Pr0ofile Picture
 		this.frame.getLabelProfileImage().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -47,9 +48,9 @@ public class SHSController {
 			}
 		});
 
+		// Toggle Button State Change
 		this.frame.getTogglebuttonSimulator().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-
 				int state = arg0.getStateChange();
 
 				if (state == ItemEvent.SELECTED)

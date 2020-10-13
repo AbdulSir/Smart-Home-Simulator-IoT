@@ -42,6 +42,10 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JList;
 import javax.swing.JToggleButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JSpinner;
+import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
@@ -83,12 +87,12 @@ public class SHSGui extends JFrame {
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-
-		JMenu mnFile = new JMenu("File");
-		menuBar.add(mnFile);
-
-		JMenuItem mntmOpen = new JMenuItem("Open");
-		mnFile.add(mntmOpen);
+		
+				JMenu mnFile = new JMenu("File");
+				menuBar.add(mnFile);
+				
+						JMenuItem mntmOpen = new JMenuItem("Open");
+						mnFile.add(mntmOpen);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -223,51 +227,56 @@ public class SHSGui extends JFrame {
 					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
 					.addGap(124))
 		);
-				GridBagLayout gbl_panelProfileInfo = new GridBagLayout();
-				gbl_panelProfileInfo.columnWidths = new int[]{31, 0, 21, 44, 70, 19, 0};
-				gbl_panelProfileInfo.rowHeights = new int[]{14, 0, 0, 0, 0};
-				gbl_panelProfileInfo.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-				gbl_panelProfileInfo.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-				panelProfileInfo.setLayout(gbl_panelProfileInfo);
 										
 												JLabel labelRole = new JLabel("Role");
-												GridBagConstraints gbc_labelRole = new GridBagConstraints();
-												gbc_labelRole.anchor = GridBagConstraints.NORTHWEST;
-												gbc_labelRole.insets = new Insets(0, 0, 5, 5);
-												gbc_labelRole.gridx = 1;
-												gbc_labelRole.gridy = 0;
-												panelProfileInfo.add(labelRole, gbc_labelRole);
 												
 														JLabel labelLocation = new JLabel("Location:");
-														GridBagConstraints gbc_labelLocation = new GridBagConstraints();
-														gbc_labelLocation.anchor = GridBagConstraints.NORTHWEST;
-														gbc_labelLocation.insets = new Insets(0, 0, 5, 5);
-														gbc_labelLocation.gridx = 1;
-														gbc_labelLocation.gridy = 1;
-														panelProfileInfo.add(labelLocation, gbc_labelLocation);
 										
 												JLabel labelTemperature = new JLabel("Outside Temp.");
-												GridBagConstraints gbc_labelTemperature = new GridBagConstraints();
-												gbc_labelTemperature.anchor = GridBagConstraints.NORTHWEST;
-												gbc_labelTemperature.insets = new Insets(0, 0, 5, 5);
-												gbc_labelTemperature.gridx = 1;
-												gbc_labelTemperature.gridy = 2;
-												panelProfileInfo.add(labelTemperature, gbc_labelTemperature);
 								
 										JLabel labelTemperaureValue = new JLabel("15C");
-										GridBagConstraints gbc_labelTemperaureValue = new GridBagConstraints();
-										gbc_labelTemperaureValue.insets = new Insets(0, 0, 5, 5);
-										gbc_labelTemperaureValue.anchor = GridBagConstraints.NORTHWEST;
-										gbc_labelTemperaureValue.gridx = 2;
-										gbc_labelTemperaureValue.gridy = 2;
-										panelProfileInfo.add(labelTemperaureValue, gbc_labelTemperaureValue);
-						
-								JLabel labelLocationValue = new JLabel("location");
-								GridBagConstraints gbc_labelLocationValue = new GridBagConstraints();
-								gbc_labelLocationValue.insets = new Insets(0, 0, 0, 5);
-								gbc_labelLocationValue.gridx = 1;
-								gbc_labelLocationValue.gridy = 3;
-								panelProfileInfo.add(labelLocationValue, gbc_labelLocationValue);
+								
+								JComboBox comboBox = new JComboBox();
+								
+								JComboBox comboBox_1 = new JComboBox();
+								GroupLayout gl_panelProfileInfo = new GroupLayout(panelProfileInfo);
+								gl_panelProfileInfo.setHorizontalGroup(
+									gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panelProfileInfo.createSequentialGroup()
+											.addContainerGap()
+											.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_panelProfileInfo.createSequentialGroup()
+													.addComponent(labelTemperature)
+													.addPreferredGap(ComponentPlacement.UNRELATED)
+													.addComponent(labelTemperaureValue))
+												.addGroup(gl_panelProfileInfo.createSequentialGroup()
+													.addComponent(labelRole)
+													.addPreferredGap(ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+													.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_panelProfileInfo.createSequentialGroup()
+													.addComponent(labelLocation)
+													.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+													.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
+											.addContainerGap())
+								);
+								gl_panelProfileInfo.setVerticalGroup(
+									gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panelProfileInfo.createSequentialGroup()
+											.addContainerGap()
+											.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+												.addComponent(labelRole)
+												.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+												.addComponent(labelLocation)
+												.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+											.addGap(5)
+											.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+												.addComponent(labelTemperature)
+												.addComponent(labelTemperaureValue))
+											.addGap(103))
+								);
+								panelProfileInfo.setLayout(gl_panelProfileInfo);
 		panelContainer.setLayout(gl_panelContainer);
 		contentPane.setLayout(gl_contentPane);
 	}

@@ -1,5 +1,8 @@
 package windowBuilder.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JTextArea;
 
 public class Console {
@@ -11,6 +14,11 @@ public class Console {
 	}
 
 	public void msg(String msg) {
-		this.textAreaConsoleLog.append(msg);
+		// get date-time
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
+
+		// display in console log
+		this.textAreaConsoleLog.append("[" + formatter.format(date) + "] " + msg + "\n");
 	}
 }

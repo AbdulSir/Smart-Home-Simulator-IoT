@@ -17,6 +17,10 @@ public class SHSController {
 		this.frame = frame;
 		createEvents();
 
+		// control console
+		Console console = new Console(frame.getTextAreaConsoleLog());
+		console.msg("Welcome to the Smart Home Simulator");
+
 		// selection profile ui
 		profileselection = new ProfileSelection(frame);
 		this.profileselection = profileselection;

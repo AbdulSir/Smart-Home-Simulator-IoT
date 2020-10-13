@@ -51,6 +51,12 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.DefaultComboBoxModel;
+import com.toedter.calendar.JDayChooser;
+import com.toedter.components.JLocaleChooser;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JMonthChooser;
+import com.toedter.calendar.JDateChooser;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
@@ -194,78 +200,173 @@ public class SHSGui extends JFrame {
 		JPanel panelProfileInfo = new JPanel();
 
 		togglebuttonSimulator = new JToggleButton("Simulator");
+		
+		JPanel panelHouseInfo = new JPanel();
+		
+		JPanel panelOutsideInfo = new JPanel();
+		
+		JPanel panelDateTime = new JPanel();
 
 		GroupLayout gl_panelContainer = new GroupLayout(panelContainer);
-		gl_panelContainer.setHorizontalGroup(gl_panelContainer.createParallelGroup(Alignment.TRAILING)
+		gl_panelContainer.setHorizontalGroup(
+			gl_panelContainer.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelContainer.createSequentialGroup()
-						.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panelContainer.createSequentialGroup().addGap(71).addComponent(
-										labelProfileImage, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panelContainer.createSequentialGroup().addGap(91)
-										.addComponent(togglebuttonSimulator))
-								.addGroup(Alignment.TRAILING,
-										gl_panelContainer.createSequentialGroup().addContainerGap().addComponent(
-												panelProfileInfo, GroupLayout.PREFERRED_SIZE, 252, Short.MAX_VALUE)))
-						.addContainerGap()));
-		gl_panelContainer.setVerticalGroup(gl_panelContainer.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelContainer.createSequentialGroup().addContainerGap(24, Short.MAX_VALUE)
-						.addComponent(togglebuttonSimulator).addGap(18).addComponent(labelProfileImage).addGap(55)
-						.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
-						.addGap(124)));
+					.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_panelContainer.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panelDateTime, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelContainer.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
+								.addComponent(panelOutsideInfo, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+								.addComponent(panelHouseInfo, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+								.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 257, Short.MAX_VALUE)))
+						.addGroup(gl_panelContainer.createSequentialGroup()
+							.addGap(79)
+							.addComponent(labelProfileImage, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelContainer.createSequentialGroup()
+							.addGap(94)
+							.addComponent(togglebuttonSimulator)))
+					.addContainerGap())
+		);
+		gl_panelContainer.setVerticalGroup(
+			gl_panelContainer.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelContainer.createSequentialGroup()
+					.addContainerGap(68, Short.MAX_VALUE)
+					.addComponent(togglebuttonSimulator)
+					.addGap(18)
+					.addComponent(labelProfileImage)
+					.addGap(18)
+					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelHouseInfo, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelDateTime, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+					.addGap(12))
+		);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		GroupLayout gl_panelDateTime = new GroupLayout(panelDateTime);
+		gl_panelDateTime.setHorizontalGroup(
+			gl_panelDateTime.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDateTime.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panelDateTime.setVerticalGroup(
+			gl_panelDateTime.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDateTime.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(44, Short.MAX_VALUE))
+		);
+		panelDateTime.setLayout(gl_panelDateTime);
+		
+		JLabel labelHouseTemp = new JLabel("Outside Temp.");
+		
+		JLabel labelHouseTempValue = new JLabel("15C");
+		GroupLayout gl_panelHouseInfo = new GroupLayout(panelHouseInfo);
+		gl_panelHouseInfo.setHorizontalGroup(
+			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelHouseInfo.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(labelHouseTemp, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(labelHouseTempValue, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(148, Short.MAX_VALUE))
+		);
+		gl_panelHouseInfo.setVerticalGroup(
+			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelHouseInfo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelHouseInfo.createParallelGroup(Alignment.BASELINE)
+						.addComponent(labelHouseTemp)
+						.addComponent(labelHouseTempValue))
+					.addContainerGap(19, Short.MAX_VALUE))
+		);
+		panelHouseInfo.setLayout(gl_panelHouseInfo);
+		
+				JLabel labelWeather = new JLabel("Weather:");
+		
+				JComboBox comboBoxWeather = new JComboBox();
+				comboBoxWeather.setModel(new DefaultComboBoxModel(new String[] {"Cloudy", "Rainy", "Sunny", "Windy", "Snowy"}));
+		
+				JLabel labelOutsideTemp = new JLabel("Outside Temp.");
+		
+				JLabel labelOutsideTempValue = new JLabel("15C");
+		GroupLayout gl_panelOutsideInfo = new GroupLayout(panelOutsideInfo);
+		gl_panelOutsideInfo.setHorizontalGroup(
+			gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelOutsideInfo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelOutsideInfo.createSequentialGroup()
+							.addComponent(labelWeather, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(comboBoxWeather, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelOutsideInfo.createSequentialGroup()
+							.addComponent(labelOutsideTemp)
+							.addGap(10)
+							.addComponent(labelOutsideTempValue)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_panelOutsideInfo.setVerticalGroup(
+			gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelOutsideInfo.createSequentialGroup()
+					.addContainerGap()
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelOutsideInfo.createSequentialGroup()
+							.addGap(3)
+							.addComponent(labelWeather))
+						.addComponent(comboBoxWeather, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(6)
+					.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
+						.addComponent(labelOutsideTemp)
+						.addComponent(labelOutsideTempValue))
+					.addContainerGap())
+		);
+		panelOutsideInfo.setLayout(gl_panelOutsideInfo);
 
 		JLabel labelRole = new JLabel("Role");
 
 		JLabel labelLocation = new JLabel("Location:");
 
-		JLabel labelTemperature = new JLabel("Outside Temp.");
-
-		JLabel labelTemperaureValue = new JLabel("15C");
-
 		JComboBox comboBoxRole = new JComboBox();
 
 		JComboBox comboBoxLocation = new JComboBox();
-
-		JLabel labelWeather = new JLabel("Weather:");
-
-		JComboBox comboBoxLocation_1 = new JComboBox();
 		GroupLayout gl_panelProfileInfo = new GroupLayout(panelProfileInfo);
-		gl_panelProfileInfo.setHorizontalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup().addContainerGap().addGroup(gl_panelProfileInfo
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelProfileInfo.createSequentialGroup().addComponent(labelRole)
-								.addPreferredGap(ComponentPlacement.RELATED, 59, Short.MAX_VALUE).addComponent(
-										comboBoxRole, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelProfileInfo.createSequentialGroup().addComponent(labelLocation)
-								.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE).addComponent(
-										comboBoxLocation, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.TRAILING,
-								gl_panelProfileInfo.createSequentialGroup()
-										.addComponent(labelWeather, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(comboBoxLocation_1,
-												GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelProfileInfo.createSequentialGroup().addComponent(labelTemperature)
-								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(labelTemperaureValue)))
-						.addContainerGap()));
-		gl_panelProfileInfo
-				.setVerticalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelProfileInfo.createSequentialGroup().addContainerGap()
-								.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-										.addComponent(labelRole).addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE,
-												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_panelProfileInfo
-										.createParallelGroup(Alignment.BASELINE).addComponent(labelLocation)
-										.addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE,
-												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-										.addComponent(labelWeather).addComponent(comboBoxLocation_1,
-												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-										.addComponent(labelTemperature).addComponent(labelTemperaureValue))
-								.addGap(52)));
+		gl_panelProfileInfo.setHorizontalGroup(
+			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addComponent(labelRole)
+							.addPreferredGap(ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+							.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addComponent(labelLocation)
+							.addPreferredGap(ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+							.addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_panelProfileInfo.setVerticalGroup(
+			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+						.addComponent(labelRole)
+						.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+						.addComponent(labelLocation)
+						.addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(64))
+		);
 		panelProfileInfo.setLayout(gl_panelProfileInfo);
 		panelContainer.setLayout(gl_panelContainer);
 		contentPane.setLayout(gl_contentPane);

@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="C:/eclipse/plugins/com.ibm.icu_58.2.0.v20170418-1837.jar" sourcepath="C:/eclipse/plugins/com.ibm.icu_58.2.0.v20170418-1837.jar"/>
 	<classpathentry kind="lib" path="C:/eclipse/plugins/org.eclipse.ui.forms_3.7.101.v20170815-1446.jar" sourcepath="C:/eclipse/plugins/org.eclipse.ui.forms_3.7.101.v20170815-1446.jar"/>
 	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

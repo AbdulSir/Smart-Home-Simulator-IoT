@@ -192,6 +192,9 @@ public class SHSGui extends JFrame {
 		
 		JTabbedPane tabbedPaneSHH = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("SHH", null, tabbedPaneSHH, null);
+		
+		JTabbedPane tabbedPaneAdd = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addTab("+", null, tabbedPaneAdd, null);
 		panelControl.setLayout(gl_panelControl);
 		GroupLayout gl_panelContainer = new GroupLayout(panelContainer);
 		gl_panelContainer.setHorizontalGroup(gl_panelContainer.createParallelGroup(Alignment.TRAILING)

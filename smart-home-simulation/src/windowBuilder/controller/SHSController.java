@@ -1,9 +1,13 @@
 package windowBuilder.controller;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import windowBuilder.views.ProfileSelection;
 import windowBuilder.views.SHSGui;
@@ -11,6 +15,7 @@ import windowBuilder.views.SHSGui;
 public class SHSController {
 	private SHSGui frame;
 	private ProfileSelection profileselection;
+	private Console console;
 
 	public SHSController(SHSGui frame) {
 		// main ui
@@ -18,7 +23,7 @@ public class SHSController {
 		createEvents();
 
 		// control console
-		Console console = new Console(frame.getTextAreaConsoleLog());
+		this.console = new Console(frame.getTextAreaConsoleLog());
 		console.msg("Welcome to the Smart Home Simulator");
 
 		// selection profile ui
@@ -39,6 +44,18 @@ public class SHSController {
 				} else {
 					profileselection.setVisible(true);
 				}
+			}
+		});
+
+		this.frame.getTogglebuttonSimulator().addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+
+				int state = arg0.getStateChange();
+
+				if (state == ItemEvent.SELECTED)
+					console.msg("Simulator ON");
+				else if (state == ItemEvent.DESELECTED)
+					console.msg("Simulator OFF");
 			}
 		});
 	}

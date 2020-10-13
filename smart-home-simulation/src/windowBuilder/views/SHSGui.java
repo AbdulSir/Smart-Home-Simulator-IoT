@@ -47,10 +47,15 @@ import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JScrollPane;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
 	private JTextArea textAreaConsoleLog;
+	private JToggleButton togglebuttonSimulator;
 
 	/**
 	 * Launch the application.
@@ -114,29 +119,26 @@ public class SHSGui extends JFrame {
 		JPanel panelConsole = new JPanel();
 		panelConsole.setBackground(SystemColor.control);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(panelContainer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(5)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
+				.createSequentialGroup()
+				.addComponent(panelContainer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGap(5)
+				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(panelControl, GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-							.addGap(5)
-							.addComponent(panelView, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE))
+								.addComponent(panelControl, GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE).addGap(5)
+								.addComponent(panelView, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE))
 						.addComponent(panelConsole, GroupLayout.PREFERRED_SIZE, 687, Short.MAX_VALUE))
-					.addGap(8))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGap(8)));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(panelView, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(panelControl, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panelConsole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addComponent(panelContainer, GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
-		);
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(panelView, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)
+								.addComponent(panelControl, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE))
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(panelConsole,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addComponent(panelContainer, GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
 		GroupLayout gl_panelView = new GroupLayout(panelView);
 		gl_panelView.setHorizontalGroup(
 				gl_panelView.createParallelGroup(Alignment.LEADING).addGap(0, 422, Short.MAX_VALUE));
@@ -145,33 +147,23 @@ public class SHSGui extends JFrame {
 		panelView.setLayout(gl_panelView);
 
 		JLabel labelConsoleLog = new JLabel("Console Log");
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_panelConsole = new GroupLayout(panelConsole);
-		gl_panelConsole.setHorizontalGroup(
-			gl_panelConsole.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelConsole.createSequentialGroup()
-					.addGap(10)
-					.addGroup(gl_panelConsole.createParallelGroup(Alignment.LEADING)
-						.addComponent(labelConsoleLog)
-						.addGroup(gl_panelConsole.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 645, GroupLayout.PREFERRED_SIZE)))
-					.addGap(1234))
-		);
-		gl_panelConsole.setVerticalGroup(
-			gl_panelConsole.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelConsole.createSequentialGroup()
-					.addGap(14)
-					.addComponent(labelConsoleLog)
-					.addGap(6)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		
-				textAreaConsoleLog = new JTextArea();
-				scrollPane.setViewportView(textAreaConsoleLog);
-				textAreaConsoleLog.setEditable(false);
+		gl_panelConsole.setHorizontalGroup(gl_panelConsole.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelConsole.createSequentialGroup().addGap(10).addGroup(gl_panelConsole
+						.createParallelGroup(Alignment.LEADING).addComponent(labelConsoleLog)
+						.addGroup(gl_panelConsole.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 645, GroupLayout.PREFERRED_SIZE)))
+						.addGap(1234)));
+		gl_panelConsole.setVerticalGroup(gl_panelConsole.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelConsole.createSequentialGroup().addGap(14).addComponent(labelConsoleLog).addGap(6)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+
+		textAreaConsoleLog = new JTextArea();
+		scrollPane.setViewportView(textAreaConsoleLog);
+		textAreaConsoleLog.setEditable(false);
 		panelConsole.setLayout(gl_panelConsole);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -201,7 +193,8 @@ public class SHSGui extends JFrame {
 
 		JPanel panelProfileInfo = new JPanel();
 
-		JToggleButton togglebuttonSimulator = new JToggleButton("Simulator");
+		togglebuttonSimulator = new JToggleButton("Simulator");
+
 		GroupLayout gl_panelContainer = new GroupLayout(panelContainer);
 		gl_panelContainer.setHorizontalGroup(gl_panelContainer.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelContainer.createSequentialGroup()
@@ -231,55 +224,48 @@ public class SHSGui extends JFrame {
 		JComboBox comboBoxRole = new JComboBox();
 
 		JComboBox comboBoxLocation = new JComboBox();
-		
+
 		JLabel labelWeather = new JLabel("Weather:");
-		
+
 		JComboBox comboBoxLocation_1 = new JComboBox();
 		GroupLayout gl_panelProfileInfo = new GroupLayout(panelProfileInfo);
-		gl_panelProfileInfo.setHorizontalGroup(
-			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelProfileInfo.createSequentialGroup()
-							.addComponent(labelRole)
-							.addPreferredGap(ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-							.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelProfileInfo.createSequentialGroup()
-							.addComponent(labelLocation)
-							.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-							.addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.TRAILING, gl_panelProfileInfo.createSequentialGroup()
-							.addComponent(labelWeather, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(comboBoxLocation_1, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelProfileInfo.createSequentialGroup()
-							.addComponent(labelTemperature)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(labelTemperaureValue)))
-					.addContainerGap())
-		);
-		gl_panelProfileInfo.setVerticalGroup(
-			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-						.addComponent(labelRole)
-						.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-						.addComponent(labelLocation)
-						.addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-						.addComponent(labelWeather)
-						.addComponent(comboBoxLocation_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-						.addComponent(labelTemperature)
-						.addComponent(labelTemperaureValue))
-					.addGap(52))
-		);
+		gl_panelProfileInfo.setHorizontalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup().addContainerGap().addGroup(gl_panelProfileInfo
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelProfileInfo.createSequentialGroup().addComponent(labelRole)
+								.addPreferredGap(ComponentPlacement.RELATED, 59, Short.MAX_VALUE).addComponent(
+										comboBoxRole, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelProfileInfo.createSequentialGroup().addComponent(labelLocation)
+								.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE).addComponent(
+										comboBoxLocation, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.TRAILING,
+								gl_panelProfileInfo.createSequentialGroup()
+										.addComponent(labelWeather, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(comboBoxLocation_1,
+												GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelProfileInfo.createSequentialGroup().addComponent(labelTemperature)
+								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(labelTemperaureValue)))
+						.addContainerGap()));
+		gl_panelProfileInfo
+				.setVerticalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelProfileInfo.createSequentialGroup().addContainerGap()
+								.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+										.addComponent(labelRole).addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_panelProfileInfo
+										.createParallelGroup(Alignment.BASELINE).addComponent(labelLocation)
+										.addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+										.addComponent(labelWeather).addComponent(comboBoxLocation_1,
+												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+										.addComponent(labelTemperature).addComponent(labelTemperaureValue))
+								.addGap(52)));
 		panelProfileInfo.setLayout(gl_panelProfileInfo);
 		panelContainer.setLayout(gl_panelContainer);
 		contentPane.setLayout(gl_contentPane);
@@ -300,7 +286,7 @@ public class SHSGui extends JFrame {
 	}
 
 	/**
-	 * Getting TextAreaConsoleLog
+	 * Getting textAreaConsoleLog
 	 */
 	public JTextArea getTextAreaConsoleLog() {
 		return textAreaConsoleLog;
@@ -308,9 +294,23 @@ public class SHSGui extends JFrame {
 
 	/**
 	 * 
-	 * Setting TextAreaConsoleLog
+	 * Setting textAreaConsoleLog
 	 */
 	public void setTextAreaConsoleLog(JTextArea textAreaConsoleLog) {
 		this.textAreaConsoleLog = textAreaConsoleLog;
+	}
+
+	/**
+	 * Getter toggleButtonSimulator
+	 */
+	public JToggleButton getTogglebuttonSimulator() {
+		return togglebuttonSimulator;
+	}
+
+	/**
+	 * Setter toggleButtonSimulator
+	 */
+	public void setTogglebuttonSimulator(JToggleButton togglebuttonSimulator) {
+		this.togglebuttonSimulator = togglebuttonSimulator;
 	}
 }

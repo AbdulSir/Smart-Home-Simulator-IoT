@@ -36,6 +36,12 @@ import javax.swing.JToolBar;
 import java.awt.TextArea;
 import javax.swing.JTextArea;
 import java.awt.SystemColor;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JList;
+import javax.swing.JToggleButton;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
@@ -90,16 +96,6 @@ public class SHSGui extends JFrame {
 		JPanel panelContainer = new JPanel();
 		panelContainer.setBackground(Color.WHITE);
 
-		JLabel labelRole = new JLabel("Role");
-
-		JLabel labelLocation = new JLabel("Location:");
-
-		JLabel labelLocationValue = new JLabel("location");
-
-		JLabel labelTemperature = new JLabel("Outside Temp.");
-
-		JLabel labelTemperaureValue = new JLabel("15C");
-
 		labelProfileImage = new JLabel("");
 		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource("/windowBuilder/resources/default.png")));
 
@@ -133,7 +129,7 @@ public class SHSGui extends JFrame {
 		GroupLayout gl_panelView = new GroupLayout(panelView);
 		gl_panelView.setHorizontalGroup(
 			gl_panelView.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 424, Short.MAX_VALUE)
+				.addGap(0, 422, Short.MAX_VALUE)
 		);
 		gl_panelView.setVerticalGroup(
 			gl_panelView.createParallelGroup(Alignment.LEADING)
@@ -196,40 +192,82 @@ public class SHSGui extends JFrame {
 		JTabbedPane tabbedPaneAdd = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("+", null, tabbedPaneAdd, null);
 		panelControl.setLayout(gl_panelControl);
+		
+		JPanel panelProfileInfo = new JPanel();
+		
+		JToggleButton tooglebuttonSimulator = new JToggleButton("Simulator");
 		GroupLayout gl_panelContainer = new GroupLayout(panelContainer);
-		gl_panelContainer.setHorizontalGroup(gl_panelContainer.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelContainer.createSequentialGroup().addGap(92)
-						.addComponent(labelLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(labelLocationValue, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE).addGap(84))
-				.addGroup(gl_panelContainer.createSequentialGroup().addGap(112)
-						.addComponent(labelRole, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE).addGap(118))
-				.addGroup(Alignment.LEADING,
-						gl_panelContainer.createSequentialGroup().addGap(82)
-								.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panelContainer.createSequentialGroup()
-												.addComponent(labelProfileImage).addContainerGap())
-										.addGroup(gl_panelContainer.createSequentialGroup()
-												.addComponent(labelTemperature, GroupLayout.DEFAULT_SIZE,
-														GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(labelTemperaureValue, GroupLayout.DEFAULT_SIZE, 70,
-														Short.MAX_VALUE)
-												.addGap(35)))));
-		gl_panelContainer.setVerticalGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelContainer.createSequentialGroup().addGap(72)
-						.addComponent(labelProfileImage, GroupLayout.PREFERRED_SIZE, 148, Short.MAX_VALUE).addGap(18)
-						.addComponent(labelRole).addGap(18)
-						.addGroup(gl_panelContainer.createParallelGroup(Alignment.BASELINE).addComponent(labelLocation)
-								.addComponent(labelLocationValue))
-						.addGap(40)
-						.addGroup(gl_panelContainer.createParallelGroup(Alignment.BASELINE)
-								.addComponent(labelTemperature, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(labelTemperaureValue, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE))
-						.addGap(211)));
+		gl_panelContainer.setHorizontalGroup(
+			gl_panelContainer.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelContainer.createSequentialGroup()
+					.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelContainer.createSequentialGroup()
+							.addGap(71)
+							.addComponent(labelProfileImage, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelContainer.createSequentialGroup()
+							.addGap(91)
+							.addComponent(tooglebuttonSimulator))
+						.addGroup(Alignment.TRAILING, gl_panelContainer.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 252, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_panelContainer.setVerticalGroup(
+			gl_panelContainer.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelContainer.createSequentialGroup()
+					.addContainerGap(24, Short.MAX_VALUE)
+					.addComponent(tooglebuttonSimulator)
+					.addGap(18)
+					.addComponent(labelProfileImage)
+					.addGap(55)
+					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
+					.addGap(124))
+		);
+				GridBagLayout gbl_panelProfileInfo = new GridBagLayout();
+				gbl_panelProfileInfo.columnWidths = new int[]{31, 0, 21, 44, 70, 19, 0};
+				gbl_panelProfileInfo.rowHeights = new int[]{14, 0, 0, 0, 0};
+				gbl_panelProfileInfo.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+				gbl_panelProfileInfo.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+				panelProfileInfo.setLayout(gbl_panelProfileInfo);
+										
+												JLabel labelRole = new JLabel("Role");
+												GridBagConstraints gbc_labelRole = new GridBagConstraints();
+												gbc_labelRole.anchor = GridBagConstraints.NORTHWEST;
+												gbc_labelRole.insets = new Insets(0, 0, 5, 5);
+												gbc_labelRole.gridx = 1;
+												gbc_labelRole.gridy = 0;
+												panelProfileInfo.add(labelRole, gbc_labelRole);
+												
+														JLabel labelLocation = new JLabel("Location:");
+														GridBagConstraints gbc_labelLocation = new GridBagConstraints();
+														gbc_labelLocation.anchor = GridBagConstraints.NORTHWEST;
+														gbc_labelLocation.insets = new Insets(0, 0, 5, 5);
+														gbc_labelLocation.gridx = 1;
+														gbc_labelLocation.gridy = 1;
+														panelProfileInfo.add(labelLocation, gbc_labelLocation);
+										
+												JLabel labelTemperature = new JLabel("Outside Temp.");
+												GridBagConstraints gbc_labelTemperature = new GridBagConstraints();
+												gbc_labelTemperature.anchor = GridBagConstraints.NORTHWEST;
+												gbc_labelTemperature.insets = new Insets(0, 0, 5, 5);
+												gbc_labelTemperature.gridx = 1;
+												gbc_labelTemperature.gridy = 2;
+												panelProfileInfo.add(labelTemperature, gbc_labelTemperature);
+								
+										JLabel labelTemperaureValue = new JLabel("15C");
+										GridBagConstraints gbc_labelTemperaureValue = new GridBagConstraints();
+										gbc_labelTemperaureValue.insets = new Insets(0, 0, 5, 5);
+										gbc_labelTemperaureValue.anchor = GridBagConstraints.NORTHWEST;
+										gbc_labelTemperaureValue.gridx = 2;
+										gbc_labelTemperaureValue.gridy = 2;
+										panelProfileInfo.add(labelTemperaureValue, gbc_labelTemperaureValue);
+						
+								JLabel labelLocationValue = new JLabel("location");
+								GridBagConstraints gbc_labelLocationValue = new GridBagConstraints();
+								gbc_labelLocationValue.insets = new Insets(0, 0, 0, 5);
+								gbc_labelLocationValue.gridx = 1;
+								gbc_labelLocationValue.gridy = 3;
+								panelProfileInfo.add(labelLocationValue, gbc_labelLocationValue);
 		panelContainer.setLayout(gl_panelContainer);
 		contentPane.setLayout(gl_contentPane);
 	}

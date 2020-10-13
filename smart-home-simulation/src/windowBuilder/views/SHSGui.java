@@ -30,6 +30,12 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JTabbedPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JToolBar;
+import java.awt.TextArea;
+import javax.swing.JTextArea;
+import java.awt.SystemColor;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
@@ -104,7 +110,7 @@ public class SHSGui extends JFrame {
 		panelView.setBackground(Color.WHITE);
 
 		JPanel panelConsole = new JPanel();
-		panelConsole.setBackground(Color.WHITE);
+		panelConsole.setBackground(SystemColor.control);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
 				.createSequentialGroup()
@@ -126,21 +132,66 @@ public class SHSGui extends JFrame {
 				.addComponent(panelContainer, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE));
 		GroupLayout gl_panelView = new GroupLayout(panelView);
 		gl_panelView.setHorizontalGroup(
-				gl_panelView.createParallelGroup(Alignment.LEADING).addGap(0, 359, Short.MAX_VALUE));
-		gl_panelView
-				.setVerticalGroup(gl_panelView.createParallelGroup(Alignment.LEADING).addGap(0, 406, Short.MAX_VALUE));
+			gl_panelView.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 424, Short.MAX_VALUE)
+		);
+		gl_panelView.setVerticalGroup(
+			gl_panelView.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 418, Short.MAX_VALUE)
+		);
 		panelView.setLayout(gl_panelView);
+		
+		JTextArea textAreaConsoleLog = new JTextArea();
+		textAreaConsoleLog.setEditable(false);
+		
+		JLabel labelConsoleLog = new JLabel("Console Log");
 		GroupLayout gl_panelConsole = new GroupLayout(panelConsole);
 		gl_panelConsole.setHorizontalGroup(
-				gl_panelConsole.createParallelGroup(Alignment.LEADING).addGap(0, 596, Short.MAX_VALUE));
+			gl_panelConsole.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelConsole.createSequentialGroup()
+					.addGap(10)
+					.addGroup(gl_panelConsole.createParallelGroup(Alignment.LEADING)
+						.addComponent(labelConsoleLog)
+						.addComponent(textAreaConsoleLog, GroupLayout.PREFERRED_SIZE, 641, GroupLayout.PREFERRED_SIZE)))
+		);
 		gl_panelConsole.setVerticalGroup(
-				gl_panelConsole.createParallelGroup(Alignment.LEADING).addGap(0, 121, Short.MAX_VALUE));
+			gl_panelConsole.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelConsole.createSequentialGroup()
+					.addGap(14)
+					.addComponent(labelConsoleLog)
+					.addGap(6)
+					.addComponent(textAreaConsoleLog, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
+		);
 		panelConsole.setLayout(gl_panelConsole);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GroupLayout gl_panelControl = new GroupLayout(panelControl);
 		gl_panelControl.setHorizontalGroup(
-				gl_panelControl.createParallelGroup(Alignment.LEADING).addGap(0, 232, Short.MAX_VALUE));
+			gl_panelControl.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelControl.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 		gl_panelControl.setVerticalGroup(
-				gl_panelControl.createParallelGroup(Alignment.LEADING).addGap(0, 406, Short.MAX_VALUE));
+			gl_panelControl.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelControl.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		
+		JTabbedPane tabbedPaneSHS = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addTab("SHS", null, tabbedPaneSHS, null);
+		
+		JTabbedPane tabbedPaneSHC = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addTab("SHC", null, tabbedPaneSHC, null);
+		
+		JTabbedPane tabbedPaneSHP = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addTab("SHP", null, tabbedPaneSHP, null);
+		
+		JTabbedPane tabbedPaneSHH = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addTab("SHH", null, tabbedPaneSHH, null);
 		panelControl.setLayout(gl_panelControl);
 		GroupLayout gl_panelContainer = new GroupLayout(panelContainer);
 		gl_panelContainer.setHorizontalGroup(gl_panelContainer.createParallelGroup(Alignment.TRAILING)
@@ -193,5 +244,4 @@ public class SHSGui extends JFrame {
 	public void setLabelProfileImage(String image_path) {
 		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource(image_path)));
 	}
-
 }

@@ -53,6 +53,7 @@ public class SHSGui extends JFrame {
 	 * Create the frame.
 	 */
 	public SHSGui() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(SHSGui.class.getResource("/resources/shs_128.png")));
 		initComponents();
 	}
 
@@ -81,6 +82,7 @@ public class SHSGui extends JFrame {
 		panelContainer.setBackground(Color.WHITE);
 
 		labelProfileImage = new JLabel("");
+		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
 
 		JPanel panelControl = new JPanel();
 		panelControl.setBackground(Color.WHITE);
@@ -237,18 +239,24 @@ public class SHSGui extends JFrame {
 
 		JLabel labelHouseTempValue = new JLabel("15C");
 		GroupLayout gl_panelHouseInfo = new GroupLayout(panelHouseInfo);
-		gl_panelHouseInfo.setHorizontalGroup(gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelHouseInfo.createSequentialGroup().addContainerGap()
-						.addComponent(labelHouseTemp, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(labelHouseTempValue, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(148, Short.MAX_VALUE)));
-		gl_panelHouseInfo
-				.setVerticalGroup(gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelHouseInfo.createSequentialGroup().addContainerGap()
-								.addGroup(gl_panelHouseInfo.createParallelGroup(Alignment.BASELINE)
-										.addComponent(labelHouseTemp).addComponent(labelHouseTempValue))
-								.addContainerGap(19, Short.MAX_VALUE)));
+		gl_panelHouseInfo.setHorizontalGroup(
+			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelHouseInfo.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(labelHouseTemp, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(labelHouseTempValue, GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panelHouseInfo.setVerticalGroup(
+			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelHouseInfo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelHouseInfo.createParallelGroup(Alignment.BASELINE)
+						.addComponent(labelHouseTemp)
+						.addComponent(labelHouseTempValue))
+					.addContainerGap(17, Short.MAX_VALUE))
+		);
 		panelHouseInfo.setLayout(gl_panelHouseInfo);
 
 		JLabel labelWeather = new JLabel("Weather:");

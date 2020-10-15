@@ -29,11 +29,15 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultComboBoxModel;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
 	private JTextArea textAreaConsoleLog;
 	private JToggleButton togglebuttonSimulator;
+	private JMenuItem userMenuAddUser;
+	private JMenuItem userMenuDeleteUser;
 
 	/**
 	 * Launch the application.
@@ -56,7 +60,7 @@ public class SHSGui extends JFrame {
 	 * Create the frame.
 	 */
 	public SHSGui() {
-//		setIconImage(Toolkit.getDefaultToolkit().getImage(SHSGui.class.getResource("/resources/shs_128.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(SHSGui.class.getResource("/resources/shs_128.png")));
 		initComponents();
 	}
 
@@ -65,7 +69,6 @@ public class SHSGui extends JFrame {
 	// initializing components.
 	//////////////////////////////////////////////////////////////
 	private void initComponents() {
-		Users FirstUser = new Users("Admin"); //Create First User
 		setTitle("Smart Home Simulation");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 998, 551);
@@ -78,6 +81,15 @@ public class SHSGui extends JFrame {
 
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		mnFile.add(mntmOpen);
+		
+		JMenu userMenu = new JMenu("User");
+		menuBar.add(userMenu);
+		
+		userMenuAddUser = new JMenuItem("Add User");
+		userMenu.add(userMenuAddUser);
+		
+		userMenuDeleteUser = new JMenuItem("Delete User\n");
+		userMenu.add(userMenuDeleteUser);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -86,7 +98,7 @@ public class SHSGui extends JFrame {
 		panelContainer.setBackground(Color.WHITE);
 
 		labelProfileImage = new JLabel("");
-//		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
+		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
 
 		JPanel panelControl = new JPanel();
 		panelControl.setBackground(Color.WHITE);
@@ -392,5 +404,12 @@ public class SHSGui extends JFrame {
 	 */
 	public void setTogglebuttonSimulator(JToggleButton togglebuttonSimulator) {
 		this.togglebuttonSimulator = togglebuttonSimulator;
+	}
+	
+	public JMenuItem getUserMenuAddUser() {
+		return userMenuAddUser;
+	}
+	public JMenuItem getUserMenuDeleteUser() {
+		return userMenuDeleteUser;
 	}
 }

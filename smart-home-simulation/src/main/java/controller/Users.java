@@ -37,7 +37,7 @@ public class Users {
 			System.out.println("-----------");
 		}
 	}
-	public static ArrayList<Users> getUserList() {
+	public ArrayList<Users> getUserList() {
 		return userList;
 	}
 	public static void setUserList(ArrayList<Users> userList) {

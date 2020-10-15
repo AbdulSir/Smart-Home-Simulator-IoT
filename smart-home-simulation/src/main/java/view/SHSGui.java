@@ -56,7 +56,7 @@ public class SHSGui extends JFrame {
 	 * Create the frame.
 	 */
 	public SHSGui() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(SHSGui.class.getResource("/resources/shs_128.png")));
+//		setIconImage(Toolkit.getDefaultToolkit().getImage(SHSGui.class.getResource("/resources/shs_128.png")));
 		initComponents();
 	}
 
@@ -86,7 +86,7 @@ public class SHSGui extends JFrame {
 		panelContainer.setBackground(Color.WHITE);
 
 		labelProfileImage = new JLabel("");
-		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
+//		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
 
 		JPanel panelControl = new JPanel();
 		panelControl.setBackground(Color.WHITE);

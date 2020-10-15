@@ -1,5 +1,7 @@
 # SOEN343 Project Group 19
 
+[![Build Status](https://travis-ci.com/SiuYe/soen343-group-19.svg?token=yBRUCzcH95wq2uJu71sY&branch=master)](https://travis-ci.com/SiuYe/soen343-group-19)
+
 ## Members:
 * Siu Ye (40032209)
 * Annie Tran (40065592)
@@ -9,6 +11,7 @@
 
 ## Technologies:
 * Java 
+* Maven
 * WindowBuilder - Java GUI designer
 
 ## Project desription

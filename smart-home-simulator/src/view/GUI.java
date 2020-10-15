@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import java.awt.Toolkit;
 
 public class GUI extends JFrame {
 
@@ -33,6 +34,8 @@ public class GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public GUI() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUI.class.getResource("/resource/shs_128.png")));
+		setTitle("smart-home-simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

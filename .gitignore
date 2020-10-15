@@ -1,0 +1,19 @@
+# Eclipse
+smart-home-simulator/.classpath
+smart-home-simulator/.project
+smart-home-simulator/.settings/
+smart-home-simulator/bin/
+
+# Intellij
+smart-home-simulator/.idea/
+smart-home-simulator/*.iml
+smart-home-simulator/*.iws
+smart-home-simulator/out/
+smart-home-simulator/artifacts/
+
+# Mac
+smart-home-simulator/.DS_Store
+
+# Maven
+smart-home-simulator/log/
+smart-home-simulator/target/ 

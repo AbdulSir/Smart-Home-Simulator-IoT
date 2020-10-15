@@ -5,8 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import controller.SHSController;
+import controller.Users;
 
 import java.awt.Toolkit;
 import javax.swing.GroupLayout;
@@ -62,6 +65,7 @@ public class SHSGui extends JFrame {
 	// initializing components.
 	//////////////////////////////////////////////////////////////
 	private void initComponents() {
+		Users FirstUser = new Users("Admin"); //Create First User
 		setTitle("Smart Home Simulation");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 998, 551);
@@ -293,11 +297,32 @@ public class SHSGui extends JFrame {
 						.addContainerGap()));
 		panelOutsideInfo.setLayout(gl_panelOutsideInfo);
 
-		JLabel labelRole = new JLabel("Role");
-
+		JLabel labelRole = new JLabel("User");
 		JLabel labelLocation = new JLabel("Location:");
+		
+		final Users Admin = new Users();
+		final JComboBox comboBoxRole = new JComboBox();
+		// Will update User pop up menu every time the user opens the menu 
+	    PopupMenuListener listener = new PopupMenuListener() {
+	        boolean initialized = false;
 
-		JComboBox comboBoxRole = new JComboBox();
+	        public void popupMenuCanceled(PopupMenuEvent e) {
+	        }
+
+	        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+	        }
+
+	        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+	          if (!initialized) {
+					String[] userNameArray = new String[Admin.getUserList().size()];
+					for(int i = 0; i < userNameArray.length; i++) {
+						userNameArray[i] = Admin.getUserList().get(i).getName();
+					}
+					comboBoxRole.setModel(new DefaultComboBoxModel(userNameArray));
+	          }
+	        }
+	    };
+		comboBoxRole.addPopupMenuListener(listener);
 
 		JComboBox comboBoxLocation = new JComboBox();
 		GroupLayout gl_panelProfileInfo = new GroupLayout(panelProfileInfo);

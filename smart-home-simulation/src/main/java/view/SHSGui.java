@@ -60,7 +60,6 @@ public class SHSGui extends JFrame {
 	 * Create the frame.
 	 */
 	public SHSGui() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(SHSGui.class.getResource("/resources/shs_128.png")));
 		initComponents();
 	}
 
@@ -69,6 +68,7 @@ public class SHSGui extends JFrame {
 	// initializing components.
 	//////////////////////////////////////////////////////////////
 	private void initComponents() {
+		
 		setTitle("Smart Home Simulation");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 998, 551);
@@ -98,7 +98,6 @@ public class SHSGui extends JFrame {
 		panelContainer.setBackground(Color.WHITE);
 
 		labelProfileImage = new JLabel("");
-		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
 
 		JPanel panelControl = new JPanel();
 		panelControl.setBackground(Color.WHITE);

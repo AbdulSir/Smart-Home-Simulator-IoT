@@ -1,0 +1,5 @@
+language: java
+
+script:
+- cd smart-home-simulation
+- mvn clean install

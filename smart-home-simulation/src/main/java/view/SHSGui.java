@@ -451,23 +451,27 @@ public class SHSGui extends JFrame {
 	}
 
 	/**
-	 * Getter get the new user button
+	 * Getter the new user button
 	 */
 	public JButton getnewUserButton() {
 		return newUser;
 	}
 
 	/**
-	 * Getter get new user name
+	 * Getter new user name
 	 */
 	public JTextField getNewUserName() {
 		return enterNewUsername;
 	}
-
+	/**
+	 * Getter deleteUserButton
+	 */
 	public JButton getDeleteUserButton() {
 		return deleteUserButton;
 	}
-
+	/**
+	 * Getter comboBoxDeleteUser
+	 */
 	public JComboBox getDeleteUserBox() {
 		return comboBoxDeleteUser;
 	}

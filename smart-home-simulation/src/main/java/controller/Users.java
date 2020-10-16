@@ -10,14 +10,18 @@ public class Users {
 	private int userNumber;
 	private static int counter = 0;
 	private String location;
-
+	/**
+	 * Class Constructor
+	 */
 	public Users() {
 		this.name = null;
 		this.activeUser = null;
 		this.userNumber = 0;
 		this.location = null;
 	}
-
+	/**
+	 * Class Constructor specifying number of objects to create
+	 */
 	public Users(String name) {
 		this.name = name;
 		this.activeUser = false;
@@ -27,14 +31,18 @@ public class Users {
 
 	}
 
-	// Method to remove active user from all users
+	/**
+	 * Method to make all users inactive
+	 */
 	public void removeActiveUsers() {
 		for (Users user : getUserList()) {
 			user.activeUser = false;
 		}
 	}
 
-	// Method to show info about user array
+	/**
+	 * Method to print user info
+	 */
 	public void printUserList() {
 		for (Users user : getUserList()) {
 			System.out.println(user.name);
@@ -43,35 +51,51 @@ public class Users {
 			System.out.println("-----------");
 		}
 	}
-
+	/**
+	 * Getter userList
+	 */
 	public ArrayList<Users> getUserList() {
 		return userList;
 	}
-
+	/**
+	 * Setter userList
+	 */
 	public static void setUserList(ArrayList<Users> userList) {
 		Users.userList = userList;
 	}
-
+	/**
+	 * Getter name
+	 */
 	public String getName() {
 		return name;
 	}
-
+	/**
+	 * Setter name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	/**
+	 * Getter location
+	 */
 	public String getLocation() {
 		return location;
 	}
-
+	/**
+	 * Setter location
+	 */
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
+	/**
+	 * Getter activeUser
+	 */
 	public Boolean getActiveUser() {
 		return activeUser;
 	}
-
+	/**
+	 * Setter activeUser
+	 */
 	public void setActiveUser(Boolean activeUser) {
 		this.activeUser = activeUser;
 	}

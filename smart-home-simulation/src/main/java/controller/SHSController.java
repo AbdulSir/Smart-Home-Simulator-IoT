@@ -8,8 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import view.SHSGui;
-import view.CreateUser;
-import view.DeleteUser;
 
 public class SHSController {
 	private SHSGui frame;
@@ -24,6 +22,7 @@ public class SHSController {
 		// control console
 		this.console = new Console(frame.getTextAreaConsoleLog());
 		console.msg("Welcome to the Smart Home Simulator");
+		
 
 	}
 
@@ -40,6 +39,7 @@ public class SHSController {
 					console.msg("Simulator ON");
 				else if (state == ItemEvent.DESELECTED)
 					console.msg("Simulator OFF");
+			
 			}
 		});
 	}

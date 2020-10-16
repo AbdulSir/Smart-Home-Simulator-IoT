@@ -7,6 +7,7 @@ import view.SHSGui;
 public class SHSController {
 	private SHSGui frame;
 	private Console console;
+	private Temperature temperature;
 
 	public SHSController(SHSGui frame) {
 		// main ui
@@ -17,6 +18,7 @@ public class SHSController {
 		this.console = new Console(frame.getTextAreaConsoleLog());
 		console.msg("Welcome to the Smart Home Simulator");
 
+		this.temperature = new Temperature(frame.getOutsideTemp(), frame.getHouseTemp());
 	}
 
 	//////////////////////////////////////////////////////////////

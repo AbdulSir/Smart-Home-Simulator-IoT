@@ -57,4 +57,10 @@ public class Users {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	public Boolean getActiveUser() {
+		return activeUser;
+	}
+	public void setActiveUser(Boolean activeUser) {
+		this.activeUser = activeUser;
+	}
 }

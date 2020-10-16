@@ -29,6 +29,9 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultComboBoxModel;
 import com.toedter.calendar.JDateChooser;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -41,7 +44,11 @@ public class SHSGui extends JFrame {
 	private JTextArea textAreaConsoleLog;
 	private JToggleButton togglebuttonSimulator;
 	private JTextField enterNewUsername;
-
+	private Users user;
+	private JComboBox comboBoxRole;
+	private JButton newUser;
+	private JComboBox comboBoxDeleteUser;
+	private JButton deleteUserButton;
 
 	/**
 	 * Launch the application.
@@ -72,7 +79,7 @@ public class SHSGui extends JFrame {
 	// initializing components.
 	//////////////////////////////////////////////////////////////
 	private void initComponents() {
-		
+		user = new Users();
 		setTitle("Smart Home Simulation");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 998, 551);
@@ -166,63 +173,14 @@ public class SHSGui extends JFrame {
 		JPanel panelSHS = new JPanel();
 		tabbedPane.addTab("SHS", null, panelSHS, null);
 //************************************************Add User************************************************//			
-		JButton newUser = new JButton("Add User");
-		newUser.addMouseListener(new MouseAdapter() {
-			
-			// new user button click event
-			public void mouseClicked(MouseEvent e) {
-				String NewUsername = enterNewUsername.getText();
-				Users New = new Users(NewUsername);
-			}
-		});
+		newUser = new JButton("Add User");
 		enterNewUsername = new JTextField();
 		enterNewUsername.setText("Enter New Username");
 		enterNewUsername.setColumns(10);
 //************************************************Delete User************************************************//		
-		final JComboBox comboBoxDeleteUser = new JComboBox();
+		comboBoxDeleteUser = new JComboBox();
 		
-		JButton deleteUserButton = new JButton("Delete User");
-		deleteUserButton.addMouseListener(new MouseAdapter() {
-			// Delete User function
-			public void mouseClicked(MouseEvent e) {
-				String userToDelete = comboBoxDeleteUser.getSelectedItem().toString();
-				Users delete = new Users();
-				ArrayList<Users> userList = delete.getUserList();
-				for (Users user: userList) {
-					if(user.getName().equalsIgnoreCase(userToDelete)) {
-						userList.remove(user);
-					System.out.println("User Deleted");
-						break;						
-					}
-					else {
-						System.out.println("No User Found");
-					}
-				}
-			}
-		});
-		
-		final Users userToBeDeleted = new Users();
-		// Will update User pop up menu every time the user opens the menu 
-	    PopupMenuListener userDeletedListener = new PopupMenuListener() {
-	        boolean initialized = false;
-
-	        public void popupMenuCanceled(PopupMenuEvent e) {
-	        }
-
-	        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-	        }
-
-	        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-	          if (!initialized) {
-					String[] userNameArray = new String[userToBeDeleted.getUserList().size()];
-					for(int i = 0; i < userNameArray.length; i++) {
-						userNameArray[i] = userToBeDeleted.getUserList().get(i).getName();
-					}
-					comboBoxDeleteUser.setModel(new DefaultComboBoxModel(userNameArray));
-	          }
-	        }
-	    };
-		comboBoxDeleteUser.addPopupMenuListener(userDeletedListener);
+		deleteUserButton = new JButton("Delete User");
 		
 		GroupLayout gl_panelSHS = new GroupLayout(panelSHS);
 		gl_panelSHS.setHorizontalGroup(
@@ -395,8 +353,7 @@ public class SHSGui extends JFrame {
 		JLabel labelRole = new JLabel("User");
 		JLabel labelLocation = new JLabel("Location:");
 		
-		final Users Admin = new Users();
-		final JComboBox comboBoxRole = new JComboBox();
+		comboBoxRole = new JComboBox();
 		// Will update User pop up menu every time the user opens the menu 
 	    PopupMenuListener userListListener = new PopupMenuListener() {
 	        boolean initialized = false;
@@ -409,9 +366,9 @@ public class SHSGui extends JFrame {
 
 	        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 	          if (!initialized) {
-					String[] userNameArray = new String[Admin.getUserList().size()];
+					String[] userNameArray = new String[user.getUserList().size()];
 					for(int i = 0; i < userNameArray.length; i++) {
-						userNameArray[i] = Admin.getUserList().get(i).getName();
+						userNameArray[i] = user.getUserList().get(i).getName();
 					}
 					comboBoxRole.setModel(new DefaultComboBoxModel(userNameArray));
 	          }
@@ -488,5 +445,36 @@ public class SHSGui extends JFrame {
 	public void setTogglebuttonSimulator(JToggleButton togglebuttonSimulator) {
 		this.togglebuttonSimulator = togglebuttonSimulator;
 	}
+	/**
+	 * getter comboBoxRole
+	 */
+	public JComboBox getJComboRole() {
+		return comboBoxRole;
+	}
+	/**
+	 * Getter user
+	 */
+	public Users getUser() {
+		return user;
+	}
+	/**
+	 * Getter get the new user button
+	 */
+	public JButton getnewUserButton() {
+		return newUser;
+	}
+	/**
+	 * Getter get new user name
+	 */
+	public JTextField getNewUserName () {
+		return enterNewUsername;
+	}
 	
+	public JButton getDeleteUserButton() {
+		return deleteUserButton;
+	}
+	
+	public JComboBox getDeleteUserBox() {
+		return comboBoxDeleteUser;
+	}
 }

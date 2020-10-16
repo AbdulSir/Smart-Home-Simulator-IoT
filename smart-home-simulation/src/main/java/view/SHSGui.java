@@ -167,21 +167,31 @@ public class SHSGui extends JFrame {
 		gl_panelControl.setVerticalGroup(gl_panelControl.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelControl.createSequentialGroup().addContainerGap()
 						.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE).addContainerGap()));
-
-		JTabbedPane tabbedPaneSHS = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("SHS", null, tabbedPaneSHS, null);
-
-		JTabbedPane tabbedPaneSHC = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("SHC", null, tabbedPaneSHC, null);
-
-		JTabbedPane tabbedPaneSHP = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("SHP", null, tabbedPaneSHP, null);
-
-		JTabbedPane tabbedPaneSHH = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("SHH", null, tabbedPaneSHH, null);
-
-		JTabbedPane tabbedPaneAdd = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("+", null, tabbedPaneAdd, null);
+		
+		JPanel panelSHS = new JPanel();
+		tabbedPane.addTab("SHS", null, panelSHS, null);
+		GroupLayout gl_panelSHS = new GroupLayout(panelSHS);
+		gl_panelSHS.setHorizontalGroup(
+			gl_panelSHS.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 358, Short.MAX_VALUE)
+		);
+		gl_panelSHS.setVerticalGroup(
+			gl_panelSHS.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 299, Short.MAX_VALUE)
+		);
+		panelSHS.setLayout(gl_panelSHS);
+		
+		JPanel panelSHC = new JPanel();
+		tabbedPane.addTab("SHC", null, panelSHC, null);
+		
+		JPanel panelSHP = new JPanel();
+		tabbedPane.addTab("SHP", null, panelSHP, null);
+		
+		JPanel panelSHH = new JPanel();
+		tabbedPane.addTab("SHH", null, panelSHH, null);
+		
+		JPanel panelPlus = new JPanel();
+		tabbedPane.addTab("+", null, panelPlus, null);
 		panelControl.setLayout(gl_panelControl);
 
 		JPanel panelProfileInfo = new JPanel();

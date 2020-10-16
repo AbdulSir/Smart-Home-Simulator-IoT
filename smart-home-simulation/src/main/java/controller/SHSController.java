@@ -51,7 +51,7 @@ public class SHSController {
 			}
 		});
 //************************************************Event that changes user logged in************************************************//			
-		JComboBox comboBoxRole = this.frame.getJComboRole();
+		final JComboBox comboBoxRole = this.frame.getJComboRole();
 		user = new Users();
 		comboBoxRole.addActionListener (new ActionListener () {
 		    public void actionPerformed(ActionEvent e) {
@@ -73,7 +73,7 @@ public class SHSController {
 		});
 //************************************************Add User functionality ************************************************//			
 		JButton addNewUserButton = this.frame.getnewUserButton();
-		JTextField enterNewUsername = this.frame.getNewUserName(); 
+		final JTextField enterNewUsername = this.frame.getNewUserName(); 
 		addNewUserButton.addMouseListener(new MouseAdapter() {
 			// new user button click event
 			public void mouseClicked(MouseEvent e) {
@@ -85,7 +85,7 @@ public class SHSController {
 		
 //************************************************Delete User functionality ************************************************//			
 		JButton deleteUserButton = this.frame.getDeleteUserButton();
-		JComboBox comboBoxDeleteUser = this.frame.getDeleteUserBox();
+		final JComboBox comboBoxDeleteUser = this.frame.getDeleteUserBox();
 		deleteUserButton.addMouseListener(new MouseAdapter() {
 			// Delete User function
 			public void mouseClicked(MouseEvent e) {

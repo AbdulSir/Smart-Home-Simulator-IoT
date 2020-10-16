@@ -179,46 +179,42 @@ public class SHSGui extends JFrame {
 		enterNewUsername.setColumns(10);
 //************************************************Delete User************************************************//		
 		comboBoxDeleteUser = new JComboBox();
-		
+
 		deleteUserButton = new JButton("Delete User");
-		
+
 		GroupLayout gl_panelSHS = new GroupLayout(panelSHS);
-		gl_panelSHS.setHorizontalGroup(
-			gl_panelSHS.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_panelSHS.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelSHS.createSequentialGroup()
-							.addGap(6)
-							.addComponent(comboBoxDeleteUser, 0, 190, Short.MAX_VALUE))
-						.addComponent(enterNewUsername, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
-						.addComponent(newUser, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-						.addComponent(deleteUserButton))
-					.addGap(17))
-		);
-		gl_panelSHS.setVerticalGroup(
-			gl_panelSHS.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelSHS.createSequentialGroup()
-					.addGap(9)
-					.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
-						.addComponent(enterNewUsername, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(newUser, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBoxDeleteUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(deleteUserButton))
-					.addContainerGap(225, Short.MAX_VALUE))
-		);
+		gl_panelSHS.setHorizontalGroup(gl_panelSHS.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
+				gl_panelSHS.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panelSHS.createSequentialGroup().addGap(6).addComponent(comboBoxDeleteUser,
+										0, 190, Short.MAX_VALUE))
+								.addComponent(enterNewUsername, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 196,
+										Short.MAX_VALUE))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
+								.addComponent(newUser, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+								.addComponent(deleteUserButton))
+						.addGap(17)));
+		gl_panelSHS.setVerticalGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelSHS.createSequentialGroup().addGap(9)
+						.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
+								.addComponent(enterNewUsername, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(newUser, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
+								.addComponent(comboBoxDeleteUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(deleteUserButton))
+						.addContainerGap(225, Short.MAX_VALUE)));
 		panelSHS.setLayout(gl_panelSHS);
 //************************************************SHC PANEL************************************************//	
 		JPanel panelSHC = new JPanel();
 		tabbedPane.addTab("SHC", null, panelSHC, null);
-		
+
 		JPanel panelSHP = new JPanel();
 		tabbedPane.addTab("SHP", null, panelSHP, null);
-		
+
 		JPanel panelSHH = new JPanel();
 		tabbedPane.addTab("SHH", null, panelSHH, null);
 //************************************************Add Tab************************************************//			
@@ -296,24 +292,18 @@ public class SHSGui extends JFrame {
 
 		JLabel labelHouseTempValue = new JLabel("15C");
 		GroupLayout gl_panelHouseInfo = new GroupLayout(panelHouseInfo);
-		gl_panelHouseInfo.setHorizontalGroup(
-			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelHouseInfo.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(labelHouseTemp, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(labelHouseTempValue, GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		gl_panelHouseInfo.setVerticalGroup(
-			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelHouseInfo.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelHouseInfo.createParallelGroup(Alignment.BASELINE)
-						.addComponent(labelHouseTemp)
-						.addComponent(labelHouseTempValue))
-					.addContainerGap(17, Short.MAX_VALUE))
-		);
+		gl_panelHouseInfo.setHorizontalGroup(gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelHouseInfo.createSequentialGroup().addContainerGap()
+						.addComponent(labelHouseTemp, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(labelHouseTempValue, GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+						.addContainerGap()));
+		gl_panelHouseInfo
+				.setVerticalGroup(gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelHouseInfo.createSequentialGroup().addContainerGap()
+								.addGroup(gl_panelHouseInfo.createParallelGroup(Alignment.BASELINE)
+										.addComponent(labelHouseTemp).addComponent(labelHouseTempValue))
+								.addContainerGap(17, Short.MAX_VALUE)));
 		panelHouseInfo.setLayout(gl_panelHouseInfo);
 //************************************************Weather************************************************//	
 		JLabel labelWeather = new JLabel("Weather:");
@@ -352,28 +342,28 @@ public class SHSGui extends JFrame {
 //************************************************Users/Location************************************************//	
 		JLabel labelRole = new JLabel("User");
 		JLabel labelLocation = new JLabel("Location:");
-		
+
 		comboBoxRole = new JComboBox();
-		// Will update User pop up menu every time the user opens the menu 
-	    PopupMenuListener userListListener = new PopupMenuListener() {
-	        boolean initialized = false;
+		// Will update User pop up menu every time the user opens the menu
+		PopupMenuListener userListListener = new PopupMenuListener() {
+			boolean initialized = false;
 
-	        public void popupMenuCanceled(PopupMenuEvent e) {
-	        }
+			public void popupMenuCanceled(PopupMenuEvent e) {
+			}
 
-	        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-	        }
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+			}
 
-	        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-	          if (!initialized) {
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				if (!initialized) {
 					String[] userNameArray = new String[user.getUserList().size()];
-					for(int i = 0; i < userNameArray.length; i++) {
+					for (int i = 0; i < userNameArray.length; i++) {
 						userNameArray[i] = user.getUserList().get(i).getName();
 					}
 					comboBoxRole.setModel(new DefaultComboBoxModel(userNameArray));
-	          }
-	        }
-	    };
+				}
+			}
+		};
 		comboBoxRole.addPopupMenuListener(userListListener);
 
 		JComboBox comboBoxLocation = new JComboBox();
@@ -445,35 +435,39 @@ public class SHSGui extends JFrame {
 	public void setTogglebuttonSimulator(JToggleButton togglebuttonSimulator) {
 		this.togglebuttonSimulator = togglebuttonSimulator;
 	}
+
 	/**
 	 * getter comboBoxRole
 	 */
 	public JComboBox getJComboRole() {
 		return comboBoxRole;
 	}
+
 	/**
 	 * Getter user
 	 */
 	public Users getUser() {
 		return user;
 	}
+
 	/**
 	 * Getter get the new user button
 	 */
 	public JButton getnewUserButton() {
 		return newUser;
 	}
+
 	/**
 	 * Getter get new user name
 	 */
-	public JTextField getNewUserName () {
+	public JTextField getNewUserName() {
 		return enterNewUsername;
 	}
-	
+
 	public JButton getDeleteUserButton() {
 		return deleteUserButton;
 	}
-	
+
 	public JComboBox getDeleteUserBox() {
 		return comboBoxDeleteUser;
 	}

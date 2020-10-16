@@ -31,13 +31,17 @@ import javax.swing.DefaultComboBoxModel;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JTextField;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
 	private JTextArea textAreaConsoleLog;
 	private JToggleButton togglebuttonSimulator;
-	private JMenuItem userMenuAddUser;
-	private JMenuItem userMenuDeleteUser;
+	private JTextField enterNewUsername;
+
 
 	/**
 	 * Launch the application.
@@ -81,15 +85,6 @@ public class SHSGui extends JFrame {
 
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		mnFile.add(mntmOpen);
-		
-		JMenu userMenu = new JMenu("User");
-		menuBar.add(userMenu);
-		
-		userMenuAddUser = new JMenuItem("Add User");
-		userMenu.add(userMenuAddUser);
-		
-		userMenuDeleteUser = new JMenuItem("Delete User\n");
-		userMenu.add(userMenuDeleteUser);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -167,20 +162,99 @@ public class SHSGui extends JFrame {
 		gl_panelControl.setVerticalGroup(gl_panelControl.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelControl.createSequentialGroup().addContainerGap()
 						.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE).addContainerGap()));
-		
+//************************************************SHS PANEL************************************************//		
 		JPanel panelSHS = new JPanel();
 		tabbedPane.addTab("SHS", null, panelSHS, null);
+//************************************************Add User************************************************//			
+		JButton newUser = new JButton("Add User");
+		newUser.addMouseListener(new MouseAdapter() {
+			
+			// new user button click event
+			public void mouseClicked(MouseEvent e) {
+				String NewUsername = enterNewUsername.getText();
+				Users New = new Users(NewUsername);
+			}
+		});
+		enterNewUsername = new JTextField();
+		enterNewUsername.setText("Enter New Username");
+		enterNewUsername.setColumns(10);
+//************************************************Delete User************************************************//		
+		final JComboBox comboBoxDeleteUser = new JComboBox();
+		
+		JButton deleteUserButton = new JButton("Delete User");
+		deleteUserButton.addMouseListener(new MouseAdapter() {
+			// Delete User function
+			public void mouseClicked(MouseEvent e) {
+				String userToDelete = comboBoxDeleteUser.getSelectedItem().toString();
+				Users delete = new Users();
+				ArrayList<Users> userList = delete.getUserList();
+				for (Users user: userList) {
+					if(user.getName().equalsIgnoreCase(userToDelete)) {
+						userList.remove(user);
+					System.out.println("User Deleted");
+						break;						
+					}
+					else {
+						System.out.println("No User Found");
+					}
+				}
+			}
+		});
+		
+		final Users userToBeDeleted = new Users();
+		// Will update User pop up menu every time the user opens the menu 
+	    PopupMenuListener userDeletedListener = new PopupMenuListener() {
+	        boolean initialized = false;
+
+	        public void popupMenuCanceled(PopupMenuEvent e) {
+	        }
+
+	        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+	        }
+
+	        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+	          if (!initialized) {
+					String[] userNameArray = new String[userToBeDeleted.getUserList().size()];
+					for(int i = 0; i < userNameArray.length; i++) {
+						userNameArray[i] = userToBeDeleted.getUserList().get(i).getName();
+					}
+					comboBoxDeleteUser.setModel(new DefaultComboBoxModel(userNameArray));
+	          }
+	        }
+	    };
+		comboBoxDeleteUser.addPopupMenuListener(userDeletedListener);
+		
 		GroupLayout gl_panelSHS = new GroupLayout(panelSHS);
 		gl_panelSHS.setHorizontalGroup(
-			gl_panelSHS.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 358, Short.MAX_VALUE)
+			gl_panelSHS.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_panelSHS.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelSHS.createSequentialGroup()
+							.addGap(6)
+							.addComponent(comboBoxDeleteUser, 0, 190, Short.MAX_VALUE))
+						.addComponent(enterNewUsername, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
+						.addComponent(newUser, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+						.addComponent(deleteUserButton))
+					.addGap(17))
 		);
 		gl_panelSHS.setVerticalGroup(
 			gl_panelSHS.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 299, Short.MAX_VALUE)
+				.addGroup(gl_panelSHS.createSequentialGroup()
+					.addGap(9)
+					.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
+						.addComponent(enterNewUsername, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(newUser, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
+						.addComponent(comboBoxDeleteUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(deleteUserButton))
+					.addContainerGap(225, Short.MAX_VALUE))
 		);
 		panelSHS.setLayout(gl_panelSHS);
-		
+//************************************************SHC PANEL************************************************//	
 		JPanel panelSHC = new JPanel();
 		tabbedPane.addTab("SHC", null, panelSHC, null);
 		
@@ -189,13 +263,13 @@ public class SHSGui extends JFrame {
 		
 		JPanel panelSHH = new JPanel();
 		tabbedPane.addTab("SHH", null, panelSHH, null);
-		
+//************************************************Add Tab************************************************//			
 		JPanel panelPlus = new JPanel();
 		tabbedPane.addTab("+", null, panelPlus, null);
 		panelControl.setLayout(gl_panelControl);
-
+//************************************************Left-most panel of GUI************************************************//	
 		JPanel panelProfileInfo = new JPanel();
-
+//************************************************Simulator Button************************************************//	
 		togglebuttonSimulator = new JToggleButton("Simulator");
 
 		JPanel panelHouseInfo = new JPanel();
@@ -232,7 +306,7 @@ public class SHSGui extends JFrame {
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(panelDateTime, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-
+//************************************************Date Time************************************************//	
 		JDateChooser dateChooser = new JDateChooser();
 
 		JLabel labelTime = new JLabel("Time");
@@ -259,8 +333,8 @@ public class SHSGui extends JFrame {
 														.addComponent(labelTime).addComponent(labelTimeValue))
 												.addContainerGap(24, Short.MAX_VALUE)));
 		panelDateTime.setLayout(gl_panelDateTime);
-
-		JLabel labelHouseTemp = new JLabel("Outside Temp.");
+//************************************************Temperature************************************************//	
+		JLabel labelHouseTemp = new JLabel("Inside Temp.");
 
 		JLabel labelHouseTempValue = new JLabel("15C");
 		GroupLayout gl_panelHouseInfo = new GroupLayout(panelHouseInfo);
@@ -283,7 +357,7 @@ public class SHSGui extends JFrame {
 					.addContainerGap(17, Short.MAX_VALUE))
 		);
 		panelHouseInfo.setLayout(gl_panelHouseInfo);
-
+//************************************************Weather************************************************//	
 		JLabel labelWeather = new JLabel("Weather:");
 
 		JComboBox comboBoxWeather = new JComboBox();
@@ -317,14 +391,14 @@ public class SHSGui extends JFrame {
 								.addComponent(labelOutsideTemp).addComponent(labelOutsideTempValue))
 						.addContainerGap()));
 		panelOutsideInfo.setLayout(gl_panelOutsideInfo);
-
+//************************************************Users/Location************************************************//	
 		JLabel labelRole = new JLabel("User");
 		JLabel labelLocation = new JLabel("Location:");
 		
 		final Users Admin = new Users();
 		final JComboBox comboBoxRole = new JComboBox();
 		// Will update User pop up menu every time the user opens the menu 
-	    PopupMenuListener listener = new PopupMenuListener() {
+	    PopupMenuListener userListListener = new PopupMenuListener() {
 	        boolean initialized = false;
 
 	        public void popupMenuCanceled(PopupMenuEvent e) {
@@ -343,7 +417,7 @@ public class SHSGui extends JFrame {
 	          }
 	        }
 	    };
-		comboBoxRole.addPopupMenuListener(listener);
+		comboBoxRole.addPopupMenuListener(userListListener);
 
 		JComboBox comboBoxLocation = new JComboBox();
 		GroupLayout gl_panelProfileInfo = new GroupLayout(panelProfileInfo);
@@ -415,10 +489,4 @@ public class SHSGui extends JFrame {
 		this.togglebuttonSimulator = togglebuttonSimulator;
 	}
 	
-	public JMenuItem getUserMenuAddUser() {
-		return userMenuAddUser;
-	}
-	public JMenuItem getUserMenuDeleteUser() {
-		return userMenuDeleteUser;
-	}
 }

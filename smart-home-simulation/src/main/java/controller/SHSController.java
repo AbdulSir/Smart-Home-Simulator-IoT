@@ -31,29 +31,6 @@ public class SHSController {
 	// This method contains all of the code for creating events
 	//////////////////////////////////////////////////////////////
 	private void createEvents() {
-		//Open Add User button window when menu item is pressed
-		this.frame.getUserMenuAddUser().addActionListener(new ActionListener() {
-			CreateUser createUser = new CreateUser();
-			public void actionPerformed(ActionEvent arg0) {
-				if (createUser.isVisible()) {
-					System.out.println("already open!");
-				} else {
-					createUser.setVisible(true);
-				}
-			}
-		});
-		// Open Delete Menu window when menu item is pressed 
-		this.frame.getUserMenuDeleteUser().addActionListener(new ActionListener() {
-			DeleteUser deleteUser = new DeleteUser();
-			public void actionPerformed(ActionEvent arg0) {
-				if (deleteUser.isVisible()) {
-					System.out.println("already open!");
-				} else {
-					deleteUser.setVisible(true);
-				}
-			}
-		});
-		
 		// Toggle Button State Change
 		this.frame.getTogglebuttonSimulator().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {

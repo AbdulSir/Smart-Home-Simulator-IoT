@@ -8,11 +8,13 @@ public class Users {
 	private static ArrayList<Users> userList = new ArrayList<Users>();
 	private int userNumber;
 	private static int counter = 0;
+	private String location;
 	
 	public Users() {
 		this.name = null;
 		this.activeUser = null;
 		this.userNumber = 0;
+		this.location = null;
 	}
 	public Users(String name) {
 		this.name = name;
@@ -28,7 +30,7 @@ public class Users {
 			user.activeUser = false;
 		}
 	}
-	// Method to show infor about user array
+	// Method to show info about user array
 	public void printUserList () {
 		for (Users user: getUserList()) {
 			System.out.println(user.name);
@@ -48,5 +50,11 @@ public class Users {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 }

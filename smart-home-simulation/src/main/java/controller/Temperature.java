@@ -18,18 +18,18 @@ public class Temperature {
 	private int insideTemp;
 
 	
-//	public int getOutsideTemp() {
-//		return outsideTemp;
-//	}
+	public int getOutsideTemp() {
+		return outsideTemp;
+	}
 	
 	
 	public void setOutsideTemp(int x) {
 		this.outsideTemp = x;
 	}
 	
-//	public int getInsideTemp() {
-//		return insideTemp;
-//	}
+	public int getInsideTemp() {
+		return insideTemp;
+	}
 	
 	public void setInsideTemp(int x) {
 		this.insideTemp = x;

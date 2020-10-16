@@ -12,6 +12,8 @@ import java.awt.Toolkit;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpinnerDateModel;
+
 import java.awt.Color;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -26,6 +28,7 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultComboBoxModel;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JSpinner;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
@@ -53,6 +56,7 @@ public class SHSGui extends JFrame {
 	 * Create the frame.
 	 */
 	public SHSGui() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(SHSGui.class.getResource("/resources/shs_128.png")));
 		initComponents();
 	}
 
@@ -82,6 +86,7 @@ public class SHSGui extends JFrame {
 		panelContainer.setBackground(Color.WHITE);
 
 		labelProfileImage = new JLabel("");
+		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
 
 		JPanel panelControl = new JPanel();
 		panelControl.setBackground(Color.WHITE);
@@ -209,29 +214,38 @@ public class SHSGui extends JFrame {
 
 		JDateChooser dateChooser = new JDateChooser();
 
-		JLabel labelTime = new JLabel("Time");
-
-		JLabel labelTimeValue = new JLabel("02:08:33");
+		/**
+		 * Set and modify time
+		 */
+		JLabel labelTime = new JLabel("Time: ");
+		JSpinner timeSpinner = new JSpinner();
+        timeSpinner.setModel(new SpinnerDateModel());
+        timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm:ss"));
+		
 		GroupLayout gl_panelDateTime = new GroupLayout(panelDateTime);
-		gl_panelDateTime.setHorizontalGroup(gl_panelDateTime.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelDateTime.createSequentialGroup().addContainerGap().addGroup(gl_panelDateTime
-						.createParallelGroup(Alignment.LEADING)
+		gl_panelDateTime.setHorizontalGroup(
+			gl_panelDateTime.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDateTime.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelDateTime.createParallelGroup(Alignment.LEADING)
+						.addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
 						.addGroup(gl_panelDateTime.createSequentialGroup()
-								.addComponent(labelTime, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(labelTimeValue,
-										GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
-						.addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)).addContainerGap()));
-		gl_panelDateTime
-				.setVerticalGroup(
-						gl_panelDateTime.createParallelGroup(Alignment.LEADING)
-								.addGroup(
-										gl_panelDateTime.createSequentialGroup().addContainerGap()
-												.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addGroup(gl_panelDateTime.createParallelGroup(Alignment.BASELINE)
-														.addComponent(labelTime).addComponent(labelTimeValue))
-												.addContainerGap(24, Short.MAX_VALUE)));
+							.addComponent(labelTime, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(timeSpinner, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_panelDateTime.setVerticalGroup(
+			gl_panelDateTime.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDateTime.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelDateTime.createParallelGroup(Alignment.LEADING)
+						.addComponent(labelTime)
+						.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(18, Short.MAX_VALUE))
+		);
 		panelDateTime.setLayout(gl_panelDateTime);
 
 		JLabel labelHouseTemp = new JLabel("Outside Temp.");

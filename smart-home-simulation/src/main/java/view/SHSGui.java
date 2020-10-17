@@ -335,24 +335,26 @@ public class SHSGui extends JFrame {
 		gl_panelHouseInfo.setHorizontalGroup(
 			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelHouseInfo.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(labelHouseTemp, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-					.addGap(58)
+					.addGap(10)
+					.addComponent(labelHouseTemp)
+					.addGap(21)
 					.addComponent(houseTemp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(45)
-					.addComponent(labelHouseTempValue, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addContainerGap())
+					.addGap(5)
+					.addComponent(labelHouseTempValue))
 		);
 		gl_panelHouseInfo.setVerticalGroup(
 			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelHouseInfo.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelHouseInfo.createParallelGroup(Alignment.BASELINE)
-						.addComponent(labelHouseTempValue)
-						.addComponent(houseTemp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(labelHouseTemp))
-					.addContainerGap(17, Short.MAX_VALUE))
+					.addGap(8)
+					.addComponent(labelHouseTemp))
+				.addGroup(gl_panelHouseInfo.createSequentialGroup()
+					.addGap(5)
+					.addComponent(houseTemp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panelHouseInfo.createSequentialGroup()
+					.addGap(8)
+					.addComponent(labelHouseTempValue))
 		);
+		panelHouseInfo.setLayout(gl_panelHouseInfo);
 
 //************************************************Weather************************************************//	
 		JLabel labelWeather = new JLabel("Weather:");
@@ -366,7 +368,6 @@ public class SHSGui extends JFrame {
 		JLabel labelOutsideTempValue = new JLabel("°C");
 		outsideTemp = new JTextField(5);
 
-		
 		GroupLayout gl_panelOutsideInfo = new GroupLayout(panelOutsideInfo);
 		gl_panelOutsideInfo.setHorizontalGroup(
 			gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)

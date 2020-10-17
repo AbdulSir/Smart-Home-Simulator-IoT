@@ -8,12 +8,7 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import javax.swing.JTextField;
-
 
 
 public class Temperature {
@@ -22,18 +17,18 @@ public class Temperature {
 	private int insideTemp;
 
 	
-//	public int getOutsideTemp() {
-//		return outsideTemp;
-//	}
+	public int getOutsideTemp() {
+		return outsideTemp;
+	}
 	
 	
 	public void setOutsideTemp(int x) {
 		this.outsideTemp = x;
 	}
 	
-//	public int getInsideTemp() {
-//		return insideTemp;
-//	}
+	public int getInsideTemp() {
+		return insideTemp;
+	}
 	
 	public void setInsideTemp(int x) {
 		this.insideTemp = x;

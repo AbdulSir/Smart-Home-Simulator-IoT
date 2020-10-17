@@ -1,4 +1,4 @@
-package controller;
+package view;
 
 import java.awt.*;
 import javax.swing.*;
@@ -9,6 +9,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import com.toedter.calendar.JDateChooser;
+
+import controller.Users;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;

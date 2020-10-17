@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import view.ContextSimulation;
 import view.SHSGui;
 
 public class SHSController {
@@ -83,7 +84,8 @@ public class SHSController {
 				JRadioButton kitchen = context.getKitchenRadioButton(); Windows kitchenWindows = new Windows("Kitchen");
 				JRadioButton livingRoom = context.getLivingRoomRadioButton(); Windows livingRoomWindows = new Windows("Living Room");
 				JRadioButton MasterBedroom = context.getMasterBedroomRadioButton(); Windows MasterBedroomWindows = new Windows("Master Bedroom");
-							
+
+				console.msg("**********Updating status of the windows**********");
 				if(bathroom.isSelected()) {bathroomWindows.setBlocked(true); console.msg("Bathroom Window: BLOCKED");}
 				else {bathroomWindows.setBlocked(false); console.msg("Bathroom Window: UNBLOCKED");}
 				if(bedroom.isSelected()) {bedroomWindows.setBlocked(true); console.msg("Bedroom Window: BLOCKED");} 
@@ -96,7 +98,7 @@ public class SHSController {
 				else {livingRoomWindows.setBlocked(false); console.msg("Living Room Window: UNBLOCKED");}
 				if(MasterBedroom.isSelected()) {MasterBedroomWindows.setBlocked(true); console.msg("Master Bedroom Window: BLOCKED");}
 				else {MasterBedroomWindows.setBlocked(false); console.msg("Master Bedroom Window: UNBLOCKED");}
-				console.msg("**********Update of the windows is complete**********");
+				console.msg("**********Update completed**********");
 			}
 		});
 //************************************************Event that changes user logged in************************************************//			

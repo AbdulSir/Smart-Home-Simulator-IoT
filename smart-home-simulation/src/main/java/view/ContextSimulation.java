@@ -55,8 +55,10 @@ public class ContextSimulation extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		//contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
 		JPanel panelLocation = new JPanel();
+		panelLocation.setBounds(55, 10, 384, 284);
 		panelLocation.setBackground(Color.WHITE);
 		contentPane.add(panelLocation);
 		
@@ -132,108 +134,68 @@ public class ContextSimulation extends JFrame {
 		
 		GroupLayout gl_panelLocation = new GroupLayout(panelLocation);
 		gl_panelLocation.setHorizontalGroup(
-			gl_panelLocation.createParallelGroup(Alignment.LEADING)
+			gl_panelLocation.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelLocation.createSequentialGroup()
 					.addGap(123)
 					.addComponent(lblNewLabel)
 					.addContainerGap(128, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_panelLocation.createSequentialGroup()
-					.addContainerGap(60, Short.MAX_VALUE)
+				.addGroup(gl_panelLocation.createSequentialGroup()
+					.addContainerGap(58, Short.MAX_VALUE)
 					.addComponent(panelProfileInfo_1, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
-					.addGap(52))
+					.addGap(54))
 		);
 		gl_panelLocation.setVerticalGroup(
 			gl_panelLocation.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelLocation.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblNewLabel)
-					.addGap(74)
+					.addGap(73)
 					.addComponent(panelProfileInfo_1, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(147, Short.MAX_VALUE))
+					.addContainerGap(80, Short.MAX_VALUE))
 		);
 		panelLocation.setLayout(gl_panelLocation);
 		
 		JPanel panelHouse = new JPanel();
+		panelHouse.setBounds(485, 10, 728, 662);
 		panelHouse.setBackground(Color.WHITE);
 		contentPane.add(panelHouse);
+		panelHouse.setLayout(null);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("House Layout");
-		GroupLayout gl_panelHouse = new GroupLayout(panelHouse);
-		gl_panelHouse.setHorizontalGroup(
-			gl_panelHouse.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 409, Short.MAX_VALUE)
-				.addGroup(gl_panelHouse.createSequentialGroup()
-					.addGap(157)
-					.addComponent(lblNewLabel_2_1)
-					.addContainerGap(166, Short.MAX_VALUE))
-		);
-		gl_panelHouse.setVerticalGroup(
-			gl_panelHouse.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 352, Short.MAX_VALUE)
-				.addGroup(gl_panelHouse.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel_2_1)
-					.addContainerGap(330, Short.MAX_VALUE))
-		);
-		panelHouse.setLayout(gl_panelHouse);
+		lblNewLabel_2_1.setBounds(300, 6, 86, 16);
+		panelHouse.add(lblNewLabel_2_1);
 		
 		JPanel panelWindows = new JPanel();
+		panelWindows.setBounds(55, 306, 384, 366);
 		panelWindows.setBackground(Color.WHITE);
 		contentPane.add(panelWindows);
 		
 		JLabel lblWindows = new JLabel("Block Windows");
+		lblWindows.setBounds(150, 6, 94, 16);
 		BlockWindows = new JButton("Update");
+		BlockWindows.setBounds(150, 296, 88, 29);
 		
 		BedroomRadioButton = new JRadioButton("Bedroom");
+		BedroomRadioButton.setBounds(20, 81, 87, 23);
 		BathroomRadioButton = new JRadioButton("Bathroom");
+		BathroomRadioButton.setBounds(20, 46, 92, 23);
 		GarageRadioButton = new JRadioButton("Garage");
+		GarageRadioButton.setBounds(20, 116, 75, 23);
 		KitchenRadioButton = new JRadioButton("Kitchen");
+		KitchenRadioButton.setBounds(20, 151, 79, 23);
 		LivingRoomRadioButton = new JRadioButton("Living Room");
+		LivingRoomRadioButton.setBounds(20, 186, 110, 23);
 		MasterBedroomRadioButton = new JRadioButton("Master Bedroom");
-
-		GroupLayout gl_panelWindows = new GroupLayout(panelWindows);
-		gl_panelWindows.setHorizontalGroup(
-			gl_panelWindows.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelWindows.createSequentialGroup()
-					.addGroup(gl_panelWindows.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelWindows.createSequentialGroup()
-							.addGap(174)
-							.addComponent(lblWindows))
-						.addGroup(gl_panelWindows.createSequentialGroup()
-							.addGap(39)
-							.addGroup(gl_panelWindows.createParallelGroup(Alignment.LEADING)
-								.addComponent(GarageRadioButton)
-								.addComponent(KitchenRadioButton)
-								.addComponent(LivingRoomRadioButton)
-								.addComponent(MasterBedroomRadioButton)
-								.addComponent(BedroomRadioButton)
-								.addComponent(BathroomRadioButton)))
-						.addGroup(gl_panelWindows.createSequentialGroup()
-							.addGap(169)
-							.addComponent(BlockWindows)))
-					.addContainerGap(159, Short.MAX_VALUE))
-		);
-		gl_panelWindows.setVerticalGroup(
-			gl_panelWindows.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelWindows.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblWindows)
-					.addGap(38)
-					.addComponent(BathroomRadioButton)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(BedroomRadioButton)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(GarageRadioButton)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(KitchenRadioButton)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(LivingRoomRadioButton)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(MasterBedroomRadioButton)
-					.addGap(27)
-					.addComponent(BlockWindows)
-					.addContainerGap(80, Short.MAX_VALUE))
-		);
+		MasterBedroomRadioButton.setBounds(20, 221, 133, 23);
+		panelWindows.setLayout(null);
+		panelWindows.add(lblWindows);
+		panelWindows.add(GarageRadioButton);
+		panelWindows.add(KitchenRadioButton);
+		panelWindows.add(LivingRoomRadioButton);
+		panelWindows.add(MasterBedroomRadioButton);
+		panelWindows.add(BedroomRadioButton);
+		panelWindows.add(BathroomRadioButton);
+		panelWindows.add(BlockWindows);
 	}
 
 	public JButton getBlockWindows() {

@@ -47,8 +47,8 @@ public class SHSController {
 				else if (state == ItemEvent.DESELECTED)
 					console.msg("Simulator OFF");
 
-			}
-		});
+		}
+	});
 //************************************************Edit the context of a simulation************************************************//
 		this.frame.getPressbuttonEditContext().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

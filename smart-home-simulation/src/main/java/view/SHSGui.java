@@ -49,6 +49,8 @@ public class SHSGui extends JFrame {
 	private JButton newUser;
 	private JComboBox comboBoxDeleteUser;
 	private JButton deleteUserButton;
+	private JButton PressbuttonEditContext;
+	private JLabel CurrentLocation;
 
 	/**
 	 * Launch the application.
@@ -231,35 +233,46 @@ public class SHSGui extends JFrame {
 		JPanel panelOutsideInfo = new JPanel();
 
 		JPanel panelDateTime = new JPanel();
+		
+		PressbuttonEditContext = new JButton("Edit");
 
 		GroupLayout gl_panelContainer = new GroupLayout(panelContainer);
-		gl_panelContainer.setHorizontalGroup(gl_panelContainer.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelContainer.createSequentialGroup().addGroup(gl_panelContainer
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelContainer.createSequentialGroup().addContainerGap().addGroup(gl_panelContainer
-								.createParallelGroup(Alignment.LEADING)
-								.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-								.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 257, Short.MAX_VALUE)
-								.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-								.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-								.addComponent(panelDateTime, GroupLayout.PREFERRED_SIZE, 257,
-										GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_panelContainer.createSequentialGroup().addGap(79).addComponent(labelProfileImage,
-								GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap()));
-		gl_panelContainer.setVerticalGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelContainer.createSequentialGroup().addContainerGap()
-						.addComponent(togglebuttonSimulator).addPreferredGap(ComponentPlacement.RELATED)
+		gl_panelContainer.setHorizontalGroup(
+			gl_panelContainer.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelContainer.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelContainer.createSequentialGroup()
+							.addGap(6)
+							.addComponent(PressbuttonEditContext)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(labelProfileImage, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))
+						.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+						.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 267, Short.MAX_VALUE)
+						.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+						.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+						.addComponent(panelDateTime, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
+		gl_panelContainer.setVerticalGroup(
+			gl_panelContainer.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelContainer.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(togglebuttonSimulator)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
 						.addComponent(labelProfileImage, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panelHouseInfo, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panelDateTime, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+						.addComponent(PressbuttonEditContext))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelHouseInfo, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelDateTime, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(10, Short.MAX_VALUE))
+		);
 //************************************************Date Time************************************************//	
 		JDateChooser dateChooser = new JDateChooser();
 
@@ -474,5 +487,29 @@ public class SHSGui extends JFrame {
 	 */
 	public JComboBox getDeleteUserBox() {
 		return comboBoxDeleteUser;
+	}
+	/**
+	 * Getter PressbuttonEditContext
+	 */
+	public JButton getPressbuttonEditContext() {
+		return PressbuttonEditContext;
+	}
+	/**
+	 * Setter PressbuttonEditContext
+	 */
+	public void setPressbuttonEditContext(JButton pressbuttonEditContext) {
+		PressbuttonEditContext = pressbuttonEditContext;
+	}
+	/**
+	 * Getter CurrentLocation
+	 */
+	public JLabel getCurrentLocation() {
+		return CurrentLocation;
+	}
+	/**
+	 * Setter CurrentLocation
+	 */
+	public void setCurrentLocation(JLabel currentLocation) {
+		CurrentLocation = currentLocation;
 	}
 }

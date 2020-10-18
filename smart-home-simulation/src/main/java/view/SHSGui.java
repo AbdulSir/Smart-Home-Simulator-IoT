@@ -359,14 +359,10 @@ public class SHSGui extends JFrame {
 		
 //************************************************House Temperature************************************************//
 		JLabel labelHouseTemp = new JLabel("House Temp.");
-		JLabel labelHouseTempValue = new JLabel("�C");
+		JLabel labelHouseTempValue = new JLabel("°C");
 		houseTemp = new JTextField(5);
 		
 
-		/** Temperature **/
-		JLabel labelHouseTemp = new JLabel("Inside Temp.");
-
-		JLabel labelHouseTempValue = new JLabel("15C");
 		GroupLayout gl_panelHouseInfo = new GroupLayout(panelHouseInfo);
 		gl_panelHouseInfo.setHorizontalGroup(
 			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
@@ -402,7 +398,7 @@ public class SHSGui extends JFrame {
 
 //************************************************Outdoor Temperature************************************************//	
 		JLabel labelOutsideTemp = new JLabel("Outside Temp.");
-		JLabel labelOutsideTempValue = new JLabel("�C");
+		JLabel labelOutsideTempValue = new JLabel("°C");
 		outsideTemp = new JTextField(5);
 
 		GroupLayout gl_panelOutsideInfo = new GroupLayout(panelOutsideInfo);

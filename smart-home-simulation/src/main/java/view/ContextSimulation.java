@@ -10,6 +10,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import com.toedter.calendar.JDateChooser;
 
+import controller.HouseLayout;
 import controller.Users;
 
 import java.awt.event.ActionListener;
@@ -19,6 +20,8 @@ import java.awt.event.ActionEvent;
 public class ContextSimulation extends JFrame {
 
 	private JPanel contentPane;
+	
+
 	final Users users = new Users();
 	private JButton BlockWindows;
 	private JButton setLocation;
@@ -30,6 +33,7 @@ public class ContextSimulation extends JFrame {
 	private JRadioButton KitchenRadioButton;
 	private JRadioButton LivingRoomRadioButton;
 	private JRadioButton MasterBedroomRadioButton;
+	private HouseLayout panelHouse;
 
 	/**
 	 * Launch the application.
@@ -90,8 +94,8 @@ public class ContextSimulation extends JFrame {
 
 		JLabel labelLocation = new JLabel("Location:");
 		comboBoxLocation = new JComboBox();
-		comboBoxLocation.setModel(new DefaultComboBoxModel(new String[] { "Bedroom", "Master Bedroom", "Kitchen",
-				"Bathroom", "Living Room", "Garage", "Hallway", "Outside" }));
+		comboBoxLocation.setModel(new DefaultComboBoxModel(new String[] { "BedRM", "Master BedRM", "Kitchen",
+				"BathRM", "Living RM", "Garage", "Hallway", "Outside" }));
 
 		setLocation = new JButton("Set Location");
 
@@ -143,7 +147,7 @@ public class ContextSimulation extends JFrame {
 										.addContainerGap(80, Short.MAX_VALUE)));
 		panelLocation.setLayout(gl_panelLocation);
 
-		JPanel panelHouse = new JPanel();
+		panelHouse = new HouseLayout();
 		panelHouse.setBounds(485, 10, 728, 662);
 		panelHouse.setBackground(Color.WHITE);
 		contentPane.add(panelHouse);
@@ -163,17 +167,17 @@ public class ContextSimulation extends JFrame {
 		BlockWindows = new JButton("Update");
 		BlockWindows.setBounds(150, 296, 88, 29);
 
-		BedroomRadioButton = new JRadioButton("Bedroom");
+		BedroomRadioButton = new JRadioButton("BedRM");
 		BedroomRadioButton.setBounds(20, 81, 87, 23);
-		BathroomRadioButton = new JRadioButton("Bathroom");
+		BathroomRadioButton = new JRadioButton("BathRM");
 		BathroomRadioButton.setBounds(20, 46, 92, 23);
 		GarageRadioButton = new JRadioButton("Garage");
 		GarageRadioButton.setBounds(20, 116, 75, 23);
 		KitchenRadioButton = new JRadioButton("Kitchen");
 		KitchenRadioButton.setBounds(20, 151, 79, 23);
-		LivingRoomRadioButton = new JRadioButton("Living Room");
+		LivingRoomRadioButton = new JRadioButton("Living RM");
 		LivingRoomRadioButton.setBounds(20, 186, 110, 23);
-		MasterBedroomRadioButton = new JRadioButton("Master Bedroom");
+		MasterBedroomRadioButton = new JRadioButton("Master BedRM");
 		MasterBedroomRadioButton.setBounds(20, 221, 133, 23);
 		panelWindows.setLayout(null);
 		panelWindows.add(lblWindows);
@@ -299,4 +303,14 @@ public class ContextSimulation extends JFrame {
 	public void setMasterBedroomRadioButton(JRadioButton masterBedroomRadioButton) {
 		MasterBedroomRadioButton = masterBedroomRadioButton;
 	}
+
+	public HouseLayout getPanelHouse() {
+		return panelHouse;
+	}
+
+	public void setPanelHouse(HouseLayout panelHouse) {
+		this.panelHouse = panelHouse;
+	}
+	
+	
 }

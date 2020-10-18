@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,7 +16,13 @@ public class EditSimulation {
 	private ContextSimulation context;
 	private Users user;
 	private Console console;
-
+	Windows bedroomWindows = new Windows("BedRM");
+	Windows MasterBedroomWindows = new Windows("Master BedRM");
+	Windows bathroomWindows = new Windows("BathRM");
+	Windows kitchenWindows = new Windows("Kitchen");
+	Windows livingRoomWindows = new Windows("Living RM");
+	Windows garageWindows = new Windows("Garage");
+	
 	/**
 	 * Constructor
 	 */
@@ -59,6 +66,13 @@ public class EditSimulation {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
 				else
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
+				context.getContentPane().remove(context.getPanelHouse());
+				context.getPanelHouse().setIndex(index);
+				context.getPanelHouse().repaint();
+				context.getPanelHouse().setBounds(485, 10, 728, 662);
+				context.getPanelHouse().setBackground(Color.WHITE);
+				context.getContentPane().add(context.getPanelHouse());
+				context.getPanelHouse().setLayout(null);	
 			}
 		});
 
@@ -66,19 +80,14 @@ public class EditSimulation {
 		this.context.getBlockWindows().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JRadioButton bathroom = context.getBathroomRadioButton();
-				Windows bathroomWindows = new Windows("Bathroom");
 				JRadioButton bedroom = context.getBedroomRadioButton();
-				Windows bedroomWindows = new Windows("Bedroom");
 				JRadioButton garage = context.getGarageRadioButton();
-				Windows garageWindows = new Windows("Garage");
 				JRadioButton kitchen = context.getKitchenRadioButton();
-				Windows kitchenWindows = new Windows("Kitchen");
 				JRadioButton livingRoom = context.getLivingRoomRadioButton();
-				Windows livingRoomWindows = new Windows("Living Room");
 				JRadioButton MasterBedroom = context.getMasterBedroomRadioButton();
-				Windows MasterBedroomWindows = new Windows("Master Bedroom");
 
 				console.msg("**********Updating status of the windows**********");
+				
 				if (bathroom.isSelected()) {
 					bathroomWindows.setBlocked(true);
 					console.msg("Bathroom Window: BLOCKED");
@@ -122,8 +131,47 @@ public class EditSimulation {
 					console.msg("Master Bedroom Window: UNBLOCKED");
 				}
 				console.msg("**********Update completed**********");
+				context.getContentPane().remove(context.getPanelHouse());
+				context.getPanelHouse().repaint();
+				context.getPanelHouse().setBounds(485, 10, 728, 662);
+				context.getPanelHouse().setBackground(Color.WHITE);
+				context.getContentPane().add(context.getPanelHouse());
+				context.getPanelHouse().setLayout(null);
 			}
 		});
 
 	}
+
+	public JButton getEditContext() {
+		return editContext;
+	}
+
+	public void setEditContext(JButton editContext) {
+		this.editContext = editContext;
+	}
+
+	public ContextSimulation getContext() {
+		return context;
+	}
+
+	public void setContext(ContextSimulation context) {
+		this.context = context;
+	}
+
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
+
+	public Console getConsole() {
+		return console;
+	}
+
+	public void setConsole(Console console) {
+		this.console = console;
+	}
+	
 }

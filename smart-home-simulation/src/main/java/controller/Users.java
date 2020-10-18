@@ -10,7 +10,6 @@ public class Users {
 	private int userNumber;
 	private static int counter = 0;
 	private String location;
-
 	/**
 	 * Class Constructor
 	 */
@@ -20,7 +19,6 @@ public class Users {
 		this.userNumber = 0;
 		this.location = "Hallway";
 	}
-
 	/**
 	 * Class Constructor specifying number of objects to create
 	 */
@@ -54,63 +52,54 @@ public class Users {
 			System.out.println("-----------");
 		}
 	}
-
 	/**
 	 * Getter userList
 	 */
 	public ArrayList<Users> getUserList() {
 		return userList;
 	}
-
 	/**
 	 * Setter userList
 	 */
 	public static void setUserList(ArrayList<Users> userList) {
 		Users.userList = userList;
 	}
-
 	/**
 	 * Getter name
 	 */
 	public String getName() {
 		return name;
 	}
-
 	/**
 	 * Setter name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	/**
 	 * Getter location
 	 */
 	public String getLocation() {
 		return location;
 	}
-
 	/**
 	 * Setter location
 	 */
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
 	/**
 	 * Getter activeUser
 	 */
 	public Boolean getActiveUser() {
 		return activeUser;
 	}
-
 	/**
 	 * Setter activeUser
 	 */
 	public void setActiveUser(Boolean activeUser) {
 		this.activeUser = activeUser;
 	}
-
 	/**
 	 * Getter userNumber
 	 */

@@ -1,47 +1,42 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
-
-import controller.SHSController;
-import controller.Users;
-
+import java.awt.SystemColor;
 import java.awt.Toolkit;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SpinnerDateModel;
-
 import java.awt.Color;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import java.awt.SystemColor;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
+
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
-import javax.swing.JButton;
-import javax.swing.JTextField;
+import controller.HouseLayout;
+import controller.SHSController;
+import controller.Users;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
@@ -91,7 +86,7 @@ public class SHSGui extends JFrame {
 		user = new Users();
 		setTitle("Smart Home Simulation");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 998, 551);
+		setBounds(100, 100, 1200, 700);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -114,36 +109,40 @@ public class SHSGui extends JFrame {
 		JPanel panelControl = new JPanel();
 		panelControl.setBackground(Color.WHITE);
 
-		JPanel panelView = new JPanel();
+		HouseLayout panelView = new HouseLayout();
 		panelView.setBackground(Color.WHITE);
 
 		JPanel panelConsole = new JPanel();
 		panelConsole.setBackground(SystemColor.control);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
-				.createSequentialGroup()
-				.addComponent(panelContainer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
-						gl_contentPane.createSequentialGroup().addGap(5)
-								.addComponent(panelControl, GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE).addGap(5)
-								.addComponent(panelView, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE)
-								.addGap(8))
-						.addGroup(gl_contentPane.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(panelConsole, GroupLayout.PREFERRED_SIZE, 687, Short.MAX_VALUE)
-								.addContainerGap()))));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
-				.createSequentialGroup()
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(panelContainer, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(panelConsole, GroupLayout.PREFERRED_SIZE, 767, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addGap(11)
+							.addComponent(panelControl, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
-										.addComponent(panelControl, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 349,
-												Short.MAX_VALUE))
-								.addPreferredGap(ComponentPlacement.RELATED).addComponent(panelConsole,
-										GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addComponent(panelContainer, GroupLayout.PREFERRED_SIZE, 486, GroupLayout.PREFERRED_SIZE))
-				.addContainerGap(70, Short.MAX_VALUE)));
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+								.addComponent(panelControl, GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(panelConsole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(panelContainer, GroupLayout.PREFERRED_SIZE, 682, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
 		GroupLayout gl_panelView = new GroupLayout(panelView);
 		gl_panelView.setHorizontalGroup(
 				gl_panelView.createParallelGroup(Alignment.LEADING).addGap(0, 422, Short.MAX_VALUE));

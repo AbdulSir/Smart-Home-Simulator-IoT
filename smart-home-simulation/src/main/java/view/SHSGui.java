@@ -55,6 +55,8 @@ public class SHSGui extends JFrame {
 	private JButton newUser;
 	private JComboBox comboBoxDeleteUser;
 	private JButton deleteUserButton;
+	private JButton PressbuttonEditContext;
+	private JLabel CurrentLocation;
 
 	/**
 	 * Launch the application.
@@ -177,15 +179,18 @@ public class SHSGui extends JFrame {
 		gl_panelControl.setVerticalGroup(gl_panelControl.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelControl.createSequentialGroup().addContainerGap()
 						.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE).addContainerGap()));
-//************************************************SHS PANEL************************************************//		
+
+		/** SHS PANEL **/
 		JPanel panelSHS = new JPanel();
 		tabbedPane.addTab("SHS", null, panelSHS, null);
-//************************************************Add User************************************************//			
+
+		/** Add User **/
 		newUser = new JButton("Add User");
 		enterNewUsername = new JTextField();
 		enterNewUsername.setText("Enter New Username");
 		enterNewUsername.setColumns(10);
-//************************************************Delete User************************************************//		
+
+		/** Delete User **/
 		comboBoxDeleteUser = new JComboBox();
 
 		deleteUserButton = new JButton("Delete User");
@@ -216,22 +221,28 @@ public class SHSGui extends JFrame {
 								.addComponent(deleteUserButton))
 						.addContainerGap(225, Short.MAX_VALUE)));
 		panelSHS.setLayout(gl_panelSHS);
-//************************************************SHC PANEL************************************************//	
+
+		/** SHC PANEL **/
 		JPanel panelSHC = new JPanel();
 		tabbedPane.addTab("SHC", null, panelSHC, null);
 
+		/** SHP PANEL **/
 		JPanel panelSHP = new JPanel();
 		tabbedPane.addTab("SHP", null, panelSHP, null);
 
+		/** SHH PANEL **/
 		JPanel panelSHH = new JPanel();
 		tabbedPane.addTab("SHH", null, panelSHH, null);
-//************************************************Add Tab************************************************//			
+
+		/** Add Tab **/
 		JPanel panelPlus = new JPanel();
 		tabbedPane.addTab("+", null, panelPlus, null);
 		panelControl.setLayout(gl_panelControl);
-//************************************************Left-most panel of GUI************************************************//	
+
+		/** Left-most panel of GUI **/
 		JPanel panelProfileInfo = new JPanel();
-//************************************************Simulator Button************************************************//	
+
+		/** Simulator Button **/
 		togglebuttonSimulator = new JToggleButton("Simulator");
 
 		JPanel panelHouseInfo = new JPanel();
@@ -239,6 +250,8 @@ public class SHSGui extends JFrame {
 		JPanel panelOutsideInfo = new JPanel();
 
 		JPanel panelDateTime = new JPanel();
+
+		PressbuttonEditContext = new JButton("Edit");
 
 		GroupLayout gl_panelContainer = new GroupLayout(panelContainer);
 		gl_panelContainer.setHorizontalGroup(
@@ -276,10 +289,27 @@ public class SHSGui extends JFrame {
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 
+		gl_panelContainer.setHorizontalGroup(gl_panelContainer.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelContainer.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panelContainer.createSequentialGroup().addGap(6)
+										.addComponent(PressbuttonEditContext)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(labelProfileImage,
+												GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))
+								.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+								.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 267, Short.MAX_VALUE)
+								.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+								.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+								.addComponent(panelDateTime, GroupLayout.PREFERRED_SIZE, 257,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap()));
 		gl_panelContainer.setVerticalGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelContainer.createSequentialGroup().addContainerGap()
 						.addComponent(togglebuttonSimulator).addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(labelProfileImage, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panelContainer.createParallelGroup(Alignment.LEADING)
+								.addComponent(labelProfileImage, GroupLayout.PREFERRED_SIZE, 162,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(PressbuttonEditContext))
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
@@ -288,8 +318,9 @@ public class SHSGui extends JFrame {
 						.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(panelDateTime, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-//************************************************Date Time************************************************//	
+						.addContainerGap(10, Short.MAX_VALUE)));
+
+		/** Date Time **/
 		JDateChooser dateChooser = new JDateChooser();
 
 		/**
@@ -328,9 +359,14 @@ public class SHSGui extends JFrame {
 		
 //************************************************House Temperature************************************************//
 		JLabel labelHouseTemp = new JLabel("House Temp.");
-		JLabel labelHouseTempValue = new JLabel("°C");
+		JLabel labelHouseTempValue = new JLabel("ï¿½C");
 		houseTemp = new JTextField(5);
 		
+
+		/** Temperature **/
+		JLabel labelHouseTemp = new JLabel("Inside Temp.");
+
+		JLabel labelHouseTempValue = new JLabel("15C");
 		GroupLayout gl_panelHouseInfo = new GroupLayout(panelHouseInfo);
 		gl_panelHouseInfo.setHorizontalGroup(
 			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
@@ -357,6 +393,7 @@ public class SHSGui extends JFrame {
 		panelHouseInfo.setLayout(gl_panelHouseInfo);
 
 //************************************************Weather************************************************//	
+		/** Weather **/
 		JLabel labelWeather = new JLabel("Weather:");
 
 		JComboBox comboBoxWeather = new JComboBox();
@@ -365,7 +402,7 @@ public class SHSGui extends JFrame {
 
 //************************************************Outdoor Temperature************************************************//	
 		JLabel labelOutsideTemp = new JLabel("Outside Temp.");
-		JLabel labelOutsideTempValue = new JLabel("°C");
+		JLabel labelOutsideTempValue = new JLabel("ï¿½C");
 		outsideTemp = new JTextField(5);
 
 		GroupLayout gl_panelOutsideInfo = new GroupLayout(panelOutsideInfo);
@@ -403,11 +440,13 @@ public class SHSGui extends JFrame {
 					.addContainerGap())
 		);
 		panelOutsideInfo.setLayout(gl_panelOutsideInfo);
-//************************************************Users/Location************************************************//	
+
+		/** Users/Location **/
 		JLabel labelRole = new JLabel("User");
 		JLabel labelLocation = new JLabel("Location:");
 
 		comboBoxRole = new JComboBox();
+		
 		// Will update User pop up menu every time the user opens the menu
 		PopupMenuListener userListListener = new PopupMenuListener() {
 			boolean initialized = false;
@@ -555,16 +594,46 @@ public class SHSGui extends JFrame {
 	public JTextField getNewUserName() {
 		return enterNewUsername;
 	}
+
 	/**
 	 * Getter deleteUserButton
 	 */
 	public JButton getDeleteUserButton() {
 		return deleteUserButton;
 	}
+
 	/**
 	 * Getter comboBoxDeleteUser
 	 */
 	public JComboBox getDeleteUserBox() {
 		return comboBoxDeleteUser;
+	}
+
+	/**
+	 * Getter PressbuttonEditContext
+	 */
+	public JButton getPressbuttonEditContext() {
+		return PressbuttonEditContext;
+	}
+
+	/**
+	 * Setter PressbuttonEditContext
+	 */
+	public void setPressbuttonEditContext(JButton pressbuttonEditContext) {
+		PressbuttonEditContext = pressbuttonEditContext;
+	}
+
+	/**
+	 * Getter CurrentLocation
+	 */
+	public JLabel getCurrentLocation() {
+		return CurrentLocation;
+	}
+
+	/**
+	 * Setter CurrentLocation
+	 */
+	public void setCurrentLocation(JLabel currentLocation) {
+		CurrentLocation = currentLocation;
 	}
 }

@@ -17,7 +17,7 @@ public class Users {
 		this.name = null;
 		this.activeUser = null;
 		this.userNumber = 0;
-		this.location = null;
+		this.location = "Hallway";
 	}
 	/**
 	 * Class Constructor specifying number of objects to create
@@ -25,6 +25,7 @@ public class Users {
 	public Users(String name) {
 		this.name = name;
 		this.activeUser = false;
+		this.location = "Hallway";
 		getUserList().add(this);
 		counter++;
 		this.userNumber = counter;
@@ -98,5 +99,18 @@ public class Users {
 	 */
 	public void setActiveUser(Boolean activeUser) {
 		this.activeUser = activeUser;
+	}
+	/**
+	 * Getter userNumber
+	 */
+	public int getUserNumber() {
+		return userNumber;
+	}
+
+	/**
+	 * Setter userNumber
+	 */
+	public void setUserNumber(int userNumber) {
+		this.userNumber = userNumber;
 	}
 }

@@ -38,6 +38,9 @@ public class SHSController {
 
 		// edit simuatlion
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console);
+		
+		// event handler
+		createEvents();
 
 	}
 

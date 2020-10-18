@@ -15,7 +15,7 @@ public class Temperature {
 	
 	private int outsideTemp;
 	private int insideTemp;
-
+	private Console console;
 	
 	public int getOutsideTemp() {
 		return outsideTemp;
@@ -34,8 +34,8 @@ public class Temperature {
 		this.insideTemp = x;
 	}
 	
-	public Temperature(final JTextField out, final JTextField in) {
-		
+	public Temperature(final JTextField out, final JTextField in, Console console) {
+		this.console = console;
 		out.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				//get text value
@@ -44,17 +44,18 @@ public class Temperature {
 				int outsideTempIntValue = Integer.parseInt(outsideTempStrValue);
 				//call set method
 				setOutsideTemp(outsideTempIntValue);
+				console.msg("The temperature for the outside of the house has been set at " + outsideTemp + "°C");
 			}
 		});
 		in.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				//get text value
 				String insideTempStrValue = in.getText();
-				System.out.println(insideTempStrValue);
 				//change str to int
 				int insideTempIntValue = Integer.parseInt(insideTempStrValue);
 				//call set method
-				setInsideTemp(insideTempIntValue);			
+				setInsideTemp(insideTempIntValue);	
+				console.msg("The temperature for the inside of the house has been set at " + insideTemp + "°C");
 			}
 		});
 	}

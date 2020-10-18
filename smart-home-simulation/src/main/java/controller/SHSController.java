@@ -34,7 +34,7 @@ public class SHSController {
 		this.console = new Console(frame.getTextAreaConsoleLog());
 		console.msg("Welcome to the Smart Home Simulator");
 
-		this.temperature = new Temperature(frame.getOutsideTemp(), frame.getHouseTemp());
+		this.temperature = new Temperature(frame.getOutsideTemp(), frame.getHouseTemp(), console);
 		// simulation button
 		this.simulationButton = new SimulationButton(frame.getTogglebuttonSimulator(), console);
 

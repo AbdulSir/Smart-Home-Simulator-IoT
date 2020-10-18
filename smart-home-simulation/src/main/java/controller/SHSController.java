@@ -18,6 +18,7 @@ import view.SHSGui;
 public class SHSController {
 	private SHSGui frame;
 	private Console console;
+	private Temperature temperature;
 	private Users user;
 	private SimulationButton simulationButton;
 	private EditSimulation editSimulation;
@@ -33,6 +34,7 @@ public class SHSController {
 		this.console = new Console(frame.getTextAreaConsoleLog());
 		console.msg("Welcome to the Smart Home Simulator");
 
+		this.temperature = new Temperature(frame.getOutsideTemp(), frame.getHouseTemp());
 		// simulation button
 		this.simulationButton = new SimulationButton(frame.getTogglebuttonSimulator(), console);
 

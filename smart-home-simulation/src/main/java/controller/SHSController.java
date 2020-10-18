@@ -8,29 +8,39 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import view.ContextSimulation;
 import view.SHSGui;
 
 public class SHSController {
 	private SHSGui frame;
 	private Console console;
 	private Users user;
+	private SimulationButton simulationButton;
+	private EditSimulation editSimulation;
 
 	public SHSController(SHSGui frame) {
 		// main ui
 		this.frame = frame;
-		createEvents();
-		Users FirstUser = new Users("Admin"); // Create First User
+
+		// Create First User
+		Users FirstUser = new Users("Admin");
 
 		// control console
 		this.console = new Console(frame.getTextAreaConsoleLog());
 		console.msg("Welcome to the Smart Home Simulator");
+
+		// simulation button
+		this.simulationButton = new SimulationButton(frame.getTogglebuttonSimulator(), console);
+
+		// edit simuatlion
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console);
+		
+		// event handler
+		createEvents();
 
 	}
 
@@ -38,19 +48,8 @@ public class SHSController {
 	// This method contains all of the code for creating events
 	//////////////////////////////////////////////////////////////
 	private void createEvents() {
-		// Toggle Button State Change
-		this.frame.getTogglebuttonSimulator().addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				int state = arg0.getStateChange();
 
-				if (state == ItemEvent.SELECTED)
-					console.msg("Simulator ON");
-				else if (state == ItemEvent.DESELECTED)
-					console.msg("Simulator OFF");
-
-			}
-		});
-//************************************************Event that changes user logged in************************************************//			
+		/** Event that changes user logged in **/
 		final JComboBox comboBoxRole = this.frame.getJComboRole();
 		user = new Users();
 		comboBoxRole.addActionListener(new ActionListener() {
@@ -70,7 +69,8 @@ public class SHSController {
 
 			}
 		});
-//************************************************Add User functionality ************************************************//			
+
+		/** Add User functionality **/
 		JButton addNewUserButton = this.frame.getnewUserButton();
 		final JTextField enterNewUsername = this.frame.getNewUserName();
 		addNewUserButton.addMouseListener(new MouseAdapter() {
@@ -82,7 +82,7 @@ public class SHSController {
 			}
 		});
 
-//************************************************Delete User functionality ************************************************//			
+		/** Delete User functionality **/
 		JButton deleteUserButton = this.frame.getDeleteUserButton();
 		final JComboBox comboBoxDeleteUser = this.frame.getDeleteUserBox();
 		deleteUserButton.addMouseListener(new MouseAdapter() {

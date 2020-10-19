@@ -33,7 +33,7 @@ public class HouseLayout extends JPanel {
 			int countOutside = 0;
 			int countHallway = 0;
 			int countL = 0;
-			userImage = ImageIO.read(getClass().getResource("/resources/user.jpg"));
+			userImage = ImageIO.read(getClass().getResource("/resources/user-2-icon.png"));
 			Users users = new Users();
 			ArrayList<Users> usersArray = users.getUserList();
 			ReadingJsonFile rjFile = new ReadingJsonFile("myJSON.json");
@@ -46,14 +46,20 @@ public class HouseLayout extends JPanel {
 						if (usersArray.get(j).getLocation().equals("Outside")) {
 							if (countOutside == 0) {
 								g.drawImage(userImage, x, y, 25, 25, null);
-								g.setColor(Color.WHITE);
-								g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 9, y + 15);
+								g.setColor(Color.BLUE);
+								if(usersArray.get(j).getUserNumber() < 10)
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 18);
+								else
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 4, y + 18);
 							}
 							if (countOutside > 0) {
 								x += 30;
 								g.drawImage(userImage, x, y, 25, 25, null);
-								g.setColor(Color.WHITE);
-								g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 9, y + 15);
+								g.setColor(Color.BLUE);
+								if(usersArray.get(j).getUserNumber() < 10)
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 18);
+								else
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 4, y + 18);
 							}
 							countOutside++;
 						}
@@ -68,15 +74,21 @@ public class HouseLayout extends JPanel {
 						if (rjFile.getRoomArray().get(i).toString().equals(usersArray.get(j).getLocation())) {
 							if (countL == 0) {
 								g.drawImage(userImage, x, y, 25, 25, null);
-								g.setColor(Color.WHITE);
-								g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 15);
+								g.setColor(Color.BLUE);
+								if(usersArray.get(j).getUserNumber() < 10)
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 18);
+								else
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 4, y + 18);
 							}
 							if (countL > 0) {
 								if (x + 30 <= 125) x += 30;
 								else if(y - 30 >= 0) y -= 30;
 								g.drawImage(userImage, x, y, 25, 25, null);
-								g.setColor(Color.WHITE);
-								g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 15);
+								g.setColor(Color.BLUE);
+								if(usersArray.get(j).getUserNumber() < 10)
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 18);
+								else
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 4, y + 18);
 							}
 							countL++;
 						}
@@ -95,14 +107,20 @@ public class HouseLayout extends JPanel {
 						if (("Hallway").equals(usersArray.get(j).getLocation())) {
 							if (countHallway == 0) {
 								g.drawImage(userImage, x, y, 25, 25, null);
-								g.setColor(Color.WHITE);
-								g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 15);
+								g.setColor(Color.BLUE);
+								if(usersArray.get(j).getUserNumber() < 10)
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 18);
+								else
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 4, y + 18);
 							}
 							if (countHallway > 0) {
 								y += 30;
 								g.drawImage(userImage, x, y, 25, 25, null);
-								g.setColor(Color.WHITE);
-								g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 15);
+								g.setColor(Color.BLUE);
+								if(usersArray.get(j).getUserNumber() < 10)
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 18);
+								else
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 4, y + 18);
 							}
 							countHallway++;
 						}
@@ -117,15 +135,21 @@ public class HouseLayout extends JPanel {
 						if (rjFile.getRoomArray().get(i).toString().equals(usersArray.get(j).getLocation())) {
 							if (countL == 0) {
 								g.drawImage(userImage, x, y, 25, 25, null);
-								g.setColor(Color.WHITE);
-								g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 15);
+								g.setColor(Color.BLUE);
+								if(usersArray.get(j).getUserNumber() < 10)
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 18);
+								else
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 4, y + 18);
 							}
 							if (countL > 0) {
 								if (x + 30 <= 125) x += 30;
 								else if(y - 30 >= 0) y -= 30;
 								g.drawImage(userImage, x, y, 25, 25, null);
-								g.setColor(Color.WHITE);
-								g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 15);
+								g.setColor(Color.BLUE);
+								if(usersArray.get(j).getUserNumber() < 10)
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 8, y + 18);
+								else
+									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 4, y + 18);
 							}
 							countL++;
 						}

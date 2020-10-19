@@ -67,7 +67,7 @@ public class EditSimulation {
 				else
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
 				context.getContentPane().remove(context.getPanelHouse());
-				context.getPanelHouse().setIndex(index);
+				//context.getPanelHouse().setIndex(index);
 				context.getPanelHouse().repaint();
 				context.getPanelHouse().setBounds(485, 10, 728, 662);
 				context.getPanelHouse().setBackground(Color.WHITE);

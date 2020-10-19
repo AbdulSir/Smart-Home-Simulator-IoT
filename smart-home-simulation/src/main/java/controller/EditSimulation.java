@@ -1,14 +1,14 @@
 package controller;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.*;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
+import javax.swing.*;
+import javax.swing.event.*;
 
 import view.ContextSimulation;
+import view.SHSGui;
 
 public class EditSimulation {
 
@@ -22,17 +22,19 @@ public class EditSimulation {
 	Windows kitchenWindows = new Windows("Kitchen");
 	Windows livingRoomWindows = new Windows("Living RM");
 	Windows garageWindows = new Windows("Garage");
-	
+	private SHSGui frame;
+	private String[] rooms;
+
 	/**
 	 * Constructor
 	 */
-	public EditSimulation(JButton editContext, Users user, Console console) {
+	public EditSimulation(JButton editContext, Users user, Console console, SHSGui frame) {
 		this.context = new ContextSimulation();
 		this.editContext = editContext;
 		this.user = user;
 		this.console = console;
-
-		// event handler
+		this.frame = frame;
+		 //event handler
 		createEvents();
 	}
 
@@ -51,7 +53,6 @@ public class EditSimulation {
 		/** Change the location of a user **/
 		this.context.getSetLocation().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				user = new Users();
 				JComboBox comboBoxUsers = context.getComboBoxUsers();
 				int index = comboBoxUsers.getSelectedIndex();
 				String userToMove = comboBoxUsers.getSelectedItem().toString();
@@ -66,27 +67,22 @@ public class EditSimulation {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
 				else
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
-				context.getContentPane().remove(context.getPanelHouse());
-				context.getPanelHouse().repaint();
-				context.getPanelHouse().setBounds(485, 10, 728, 662);
-				context.getPanelHouse().setBackground(Color.WHITE);
-				context.getContentPane().add(context.getPanelHouse());
-				context.getPanelHouse().setLayout(null);	
+				frame.repaint();
 			}
 		});
 
 		/** Block/Unblock Windows **/
 		this.context.getBlockWindows().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JRadioButton bathroom = context.getBathroomRadioButton();
-				JRadioButton bedroom = context.getBedroomRadioButton();
-				JRadioButton garage = context.getGarageRadioButton();
-				JRadioButton kitchen = context.getKitchenRadioButton();
-				JRadioButton livingRoom = context.getLivingRoomRadioButton();
-				JRadioButton MasterBedroom = context.getMasterBedroomRadioButton();
+				JCheckBox bathroom = context.getBathroomCheckBox();
+				JCheckBox bedroom = context.getBedroomCheckBox();
+				JCheckBox garage = context.getGarageCheckBox();
+				JCheckBox kitchen = context.getKitchenCheckBox();
+				JCheckBox livingRoom = context.getLivingRoomCheckBox();
+				JCheckBox MasterBedroom = context.getMasterBedroomCheckBox();
 
 				console.msg("**********Updating status of the windows**********");
-				
+
 				if (bathroom.isSelected()) {
 					bathroomWindows.setBlocked(true);
 					console.msg("Bathroom Window: BLOCKED");
@@ -130,47 +126,87 @@ public class EditSimulation {
 					console.msg("Master Bedroom Window: UNBLOCKED");
 				}
 				console.msg("**********Update completed**********");
-				context.getContentPane().remove(context.getPanelHouse());
-				context.getPanelHouse().repaint();
-				context.getPanelHouse().setBounds(485, 10, 728, 662);
-				context.getPanelHouse().setBackground(Color.WHITE);
-				context.getContentPane().add(context.getPanelHouse());
-				context.getPanelHouse().setLayout(null);
+				frame.repaint();
 			}
 		});
 
-	}
+		/** User ComboBox **/
+		PopupMenuListener userListListener = new PopupMenuListener() {
+			boolean initialized = false;
 
+			public void popupMenuCanceled(PopupMenuEvent e) {
+			}
+
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+			}
+
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				if (!initialized) {
+					String[] userNameArray = new String[user.getUserList().size()];
+					for (int i = 0; i < userNameArray.length; i++) {
+						userNameArray[i] = user.getUserList().get(i).getName();
+					}
+					context.getComboBoxUsers().setModel(new DefaultComboBoxModel(userNameArray));
+				}
+			}
+		};
+		context.getComboBoxUsers().addPopupMenuListener(userListListener);
+	}
+	
+	/**
+	 * Getter
+	 */
 	public JButton getEditContext() {
 		return editContext;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setEditContext(JButton editContext) {
 		this.editContext = editContext;
 	}
 
+	/**
+	 * Getter
+	 */
 	public ContextSimulation getContext() {
 		return context;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setContext(ContextSimulation context) {
 		this.context = context;
 	}
 
+	/**
+	 * Getter
+	 */
 	public Users getUser() {
 		return user;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setUser(Users user) {
 		this.user = user;
 	}
 
+	/**
+	 * Getter
+	 */
 	public Console getConsole() {
 		return console;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setConsole(Console console) {
 		this.console = console;
 	}
-	
+
 }

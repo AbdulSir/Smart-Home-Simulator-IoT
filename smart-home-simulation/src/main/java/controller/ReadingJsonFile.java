@@ -1,4 +1,5 @@
 package controller;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,25 +19,22 @@ public class ReadingJsonFile {
 	private JSONArray roomArray;
 
 	public ReadingJsonFile(String fileName) {
-		JSONParser parser = new JSONParser();	
-		try (FileReader reader = new FileReader(fileName))
-		{
+		JSONParser parser = new JSONParser();
+		try (FileReader reader = new FileReader(fileName)) {
 			Object obj = parser.parse(reader);
 			JSONObject jsonObject = (JSONObject) obj;
 			roomArray = (JSONArray) jsonObject.get("Rooms");
-	        reader.close();
-		}
-		catch (FileNotFoundException e) {
+			reader.close();
+		} catch (FileNotFoundException e) {
 			e.getMessage();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.getMessage();
 		}
 
 		catch (org.json.simple.parser.ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public JSONArray getRoomArray() {

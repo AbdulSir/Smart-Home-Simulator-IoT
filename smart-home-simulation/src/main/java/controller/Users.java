@@ -17,7 +17,7 @@ public class Users {
 		this.name = null;
 		this.activeUser = null;
 		this.userNumber = 0;
-		this.location = "Hallway";
+		this.location = null;
 	}
 	/**
 	 * Class Constructor specifying number of objects to create
@@ -100,6 +100,7 @@ public class Users {
 	public void setActiveUser(Boolean activeUser) {
 		this.activeUser = activeUser;
 	}
+
 	/**
 	 * Getter userNumber
 	 */

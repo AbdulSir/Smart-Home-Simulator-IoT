@@ -80,7 +80,14 @@ public class SHSController {
 			public void mouseClicked(MouseEvent e) {
 				String NewUsername = enterNewUsername.getText();
 				Users New = new Users(NewUsername);
-				console.msg(NewUsername + " has been added");
+				int index = 0;
+				for (int i = 0; i < user.getUserList().size(); i++) {
+					if(user.getUserList().get(i).getName().equals(NewUsername)) {
+						index = i;
+						break;
+					}
+				}
+				console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 			}
 		});
 

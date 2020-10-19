@@ -126,6 +126,8 @@ public class SHSController {
 					if (user.getName().equalsIgnoreCase(userToMakeActive)) {
 						user.setActiveUser(true);
 						console.msg(user.getName() + " is now logged in");
+						frame.getUserLocationLabel().setText(user.getLocation());
+						frame.repaint();
 						break;
 					} else {
 						continue;

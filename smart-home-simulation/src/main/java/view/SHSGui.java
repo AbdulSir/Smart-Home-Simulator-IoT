@@ -52,7 +52,8 @@ public class SHSGui extends JFrame {
 	private JMenuItem mntmOpen;
 	private JLabel labelBoxLocation;
 	private JComboBox comboBoxRole;
-
+	private JLabel userLocationLabel;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -384,31 +385,47 @@ public class SHSGui extends JFrame {
 
 		/** Combo Box Location **/
 		labelBoxLocation = new JLabel();
+		
+		userLocationLabel = new JLabel("N/A");
 
 		GroupLayout gl_panelProfileInfo = new GroupLayout(panelProfileInfo);
-		gl_panelProfileInfo.setHorizontalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(10)
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING).addComponent(labelRole)
-								.addComponent(labelLocation))
-						.addGap(182)
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(comboBoxRole, 0, 152, Short.MAX_VALUE))
-						.addGap(10)));
-		gl_panelProfileInfo.setVerticalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(11)
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(4).addComponent(labelRole))
-								.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(10)
-										.addComponent(labelLocation))
-								.addGroup(gl_panelProfileInfo.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED).addComponent(labelBoxLocation,
-												GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-						.addContainerGap()));
+		gl_panelProfileInfo.setHorizontalGroup(
+			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup()
+					.addGap(10)
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+						.addComponent(labelRole)
+						.addComponent(labelLocation))
+					.addGap(182)
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addGap(6)
+							.addComponent(userLocationLabel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(comboBoxRole, 0, 152, Short.MAX_VALUE))
+					.addGap(10))
+		);
+		gl_panelProfileInfo.setVerticalGroup(
+			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup()
+					.addGap(11)
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addGap(4)
+							.addComponent(labelRole))
+						.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addGap(6)
+							.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+								.addComponent(userLocationLabel)
+								.addComponent(labelLocation))))
+					.addContainerGap())
+		);
 		panelProfileInfo.setLayout(gl_panelProfileInfo);
 		panelProfile.setLayout(gl_panelProfile);
 		contentPane.setLayout(gl_contentPane);
@@ -596,5 +613,18 @@ public class SHSGui extends JFrame {
 	public void setComboBoxLocation(JLabel comboBoxLocation) {
 		this.labelBoxLocation = comboBoxLocation;
 	}
-
+	
+	/**
+	 * Getter
+	 */
+	public JLabel getUserLocationLabel() {
+		return userLocationLabel;
+	}
+	
+	/**
+	 * Setter
+	 */
+	public void setUserLocationLabel(JLabel userLocationLabel) {
+		this.userLocationLabel = userLocationLabel;
+	}
 }

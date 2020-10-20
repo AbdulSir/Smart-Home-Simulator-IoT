@@ -23,6 +23,7 @@ import model.ReadingJsonFile;
 import model.Temperature;
 import model.Time;
 import model.Users;
+import model.Windows;
 import view.ContextSimulation;
 import view.SHSGui;
 
@@ -98,10 +99,12 @@ public class SHSController {
 				//rjFile.getRoomArray().size() - Number of rooms in the JSON file
 				//+ 2 - Outside and Hallway
 				String[] userRoomArray = new String[rjFile.getRoomArray().size()+2];
+				String[] userWindowArray = new String[rjFile.getRoomArray().size()];
 
 				// get value from array
 				for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
-					userRoomArray[i] = rjFile.getRoomArray().get(i).toString();
+					userRoomArray[i] = userWindowArray[i] = rjFile.getRoomArray().get(i).toString();
+					new Windows(rjFile.getRoomArray().get(i).toString());
 				}
 				userRoomArray[userRoomArray.length - 1] = "Outside";
 				userRoomArray[userRoomArray.length - 2] = "Hallway";
@@ -110,6 +113,7 @@ public class SHSController {
 				frame.getPanelView().add(houseLayout);
 				
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
+				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(userWindowArray));
 
 				// refresh layout
 				frame.repaint();

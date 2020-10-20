@@ -46,7 +46,7 @@ public class SHSGui extends JFrame {
 	private JTextField houseTemp;
 	private JTextField outsideTemp;
 	private JTextField enterNewUsername;
-	private model.Users user;
+	private Users user;
 	private JButton newUser;
 	private JComboBox comboBoxDeleteUser;
 	private JButton deleteUserButton;
@@ -232,8 +232,8 @@ public class SHSGui extends JFrame {
 		timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
 		pressbuttonEditContext = new JButton("Edit Context Of Simulator");
 		pressbuttonEditContext.setBounds(99, 450, 205, 29);
-		presstimebtn = new JButton("Set new time");
-		presstimebtn.setBounds(180, 165, 124, 29);
+		presstimebtn = new JButton("Set new Date & Time");
+		presstimebtn.setBounds(109, 165, 195, 29);
 		JLabel labelOutsideTemp = new JLabel("Outside Temp.");
 		labelOutsideTemp.setBounds(109, 206, 92, 16);
 		outsideTemp = new JTextField(5);
@@ -358,9 +358,9 @@ public class SHSGui extends JFrame {
 				.addGroup(gl_panelHouseInfo.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(houseTempLabel)
-					.addPreferredGap(ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
 					.addComponent(indoorHouseTempValue, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-					.addGap(80))
+					.addGap(78))
 		);
 		gl_panelHouseInfo.setVerticalGroup(
 			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
@@ -429,33 +429,44 @@ public class SHSGui extends JFrame {
 		userLocationLabel = new JLabel("N/A");
 
 		GroupLayout gl_panelProfileInfo = new GroupLayout(panelProfileInfo);
-		gl_panelProfileInfo.setHorizontalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(10)
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING).addComponent(labelRole)
-								.addComponent(labelLocation))
-						.addGap(182)
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(6)
-										.addComponent(userLocationLabel).addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-								.addComponent(comboBoxRole, 0, 152, Short.MAX_VALUE))
-						.addGap(10)));
-		gl_panelProfileInfo.setVerticalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(11)
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(4).addComponent(labelRole))
-								.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(6).addComponent(
-										labelBoxLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE))
-								.addGroup(gl_panelProfileInfo.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-												.addComponent(userLocationLabel).addComponent(labelLocation))))
-						.addContainerGap()));
+		gl_panelProfileInfo.setHorizontalGroup(
+			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup()
+					.addGap(10)
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+						.addComponent(labelRole)
+						.addComponent(labelLocation))
+					.addGap(182)
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(userLocationLabel)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(comboBoxRole, 0, 152, Short.MAX_VALUE))
+					.addGap(10))
+		);
+		gl_panelProfileInfo.setVerticalGroup(
+			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup()
+					.addGap(11)
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addGap(4)
+							.addComponent(labelRole))
+						.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addGap(6)
+							.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE))
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(labelLocation))
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(userLocationLabel)))
+					.addContainerGap())
+		);
 		panelProfileInfo.setLayout(gl_panelProfileInfo);
 		panelProfile.setLayout(gl_panelProfile);
 		contentPane.setLayout(gl_contentPane);

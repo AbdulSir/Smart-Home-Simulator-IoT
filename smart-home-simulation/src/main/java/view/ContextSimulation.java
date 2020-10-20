@@ -23,18 +23,14 @@ public class ContextSimulation extends JFrame {
 	private JPanel contentPane;
 
 	final Users users = new Users();
-	private JButton BlockWindows;
 	private JButton setLocation;
-	private JCheckBox BedroomCheckBox;
-	private JCheckBox BathroomCheckBox;
-	private JCheckBox GarageCheckBox;
-	private JCheckBox KitchenCheckBox;
-	private JCheckBox LivingRoomCheckBox;
-	private JCheckBox MasterBedroomCheckBox;
 	private HouseLayout panelHouse;
 	private ReadingJsonFile rjFile;
 	private JComboBox comboBoxUsers;
 	private JComboBox comboBoxLocation;
+	private JButton BlockButton;
+	private JButton UnblockButton;
+	private JComboBox comboBoxWindowLocation;
 
 	/**
 	 * Launch the application.
@@ -59,7 +55,7 @@ public class ContextSimulation extends JFrame {
 		setTitle("Edit Context of Simulation");
 
 		/** Window Size **/
-		setBounds(250, 250, 306, 539);
+		setBounds(250, 250, 306, 488);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -133,76 +129,59 @@ public class ContextSimulation extends JFrame {
 
 		/** Window Panel **/
 		JPanel panelWindows = new JPanel();
-		panelWindows.setBounds(5, 188, 179, 301);
+		panelWindows.setBounds(5, 188, 252, 251);
 		panelWindows.setBackground(Color.WHITE);
 
 		JLabel labelWindows = new JLabel("Block Windows");
-
-		/** Update Windows **/
-		BlockWindows = new JButton("Update");
-
-		/** Radio Button **/
-		BedroomCheckBox = new JCheckBox("BedRM");
-		BathroomCheckBox = new JCheckBox("BathRM");
-		GarageCheckBox = new JCheckBox("Garage");
-		KitchenCheckBox = new JCheckBox("Kitchen");
-		LivingRoomCheckBox = new JCheckBox("Living RM");
-		MasterBedroomCheckBox = new JCheckBox("Master BedRM");
+		
+		JLabel labelLocation_1 = new JLabel("Location:");
+		
+		comboBoxWindowLocation = new JComboBox();
+		
+		BlockButton = new JButton("Block");
+		
+		UnblockButton = new JButton("Unblock");
 		GroupLayout gl_panelWindows = new GroupLayout(panelWindows);
-		gl_panelWindows.setHorizontalGroup(gl_panelWindows.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
-						.addComponent(BathroomCheckBox, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE).addGap(185))
-				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
-						.addComponent(BedroomCheckBox, GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE).addGap(190))
-				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
-						.addComponent(GarageCheckBox, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE).addGap(202))
-				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
-						.addComponent(KitchenCheckBox, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE).addGap(198))
-				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
-						.addComponent(LivingRoomCheckBox, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE).addGap(167))
-				.addGroup(gl_panelWindows.createSequentialGroup().addContainerGap()
-						.addComponent(labelWindows, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE).addGap(193))
-				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
-						.addGroup(gl_panelWindows.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panelWindows.createSequentialGroup()
-										.addComponent(BlockWindows, GroupLayout.PREFERRED_SIZE, 144,
-												GroupLayout.PREFERRED_SIZE)
-										.addContainerGap())
-								.addGroup(gl_panelWindows.createSequentialGroup().addComponent(MasterBedroomCheckBox,
-										GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE).addGap(144)))));
-		gl_panelWindows.setVerticalGroup(gl_panelWindows.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelWindows.createSequentialGroup().addGap(12)
-						.addComponent(labelWindows, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE).addGap(18)
-						.addComponent(BathroomCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(12)
-						.addComponent(BedroomCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(12)
-						.addComponent(GarageCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(12)
-						.addComponent(KitchenCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(12)
-						.addComponent(LivingRoomCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(12)
-						.addComponent(MasterBedroomCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(18)
-						.addComponent(BlockWindows, GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE).addGap(25)));
+		gl_panelWindows.setHorizontalGroup(
+			gl_panelWindows.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelWindows.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelWindows.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelWindows.createSequentialGroup()
+							.addComponent(labelWindows, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(193))
+						.addGroup(gl_panelWindows.createSequentialGroup()
+							.addComponent(labelLocation_1, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(115, Short.MAX_VALUE))
+						.addGroup(gl_panelWindows.createSequentialGroup()
+							.addComponent(comboBoxWindowLocation, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(BlockButton)
+							.addContainerGap(10, Short.MAX_VALUE))))
+				.addGroup(gl_panelWindows.createSequentialGroup()
+					.addGap(74)
+					.addComponent(UnblockButton)
+					.addContainerGap(82, Short.MAX_VALUE))
+		);
+		gl_panelWindows.setVerticalGroup(
+			gl_panelWindows.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelWindows.createSequentialGroup()
+					.addGap(12)
+					.addComponent(labelWindows, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
+					.addGap(40)
+					.addComponent(labelLocation_1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelWindows.createParallelGroup(Alignment.BASELINE)
+						.addComponent(comboBoxWindowLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(BlockButton, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(UnblockButton)
+					.addGap(85))
+		);
 		panelWindows.setLayout(gl_panelWindows);
 		contentPane.setLayout(null);
 		contentPane.add(panelLocation);
 		contentPane.add(panelWindows);
-	}
-
-	public JCheckBox getGarageCheckBox() {
-		return GarageCheckBox;
-	}
-
-	public void setGarageCheckBox(JCheckBox garageCheckBox) {
-		GarageCheckBox = garageCheckBox;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JButton getBlockWindows() {
-		return BlockWindows;
-	}
-
-	public void setBlockWindows(JButton blockWindows) {
-		BlockWindows = blockWindows;
 	}
 
 	/**
@@ -226,76 +205,6 @@ public class ContextSimulation extends JFrame {
 	/**
 	 * Getter
 	 */
-	public JCheckBox getBedroomCheckBox() {
-		return BedroomCheckBox;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setBedroomCheckBox(JCheckBox bedroomCheckBox) {
-		BedroomCheckBox = bedroomCheckBox;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JCheckBox getBathroomCheckBox() {
-		return BathroomCheckBox;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setBathroomCheckBox(JCheckBox bathroomCheckBox) {
-		BathroomCheckBox = bathroomCheckBox;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JCheckBox getKitchenCheckBox() {
-		return KitchenCheckBox;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setKitchenCheckBox(JCheckBox kitchenCheckBox) {
-		KitchenCheckBox = kitchenCheckBox;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JCheckBox getLivingRoomCheckBox() {
-		return LivingRoomCheckBox;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setLivingRoomCheckBox(JCheckBox livingRoomCheckBox) {
-		LivingRoomCheckBox = livingRoomCheckBox;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JCheckBox getMasterBedroomCheckBox() {
-		return MasterBedroomCheckBox;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setMasterBedroomCheckBox(JCheckBox masterBedroomCheckBox) {
-		MasterBedroomCheckBox = masterBedroomCheckBox;
-	}
-
-	/**
-	 * Getter
-	 */
 	public JComboBox getComboBoxLocation() {
 		return comboBoxLocation;
 	}
@@ -314,4 +223,45 @@ public class ContextSimulation extends JFrame {
 		this.panelHouse = panelHouse;
 	}
 
+	/**
+	 * Getter
+	 */
+	public JButton getBlockButton() {
+		return BlockButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setBlockButton(JButton blockButton) {
+		BlockButton = blockButton;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getUnblockButton() {
+		return UnblockButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setUnblockButton(JButton unblockButton) {
+		UnblockButton = unblockButton;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JComboBox getComboBoxWindowLocation() {
+		return comboBoxWindowLocation;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setComboBoxWindowLocation(JComboBox comboBoxWindowLocation) {
+		this.comboBoxWindowLocation = comboBoxWindowLocation;
+	}
 }

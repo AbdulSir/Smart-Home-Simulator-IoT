@@ -42,15 +42,11 @@ public class Time {
 				String formattedValue = new SimpleDateFormat("HH:mm").format(value);
 				frame.getTimeValue().setText(formattedValue);
 				Date setDate = date.getDate();
-//				int year = date.getCalendar().YEAR;
-//				int month = date.getCalendar().MONTH;
-//				int day = date.getCalendar().DATE;
-//				String date1 = (day+"-"+month+"-"+year);
 				String strDate = DateFormat.getDateInstance().format(setDate);
 				frame.getDateValue().setText(strDate);
 				frame.repaint();
 				console.msg("The time has been set at " + formattedValue);
-				console.msg("the date has been set to " + strDate);
+				console.msg("The date has been set to " + strDate);
 			}
 		});
 	}

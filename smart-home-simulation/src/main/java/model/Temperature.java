@@ -20,27 +20,26 @@ public class Temperature {
 	private Console console;
 	private SHSGui Frame;
 
-	
 	/**
 	 * Constructor
 	 */
 	public Temperature() {
 	}
 
-	public Temperature(SHSGui frame,final JTextField out, final JTextField in, final Console console) {
+	public Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console) {
 		this.console = console;
 		out.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-	
+
 				// get text value
 				String outsideTempStrValue = out.getText();
 				// change str to int
 				int outsideTempIntValue = Integer.parseInt(outsideTempStrValue);
 				// call set method
 				setOutsideTemp(outsideTempIntValue);
-				frame.getOutdoorTemperatureValue().setText(outsideTempStrValue+ "°C");
+				frame.getOutdoorTemperatureValue().setText(outsideTempStrValue + "\u00B0C");
 				frame.repaint();
-				console.msg("The temperature for the outside of the house has been set at " + outsideTemp + "°C");
+				console.msg("The temperature for the outside of the house has been set at " + outsideTemp + "\u00B0C");
 			}
 		});
 
@@ -52,9 +51,9 @@ public class Temperature {
 				int insideTempIntValue = Integer.parseInt(insideTempStrValue);
 				// call set method
 				setInsideTemp(insideTempIntValue);
-				frame.getIndoorHouseTempValue().setText(insideTempStrValue+ " °C");
+				frame.getIndoorHouseTempValue().setText(insideTempStrValue + "\u00B0C");
 				frame.repaint();
-				console.msg("The temperature for the inside of the house has been set at " + insideTemp + "°C");
+				console.msg("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
 			}
 		});
 	}
@@ -67,7 +66,6 @@ public class Temperature {
 		}
 
 	}
-	
 
 	public int getOutsideTemp() {
 		return outsideTemp;

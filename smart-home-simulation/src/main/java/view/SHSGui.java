@@ -334,15 +334,15 @@ public class SHSGui extends JFrame {
 		dateLabel.setBounds(6, 6, 61, 16);
 		panel.add(dateLabel);
 
-		dateValue = new JLabel("");
-		dateValue.setBounds(254, 6, 61, 16);
+		dateValue = new JLabel("N/A");
+		dateValue.setBounds(254, 6, 161, 16);
 		panel.add(dateValue);
 
 		JLabel timeLabel = new JLabel("Time");
 		timeLabel.setBounds(6, 34, 61, 16);
 		panel.add(timeLabel);
 
-		timeValue = new JLabel("");
+		timeValue = new JLabel("N/A");
 		timeValue.setBounds(254, 34, 61, 16);
 		panel.add(timeValue);
 
@@ -350,21 +350,27 @@ public class SHSGui extends JFrame {
 
 		JLabel houseTempLabel = new JLabel("House Temp.");
 
-		indoorHouseTempValue = new JLabel("");
-
-		JLabel indoorHouseTempC = new JLabel("°C");
+		indoorHouseTempValue = new JLabel("0");
 
 		GroupLayout gl_panelHouseInfo = new GroupLayout(panelHouseInfo);
-		gl_panelHouseInfo.setHorizontalGroup(gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelHouseInfo.createSequentialGroup().addContainerGap().addComponent(houseTempLabel)
-						.addPreferredGap(ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
-						.addComponent(indoorHouseTempValue).addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(indoorHouseTempC).addGap(87)));
-		gl_panelHouseInfo.setVerticalGroup(gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelHouseInfo.createSequentialGroup().addContainerGap()
-						.addGroup(gl_panelHouseInfo.createParallelGroup(Alignment.BASELINE).addComponent(houseTempLabel)
-								.addComponent(indoorHouseTempValue).addComponent(indoorHouseTempC))
-						.addContainerGap(20, Short.MAX_VALUE)));
+		gl_panelHouseInfo.setHorizontalGroup(
+			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelHouseInfo.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(houseTempLabel)
+					.addPreferredGap(ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+					.addComponent(indoorHouseTempValue, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+					.addGap(80))
+		);
+		gl_panelHouseInfo.setVerticalGroup(
+			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelHouseInfo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelHouseInfo.createParallelGroup(Alignment.BASELINE)
+						.addComponent(houseTempLabel)
+						.addComponent(indoorHouseTempValue, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(20, Short.MAX_VALUE))
+		);
 		panelHouseInfo.setLayout(gl_panelHouseInfo);
 
 		/** Weather Label **/
@@ -377,33 +383,37 @@ public class SHSGui extends JFrame {
 
 		JLabel weatherLabel = new JLabel("Weather");
 
-		outdoorTemperatureValue = new JLabel("");
+		outdoorTemperatureValue = new JLabel("0");
 
-		JLabel outdoorTemperatureC = new JLabel("°C");
-
-		weatherValue = new JLabel("");
+		weatherValue = new JLabel("N/A");
 
 		GroupLayout gl_panelOutsideInfo = new GroupLayout(panelOutsideInfo);
-		gl_panelOutsideInfo.setHorizontalGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelOutsideInfo.createSequentialGroup().addContainerGap()
-						.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
-								.addComponent(outdoorTemperatureLabel).addComponent(weatherLabel))
-						.addGap(151)
-						.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panelOutsideInfo.createSequentialGroup()
-										.addComponent(outdoorTemperatureValue)
-										.addPreferredGap(ComponentPlacement.RELATED).addComponent(outdoorTemperatureC))
-								.addComponent(weatherValue))
-						.addContainerGap(87, Short.MAX_VALUE)));
-		gl_panelOutsideInfo.setVerticalGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelOutsideInfo.createSequentialGroup().addContainerGap()
-						.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.BASELINE)
-								.addComponent(outdoorTemperatureLabel).addComponent(outdoorTemperatureValue)
-								.addComponent(outdoorTemperatureC))
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.BASELINE).addComponent(weatherLabel)
-								.addComponent(weatherValue))
-						.addContainerGap(14, Short.MAX_VALUE)));
+		gl_panelOutsideInfo.setHorizontalGroup(
+			gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelOutsideInfo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
+						.addComponent(outdoorTemperatureLabel)
+						.addComponent(weatherLabel))
+					.addGap(151)
+					.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
+						.addComponent(weatherValue)
+						.addComponent(outdoorTemperatureValue, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(67, Short.MAX_VALUE))
+		);
+		gl_panelOutsideInfo.setVerticalGroup(
+			gl_panelOutsideInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelOutsideInfo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.BASELINE)
+						.addComponent(outdoorTemperatureLabel)
+						.addComponent(outdoorTemperatureValue, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panelOutsideInfo.createParallelGroup(Alignment.BASELINE)
+						.addComponent(weatherLabel)
+						.addComponent(weatherValue))
+					.addContainerGap(14, Short.MAX_VALUE))
+		);
 		panelOutsideInfo.setLayout(gl_panelOutsideInfo);
 
 		/** Users Location **/

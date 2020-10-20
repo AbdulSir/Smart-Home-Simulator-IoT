@@ -7,6 +7,7 @@ package model;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -40,14 +41,16 @@ public class Time {
 				Date value = (Date) time.getValue();
 				String formattedValue = new SimpleDateFormat("HH:mm").format(value);
 				frame.getTimeValue().setText(formattedValue);
-				int year = date.getCalendar().YEAR;
-				int month = date.getCalendar().MONTH;
-				int day = date.getCalendar().DATE;
-				String date1 = (day+"-"+month+"-"+year);
-				frame.getDateValue().setText(date1);
+				Date setDate = date.getDate();
+//				int year = date.getCalendar().YEAR;
+//				int month = date.getCalendar().MONTH;
+//				int day = date.getCalendar().DATE;
+//				String date1 = (day+"-"+month+"-"+year);
+				String strDate = DateFormat.getDateInstance().format(setDate);
+				frame.getDateValue().setText(strDate);
 				frame.repaint();
 				console.msg("The time has been set at " + formattedValue);
-				console.msg("the date has been set to " + date1);
+				console.msg("the date has been set to " + strDate);
 			}
 		});
 	}

@@ -38,7 +38,7 @@ public class Temperature {
 				int outsideTempIntValue = Integer.parseInt(outsideTempStrValue);
 				// call set method
 				setOutsideTemp(outsideTempIntValue);
-				frame.getOutdoorTemperatureValue().setText(outsideTempStrValue);
+				frame.getOutdoorTemperatureValue().setText(outsideTempStrValue+ "°C");
 				frame.repaint();
 				console.msg("The temperature for the outside of the house has been set at " + outsideTemp + "°C");
 			}
@@ -52,7 +52,7 @@ public class Temperature {
 				int insideTempIntValue = Integer.parseInt(insideTempStrValue);
 				// call set method
 				setInsideTemp(insideTempIntValue);
-				frame.getIndoorHouseTempValue().setText(insideTempStrValue);
+				frame.getIndoorHouseTempValue().setText(insideTempStrValue+ " °C");
 				frame.repaint();
 				console.msg("The temperature for the inside of the house has been set at " + insideTemp + "°C");
 			}

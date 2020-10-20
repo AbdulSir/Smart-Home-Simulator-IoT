@@ -11,6 +11,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import com.toedter.calendar.JDateChooser;
 
 import controller.HouseLayout;
+import controller.ReadingJsonFile;
 import controller.Users;
 
 import java.awt.event.ActionListener;
@@ -20,20 +21,20 @@ import java.awt.event.ActionEvent;
 public class ContextSimulation extends JFrame {
 
 	private JPanel contentPane;
-	
 
 	final Users users = new Users();
 	private JButton BlockWindows;
 	private JButton setLocation;
-	private final JComboBox comboBoxUsers;
-	private final JComboBox comboBoxLocation;
-	private JRadioButton BedroomRadioButton;
-	private JRadioButton BathroomRadioButton;
-	private JRadioButton GarageRadioButton;
-	private JRadioButton KitchenRadioButton;
-	private JRadioButton LivingRoomRadioButton;
-	private JRadioButton MasterBedroomRadioButton;
+	private JCheckBox BedroomCheckBox;
+	private JCheckBox BathroomCheckBox;
+	private JCheckBox GarageCheckBox;
+	private JCheckBox KitchenCheckBox;
+	private JCheckBox LivingRoomCheckBox;
+	private JCheckBox MasterBedroomCheckBox;
 	private HouseLayout panelHouse;
+	private ReadingJsonFile rjFile;
+	private JComboBox comboBoxUsers;
+	private JComboBox comboBoxLocation;
 
 	/**
 	 * Launch the application.
@@ -54,140 +55,143 @@ public class ContextSimulation extends JFrame {
 	 * Create the frame.
 	 */
 	public ContextSimulation() {
+		/** Window Title **/
 		setTitle("Edit Context of Simulation");
-		setBounds(250, 250, 1200, 700);
+
+		/** Window Size **/
+		setBounds(250, 250, 306, 539);
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		// contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 
+		/** Location Panel **/
 		JPanel panelLocation = new JPanel();
-		panelLocation.setBounds(55, 10, 384, 284);
+		panelLocation.setBounds(5, 11, 252, 166);
 		panelLocation.setBackground(Color.WHITE);
-		contentPane.add(panelLocation);
 
-		JPanel panelProfileInfo_1 = new JPanel();
-
+		/** User Location Panel **/
+		JPanel panelUserLocation = new JPanel();
 		JLabel labelUsers = new JLabel("User:");
 		comboBoxUsers = new JComboBox();
-		PopupMenuListener userListListener = new PopupMenuListener() {
-			boolean initialized = false;
 
-			public void popupMenuCanceled(PopupMenuEvent e) {
-			}
-
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-			}
-
-			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-				if (!initialized) {
-					String[] userNameArray = new String[users.getUserList().size()];
-					for (int i = 0; i < userNameArray.length; i++) {
-						userNameArray[i] = users.getUserList().get(i).getName();
-					}
-					comboBoxUsers.setModel(new DefaultComboBoxModel(userNameArray));
-				}
-			}
-		};
-		comboBoxUsers.addPopupMenuListener(userListListener);
-
+		/** Label Location **/
 		JLabel labelLocation = new JLabel("Location:");
-		comboBoxLocation = new JComboBox();
-		comboBoxLocation.setModel(new DefaultComboBoxModel(new String[] { "BedRM", "Master BedRM", "Kitchen",
-				"BathRM", "Living RM", "Garage", "Hallway", "Outside" }));
+		comboBoxLocation = new JComboBox();		
 
+		/** Set Location Button **/
 		setLocation = new JButton("Set Location");
 
-		GroupLayout gl_panelProfileInfo_1 = new GroupLayout(panelProfileInfo_1);
-		gl_panelProfileInfo_1.setHorizontalGroup(gl_panelProfileInfo_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo_1.createSequentialGroup().addGroup(gl_panelProfileInfo_1
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelProfileInfo_1.createSequentialGroup().addContainerGap()
-								.addGroup(gl_panelProfileInfo_1.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_panelProfileInfo_1.createSequentialGroup().addComponent(labelUsers)
-												.addPreferredGap(ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+		GroupLayout gl_panelUserLocation = new GroupLayout(panelUserLocation);
+		gl_panelUserLocation.setHorizontalGroup(gl_panelUserLocation.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelUserLocation.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panelUserLocation.createParallelGroup(Alignment.LEADING)
+								.addGroup(Alignment.TRAILING,
+										gl_panelUserLocation.createSequentialGroup().addComponent(labelUsers)
+												.addPreferredGap(ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
 												.addComponent(comboBoxUsers, GroupLayout.PREFERRED_SIZE, 152,
 														GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_panelProfileInfo_1.createSequentialGroup()
-												.addComponent(labelLocation)
-												.addPreferredGap(ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+								.addGroup(Alignment.TRAILING,
+										gl_panelUserLocation.createSequentialGroup().addComponent(labelLocation)
+												.addPreferredGap(ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
 												.addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE, 152,
-														GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_panelProfileInfo_1.createSequentialGroup().addGap(77).addComponent(setLocation)))
+														GroupLayout.PREFERRED_SIZE))
+								.addComponent(setLocation))
 						.addContainerGap()));
-		gl_panelProfileInfo_1.setVerticalGroup(gl_panelProfileInfo_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo_1.createSequentialGroup().addContainerGap()
-						.addGroup(gl_panelProfileInfo_1.createParallelGroup(Alignment.BASELINE).addComponent(labelUsers)
+		gl_panelUserLocation.setVerticalGroup(gl_panelUserLocation.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelUserLocation.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panelUserLocation.createParallelGroup(Alignment.BASELINE).addComponent(labelUsers)
 								.addComponent(comboBoxUsers, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 										GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(gl_panelProfileInfo_1.createParallelGroup(Alignment.BASELINE)
+						.addGroup(gl_panelUserLocation.createParallelGroup(Alignment.BASELINE)
 								.addComponent(labelLocation).addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE,
 										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(setLocation)));
-		panelProfileInfo_1.setLayout(gl_panelProfileInfo_1);
+						.addGap(18).addComponent(setLocation)
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		panelUserLocation.setLayout(gl_panelUserLocation);
 
-		JLabel lblNewLabel = new JLabel("Set Location of Users");
+		JLabel labelUserLocation = new JLabel("Set Location of Users");
 
 		GroupLayout gl_panelLocation = new GroupLayout(panelLocation);
-		gl_panelLocation.setHorizontalGroup(gl_panelLocation.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelLocation.createSequentialGroup().addGap(123).addComponent(lblNewLabel)
-						.addContainerGap(128, Short.MAX_VALUE))
-				.addGroup(gl_panelLocation.createSequentialGroup().addContainerGap(58, Short.MAX_VALUE)
-						.addComponent(panelProfileInfo_1, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
-						.addGap(54)));
+		gl_panelLocation.setHorizontalGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panelLocation.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panelLocation.createParallelGroup(Alignment.TRAILING)
+								.addComponent(panelUserLocation, GroupLayout.PREFERRED_SIZE, 233,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(labelUserLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE))
+						.addContainerGap()));
 		gl_panelLocation
-				.setVerticalGroup(
-						gl_panelLocation.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panelLocation.createSequentialGroup().addContainerGap()
-										.addComponent(lblNewLabel).addGap(73).addComponent(panelProfileInfo_1,
-												GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(80, Short.MAX_VALUE)));
+				.setVerticalGroup(gl_panelLocation.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelLocation.createSequentialGroup().addContainerGap()
+								.addComponent(labelUserLocation, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(panelUserLocation,
+										GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()));
 		panelLocation.setLayout(gl_panelLocation);
 
-		panelHouse = new HouseLayout();
-		panelHouse.setBounds(485, 10, 728, 662);
-		panelHouse.setBackground(Color.WHITE);
-		contentPane.add(panelHouse);
-		panelHouse.setLayout(null);
-
-		JLabel lblNewLabel_2_1 = new JLabel("House Layout");
-		lblNewLabel_2_1.setBounds(300, 6, 86, 16);
-		panelHouse.add(lblNewLabel_2_1);
-
+		/** Window Panel **/
 		JPanel panelWindows = new JPanel();
-		panelWindows.setBounds(55, 306, 384, 366);
+		panelWindows.setBounds(5, 188, 179, 301);
 		panelWindows.setBackground(Color.WHITE);
-		contentPane.add(panelWindows);
 
-		JLabel lblWindows = new JLabel("Block Windows");
-		lblWindows.setBounds(150, 6, 94, 16);
+		JLabel labelWindows = new JLabel("Block Windows");
+
+		/** Update Windows **/
 		BlockWindows = new JButton("Update");
-		BlockWindows.setBounds(150, 296, 88, 29);
 
-		BedroomRadioButton = new JRadioButton("BedRM");
-		BedroomRadioButton.setBounds(20, 81, 87, 23);
-		BathroomRadioButton = new JRadioButton("BathRM");
-		BathroomRadioButton.setBounds(20, 46, 92, 23);
-		GarageRadioButton = new JRadioButton("Garage");
-		GarageRadioButton.setBounds(20, 116, 75, 23);
-		KitchenRadioButton = new JRadioButton("Kitchen");
-		KitchenRadioButton.setBounds(20, 151, 79, 23);
-		LivingRoomRadioButton = new JRadioButton("Living RM");
-		LivingRoomRadioButton.setBounds(20, 186, 110, 23);
-		MasterBedroomRadioButton = new JRadioButton("Master BedRM");
-		MasterBedroomRadioButton.setBounds(20, 221, 133, 23);
-		panelWindows.setLayout(null);
-		panelWindows.add(lblWindows);
-		panelWindows.add(GarageRadioButton);
-		panelWindows.add(KitchenRadioButton);
-		panelWindows.add(LivingRoomRadioButton);
-		panelWindows.add(MasterBedroomRadioButton);
-		panelWindows.add(BedroomRadioButton);
-		panelWindows.add(BathroomRadioButton);
-		panelWindows.add(BlockWindows);
+		/** Radio Button **/
+		BedroomCheckBox = new JCheckBox("BedRM");
+		BathroomCheckBox = new JCheckBox("BathRM");
+		GarageCheckBox = new JCheckBox("Garage");
+		KitchenCheckBox = new JCheckBox("Kitchen");
+		LivingRoomCheckBox = new JCheckBox("Living RM");
+		MasterBedroomCheckBox = new JCheckBox("Master BedRM");
+		GroupLayout gl_panelWindows = new GroupLayout(panelWindows);
+		gl_panelWindows.setHorizontalGroup(gl_panelWindows.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
+						.addComponent(BathroomCheckBox, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE).addGap(185))
+				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
+						.addComponent(BedroomCheckBox, GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE).addGap(190))
+				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
+						.addComponent(GarageCheckBox, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE).addGap(202))
+				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
+						.addComponent(KitchenCheckBox, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE).addGap(198))
+				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
+						.addComponent(LivingRoomCheckBox, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE).addGap(167))
+				.addGroup(gl_panelWindows.createSequentialGroup().addContainerGap()
+						.addComponent(labelWindows, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE).addGap(193))
+				.addGroup(gl_panelWindows.createSequentialGroup().addGap(20)
+						.addGroup(gl_panelWindows.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panelWindows.createSequentialGroup()
+										.addComponent(BlockWindows, GroupLayout.PREFERRED_SIZE, 144,
+												GroupLayout.PREFERRED_SIZE)
+										.addContainerGap())
+								.addGroup(gl_panelWindows.createSequentialGroup().addComponent(MasterBedroomCheckBox,
+										GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE).addGap(144)))));
+		gl_panelWindows.setVerticalGroup(gl_panelWindows.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelWindows.createSequentialGroup().addGap(12)
+						.addComponent(labelWindows, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE).addGap(18)
+						.addComponent(BathroomCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(12)
+						.addComponent(BedroomCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(12)
+						.addComponent(GarageCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(12)
+						.addComponent(KitchenCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(12)
+						.addComponent(LivingRoomCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(12)
+						.addComponent(MasterBedroomCheckBox, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE).addGap(18)
+						.addComponent(BlockWindows, GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE).addGap(25)));
+		panelWindows.setLayout(gl_panelWindows);
+		contentPane.setLayout(null);
+		contentPane.add(panelLocation);
+		contentPane.add(panelWindows);
+	}
+
+	public JCheckBox getGarageCheckBox() {
+		return GarageCheckBox;
+	}
+
+	public void setGarageCheckBox(JCheckBox garageCheckBox) {
+		GarageCheckBox = garageCheckBox;
 	}
 
 	/**
@@ -222,6 +226,76 @@ public class ContextSimulation extends JFrame {
 	/**
 	 * Getter
 	 */
+	public JCheckBox getBedroomCheckBox() {
+		return BedroomCheckBox;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setBedroomCheckBox(JCheckBox bedroomCheckBox) {
+		BedroomCheckBox = bedroomCheckBox;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JCheckBox getBathroomCheckBox() {
+		return BathroomCheckBox;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setBathroomCheckBox(JCheckBox bathroomCheckBox) {
+		BathroomCheckBox = bathroomCheckBox;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JCheckBox getKitchenCheckBox() {
+		return KitchenCheckBox;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setKitchenCheckBox(JCheckBox kitchenCheckBox) {
+		KitchenCheckBox = kitchenCheckBox;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JCheckBox getLivingRoomCheckBox() {
+		return LivingRoomCheckBox;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setLivingRoomCheckBox(JCheckBox livingRoomCheckBox) {
+		LivingRoomCheckBox = livingRoomCheckBox;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JCheckBox getMasterBedroomCheckBox() {
+		return MasterBedroomCheckBox;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setMasterBedroomCheckBox(JCheckBox masterBedroomCheckBox) {
+		MasterBedroomCheckBox = masterBedroomCheckBox;
+	}
+
+	/**
+	 * Getter
+	 */
 	public JComboBox getComboBoxLocation() {
 		return comboBoxLocation;
 	}
@@ -229,88 +303,15 @@ public class ContextSimulation extends JFrame {
 	/**
 	 * Getter
 	 */
-	public JRadioButton getBedroomRadioButton() {
-		return BedroomRadioButton;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setBedroomRadioButton(JRadioButton bedroomRadioButton) {
-		BedroomRadioButton = bedroomRadioButton;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JRadioButton getBathroomRadioButton() {
-		return BathroomRadioButton;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setBathroomRadioButton(JRadioButton bathroomRadioButton) {
-		BathroomRadioButton = bathroomRadioButton;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JRadioButton getGarageRadioButton() {
-		return GarageRadioButton;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setGarageRadioButton(JRadioButton garageRadioButton) {
-		GarageRadioButton = garageRadioButton;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JRadioButton getKitchenRadioButton() {
-		return KitchenRadioButton;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setKitchenRadioButton(JRadioButton kitchenRadioButton) {
-		KitchenRadioButton = kitchenRadioButton;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JRadioButton getLivingRoomRadioButton() {
-		return LivingRoomRadioButton;
-	}
-
-	public void setLivingRoomRadioButton(JRadioButton livingRoomRadioButton) {
-		LivingRoomRadioButton = livingRoomRadioButton;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JRadioButton getMasterBedroomRadioButton() {
-		return MasterBedroomRadioButton;
-	}
-
-	public void setMasterBedroomRadioButton(JRadioButton masterBedroomRadioButton) {
-		MasterBedroomRadioButton = masterBedroomRadioButton;
-	}
-
-	public HouseLayout getPanelHouse() {
+	public JPanel getPanelHouse() {
 		return panelHouse;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setPanelHouse(HouseLayout panelHouse) {
 		this.panelHouse = panelHouse;
 	}
-	
-	
+
 }

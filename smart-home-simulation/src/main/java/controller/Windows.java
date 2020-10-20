@@ -6,22 +6,28 @@ public class Windows {
 	private String location;
 	private boolean blocked;
 	private static ArrayList<Windows> windowList = new ArrayList<Windows>();
-	
+
 	public Windows() {
 		location = "";
 		blocked = false;
 	}
-	
+
 	public Windows(String location) {
 		this.location = location;
 		blocked = false;
 		windowList.add(this);
 	}
 
+	/**
+	 * Getter
+	 */
 	public String getLocation() {
 		return location;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setLocation(String location) {
 		this.location = location;
 	}
@@ -30,14 +36,25 @@ public class Windows {
 		return blocked;
 	}
 
-	public void setBlocked(boolean blocked) {
-		this.blocked = blocked;
-	}
-
+	/**
+	 * List of Windows
+	 * 
+	 * @return All Windows
+	 */
 	public static ArrayList<Windows> getWindowList() {
 		return windowList;
 	}
 
+	/**
+	 * Setter
+	 */
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
+
+	/**
+	 * Setter
+	 */
 	public static void setWindowList(ArrayList<Windows> windowList) {
 		Windows.windowList = windowList;
 	}

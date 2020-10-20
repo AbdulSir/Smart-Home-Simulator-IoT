@@ -14,7 +14,11 @@ import org.json.simple.parser.JSONParser;
 
 public class CreatingJsonFile {
 
-
+	/**
+	 * Generate a .json file
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		JSONArray rooms = new JSONArray();
 		rooms.add("BedRM");
@@ -26,18 +30,17 @@ public class CreatingJsonFile {
 		JSONObject container = new JSONObject();
 		container.put("Rooms", rooms);
 
-		try 
-		{
+		try {
 			PrintWriter pw = new PrintWriter("myJSON.json");
 			pw.write(container.toString());
 			pw.flush();
 			pw.close();
-	
+
 		}
-		
+
 		catch (IOException e) {
 			e.getMessage();
 		}
- 
+
 	}
 }

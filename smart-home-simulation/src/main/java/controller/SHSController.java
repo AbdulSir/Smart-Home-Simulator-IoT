@@ -1,16 +1,22 @@
 package controller;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 import view.ContextSimulation;
 import view.SHSGui;
@@ -22,36 +28,93 @@ public class SHSController {
 	private Users user;
 	private SimulationButton simulationButton;
 	private EditSimulation editSimulation;
-
+	private HouseLayout houseLayout;
+	private ReadingJsonFile rjFile;
+	private ContextSimulation contextSimulation;
+	
+	public SHSController() {}
+	
 	public SHSController(SHSGui frame) {
-		// main ui
+		/** Main GUI **/
 		this.frame = frame;
+		user = new Users();
+		
+		/** Create default User **/
+		Users defaultUser = new Users("Admin");
 
-		// Create First User
-		Users FirstUser = new Users("Admin");
-
-		// control console
+		/** Control Console **/
 		this.console = new Console(frame.getTextAreaConsoleLog());
 		console.msg("Welcome to the Smart Home Simulator");
 
-		this.temperature = new Temperature(frame.getOutsideTemp(), frame.getHouseTemp(), console);
-		// simulation button
+		/** Simulation Button **/
 		this.simulationButton = new SimulationButton(frame.getTogglebuttonSimulator(), console);
 
-		// edit simuatlion
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console);
-		
-		// event handler
-		createEvents();
+		/** Temperature Control **/
+		this.temperature = new Temperature(frame.getOutsideTemp(), frame.getHouseTemp(), console);
 
+		/** Edit Simuatlion **/
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
+
+		// Open File
+		readFileEvent();
+
+		// User Event Handler
+		userEvents();
 	}
 
-	//////////////////////////////////////////////////////////////
-	// This method contains all of the code for creating events
-	//////////////////////////////////////////////////////////////
-	private void createEvents() {
+	/**
+	 * Read File Event Handler
+	 */
+	private void readFileEvent() {
 
-		/** Event that changes user logged in **/
+		/** Open File **/
+		this.frame.getMntmOpen().addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				// open file explorer
+				JFileChooser jFileChooser = new JFileChooser();
+				jFileChooser.setDialogTitle("Choose a JSON file: ");
+				jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				jFileChooser.setCurrentDirectory(new File("."));
+
+				// get file name
+				int returnValue = jFileChooser.showSaveDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					if (jFileChooser.getSelectedFile().isFile()) {
+						System.out.println("You selected: " + jFileChooser.getSelectedFile());
+					}
+				}
+
+				// read .json file
+				rjFile = new ReadingJsonFile(jFileChooser.getSelectedFile().toString());
+				//rjFile.getRoomArray().size() - Number of rooms in the JSON file
+				//+ 2 - Outside and Hallway
+				String[] userRoomArray = new String[rjFile.getRoomArray().size()+2];
+
+				// get value from array
+				for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
+					userRoomArray[i] = rjFile.getRoomArray().get(i).toString();
+				}
+				userRoomArray[userRoomArray.length - 1] = "Outside";
+				userRoomArray[userRoomArray.length - 2] = "Hallway";
+				// 2d layout
+				houseLayout = new HouseLayout(rjFile);
+				frame.getPanelView().add(houseLayout);
+				
+				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
+
+				// refresh layout
+				frame.repaint();
+			}
+		});
+	}
+
+	/**
+	 * User Event Handler
+	 */
+	private void userEvents() {
+
+		/** Changes User Logged In **/
 		final JComboBox comboBoxRole = this.frame.getJComboRole();
 		user = new Users();
 		comboBoxRole.addActionListener(new ActionListener() {
@@ -63,6 +126,8 @@ public class SHSController {
 					if (user.getName().equalsIgnoreCase(userToMakeActive)) {
 						user.setActiveUser(true);
 						console.msg(user.getName() + " is now logged in");
+						frame.getUserLocationLabel().setText(user.getLocation());
+						frame.repaint();
 						break;
 					} else {
 						continue;
@@ -72,7 +137,7 @@ public class SHSController {
 			}
 		});
 
-		/** Add User functionality **/
+		/** Add Use **/
 		JButton addNewUserButton = this.frame.getnewUserButton();
 		final JTextField enterNewUsername = this.frame.getNewUserName();
 		addNewUserButton.addMouseListener(new MouseAdapter() {
@@ -82,16 +147,17 @@ public class SHSController {
 				Users New = new Users(NewUsername);
 				int index = 0;
 				for (int i = 0; i < user.getUserList().size(); i++) {
-					if(user.getUserList().get(i).getName().equals(NewUsername)) {
+					if (user.getUserList().get(i).getName().equals(NewUsername)) {
 						index = i;
 						break;
 					}
 				}
 				console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+				frame.repaint();
 			}
 		});
 
-		/** Delete User functionality **/
+		/** Delete User **/
 		JButton deleteUserButton = this.frame.getDeleteUserButton();
 		final JComboBox comboBoxDeleteUser = this.frame.getDeleteUserBox();
 		deleteUserButton.addMouseListener(new MouseAdapter() {
@@ -102,7 +168,8 @@ public class SHSController {
 				for (Users user : userList) {
 					if (user.getName().equalsIgnoreCase(userToDelete)) {
 						userList.remove(user);
-						console.msg(userToDelete + " Deleted");
+						console.msg(userToDelete + "'s profile has been deleted from the system");
+						frame.repaint();
 						break;
 					} else {
 						continue;
@@ -111,7 +178,29 @@ public class SHSController {
 			}
 		});
 
-		// Will update User pop up menu every time the user opens the menu
+		/** Will update User pop up menu every time the user opens the menu **/
+		PopupMenuListener userListListener = new PopupMenuListener() {
+			boolean initialized = false;
+
+			public void popupMenuCanceled(PopupMenuEvent e) {
+			}
+
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+			}
+
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				if (!initialized) {
+					String[] userNameArray = new String[user.getUserList().size()];
+					for (int i = 0; i < userNameArray.length; i++) {
+						userNameArray[i] = user.getUserList().get(i).getName();
+					}
+					comboBoxRole.setModel(new DefaultComboBoxModel(userNameArray));
+				}
+			}
+		};
+		comboBoxRole.addPopupMenuListener(userListListener);
+
+		/** Will update User pop up menu every time the user opens the menu **/
 		PopupMenuListener userDeletedListener = new PopupMenuListener() {
 			boolean initialized = false;
 

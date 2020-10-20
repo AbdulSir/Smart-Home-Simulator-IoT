@@ -1,8 +1,10 @@
-package controller;
+package model;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+
+import controller.SimulationButtonTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ LogInTest.class, ManageUserTest.class, MoveLoggedUser.class, PlacePeopleTest.class,

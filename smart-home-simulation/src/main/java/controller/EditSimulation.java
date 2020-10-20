@@ -7,6 +7,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import model.Users;
+import model.Windows;
 import view.ContextSimulation;
 import view.SHSGui;
 

@@ -18,6 +18,11 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
+import model.HouseLayout;
+import model.ReadingJsonFile;
+import model.Temperature;
+import model.Time;
+import model.Users;
 import view.ContextSimulation;
 import view.SHSGui;
 
@@ -51,9 +56,9 @@ public class SHSController {
 		this.simulationButton = new SimulationButton(frame.getTogglebuttonSimulator(), console);
 
 		/** Temperature Control **/
-		this.temperature = new Temperature(frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		this.temperature = new Temperature(frame,frame.getOutsideTemp(), frame.getHouseTemp(), console);
 		/** Time **/
-		this.time = new Time(frame.getPresstimeBtn(), frame.getTimeSpinner(), console);
+		this.time = new Time(frame,frame.getPresstimeBtn(), frame.getTimeSpinner(),frame.getDateChooser(), console);
 
 		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
@@ -129,6 +134,8 @@ public class SHSController {
 					if (user.getName().equalsIgnoreCase(userToMakeActive)) {
 						user.setActiveUser(true);
 						console.msg(user.getName() + " is now logged in");
+						frame.getUserLocationLabel().setText(user.getLocation());
+                        frame.repaint();
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.repaint();
 						break;
@@ -220,6 +227,15 @@ public class SHSController {
 			}
 		};
 		comboBoxDeleteUser.addPopupMenuListener(userDeletedListener);
+		
+		frame.getComboBoxWeather().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String weather = frame.getComboBoxWeather().getSelectedItem().toString();
+				frame.getWeatherValue().setText(weather);
+				frame.repaint();
+				
+				}
+		});
 
 	}
 }

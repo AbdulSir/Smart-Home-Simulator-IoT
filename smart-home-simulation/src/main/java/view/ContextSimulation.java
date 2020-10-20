@@ -10,9 +10,9 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import com.toedter.calendar.JDateChooser;
 
-import controller.HouseLayout;
-import controller.ReadingJsonFile;
-import controller.Users;
+import model.Users;
+import model.HouseLayout;
+import model.ReadingJsonFile;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

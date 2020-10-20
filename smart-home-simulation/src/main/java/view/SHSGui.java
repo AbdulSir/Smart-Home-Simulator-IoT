@@ -53,6 +53,7 @@ public class SHSGui extends JFrame {
 	private JLabel labelBoxLocation;
 	private JComboBox comboBoxRole;
 	private JLabel userLocationLabel;
+	private JSpinner timeSpinner;
 	
 	/**
 	 * Launch the application.
@@ -206,7 +207,7 @@ public class SHSGui extends JFrame {
 		/* Calendar **/
 		JDateChooser dateChooser = new JDateChooser();
 		JLabel labelTime = new JLabel("Time: ");
-		JSpinner timeSpinner = new JSpinner();
+		timeSpinner = new JSpinner();
 		timeSpinner.setModel(new SpinnerDateModel());
 		timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm:ss"));
 		pressbuttonEditContext = new JButton("Edit Context Of Simulator");
@@ -626,5 +627,11 @@ public class SHSGui extends JFrame {
 	 */
 	public void setUserLocationLabel(JLabel userLocationLabel) {
 		this.userLocationLabel = userLocationLabel;
+	}
+	/**
+	 * Getter
+	 */
+	public JSpinner getTimeSpinner() {
+		return timeSpinner;
 	}
 }

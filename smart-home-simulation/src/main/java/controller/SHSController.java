@@ -191,9 +191,7 @@ public class SHSController {
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				if (!initialized) {
 					String[] userNameArray = new String[user.getUserList().size()];
-					for (int i = 0; i < userNameArray.length; i++) {
-						userNameArray[i] = user.getUserList().get(i).getName();
-					}
+					userNameArray = user.getUserStringArray();
 					comboBoxRole.setModel(new DefaultComboBoxModel(userNameArray));
 				}
 			}
@@ -213,9 +211,7 @@ public class SHSController {
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				if (!initialized) {
 					String[] userNameArray = new String[user.getUserList().size()];
-					for (int i = 0; i < userNameArray.length; i++) {
-						userNameArray[i] = user.getUserList().get(i).getName();
-					}
+					userNameArray = user.getUserStringArray();
 					comboBoxDeleteUser.setModel(new DefaultComboBoxModel(userNameArray));
 				}
 			}

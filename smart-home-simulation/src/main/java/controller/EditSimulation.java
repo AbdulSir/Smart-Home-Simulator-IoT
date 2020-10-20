@@ -143,9 +143,7 @@ public class EditSimulation {
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				if (!initialized) {
 					String[] userNameArray = new String[user.getUserList().size()];
-					for (int i = 0; i < userNameArray.length; i++) {
-						userNameArray[i] = user.getUserList().get(i).getName();
-					}
+					userNameArray = user.getUserStringArray();
 					context.getComboBoxUsers().setModel(new DefaultComboBoxModel(userNameArray));
 				}
 			}

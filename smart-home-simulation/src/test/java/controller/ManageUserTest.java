@@ -12,7 +12,7 @@ import org.junit.Test;
 import view.SHSGui;
 
 public class ManageUserTest {
-
+	// Use Case ID 2
 	@Test
 	public void addUserTest() {
 		// Add user

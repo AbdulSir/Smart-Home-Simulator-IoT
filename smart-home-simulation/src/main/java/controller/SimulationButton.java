@@ -9,7 +9,16 @@ public class SimulationButton {
 
 	private JToggleButton simulationButton;
 	private Console console;
-
+	private boolean simulatorState;
+	
+	
+	/**
+	 * constructor
+	 */
+	public SimulationButton() {
+		simulatorState = false;
+		
+	}
 	/**
 	 * Constructor
 	 * 
@@ -34,14 +43,31 @@ public class SimulationButton {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				int state = itemEvent.getStateChange();
 
-				if (state == ItemEvent.SELECTED)
+				if (state == ItemEvent.SELECTED) {
+					setSimulatorState(true);
 					console.msg("Simulator ON");
-				else if (state == ItemEvent.DESELECTED)
+				} else if (state == ItemEvent.DESELECTED) {
 					console.msg("Simulator OFF");
+					setSimulatorState(false);
+				}
 
 			}
 		});
 
+	}
+	/**
+	 * 
+	 * getter simulator state
+	 */
+	public boolean isSimulatorState() {
+		return simulatorState;
+	}
+	/**
+	 * 
+	 * setter simulator state
+	 */
+	public void setSimulatorState(boolean simulatorState) {
+		this.simulatorState = simulatorState;
 	}
 
 }

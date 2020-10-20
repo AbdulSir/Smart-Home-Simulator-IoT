@@ -7,6 +7,7 @@ import org.junit.Test;
 public class PlacePeopleTest {
 
 	@Test
+	// Use case ID 8
 	public void test() {
 		Users user1 = new Users("test1");
 		Users user2 = new Users("test2");

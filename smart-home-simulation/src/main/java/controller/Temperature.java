@@ -31,6 +31,12 @@ public class Temperature {
 	public void setInsideTemp(int x) {
 		this.insideTemp = x;
 	}
+	
+	/**
+	 * Constructor
+	 */
+	public Temperature() {
+	}
 
 	public Temperature(final JTextField out, final JTextField in, final Console console) {
 		this.console = console;

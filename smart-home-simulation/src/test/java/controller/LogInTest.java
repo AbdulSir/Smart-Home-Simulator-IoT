@@ -7,6 +7,7 @@ import org.junit.Test;
 public class LogInTest {
 
 	@Test
+	//Use Case ID: 4
 	public void userLoggedIn() {
 		//Check User Logged in
 		Users user1 = new Users("test1");

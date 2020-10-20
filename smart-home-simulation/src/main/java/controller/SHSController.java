@@ -25,6 +25,7 @@ public class SHSController {
 	private SHSGui frame;
 	private Console console;
 	private Temperature temperature;
+	private Time time;
 	private Users user;
 	private SimulationButton simulationButton;
 	private EditSimulation editSimulation;
@@ -51,8 +52,10 @@ public class SHSController {
 
 		/** Temperature Control **/
 		this.temperature = new Temperature(frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		/** Time **/
+		this.time = new Time(frame.getPresstimeBtn(), frame.getTimeSpinner(), console);
 
-		/** Edit Simuatlion **/
+		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
 
 		// Open File

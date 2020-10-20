@@ -33,6 +33,10 @@ import controller.SHSController;
 import controller.Users;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.AncestorEvent;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
@@ -54,7 +58,10 @@ public class SHSGui extends JFrame {
 	private JComboBox comboBoxRole;
 	private JLabel userLocationLabel;
 	private JSpinner timeSpinner;
-	
+	private JButton presstimebtn;
+
+
+
 	/**
 	 * Launch the application.
 	 */
@@ -209,52 +216,60 @@ public class SHSGui extends JFrame {
 		JLabel labelTime = new JLabel("Time: ");
 		timeSpinner = new JSpinner();
 		timeSpinner.setModel(new SpinnerDateModel());
-		timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm:ss"));
+		timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
 		pressbuttonEditContext = new JButton("Edit Context Of Simulator");
+		presstimebtn = new JButton("Set new time");
 
 		GroupLayout gl_panelSHS = new GroupLayout(panelSHS);
-		gl_panelSHS.setHorizontalGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING).addGroup(gl_panelSHS
-				.createSequentialGroup().addContainerGap()
-				.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING).addGroup(gl_panelSHS
-						.createSequentialGroup()
-						.addGroup(gl_panelSHS.createParallelGroup(Alignment.TRAILING).addGroup(gl_panelSHS
-								.createSequentialGroup()
-								.addComponent(labelTime, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-								.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE))
-								.addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE).addGroup(
-										gl_panelSHS.createSequentialGroup()
-												.addGroup(gl_panelSHS.createParallelGroup(Alignment.TRAILING)
-														.addComponent(comboBoxDeleteUser, 0, 148, Short.MAX_VALUE)
-														.addComponent(enterNewUsername, GroupLayout.DEFAULT_SIZE, 148,
-																Short.MAX_VALUE))
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING, false)
-														.addComponent(newUser, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(deleteUserButton, GroupLayout.DEFAULT_SIZE, 136,
-																Short.MAX_VALUE))))
-						.addGap(17))
-						.addGroup(Alignment.TRAILING, gl_panelSHS.createSequentialGroup()
-								.addComponent(pressbuttonEditContext).addContainerGap()))));
-		gl_panelSHS.setVerticalGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING).addGroup(gl_panelSHS
-				.createSequentialGroup().addGap(9)
-				.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
-						.addComponent(enterNewUsername, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
+		gl_panelSHS.setHorizontalGroup(
+			gl_panelSHS.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelSHS.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelSHS.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelSHS.createSequentialGroup()
+							.addGroup(gl_panelSHS.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_panelSHS.createSequentialGroup()
+									.addComponent(labelTime, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+									.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE))
+								.addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+								.addGroup(gl_panelSHS.createSequentialGroup()
+									.addGroup(gl_panelSHS.createParallelGroup(Alignment.TRAILING)
+										.addComponent(comboBoxDeleteUser, 0, 148, Short.MAX_VALUE)
+										.addComponent(enterNewUsername, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(newUser, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(deleteUserButton, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)))
+								.addComponent(presstimebtn))
+							.addGap(17))
+						.addGroup(gl_panelSHS.createSequentialGroup()
+							.addComponent(pressbuttonEditContext)
+							.addContainerGap())))
+		);
+		gl_panelSHS.setVerticalGroup(
+			gl_panelSHS.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelSHS.createSequentialGroup()
+					.addGap(9)
+					.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
+						.addComponent(enterNewUsername, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(newUser, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
 						.addComponent(comboBoxDeleteUser, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 						.addComponent(deleteUserButton, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-				.addGap(18)
-				.addComponent(
-						dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addGap(18)
-				.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE).addComponent(labelTime).addComponent(
-						timeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.RELATED, 303, Short.MAX_VALUE).addComponent(pressbuttonEditContext)
-				.addContainerGap()));
+					.addGap(18)
+					.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(gl_panelSHS.createParallelGroup(Alignment.BASELINE)
+						.addComponent(labelTime)
+						.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(presstimebtn)
+					.addPreferredGap(ComponentPlacement.RELATED, 274, Short.MAX_VALUE)
+					.addComponent(pressbuttonEditContext)
+					.addContainerGap())
+		);
 		panelSHS.setLayout(gl_panelSHS);
 
 		/** SHC PANEL **/
@@ -628,10 +643,26 @@ public class SHSGui extends JFrame {
 	public void setUserLocationLabel(JLabel userLocationLabel) {
 		this.userLocationLabel = userLocationLabel;
 	}
+
 	/**
 	 * Getter
 	 */
 	public JSpinner getTimeSpinner() {
 		return timeSpinner;
+	}
+
+	
+
+	public void setTimeSpinner(JSpinner timeSpinner) {
+		this.timeSpinner = timeSpinner;
+	}
+	
+
+	public JButton getPresstimeBtn() {
+		return presstimebtn;
+	}
+
+	public void setPresstimeBtn(JButton presstimeBtn) {
+		this.presstimebtn = presstimeBtn;
 	}
 }

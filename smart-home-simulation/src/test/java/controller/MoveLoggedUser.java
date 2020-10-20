@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MoveLoggedUser {
-	//Use Case ID 4
+	//Use Case ID 7
 	@Test
 	public void test() {
 		//Check User Logged in

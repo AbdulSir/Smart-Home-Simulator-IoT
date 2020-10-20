@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ public class Windows {
 	 * 
 	 * @return All Windows
 	 */
-	public static ArrayList<Windows> getWindowList() {
+	public ArrayList<Windows> getWindowList() {
 		return windowList;
 	}
 

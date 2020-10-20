@@ -7,6 +7,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import model.Users;
+import model.Windows;
 import view.ContextSimulation;
 import view.SHSGui;
 
@@ -16,14 +18,7 @@ public class EditSimulation {
 	private ContextSimulation context;
 	private Users user;
 	private Console console;
-	Windows bedroomWindows = new Windows("BedRM");
-	Windows MasterBedroomWindows = new Windows("Master BedRM");
-	Windows bathroomWindows = new Windows("BathRM");
-	Windows kitchenWindows = new Windows("Kitchen");
-	Windows livingRoomWindows = new Windows("Living RM");
-	Windows garageWindows = new Windows("Garage");
 	private SHSGui frame;
-	private String[] rooms;
 
 	/**
 	 * Constructor
@@ -72,61 +67,39 @@ public class EditSimulation {
 		});
 
 		/** Block/Unblock Windows **/
-		this.context.getBlockWindows().addActionListener(new ActionListener() {
+		this.context.getBlockButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JCheckBox bathroom = context.getBathroomCheckBox();
-				JCheckBox bedroom = context.getBedroomCheckBox();
-				JCheckBox garage = context.getGarageCheckBox();
-				JCheckBox kitchen = context.getKitchenCheckBox();
-				JCheckBox livingRoom = context.getLivingRoomCheckBox();
-				JCheckBox MasterBedroom = context.getMasterBedroomCheckBox();
+				Windows windows = new Windows();
+				String location = context.getComboBoxWindowLocation().getSelectedItem().toString();
+				for (int i = 0; i < windows.getWindowList().size(); i++) {
+					if(windows.getWindowList().get(i).getLocation().equals(location)) {
+						if(!windows.getWindowList().get(i).isBlocked()) {
+							windows.getWindowList().get(i).setBlocked(true);
+							frame.repaint();
+							console.msg("The window in the " + location + " has been blocked");
+						} else 
+							console.msg("The window in the " + location + " is already blocked");
+						break;
+					}
+				}
+			}
+		});
 
-				console.msg("**********Updating status of the windows**********");
-
-				if (bathroom.isSelected()) {
-					bathroomWindows.setBlocked(true);
-					console.msg("Bathroom Window: BLOCKED");
-				} else {
-					bathroomWindows.setBlocked(false);
-					console.msg("Bathroom Window: UNBLOCKED");
+		this.context.getUnblockButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Windows windows = new Windows();
+				String location = context.getComboBoxWindowLocation().getSelectedItem().toString();
+				for (int i = 0; i < windows.getWindowList().size(); i++) {
+					if(windows.getWindowList().get(i).getLocation().equals(location)) {
+						if(windows.getWindowList().get(i).isBlocked()) {
+							windows.getWindowList().get(i).setBlocked(false);
+							frame.repaint();
+							console.msg("The window in the " + location + " has been unblocked");
+						} else 
+							console.msg("The window in the " + location + " is already unblocked");
+						break;
+					}
 				}
-				if (bedroom.isSelected()) {
-					bedroomWindows.setBlocked(true);
-					console.msg("Bedroom Window: BLOCKED");
-				} else {
-					bedroomWindows.setBlocked(false);
-					console.msg("Bedroom Window: UNBLOCKED");
-				}
-				if (garage.isSelected()) {
-					garageWindows.setBlocked(true);
-					console.msg("Garage Window: BLOCKED");
-				} else {
-					garageWindows.setBlocked(false);
-					console.msg("Garage Window: UNBLOCKED");
-				}
-				if (kitchen.isSelected()) {
-					kitchenWindows.setBlocked(true);
-					console.msg("Kitchen Window: BLOCKED");
-				} else {
-					kitchenWindows.setBlocked(false);
-					console.msg("Kitchen Window: UNBLOCKED");
-				}
-				if (livingRoom.isSelected()) {
-					livingRoomWindows.setBlocked(true);
-					console.msg("Living Room Window: BLOCKED");
-				} else {
-					livingRoomWindows.setBlocked(false);
-					console.msg("Living Room Window: UNBLOCKED");
-				}
-				if (MasterBedroom.isSelected()) {
-					MasterBedroomWindows.setBlocked(true);
-					console.msg("Master Bedroom Window: BLOCKED");
-				} else {
-					MasterBedroomWindows.setBlocked(false);
-					console.msg("Master Bedroom Window: UNBLOCKED");
-				}
-				console.msg("**********Update completed**********");
-				frame.repaint();
 			}
 		});
 
@@ -143,9 +116,7 @@ public class EditSimulation {
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				if (!initialized) {
 					String[] userNameArray = new String[user.getUserList().size()];
-					for (int i = 0; i < userNameArray.length; i++) {
-						userNameArray[i] = user.getUserList().get(i).getName();
-					}
+					userNameArray = user.getUserStringArray();
 					context.getComboBoxUsers().setModel(new DefaultComboBoxModel(userNameArray));
 				}
 			}

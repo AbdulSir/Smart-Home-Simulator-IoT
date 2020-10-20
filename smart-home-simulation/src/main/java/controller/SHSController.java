@@ -18,6 +18,12 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
+import model.HouseLayout;
+import model.ReadingJsonFile;
+import model.Temperature;
+import model.Time;
+import model.Users;
+import model.Windows;
 import view.ContextSimulation;
 import view.SHSGui;
 
@@ -25,6 +31,7 @@ public class SHSController {
 	private SHSGui frame;
 	private Console console;
 	private Temperature temperature;
+	private Time time;
 	private Users user;
 	private SimulationButton simulationButton;
 	private EditSimulation editSimulation;
@@ -50,9 +57,11 @@ public class SHSController {
 		this.simulationButton = new SimulationButton(frame.getTogglebuttonSimulator(), console);
 
 		/** Temperature Control **/
-		this.temperature = new Temperature(frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		this.temperature = new Temperature(frame,frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		/** Time **/
+		this.time = new Time(frame,frame.getPresstimeBtn(), frame.getTimeSpinner(),frame.getDateChooser(), console);
 
-		/** Edit Simuatlion **/
+		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
 
 		// Open File
@@ -90,10 +99,12 @@ public class SHSController {
 				//rjFile.getRoomArray().size() - Number of rooms in the JSON file
 				//+ 2 - Outside and Hallway
 				String[] userRoomArray = new String[rjFile.getRoomArray().size()+2];
+				String[] userWindowArray = new String[rjFile.getRoomArray().size()];
 
 				// get value from array
 				for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
-					userRoomArray[i] = rjFile.getRoomArray().get(i).toString();
+					userRoomArray[i] = userWindowArray[i] = rjFile.getRoomArray().get(i).toString();
+					new Windows(rjFile.getRoomArray().get(i).toString());
 				}
 				userRoomArray[userRoomArray.length - 1] = "Outside";
 				userRoomArray[userRoomArray.length - 2] = "Hallway";
@@ -102,6 +113,7 @@ public class SHSController {
 				frame.getPanelView().add(houseLayout);
 				
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
+				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(userWindowArray));
 
 				// refresh layout
 				frame.repaint();
@@ -126,6 +138,8 @@ public class SHSController {
 					if (user.getName().equalsIgnoreCase(userToMakeActive)) {
 						user.setActiveUser(true);
 						console.msg(user.getName() + " is now logged in");
+						frame.getUserLocationLabel().setText(user.getLocation());
+                        frame.repaint();
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.repaint();
 						break;
@@ -191,9 +205,7 @@ public class SHSController {
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				if (!initialized) {
 					String[] userNameArray = new String[user.getUserList().size()];
-					for (int i = 0; i < userNameArray.length; i++) {
-						userNameArray[i] = user.getUserList().get(i).getName();
-					}
+					userNameArray = user.getUserStringArray();
 					comboBoxRole.setModel(new DefaultComboBoxModel(userNameArray));
 				}
 			}
@@ -213,14 +225,21 @@ public class SHSController {
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				if (!initialized) {
 					String[] userNameArray = new String[user.getUserList().size()];
-					for (int i = 0; i < userNameArray.length; i++) {
-						userNameArray[i] = user.getUserList().get(i).getName();
-					}
+					userNameArray = user.getUserStringArray();
 					comboBoxDeleteUser.setModel(new DefaultComboBoxModel(userNameArray));
 				}
 			}
 		};
 		comboBoxDeleteUser.addPopupMenuListener(userDeletedListener);
+		
+		frame.getComboBoxWeather().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String weather = frame.getComboBoxWeather().getSelectedItem().toString();
+				frame.getWeatherValue().setText(weather);
+				frame.repaint();
+				
+				}
+		});
 
 	}
 }

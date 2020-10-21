@@ -26,9 +26,3 @@ Provide graphical way to represent the interactions between the household, the d
 * Smart home core functionality (SHC) 
 * Smart home security (SHP) Module 
 * Smart heating (SHH) Module 
-
-## Build
-https://youtu.be/CFTbeDHQ8OM
-
-## Demo
-https://youtu.be/rH2E7AqykFQ

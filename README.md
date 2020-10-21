@@ -11,11 +11,11 @@
 
 ## Technologies:
 * Java 
-* Maven
+* Apache Maven
 * WindowBuilder - Java GUI designer
 
 ## Project desription
-A �Smart Home� system is a combination of hardware and software that allows homeowners to automate tasks and services through the help of connected software applications It provides an escape from daily routines and mundane tasks. Some examples are the automation of heating, lighting, ventilation, climate control as well as various other appliances that can be connected to the internet.
+A "Smart Home" system is a combination of hardware and software that allows homeowners to automate tasks and services through the help of connected software applications It provides an escape from daily routines and mundane tasks. Some examples are the automation of heating, lighting, ventilation, climate control as well as various other appliances that can be connected to the internet.
 
 ## Objective
 Provide graphical way to represent the interactions between the household, the devices and the IoT system.
@@ -26,3 +26,9 @@ Provide graphical way to represent the interactions between the household, the d
 * Smart home core functionality (SHC) 
 * Smart home security (SHP) Module 
 * Smart heating (SHH) Module 
+
+## Build
+https://youtu.be/CFTbeDHQ8OM
+
+## Demo
+https://youtu.be/rH2E7AqykFQ

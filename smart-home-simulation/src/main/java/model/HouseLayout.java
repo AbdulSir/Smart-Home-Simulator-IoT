@@ -195,7 +195,10 @@ public class HouseLayout extends JPanel {
 			ReadingJsonFile rjFile = new ReadingJsonFile("myJSON.json");
 			for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
 				if (i < 4) {
-					g.drawImage(closedWindow, 0, 0, 25, 25, null);
+					if(windows.getWindowList().get(i).isOpen())
+						g.drawImage(openedWindow, 0, 0, 25, 25, null);
+					else
+						g.drawImage(closedWindow, 0, 0, 25, 25, null);
 					if (windows.getWindowList().get(i).isBlocked())
 						g.drawImage(blocked, 25, 0, 25, 25, null);
 					g.translate(0, 100);
@@ -203,7 +206,10 @@ public class HouseLayout extends JPanel {
 				if (i == 4)
 					g.translate(250, -400);
 				if (i >= 4) {
-					g.drawImage(openedWindow, 125, 0, 25, 25, null);
+					if(windows.getWindowList().get(i).isOpen())
+						g.drawImage(openedWindow, 125, 0, 25, 25, null);
+					else
+						g.drawImage(closedWindow, 125, 0, 25, 25, null);
 					if (windows.getWindowList().get(i).isBlocked())
 						g.drawImage(blocked, 25, 0, 25, 25, null);
 					g.translate(0, 100);

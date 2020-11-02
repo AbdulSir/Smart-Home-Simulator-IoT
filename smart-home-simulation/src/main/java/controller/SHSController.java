@@ -123,6 +123,7 @@ public class SHSController {
 				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getDoorsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getLightsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
+				frame.getOpenWindowsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 
 				// refresh layout
 				frame.repaint();

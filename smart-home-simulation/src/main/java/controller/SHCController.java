@@ -2,26 +2,29 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import model.Doors;
 import model.Lights;
 import model.Users;
+import model.Windows;
 import view.SHSGui;
 
 public class SHCController {
 	private SHSGui frame;
 	private Users user;
 	private Console console;
+	private boolean AutoModeState;
 
 	public SHCController() {
 	}
 
 	public SHCController(SHSGui frame, Console console) {
-		/** Main GUI **/
 		this.frame = frame;
 		this.console = console;
 		user = new Users();
-
+		AutoModeState = false;
 		// User Event Handler
 		userEvents();
 	}
@@ -62,5 +65,51 @@ public class SHCController {
 			}
 
 		});
+
+		frame.getOpenWindowsButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Windows windows = new Windows();
+				String location = frame.getOpenWindowsComboBox().getSelectedItem().toString();
+				int index = frame.getOpenWindowsComboBox().getSelectedIndex();
+				if (!windows.getWindowList().get(index).isOpen()) {
+					windows.getWindowList().get(index).setOpen(true);
+					frame.repaint();
+					console.msg("The window in the " + location + " is open");
+				} else {
+					windows.getWindowList().get(index).setOpen(false);
+					frame.repaint();
+					console.msg("The window in the " + location + " is closed");
+				}
+			}
+		});
+
+		frame.getAutoModeToggleButton().addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent itemEvent) {
+				int state = itemEvent.getStateChange();
+
+				if (state == ItemEvent.SELECTED) {
+					setAutoModeState(true);
+					console.msg("Auto Mode ON");
+				} else if (state == ItemEvent.DESELECTED) {
+					setAutoModeState(false);
+					console.msg("Auto Mode OFF");
+				}
+
+			}
+		});
+	}
+
+	/**
+	 * Getter
+	 */
+	public boolean getAutoModeState() {
+		return AutoModeState;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setAutoModeState(boolean autoModeState) {
+		AutoModeState = autoModeState;
 	}
 }

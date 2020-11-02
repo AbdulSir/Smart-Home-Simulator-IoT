@@ -72,6 +72,9 @@ public class SHSGui extends JFrame {
 	private JButton OpenDoorsButton;
 	private JComboBox lightsComboBox;
 	private JButton LightsButton;
+	private JComboBox OpenWindowsComboBox;
+	private JButton openWindowsButton;
+	private JToggleButton AutoModeToggleButton;
 
 	/**
 	 * Launch the application.
@@ -304,6 +307,22 @@ public class SHSGui extends JFrame {
 		LightsButton = new JButton("Turn ON/OFF");
 		LightsButton.setBounds(190, 60, 117, 29);
 		panelSHC.add(LightsButton);
+		
+		JLabel lblWindows = new JLabel("Windows");
+		lblWindows.setBounds(6, 100, 62, 16);
+		panelSHC.add(lblWindows);
+		
+		OpenWindowsComboBox = new JComboBox();
+		OpenWindowsComboBox.setBounds(66, 96, 144, 27);
+		panelSHC.add(OpenWindowsComboBox);
+		
+		openWindowsButton = new JButton("Open/Close");
+		openWindowsButton.setBounds(202, 96, 105, 27);
+		panelSHC.add(openWindowsButton);
+		
+		AutoModeToggleButton = new JToggleButton("Auto Mode");
+		AutoModeToggleButton.setBounds(6, 145, 301, 27);
+		panelSHC.add(AutoModeToggleButton);
 
 		/** SHP PANEL **/
 		JPanel panelSHP = new JPanel();
@@ -877,4 +896,47 @@ public class SHSGui extends JFrame {
 	public void setLightsButton(JButton lightsButton) {
 		LightsButton = lightsButton;
 	}
+
+	/**
+	 * Getter
+	 */
+	public JComboBox getOpenWindowsComboBox() {
+		return OpenWindowsComboBox;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setOpenWindowsComboBox(JComboBox openWindowsComboBox) {
+		OpenWindowsComboBox = openWindowsComboBox;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getOpenWindowsButton() {
+		return openWindowsButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setOpenWindowsButton(JButton openWindowsButton) {
+		this.openWindowsButton = openWindowsButton;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JToggleButton getAutoModeToggleButton() {
+		return AutoModeToggleButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setAutoModeToggleButton(JToggleButton autoModeToggleButton) {
+		AutoModeToggleButton = autoModeToggleButton;
+	}
+	
 }

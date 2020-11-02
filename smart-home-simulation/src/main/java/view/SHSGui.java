@@ -29,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import controller.SHSController;
+import controller.SHCController;
 import model.Users;
 import model.ReadingJsonFile;
 
@@ -67,6 +68,10 @@ public class SHSGui extends JFrame {
 	private JLabel dateValue;
 	private JComboBox comboBoxWeather;
 	private JDateChooser dateChooser;
+	private JComboBox doorsComboBox;
+	private JButton OpenDoorsButton;
+	private JComboBox lightsComboBox;
+	private JButton LightsButton;
 
 	/**
 	 * Launch the application.
@@ -274,6 +279,31 @@ public class SHSGui extends JFrame {
 		/** SHC PANEL **/
 		JPanel panelSHC = new JPanel();
 		tabbedPane.addTab("SHC", null, panelSHC, null);
+		panelSHC.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Doors");
+		lblNewLabel.setBounds(6, 31, 38, 16);
+		panelSHC.add(lblNewLabel);
+		
+		doorsComboBox = new JComboBox();
+		doorsComboBox.setBounds(46, 27, 144, 27);
+		panelSHC.add(doorsComboBox);
+		
+		OpenDoorsButton = new JButton("Open/Close");
+		OpenDoorsButton.setBounds(190, 26, 117, 29);
+		panelSHC.add(OpenDoorsButton);
+		
+		JLabel lblLights = new JLabel("Lights");
+		lblLights.setBounds(6, 65, 45, 16);
+		panelSHC.add(lblLights);
+		
+		lightsComboBox = new JComboBox();
+		lightsComboBox.setBounds(46, 61, 144, 27);
+		panelSHC.add(lightsComboBox);
+		
+		LightsButton = new JButton("Turn ON/OFF");
+		LightsButton.setBounds(190, 60, 117, 29);
+		panelSHC.add(LightsButton);
 
 		/** SHP PANEL **/
 		JPanel panelSHP = new JPanel();
@@ -790,5 +820,61 @@ public class SHSGui extends JFrame {
 	 */
 	public void setDateChooser(JDateChooser dateChooser) {
 		this.dateChooser = dateChooser;
+	}
+	
+	/**
+	 * Getter
+	 */
+	public JComboBox getDoorsComboBox() {
+		return doorsComboBox;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setDoorsComboBox(JComboBox doorsComboBox) {
+		this.doorsComboBox = doorsComboBox;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getOpenDoorsButton() {
+		return OpenDoorsButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setOpenDoorsButton(JButton openDoorsButton) {
+		OpenDoorsButton = openDoorsButton;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JComboBox getLightsComboBox() {
+		return lightsComboBox;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setLightsComboBox(JComboBox lightsComboBox) {
+		this.lightsComboBox = lightsComboBox;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getLightsButton() {
+		return LightsButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setLightsButton(JButton lightsButton) {
+		LightsButton = lightsButton;
 	}
 }

@@ -29,7 +29,7 @@ public class EditSimulation {
 		this.user = user;
 		this.console = console;
 		this.frame = frame;
-		 //event handler
+		// event handler
 		createEvents();
 	}
 
@@ -71,17 +71,13 @@ public class EditSimulation {
 			public void actionPerformed(ActionEvent e) {
 				Windows windows = new Windows();
 				String location = context.getComboBoxWindowLocation().getSelectedItem().toString();
-				for (int i = 0; i < windows.getWindowList().size(); i++) {
-					if(windows.getWindowList().get(i).getLocation().equals(location)) {
-						if(!windows.getWindowList().get(i).isBlocked()) {
-							windows.getWindowList().get(i).setBlocked(true);
-							frame.repaint();
-							console.msg("The window in the " + location + " has been blocked");
-						} else 
-							console.msg("The window in the " + location + " is already blocked");
-						break;
-					}
-				}
+				int index = context.getComboBoxWindowLocation().getSelectedIndex();
+				if (!windows.getWindowList().get(index).isBlocked()) {
+					windows.getWindowList().get(index).setBlocked(true);
+					frame.repaint();
+					console.msg("The window in the " + location + " has been blocked");
+				} else
+					console.msg("The window in the " + location + " is already blocked");
 			}
 		});
 
@@ -89,18 +85,15 @@ public class EditSimulation {
 			public void actionPerformed(ActionEvent e) {
 				Windows windows = new Windows();
 				String location = context.getComboBoxWindowLocation().getSelectedItem().toString();
-				for (int i = 0; i < windows.getWindowList().size(); i++) {
-					if(windows.getWindowList().get(i).getLocation().equals(location)) {
-						if(windows.getWindowList().get(i).isBlocked()) {
-							windows.getWindowList().get(i).setBlocked(false);
-							frame.repaint();
-							console.msg("The window in the " + location + " has been unblocked");
-						} else 
-							console.msg("The window in the " + location + " is already unblocked");
-						break;
-					}
-				}
+				int index = context.getComboBoxWindowLocation().getSelectedIndex();
+				if (windows.getWindowList().get(index).isBlocked()) {
+					windows.getWindowList().get(index).setBlocked(false);
+					frame.repaint();
+					console.msg("The window in the " + location + " has been unblocked");
+				} else
+					console.msg("The window in the " + location + " is already unblocked");
 			}
+
 		});
 
 		/** User ComboBox **/
@@ -123,7 +116,7 @@ public class EditSimulation {
 		};
 		context.getComboBoxUsers().addPopupMenuListener(userListListener);
 	}
-	
+
 	/**
 	 * Getter
 	 */

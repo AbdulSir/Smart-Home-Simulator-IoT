@@ -15,7 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-//import view.ContextSimulation;
 
 public class HouseLayout extends JPanel {
 	private BufferedImage closedWindow;
@@ -26,7 +25,6 @@ public class HouseLayout extends JPanel {
 	private BufferedImage lightOn;
 	private BufferedImage userImage;
 	private BufferedImage blocked;
-	// private ContextSimulation context;
 	private ReadingJsonFile rjFile;
 
 	public HouseLayout(ReadingJsonFile rjFile) {
@@ -224,6 +222,7 @@ public class HouseLayout extends JPanel {
 	 * @param g
 	 */
 	public void drawDoors(Graphics g) {
+		Doors doors = new Doors();
 		try {
 			int offSet = 0;
 			openedDoor = ImageIO.read(getClass().getResourceAsStream("/resources/openedDoor.png"));
@@ -231,13 +230,19 @@ public class HouseLayout extends JPanel {
 			ReadingJsonFile rjFile = new ReadingJsonFile("myJSON.json");
 			for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
 				if (i < 4) {
-					g.drawImage(openedDoor, 125, 0, 25, 25, null);
+					if(doors.getDoorList().get(i).isOpen())
+						g.drawImage(openedDoor, 125, 0, 25, 25, null);
+					else
+						g.drawImage(closedDoor, 125, 0, 25, 25, null);
 					g.translate(0, 100);
 				}
 				if (i == 4)
 					g.translate(250, -400);
 				if (i >= 4) {
-					g.drawImage(closedDoor, 0, 0, 25, 25, null);
+					if(doors.getDoorList().get(i).isOpen())
+						g.drawImage(openedDoor, 0, 0, 25, 25, null);
+					else
+						g.drawImage(closedDoor, 0, 0, 25, 25, null);
 					g.translate(0, 100);
 					offSet = offSet - 100;
 				}
@@ -254,6 +259,7 @@ public class HouseLayout extends JPanel {
 	 * @param g
 	 */
 	public void drawLights(Graphics g) {
+		Lights lights = new Lights();
 		try {
 			int offSet = 0;
 			lightOff = ImageIO.read(getClass().getResourceAsStream("/resources/lightOff.png"));
@@ -261,13 +267,19 @@ public class HouseLayout extends JPanel {
 			ReadingJsonFile rjFile = new ReadingJsonFile("myJSON.json");
 			for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
 				if (i < 4) {
-					g.drawImage(lightOff, 0, 75, 25, 25, null);
+					if(lights.getLightsList().get(i).areLightsOn())
+						g.drawImage(lightOn, 0, 75, 25, 25, null);
+					else
+						g.drawImage(lightOff, 0, 75, 25, 25, null);
 					g.translate(0, 100);
 				}
 				if (i == 4)
 					g.translate(250, -400);
 				if (i >= 4) {
-					g.drawImage(lightOn, 0, 75, 25, 25, null);
+					if(lights.getLightsList().get(i).areLightsOn())
+						g.drawImage(lightOn, 0, 75, 25, 25, null);
+					else
+						g.drawImage(lightOff, 0, 75, 25, 25, null);
 					g.translate(0, 100);
 					offSet = offSet - 100;
 				}

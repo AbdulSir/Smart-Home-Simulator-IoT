@@ -18,7 +18,9 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
+import model.Doors;
 import model.HouseLayout;
+import model.Lights;
 import model.ReadingJsonFile;
 import model.Temperature;
 import model.Time;
@@ -37,7 +39,7 @@ public class SHSController {
 	private EditSimulation editSimulation;
 	private HouseLayout houseLayout;
 	private ReadingJsonFile rjFile;
-	private ContextSimulation contextSimulation;
+	private SHCController coreController;
 	
 	public SHSController() {}
 	
@@ -63,6 +65,9 @@ public class SHSController {
 
 		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
+		
+		/** SHC Controller **/
+		this.coreController = new SHCController(frame, console);
 
 		// Open File
 		readFileEvent();
@@ -99,12 +104,14 @@ public class SHSController {
 				//rjFile.getRoomArray().size() - Number of rooms in the JSON file
 				//+ 2 - Outside and Hallway
 				String[] userRoomArray = new String[rjFile.getRoomArray().size()+2];
-				String[] userWindowArray = new String[rjFile.getRoomArray().size()];
+				String[] itemsArray = new String[rjFile.getRoomArray().size()];
 
 				// get value from array
 				for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
-					userRoomArray[i] = userWindowArray[i] = rjFile.getRoomArray().get(i).toString();
+					userRoomArray[i] = itemsArray[i] = rjFile.getRoomArray().get(i).toString();
 					new Windows(rjFile.getRoomArray().get(i).toString());
+					new Doors(rjFile.getRoomArray().get(i).toString());
+					new Lights(rjFile.getRoomArray().get(i).toString());
 				}
 				userRoomArray[userRoomArray.length - 1] = "Outside";
 				userRoomArray[userRoomArray.length - 2] = "Hallway";
@@ -113,7 +120,9 @@ public class SHSController {
 				frame.getPanelView().add(houseLayout);
 				
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
-				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(userWindowArray));
+				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(itemsArray));
+				frame.getDoorsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
+				frame.getLightsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 
 				// refresh layout
 				frame.repaint();

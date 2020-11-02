@@ -15,7 +15,7 @@ public class SHCController {
 	private SHSGui frame;
 	private Users user;
 	private Console console;
-	private boolean AutoModeState;
+	private static boolean AutoModeState;
 
 	public SHCController() {
 	}
@@ -25,6 +25,7 @@ public class SHCController {
 		this.console = console;
 		user = new Users();
 		AutoModeState = false;
+		
 		// User Event Handler
 		userEvents();
 	}
@@ -94,7 +95,6 @@ public class SHCController {
 					setAutoModeState(false);
 					console.msg("Auto Mode OFF");
 				}
-
 			}
 		});
 	}
@@ -109,7 +109,7 @@ public class SHCController {
 	/**
 	 * Setter
 	 */
-	public void setAutoModeState(boolean autoModeState) {
+	public static void setAutoModeState(boolean autoModeState) {
 		AutoModeState = autoModeState;
 	}
 }

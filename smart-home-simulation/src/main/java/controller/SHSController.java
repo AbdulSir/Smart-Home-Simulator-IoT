@@ -157,17 +157,27 @@ public class SHSController {
 		addNewUserButton.addMouseListener(new MouseAdapter() {
 			// new user button click event
 			public void mouseClicked(MouseEvent e) {
+				boolean contains = false;
 				String NewUsername = enterNewUsername.getText();
-				Users New = new Users(NewUsername);
-				int index = 0;
-				for (int i = 0; i < user.getUserList().size(); i++) {
-					if (user.getUserList().get(i).getName().equals(NewUsername)) {
-						index = i;
-						break;
-					}
+				String[] users = user.getUserStringArray();
+				for (int i = 0; i < users.length; i++) {
+					if (users[i].equals(NewUsername))
+						contains = true;
 				}
-				console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
-				frame.repaint();
+				if (!contains) {
+					Users New = new Users(NewUsername);
+					int index = 0;
+					for (int i = 0; i < user.getUserList().size(); i++) {
+						if (user.getUserList().get(i).getName().equals(NewUsername)) {
+							index = i;
+							break;
+						}
+					}
+					console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+					frame.repaint();
+				} else {
+					console.msg("The username \"" + NewUsername + "\" is already linked to an existing user. User will not be added");
+				}
 			}
 		});
 

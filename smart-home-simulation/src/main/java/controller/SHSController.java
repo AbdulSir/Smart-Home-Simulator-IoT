@@ -155,9 +155,7 @@ public class SHSController {
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.repaint();
 						break;
-					} else {
-						continue;
-					}
+					} 
 				}
 
 			}

@@ -200,7 +200,7 @@ public class HouseLayout extends JPanel {
 					else
 						g.drawImage(closedWindow, 0, 0, 25, 25, null);
 					if (windows.getWindowList().get(i).isBlocked())
-						g.drawImage(blocked, 25, 0, 25, 25, null);
+						g.drawImage(blocked, 0, 25, 25, 25, null);
 					g.translate(0, 100);
 				}
 				if (i == 4)
@@ -211,7 +211,7 @@ public class HouseLayout extends JPanel {
 					else
 						g.drawImage(closedWindow, 125, 0, 25, 25, null);
 					if (windows.getWindowList().get(i).isBlocked())
-						g.drawImage(blocked, 25, 0, 25, 25, null);
+						g.drawImage(blocked, 125, 25, 25, 25, null);
 					g.translate(0, 100);
 					offSet = offSet - 100;
 				}

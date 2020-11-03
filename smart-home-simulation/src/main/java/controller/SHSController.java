@@ -130,8 +130,6 @@ public class SHSController {
 			public void actionPerformed(ActionEvent action) {
 
 				try {
-					System.out.println("load");
-
 					// File & Object Input Stream
 					FileInputStream fis = new FileInputStream(new File("myUsers.txt"));
 					ObjectInputStream ois = new ObjectInputStream(fis);

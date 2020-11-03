@@ -29,7 +29,6 @@ public class ContextSimulation extends JFrame {
 	private JComboBox comboBoxUsers;
 	private JComboBox comboBoxLocation;
 	private JButton BlockButton;
-	private JButton UnblockButton;
 	private JComboBox comboBoxWindowLocation;
 
 	/**
@@ -55,7 +54,7 @@ public class ContextSimulation extends JFrame {
 		setTitle("Edit Context of Simulation");
 
 		/** Window Size **/
-		setBounds(250, 250, 306, 488);
+		setBounds(250, 250, 306, 398);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -129,59 +128,33 @@ public class ContextSimulation extends JFrame {
 
 		/** Window Panel **/
 		JPanel panelWindows = new JPanel();
-		panelWindows.setBounds(5, 188, 252, 251);
+		panelWindows.setBounds(5, 188, 252, 143);
 		panelWindows.setBackground(Color.WHITE);
 
 		JLabel labelWindows = new JLabel("Block Windows");
+		labelWindows.setBounds(6, 12, 94, 16);
 		
-		JLabel labelLocation_1 = new JLabel("Location:");
-		
-		comboBoxWindowLocation = new JComboBox();
-		
-		BlockButton = new JButton("Block");
-		
-		UnblockButton = new JButton("Unblock");
-		GroupLayout gl_panelWindows = new GroupLayout(panelWindows);
-		gl_panelWindows.setHorizontalGroup(
-			gl_panelWindows.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelWindows.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelWindows.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelWindows.createSequentialGroup()
-							.addComponent(labelWindows, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGap(193))
-						.addGroup(gl_panelWindows.createSequentialGroup()
-							.addComponent(labelLocation_1, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(115, Short.MAX_VALUE))
-						.addGroup(gl_panelWindows.createSequentialGroup()
-							.addComponent(comboBoxWindowLocation, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(BlockButton)
-							.addContainerGap(10, Short.MAX_VALUE))))
-				.addGroup(gl_panelWindows.createSequentialGroup()
-					.addGap(74)
-					.addComponent(UnblockButton)
-					.addContainerGap(82, Short.MAX_VALUE))
-		);
-		gl_panelWindows.setVerticalGroup(
-			gl_panelWindows.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelWindows.createSequentialGroup()
-					.addGap(12)
-					.addComponent(labelWindows, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
-					.addGap(40)
-					.addComponent(labelLocation_1)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelWindows.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBoxWindowLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(BlockButton, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(UnblockButton)
-					.addGap(85))
-		);
-		panelWindows.setLayout(gl_panelWindows);
+		JPanel panelBlockWindows = new JPanel();
+		panelBlockWindows.setBounds(16, 40, 230, 90);
+		panelBlockWindows.setLayout(null);
 		contentPane.setLayout(null);
 		contentPane.add(panelLocation);
 		contentPane.add(panelWindows);
+		panelWindows.setLayout(null);
+		panelWindows.add(panelBlockWindows);
+		
+		JLabel labelLocation_1 = new JLabel("Location:");
+		labelLocation_1.setBounds(6, 27, 58, 16);
+		panelBlockWindows.add(labelLocation_1);
+		
+		comboBoxWindowLocation = new JComboBox();
+		comboBoxWindowLocation.setBounds(72, 23, 152, 27);
+		panelBlockWindows.add(comboBoxWindowLocation);
+		
+		BlockButton = new JButton("Block/Unblock");
+		BlockButton.setBounds(16, 55, 137, 29);
+		panelBlockWindows.add(BlockButton);
+		panelWindows.add(labelWindows);
 	}
 
 	/**
@@ -235,20 +208,6 @@ public class ContextSimulation extends JFrame {
 	 */
 	public void setBlockButton(JButton blockButton) {
 		BlockButton = blockButton;
-	}
-
-	/**
-	 * Getter
-	 */
-	public JButton getUnblockButton() {
-		return UnblockButton;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setUnblockButton(JButton unblockButton) {
-		UnblockButton = unblockButton;
 	}
 
 	/**

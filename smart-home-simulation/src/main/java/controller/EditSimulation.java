@@ -100,24 +100,12 @@ public class EditSimulation {
 					windows.getWindowList().get(index).setBlocked(true);
 					frame.repaint();
 					console.msg("The window in the " + location + " has been blocked");
-				} else
-					console.msg("The window in the " + location + " is already blocked");
-			}
-		});
-
-		this.context.getUnblockButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Windows windows = new Windows();
-				String location = context.getComboBoxWindowLocation().getSelectedItem().toString();
-				int index = context.getComboBoxWindowLocation().getSelectedIndex();
-				if (windows.getWindowList().get(index).isBlocked()) {
+				} else {
 					windows.getWindowList().get(index).setBlocked(false);
 					frame.repaint();
 					console.msg("The window in the " + location + " has been unblocked");
-				} else
-					console.msg("The window in the " + location + " is already unblocked");
+				}
 			}
-
 		});
 
 		/** User ComboBox **/

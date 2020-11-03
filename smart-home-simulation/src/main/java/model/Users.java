@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Users {
+public class Users implements Serializable {
 
 	private String name;
 	private Boolean activeUser;
@@ -53,8 +54,8 @@ public class Users {
 			System.out.println(user.activeUser);
 			System.out.println("-----------");
 		}
-	}	
-	
+	}
+
 	/**
 	 * 
 	 * Returns string array of userList
@@ -68,6 +69,13 @@ public class Users {
 	}
 
 	/**
+	 * toString method
+	 */
+	public String toString() {
+		return this.name + " is at " + this.location;
+	}
+
+	/**
 	 * Getter userList
 	 */
 	public ArrayList<Users> getUserList() {
@@ -77,7 +85,7 @@ public class Users {
 	/**
 	 * Setter userList
 	 */
-	public static void setUserList(ArrayList<Users> userList) {
+	public void setUserList(ArrayList<Users> userList) {
 		Users.userList = userList;
 	}
 

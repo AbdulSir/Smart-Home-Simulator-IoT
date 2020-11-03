@@ -38,6 +38,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
@@ -118,16 +120,21 @@ public class SHSGui extends JFrame {
 		// File Section
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
-		// Open Option under File
+		
+		// Open Option Under File
 		mntmOpen = new JMenuItem("Open");
 		mntmOpen.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/open_layout.png")));
 		mnFile.add(mntmOpen);
 
+		// Save Option Under File
 		mntmSave = new JMenuItem("Save");
+		
 		mntmSave.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/save.png")));
 		mnFile.add(mntmSave);
 
+		// Load Option Under File
 		mntmLoad = new JMenuItem("Load");
+		
 		mntmLoad.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/load.png")));
 		mnFile.add(mntmLoad);
 

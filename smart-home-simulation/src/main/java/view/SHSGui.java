@@ -423,9 +423,9 @@ public class SHSGui extends JFrame {
 				.addGroup(gl_panelHouseInfo.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(houseTempLabel)
-					.addPreferredGap(ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
+					.addGap(162)
 					.addComponent(indoorHouseTempValue, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-					.addGap(78))
+					.addContainerGap(78, Short.MAX_VALUE))
 		);
 		gl_panelHouseInfo.setVerticalGroup(
 			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)

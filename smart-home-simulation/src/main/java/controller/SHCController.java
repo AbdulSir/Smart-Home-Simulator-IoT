@@ -7,6 +7,7 @@ import java.awt.event.ItemListener;
 
 import model.Doors;
 import model.Lights;
+import model.Rooms;
 import model.Users;
 import model.Windows;
 import view.SHSGui;
@@ -39,11 +40,11 @@ public class SHCController {
 				if (!doors.getDoorList().get(index).isOpen()) {
 					doors.getDoorList().get(index).setOpen(true);
 					frame.repaint();
-					console.msg("The door in the " + location + " is open");
+					console.msg("The " + location + " door is open");
 				} else {
 					doors.getDoorList().get(index).setOpen(false);
 					frame.repaint();
-					console.msg("The door in the " + location + " is closed");
+					console.msg("The " + location + " door is closed");
 				}
 
 			}
@@ -87,10 +88,19 @@ public class SHCController {
 		frame.getAutoModeToggleButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				int state = itemEvent.getStateChange();
-
+				Rooms rooms = new Rooms();
+				Lights lights = new Lights();
+				
 				if (state == ItemEvent.SELECTED) {
 					setAutoModeState(true);
 					console.msg("Auto Mode ON");
+					for(int i = 0; i < rooms.getRooms().size(); i++) {
+						if(rooms.getRooms().get(i).getCount() > 0)
+							lights.getLightsList().get(i).setLights(true);
+						else if(rooms.getRooms().get(i).getCount() == 0) 
+							lights.getLightsList().get(i).setLights(false);
+					}
+					frame.repaint();
 				} else if (state == ItemEvent.DESELECTED) {
 					setAutoModeState(false);
 					console.msg("Auto Mode OFF");

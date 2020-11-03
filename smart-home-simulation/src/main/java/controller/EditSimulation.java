@@ -7,6 +7,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import model.Lights;
+import model.Rooms;
 import model.Users;
 import model.Windows;
 import view.ContextSimulation;
@@ -48,12 +50,29 @@ public class EditSimulation {
 		/** Change the location of a user **/
 		this.context.getSetLocation().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Rooms rooms = new Rooms();
+				SHCController core = new SHCController();
+				Lights lights = new Lights();
 				JComboBox comboBoxUsers = context.getComboBoxUsers();
 				int index = comboBoxUsers.getSelectedIndex();
 				String userToMove = comboBoxUsers.getSelectedItem().toString();
 				String oldLocation = user.getUserList().get(index).getLocation();
 				user.getUserList().get(index).setLocation(context.getComboBoxLocation().getSelectedItem().toString());
 				String newLocation = user.getUserList().get(index).getLocation();
+				int newRoomIndex = 0, oldRoomIndex = 0;
+				for (int i = 0; i < rooms.getRooms().size(); i++) {
+					if(oldLocation.equals(newLocation))
+						break;
+					if (rooms.getRooms().get(i).getLocation().equals(oldLocation)) {
+						int count = rooms.getRooms().get(i).getCount() - 1;
+						rooms.getRooms().get(i).setCount(count);
+						oldRoomIndex = i;
+					} else if(rooms.getRooms().get(i).getLocation().equals(newLocation)) {
+						int count = rooms.getRooms().get(i).getCount() + 1;
+						rooms.getRooms().get(i).setCount(count);
+						newRoomIndex = i;
+					}
+				}
 				if (oldLocation.equalsIgnoreCase(newLocation) && oldLocation.equalsIgnoreCase("Outside"))
 					console.msg(userToMove + " is still outside of the house");
 				else if (oldLocation.equalsIgnoreCase(newLocation))
@@ -62,6 +81,11 @@ public class EditSimulation {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
 				else
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
+
+				if(core.getAutoModeState() && rooms.getRooms().get(newRoomIndex).getCount() > 0)
+					lights.getLightsList().get(newRoomIndex).setLights(true);
+				if(core.getAutoModeState() && rooms.getRooms().get(oldRoomIndex).getCount() == 0)
+					lights.getLightsList().get(oldRoomIndex).setLights(false);
 				frame.repaint();
 			}
 		});

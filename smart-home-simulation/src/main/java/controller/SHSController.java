@@ -54,7 +54,7 @@ public class SHSController {
 		user = new Users();
 
 		/** Create default User **/
-		Users defaultUser = new Users("Admin");
+		Users defaultUser = new Users("Admin", "PARENT");
 
 		/** Control Console **/
 		this.console = new Console(frame.getTextAreaConsoleLog());
@@ -109,6 +109,9 @@ public class SHSController {
 					fos.close();
 					oos.close();
 
+					// Console Message
+					console.msg("Users Profile has been SAVED.");
+
 				} catch (FileNotFoundException file_exception) {
 					file_exception.printStackTrace();
 				} catch (IOException io_exception) {
@@ -146,6 +149,9 @@ public class SHSController {
 					// Close Stream
 					fis.close();
 					ois.close();
+
+					// Console Message
+					console.msg("Users Profile has been LOADED");
 
 				} catch (IOException io_exception) {
 					System.out.println("File not found");
@@ -235,8 +241,9 @@ public class SHSController {
 						user.setActiveUser(true);
 						console.msg(user.getName() + " is now logged in");
 						frame.getUserLocationLabel().setText(user.getLocation());
-						frame.repaint();
-						frame.getUserLocationLabel().setText(user.getLocation());
+						frame.getLabelUserPermissionValue().setText(user.getPermission());
+
+						// Refresh UI
 						frame.repaint();
 						break;
 					} else {
@@ -247,33 +254,35 @@ public class SHSController {
 			}
 		});
 
-		/** Add Use **/
+		/** Add User **/
 		JButton addNewUserButton = this.frame.getnewUserButton();
-		final JTextField enterNewUsername = this.frame.getNewUserName();
+		JTextField enterNewUsername = this.frame.getNewUserName();
+		JComboBox comboBoxPermission = this.frame.getComboBoxPermission();
 		addNewUserButton.addMouseListener(new MouseAdapter() {
 			// new user button click event
 			public void mouseClicked(MouseEvent e) {
 				boolean contains = false;
-				String NewUsername = enterNewUsername.getText();
+				String newUsername = enterNewUsername.getText();
+				String userPermission = comboBoxPermission.getSelectedItem().toString();
 				String[] users = user.getUserStringArray();
 				for (int i = 0; i < users.length; i++) {
-					if (users[i].equals(NewUsername))
+					if (users[i].equals(newUsername))
 						contains = true;
 				}
 				if (!contains) {
-					Users New = new Users(NewUsername);
+					Users New = new Users(newUsername, userPermission);
 					int index = 0;
 					for (int i = 0; i < user.getUserList().size(); i++) {
-						if (user.getUserList().get(i).getName().equals(NewUsername)) {
+						if (user.getUserList().get(i).getName().equals(newUsername)) {
 							index = i;
 							break;
 						}
 					}
 					console.msg(
-							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+							newUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 					frame.repaint();
 				} else {
-					console.msg("The username \"" + NewUsername
+					console.msg("The username \"" + newUsername
 							+ "\" is already linked to an existing user. User will not be added");
 				}
 			}

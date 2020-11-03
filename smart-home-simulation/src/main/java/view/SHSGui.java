@@ -284,45 +284,61 @@ public class SHSGui extends JFrame {
 		tabbedPane.addTab("SHC", null, panelSHC, null);
 		panelSHC.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Doors");
-		lblNewLabel.setBounds(6, 31, 38, 16);
-		panelSHC.add(lblNewLabel);
+		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane_1.setBounds(16, 6, 277, 406);
+		panelSHC.add(tabbedPane_1);
 		
-		doorsComboBox = new JComboBox();
-		doorsComboBox.setBounds(46, 27, 144, 27);
-		panelSHC.add(doorsComboBox);
+		JPanel LightsPanel = new JPanel();
+		tabbedPane_1.addTab("Lights", null, LightsPanel, null);
+		LightsPanel.setLayout(null);
 		
-		OpenDoorsButton = new JButton("Open/Close");
-		OpenDoorsButton.setBounds(190, 26, 117, 29);
-		panelSHC.add(OpenDoorsButton);
-		
-		JLabel lblLights = new JLabel("Lights");
-		lblLights.setBounds(6, 65, 45, 16);
-		panelSHC.add(lblLights);
+		JLabel lblLights = new JLabel("Rooms");
+		lblLights.setBounds(6, 46, 50, 16);
+		LightsPanel.add(lblLights);
 		
 		lightsComboBox = new JComboBox();
-		lightsComboBox.setBounds(46, 61, 144, 27);
-		panelSHC.add(lightsComboBox);
-		
-		LightsButton = new JButton("Turn ON/OFF");
-		LightsButton.setBounds(190, 60, 117, 29);
-		panelSHC.add(LightsButton);
-		
-		JLabel lblWindows = new JLabel("Windows");
-		lblWindows.setBounds(6, 100, 62, 16);
-		panelSHC.add(lblWindows);
-		
-		OpenWindowsComboBox = new JComboBox();
-		OpenWindowsComboBox.setBounds(66, 96, 144, 27);
-		panelSHC.add(OpenWindowsComboBox);
-		
-		openWindowsButton = new JButton("Open/Close");
-		openWindowsButton.setBounds(202, 96, 105, 27);
-		panelSHC.add(openWindowsButton);
+		lightsComboBox.setBounds(46, 42, 204, 27);
+		LightsPanel.add(lightsComboBox);
 		
 		AutoModeToggleButton = new JToggleButton("Auto Mode");
-		AutoModeToggleButton.setBounds(6, 145, 301, 27);
-		panelSHC.add(AutoModeToggleButton);
+		AutoModeToggleButton.setBounds(6, 7, 244, 27);
+		LightsPanel.add(AutoModeToggleButton);
+		
+		LightsButton = new JButton("Turn ON/OFF");
+		LightsButton.setBounds(68, 73, 117, 29);
+		LightsPanel.add(LightsButton);
+		
+		JPanel DoorsPanel = new JPanel();
+		tabbedPane_1.addTab("Doors", null, DoorsPanel, null);
+		DoorsPanel.setLayout(null);
+		
+		doorsComboBox = new JComboBox();
+		doorsComboBox.setBounds(46, 5, 204, 27);
+		DoorsPanel.add(doorsComboBox);
+		
+		JLabel lblNewLabel = new JLabel("Rooms");
+		lblNewLabel.setBounds(6, 9, 54, 16);
+		DoorsPanel.add(lblNewLabel);
+		
+		OpenDoorsButton = new JButton("Open/Close");
+		OpenDoorsButton.setBounds(69, 32, 117, 29);
+		DoorsPanel.add(OpenDoorsButton);
+		
+		JPanel WindowsPanel = new JPanel();
+		tabbedPane_1.addTab("Windows", null, WindowsPanel, null);
+		WindowsPanel.setLayout(null);
+		
+		OpenWindowsComboBox = new JComboBox();
+		OpenWindowsComboBox.setBounds(46, 5, 204, 27);
+		WindowsPanel.add(OpenWindowsComboBox);
+		
+		JLabel lblWindows = new JLabel("Rooms");
+		lblWindows.setBounds(6, 9, 54, 16);
+		WindowsPanel.add(lblWindows);
+		
+		openWindowsButton = new JButton("Open/Close");
+		openWindowsButton.setBounds(69, 32, 117, 29);
+		WindowsPanel.add(openWindowsButton);
 
 		/** SHP PANEL **/
 		JPanel panelSHP = new JPanel();
@@ -938,5 +954,4 @@ public class SHSGui extends JFrame {
 	public void setAutoModeToggleButton(JToggleButton autoModeToggleButton) {
 		AutoModeToggleButton = autoModeToggleButton;
 	}
-	
 }

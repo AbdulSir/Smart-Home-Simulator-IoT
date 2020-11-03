@@ -26,7 +26,7 @@ public class SHCController {
 		this.console = console;
 		user = new Users();
 		AutoModeState = false;
-		
+
 		// User Event Handler
 		userEvents();
 	}
@@ -52,17 +52,19 @@ public class SHCController {
 
 		frame.getLightsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Lights lights = new Lights();
-				String location = frame.getLightsComboBox().getSelectedItem().toString();
-				int index = frame.getLightsComboBox().getSelectedIndex();
-				if (!lights.getLightsList().get(index).areLightsOn()) {
-					lights.getLightsList().get(index).setLights(true);
-					frame.repaint();
-					console.msg("The light in the " + location + " is on");
-				} else {
-					lights.getLightsList().get(index).setLights(false);
-					frame.repaint();
-					console.msg("The light in the " + location + " is off");
+				if (!getAutoModeState()) {
+					Lights lights = new Lights();
+					String location = frame.getLightsComboBox().getSelectedItem().toString();
+					int index = frame.getLightsComboBox().getSelectedIndex();
+					if (!lights.getLightsList().get(index).areLightsOn()) {
+						lights.getLightsList().get(index).setLights(true);
+						frame.repaint();
+						console.msg("The light in the " + location + " is on");
+					} else {
+						lights.getLightsList().get(index).setLights(false);
+						frame.repaint();
+						console.msg("The light in the " + location + " is off");
+					}
 				}
 			}
 
@@ -90,14 +92,14 @@ public class SHCController {
 				int state = itemEvent.getStateChange();
 				RoomCounter rooms = new RoomCounter();
 				Lights lights = new Lights();
-				
+
 				if (state == ItemEvent.SELECTED) {
 					setAutoModeState(true);
 					console.msg("Auto Mode ON");
-					for(int i = 0; i < rooms.getRooms().size(); i++) {
-						if(rooms.getRooms().get(i).getCount() > 0)
+					for (int i = 0; i < rooms.getRooms().size(); i++) {
+						if (rooms.getRooms().get(i).getCount() > 0)
 							lights.getLightsList().get(i).setLights(true);
-						else if(rooms.getRooms().get(i).getCount() == 0) 
+						else if (rooms.getRooms().get(i).getCount() == 0)
 							lights.getLightsList().get(i).setLights(false);
 					}
 					frame.repaint();

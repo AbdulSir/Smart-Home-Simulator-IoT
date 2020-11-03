@@ -118,7 +118,16 @@ public class SHSGui extends JFrame {
 		menuBar.add(mnFile);
 		// Open Option under File
 		mntmOpen = new JMenuItem("Open");
+		mntmOpen.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/open_layout.png")));
 		mnFile.add(mntmOpen);
+		
+		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/save.png")));
+		mnFile.add(mntmSave);
+		
+		JMenuItem mntmLoad = new JMenuItem("Load");
+		mntmLoad.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/load.png")));
+		mnFile.add(mntmLoad);
 
 		/** Main Panel **/
 		JPanel contentPane = new JPanel();

@@ -41,14 +41,15 @@ public class SHSController {
 	private HouseLayout houseLayout;
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
-	
-	public SHSController() {}
-	
+
+	public SHSController() {
+	}
+
 	public SHSController(SHSGui frame) {
 		/** Main GUI **/
 		this.frame = frame;
 		user = new Users();
-		
+
 		/** Create default User **/
 		Users defaultUser = new Users("Admin");
 
@@ -60,13 +61,13 @@ public class SHSController {
 		this.simulationButton = new SimulationButton(frame.getTogglebuttonSimulator(), console);
 
 		/** Temperature Control **/
-		this.temperature = new Temperature(frame,frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
 		/** Time **/
-		this.time = new Time(frame,frame.getPresstimeBtn(), frame.getTimeSpinner(),frame.getDateChooser(), console);
+		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), console);
 
 		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
-		
+
 		/** SHC Controller **/
 		this.coreController = new SHCController(frame, console);
 
@@ -102,9 +103,9 @@ public class SHSController {
 
 				// read .json file
 				rjFile = new ReadingJsonFile(jFileChooser.getSelectedFile().toString());
-				//rjFile.getRoomArray().size() - Number of rooms in the JSON file
-				//+ 2 - Outside and Hallway
-				String[] userRoomArray = new String[rjFile.getRoomArray().size()+2];
+				// rjFile.getRoomArray().size() - Number of rooms in the JSON file
+				// + 2 - Outside and Hallway
+				String[] userRoomArray = new String[rjFile.getRoomArray().size() + 2];
 				String[] itemsArray = new String[rjFile.getRoomArray().size()];
 
 				// get value from array
@@ -117,11 +118,11 @@ public class SHSController {
 				}
 				userRoomArray[userRoomArray.length - 1] = "Outside";
 				userRoomArray[userRoomArray.length - 2] = "Hallway";
-				
+
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile);
 				frame.getPanelView().add(houseLayout);
-				
+
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
 				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getDoorsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
@@ -151,8 +152,6 @@ public class SHSController {
 					if (user.getName().equalsIgnoreCase(userToMakeActive)) {
 						user.setActiveUser(true);
 						console.msg(user.getName() + " is now logged in");
-						frame.getUserLocationLabel().setText(user.getLocation());
-                        frame.repaint();
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.repaint();
 						break;
@@ -186,10 +185,12 @@ public class SHSController {
 							break;
 						}
 					}
-					console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+					console.msg(
+							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 					frame.repaint();
 				} else {
-					console.msg("The username \"" + NewUsername + "\" is already linked to an existing user. User will not be added");
+					console.msg("The username \"" + NewUsername
+							+ "\" is already linked to an existing user. User will not be added");
 				}
 			}
 		});
@@ -208,8 +209,6 @@ public class SHSController {
 						console.msg(userToDelete + "'s profile has been deleted from the system");
 						frame.repaint();
 						break;
-					} else {
-						continue;
 					}
 				}
 			}
@@ -254,14 +253,13 @@ public class SHSController {
 			}
 		};
 		comboBoxDeleteUser.addPopupMenuListener(userDeletedListener);
-		
+
 		frame.getComboBoxWeather().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String weather = frame.getComboBoxWeather().getSelectedItem().toString();
 				frame.getWeatherValue().setText(weather);
 				frame.repaint();
-				
-				}
+			}
 		});
 
 	}

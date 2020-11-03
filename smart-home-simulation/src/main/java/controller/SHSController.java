@@ -95,29 +95,47 @@ public class SHSController {
 			// On Click
 			public void actionPerformed(ActionEvent action) {
 
-				try {
-					// File & Object Output Stream
-					FileOutputStream fos = new FileOutputStream(new File("myUsers.txt"));
-					ObjectOutputStream oos = new ObjectOutputStream(fos);
+				// Parent Component
+				JFrame parentFrame = new JFrame();
 
-					// Write User Object
-					for (Users u : user.getUserList()) {
-						oos.writeObject(u);
+				// Open File Explorer
+				JFileChooser jFileChooser = new JFileChooser();
+				jFileChooser.setDialogTitle("Select Location to Save File");
+				jFileChooser.setCurrentDirectory(new File("."));
+
+				// User Selection
+				int userSelection = jFileChooser.showSaveDialog(parentFrame);
+
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+
+					// File Selected
+					String fileToSave = jFileChooser.getSelectedFile().toString();
+					System.out.println(fileToSave);
+
+					try {
+						// File & Object Output Stream
+						FileOutputStream fos = new FileOutputStream(new File(fileToSave));
+						ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+						// Write User Object
+						for (Users u : user.getUserList()) {
+							oos.writeObject(u);
+						}
+
+						// Close Stream
+						fos.close();
+						oos.close();
+
+						// Console Message
+						console.msg("Users Profile has been SAVED.");
+
+					} catch (FileNotFoundException file_exception) {
+						file_exception.printStackTrace();
+					} catch (IOException io_exception) {
+						io_exception.printStackTrace();
 					}
 
-					// Close Stream
-					fos.close();
-					oos.close();
-
-					// Console Message
-					console.msg("Users Profile has been SAVED.");
-
-				} catch (FileNotFoundException file_exception) {
-					file_exception.printStackTrace();
-				} catch (IOException io_exception) {
-					io_exception.printStackTrace();
 				}
-
 			}
 		});
 
@@ -132,37 +150,53 @@ public class SHSController {
 
 			public void actionPerformed(ActionEvent action) {
 
-				try {
-					// File & Object Input Stream
-					FileInputStream fis = new FileInputStream(new File("myUsers.txt"));
-					ObjectInputStream ois = new ObjectInputStream(fis);
+				// open file explorer
+				JFileChooser jFileChooser = new JFileChooser();
+				jFileChooser.setDialogTitle("Choose a JSON file: ");
+				jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				jFileChooser.setCurrentDirectory(new File("."));
 
-					ArrayList<Users> file_list_users = new ArrayList<Users>();
-
-					// Read file
-					while (fis.available() > 0) {
-						file_list_users.add((Users) ois.readObject());
+				// get file name
+				int returnValue = jFileChooser.showSaveDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					if (jFileChooser.getSelectedFile().isFile()) {
+						System.out.println("You loaded: " + jFileChooser.getSelectedFile());
 					}
-
-					user.setUserList(file_list_users);
-
-					// Close Stream
-					fis.close();
-					ois.close();
-
-					// Console Message
-					console.msg("Users Profile has been LOADED");
-
-				} catch (IOException io_exception) {
-					System.out.println("File not found");
-					io_exception.printStackTrace();
-				} catch (ClassNotFoundException class_exception) {
-					class_exception.printStackTrace();
 				}
 
-				// Refresh Ui
-				frame.repaint();
+				if (jFileChooser.getSelectedFile() != null) {
+					try {
+						// File & Object Input Stream
+						FileInputStream fis = new FileInputStream(new File(jFileChooser.getSelectedFile().toString()));
+						ObjectInputStream ois = new ObjectInputStream(fis);
 
+						ArrayList<Users> file_list_users = new ArrayList<Users>();
+
+						// Read file
+						while (fis.available() > 0) {
+							file_list_users.add((Users) ois.readObject());
+						}
+
+						user.setUserList(file_list_users);
+
+						// Close Stream
+						fis.close();
+						ois.close();
+
+						// Console Message
+						console.msg("Users Profile has been LOADED");
+
+					} catch (IOException io_exception) {
+						System.out.println("File not found");
+						io_exception.printStackTrace();
+					} catch (ClassNotFoundException class_exception) {
+						class_exception.printStackTrace();
+					}
+
+					// Refresh Ui
+					frame.repaint();
+
+				}
 			}
 		});
 
@@ -176,7 +210,7 @@ public class SHSController {
 		/** Open File **/
 		this.frame.getMntmOpen().addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent action) {
+			public void actionPerformed(ActionEvent arg0) {
 				// open file explorer
 				JFileChooser jFileChooser = new JFileChooser();
 				jFileChooser.setDialogTitle("Choose a JSON file: ");
@@ -191,34 +225,30 @@ public class SHSController {
 					}
 				}
 
-				if (jFileChooser.getSelectedFile() != null) {
-					// read .json file
-					rjFile = new ReadingJsonFile(jFileChooser.getSelectedFile().toString());
-					// rjFile.getRoomArray().size() - Number of rooms in the JSON file
-					// + 2 - Outside and Hallway
-					String[] userRoomArray = new String[rjFile.getRoomArray().size() + 2];
-					String[] userWindowArray = new String[rjFile.getRoomArray().size()];
+				// read .json file
+				rjFile = new ReadingJsonFile(jFileChooser.getSelectedFile().toString());
+				// rjFile.getRoomArray().size() - Number of rooms in the JSON file
+				// + 2 - Outside and Hallway
+				String[] userRoomArray = new String[rjFile.getRoomArray().size() + 2];
+				String[] userWindowArray = new String[rjFile.getRoomArray().size()];
 
-					// get value from array
-					for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
-						userRoomArray[i] = userWindowArray[i] = rjFile.getRoomArray().get(i).toString();
-						new Windows(rjFile.getRoomArray().get(i).toString());
-					}
-					userRoomArray[userRoomArray.length - 1] = "Outside";
-					userRoomArray[userRoomArray.length - 2] = "Hallway";
-					// 2d layout
-					houseLayout = new HouseLayout(rjFile);
-					frame.getPanelView().add(houseLayout);
-
-					editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
-					editSimulation.getContext().getComboBoxWindowLocation()
-							.setModel(new DefaultComboBoxModel(userWindowArray));
-
-					// refresh layout
-					frame.repaint();
-				} else {
-					System.out.println("No file selected.");
+				// get value from array
+				for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
+					userRoomArray[i] = userWindowArray[i] = rjFile.getRoomArray().get(i).toString();
+					new Windows(rjFile.getRoomArray().get(i).toString());
 				}
+				userRoomArray[userRoomArray.length - 1] = "Outside";
+				userRoomArray[userRoomArray.length - 2] = "Hallway";
+				// 2d layout
+				houseLayout = new HouseLayout(rjFile);
+				frame.getPanelView().add(houseLayout);
+
+				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
+				editSimulation.getContext().getComboBoxWindowLocation()
+						.setModel(new DefaultComboBoxModel(userWindowArray));
+
+				// refresh layout
+				frame.repaint();
 			}
 		});
 	}

@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import model.Lights;
-import model.Rooms;
+import model.RoomCounter;
 import model.Users;
 import model.Windows;
 import view.ContextSimulation;
@@ -50,7 +50,7 @@ public class EditSimulation {
 		/** Change the location of a user **/
 		this.context.getSetLocation().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Rooms rooms = new Rooms();
+				RoomCounter rooms = new RoomCounter();
 				SHCController core = new SHCController();
 				Lights lights = new Lights();
 				JComboBox comboBoxUsers = context.getComboBoxUsers();

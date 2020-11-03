@@ -7,7 +7,7 @@ import java.awt.event.ItemListener;
 
 import model.Doors;
 import model.Lights;
-import model.Rooms;
+import model.RoomCounter;
 import model.Users;
 import model.Windows;
 import view.SHSGui;
@@ -88,7 +88,7 @@ public class SHCController {
 		frame.getAutoModeToggleButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				int state = itemEvent.getStateChange();
-				Rooms rooms = new Rooms();
+				RoomCounter rooms = new RoomCounter();
 				Lights lights = new Lights();
 				
 				if (state == ItemEvent.SELECTED) {

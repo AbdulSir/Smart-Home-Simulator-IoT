@@ -22,7 +22,7 @@ import model.Doors;
 import model.HouseLayout;
 import model.Lights;
 import model.ReadingJsonFile;
-import model.Rooms;
+import model.RoomCounter;
 import model.Temperature;
 import model.Time;
 import model.Users;
@@ -113,7 +113,7 @@ public class SHSController {
 					new Windows(rjFile.getRoomArray().get(i).toString());
 					new Doors(rjFile.getRoomArray().get(i).toString());
 					new Lights(rjFile.getRoomArray().get(i).toString());
-					new Rooms(rjFile.getRoomArray().get(i).toString());
+					new RoomCounter(rjFile.getRoomArray().get(i).toString());
 				}
 				userRoomArray[userRoomArray.length - 1] = "Outside";
 				userRoomArray[userRoomArray.length - 2] = "Hallway";

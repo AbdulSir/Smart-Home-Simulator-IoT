@@ -2,15 +2,15 @@ package model;
 
 import java.util.ArrayList;
 
-public class Rooms {
+public class RoomCounter {
 	private String location;
 	private int count;
-	private static ArrayList<Rooms> rooms = new ArrayList<Rooms>();
+	private static ArrayList<RoomCounter> rooms = new ArrayList<RoomCounter>();
 	
-	public Rooms() {}
+	public RoomCounter() {}
 	
 	/** Constructor **/
-	public Rooms(String location) {
+	public RoomCounter(String location) {
 		this.location = location;
 		count = 0;
 		rooms.add(this);
@@ -47,14 +47,14 @@ public class Rooms {
 	/**
 	 * Getter 
 	 */
-	public ArrayList<Rooms> getRooms() {
+	public ArrayList<RoomCounter> getRooms() {
 		return rooms;
 	}
 
 	/**
 	 * Setter 
 	 */
-	public static void setRooms(ArrayList<Rooms> rooms) {
-		Rooms.rooms = rooms;
+	public static void setRooms(ArrayList<RoomCounter> rooms) {
+		RoomCounter.rooms = rooms;
 	}
 }

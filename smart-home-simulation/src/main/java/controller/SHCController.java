@@ -65,6 +65,8 @@ public class SHCController {
 						frame.repaint();
 						console.msg("The light in the " + location + " is off");
 					}
+				} else {
+					console.msg("The ON/OFF button for the lights is disabled when Auto Mode is activated");
 				}
 			}
 
@@ -75,14 +77,21 @@ public class SHCController {
 				Windows windows = new Windows();
 				String location = frame.getOpenWindowsComboBox().getSelectedItem().toString();
 				int index = frame.getOpenWindowsComboBox().getSelectedIndex();
-				if (!windows.getWindowList().get(index).isOpen()) {
-					windows.getWindowList().get(index).setOpen(true);
-					frame.repaint();
-					console.msg("The window in the " + location + " is open");
+				if (!windows.getWindowList().get(index).isBlocked()) {
+					if (!windows.getWindowList().get(index).isOpen()) {
+						windows.getWindowList().get(index).setOpen(true);
+						frame.repaint();
+						console.msg("The window in the " + location + " is open");
+					} else {
+						windows.getWindowList().get(index).setOpen(false);
+						frame.repaint();
+						console.msg("The window in the " + location + " is closed");
+					}
 				} else {
-					windows.getWindowList().get(index).setOpen(false);
-					frame.repaint();
-					console.msg("The window in the " + location + " is closed");
+					if(windows.getWindowList().get(index).isOpen())
+						console.msg("The window in the " + location + " cannot be closed because its path is blocked");
+					else
+						console.msg("The window in the " + location + " cannot be opened because its path is blocked");
 				}
 			}
 		});

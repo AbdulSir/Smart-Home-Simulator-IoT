@@ -154,6 +154,9 @@ public class SHSController {
 					class_exception.printStackTrace();
 				}
 
+				// Refresh Ui
+				frame.repaint();
+
 			}
 		});
 

@@ -82,7 +82,7 @@ public class EditSimulation {
 				else
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
 
-				if(core.getAutoModeState() && rooms.getRooms().get(newRoomIndex).getCount() > 0)
+				if(core.getAutoModeState())
 					lights.getLightsList().get(newRoomIndex).setLights(true);
 				if(core.getAutoModeState() && rooms.getRooms().get(oldRoomIndex).getCount() == 0)
 					lights.getLightsList().get(oldRoomIndex).setLights(false);

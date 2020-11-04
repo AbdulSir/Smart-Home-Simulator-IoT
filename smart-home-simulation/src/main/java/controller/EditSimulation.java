@@ -54,7 +54,7 @@ public class EditSimulation {
 				String oldLocation = user.getUserList().get(index).getLocation();
 				user.getUserList().get(index).setLocation(context.getComboBoxLocation().getSelectedItem().toString());
 				String newLocation = user.getUserList().get(index).getLocation();
-				if (frame.getSHPcontroller().getAwayMode() == false && newLocation != "Outside") {
+				if (frame.getSHPcontroller().getAwayMode() == true && newLocation != "Outside") {
 					console.msg ("Intruder Alert!");
 				}
 				if (oldLocation.equalsIgnoreCase(newLocation) && oldLocation.equalsIgnoreCase("Outside"))

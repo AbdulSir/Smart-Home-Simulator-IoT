@@ -65,10 +65,10 @@ public class EditSimulation {
 				for (int i = 0; i < rooms.getRooms().size(); i++) {
 					if(oldLocation.equals(newLocation))
 						break;
-					if (rooms.getRooms().get(i).getLocation().equals(oldLocation)) {
+					if (rooms.getRooms().get(i).getLocation().equals(oldLocation) && !oldLocation.equals("Outside")) {
 						rooms.getRooms().get(i).decrementCounter();;
 						oldRoomIndex = i;
-					} else if(rooms.getRooms().get(i).getLocation().equals(newLocation)) {
+					} else if(rooms.getRooms().get(i).getLocation().equals(newLocation) && !newLocation.equals("Outside")) {
 						rooms.getRooms().get(i).incrementCounter();
 						newRoomIndex = i;
 					}
@@ -82,7 +82,7 @@ public class EditSimulation {
 				else
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
 
-				if(core.getAutoModeState())
+				if(core.getAutoModeState() && !newLocation.equals("Outside"))
 					lights.getLightsList().get(newRoomIndex).setLights(true);
 				if(core.getAutoModeState() && rooms.getRooms().get(oldRoomIndex).getCount() == 0)
 					lights.getLightsList().get(oldRoomIndex).setLights(false);

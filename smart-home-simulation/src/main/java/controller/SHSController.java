@@ -42,6 +42,7 @@ public class SHSController {
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
 	private RoomCounter rooms;
+	private Lights lights;
 
 	public SHSController() {
 	}
@@ -51,6 +52,8 @@ public class SHSController {
 		this.frame = frame;
 		user = new Users();
 		rooms = new RoomCounter();
+		lights = new Lights();
+
 
 		/** Create default User **/
 		Users defaultUser = new Users("Admin","PARENT");
@@ -143,7 +146,9 @@ public class SHSController {
 
 				// Setting count of entrance to account for default user
 				rooms.getRooms().get(itemsArray.length - 1).incrementCounter();
-
+				if(coreController.getAutoModeState())
+					lights.getLightsList().get(itemsArray.length - 1).setLights(true);
+				
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile);
 				frame.getPanelView().add(houseLayout);
@@ -334,6 +339,8 @@ public class SHSController {
 					console.msg(
 							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 					rooms.getRooms().get(rooms.getRooms().size() - 1).incrementCounter();
+					if(coreController.getAutoModeState())
+						lights.getLightsList().get(rooms.getRooms().size() - 1).setLights(true);
 					frame.repaint();
 				} else {
 					console.msg("The username \"" + NewUsername

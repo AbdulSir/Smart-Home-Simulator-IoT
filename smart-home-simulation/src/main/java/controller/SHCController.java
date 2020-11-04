@@ -8,22 +8,24 @@ import java.awt.event.ItemListener;
 import model.Doors;
 import model.Lights;
 import model.RoomCounter;
-import model.Users;
 import model.Windows;
 import view.SHSGui;
 
 public class SHCController {
 	private SHSGui frame;
-	private Users user;
 	private Console console;
+	private Lights lights;
+	private Doors doors;
 	private static boolean AutoModeState;
 
-	public SHCController() {}
+	public SHCController() {
+	}
 
 	public SHCController(SHSGui frame, Console console) {
 		this.frame = frame;
 		this.console = console;
-		user = new Users();
+		lights = new Lights();
+		doors = new Doors();
 		AutoModeState = false;
 
 		// User Event Handler
@@ -33,26 +35,27 @@ public class SHCController {
 	private void userEvents() {
 		frame.getOpenDoorsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Doors doors = new Doors();
 				String location = frame.getDoorsComboBox().getSelectedItem().toString();
 				int index = frame.getDoorsComboBox().getSelectedIndex();
-				if (!doors.getDoorList().get(index).isOpen()) {
-					doors.getDoorList().get(index).setOpen(true);
-					frame.repaint();
-					console.msg("The " + location + " door is open");
+				if (!doors.getDoorList().get(index).isLocked()) {
+					if (!doors.getDoorList().get(index).isOpen()) {
+						doors.getDoorList().get(index).setOpen(true);
+						frame.repaint();
+						console.msg("The " + location + " door is open");
+					} else {
+						doors.getDoorList().get(index).setOpen(false);
+						frame.repaint();
+						console.msg("The " + location + " door is closed");
+					}
 				} else {
-					doors.getDoorList().get(index).setOpen(false);
-					frame.repaint();
-					console.msg("The " + location + " door is closed");
+					console.msg("The door in the " + location + " is locked so it cannot be opened");
 				}
-
 			}
 		});
 
 		frame.getLightsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!getAutoModeState()) {
-					Lights lights = new Lights();
 					String location = frame.getLightsComboBox().getSelectedItem().toString();
 					int index = frame.getLightsComboBox().getSelectedIndex();
 					if (!lights.getLightsList().get(index).areLightsOn()) {
@@ -61,7 +64,7 @@ public class SHCController {
 						console.msg("The light in the " + location + " is on");
 					} else {
 						lights.getLightsList().get(index).setLights(false);
-						frame.repaint(); 
+						frame.repaint();
 						console.msg("The light in the " + location + " is off");
 					}
 				} else {
@@ -87,7 +90,7 @@ public class SHCController {
 						console.msg("The window in the " + location + " is closed");
 					}
 				} else {
-					if(windows.getWindowList().get(index).isOpen())
+					if (windows.getWindowList().get(index).isOpen())
 						console.msg("The window in the " + location + " cannot be closed because its path is blocked");
 					else
 						console.msg("The window in the " + location + " cannot be opened because its path is blocked");
@@ -99,7 +102,6 @@ public class SHCController {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				int state = itemEvent.getStateChange();
 				RoomCounter rooms = new RoomCounter();
-				Lights lights = new Lights();
 
 				if (state == ItemEvent.SELECTED) {
 					setAutoModeState(true);
@@ -117,21 +119,20 @@ public class SHCController {
 				}
 			}
 		});
-		
+
 		frame.getLockDoorsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Doors doors = new Doors();
 				String location = frame.getDoorsComboBox().getSelectedItem().toString();
 				int index = frame.getDoorsComboBox().getSelectedIndex();
-				if(!doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
+				if (!doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
 					doors.getDoorList().get(index).setLocked(true);
 					frame.repaint();
 					console.msg("The door in the " + location + " has been locked");
-				} else if(doors.getDoorList().get(index).isLocked()) {
+				} else if (doors.getDoorList().get(index).isLocked()) {
 					doors.getDoorList().get(index).setLocked(false);
 					frame.repaint();
 					console.msg("The door in the " + location + " has been unlocked");
-				} else if(doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
+				} else if (doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
 					console.msg("The door in the " + location + " cannot be locked because its open");
 				}
 			}

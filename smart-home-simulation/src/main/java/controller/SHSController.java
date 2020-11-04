@@ -8,9 +8,16 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
@@ -38,28 +45,31 @@ public class SHSController {
 	private HouseLayout houseLayout;
 	private ReadingJsonFile rjFile;
 	private ContextSimulation contextSimulation;
-	
-	public SHSController() {}
-	
+
+	public SHSController() {
+	}
+
 	public SHSController(SHSGui frame) {
 		/** Main GUI **/
 		this.frame = frame;
 		user = new Users();
-		
+
 		/** Create default User **/
-		Users defaultUser = new Users("Admin");
+		Users defaultUser = new Users("Admin", "PARENT");
 
 		/** Control Console **/
 		this.console = new Console(frame.getTextAreaConsoleLog());
 		console.msg("Welcome to the Smart Home Simulator");
 
 		/** Simulation Button **/
-		this.simulationButton = new SimulationButton(frame.getTogglebuttonSimulator(), console);
+		this.simulationButton = new SimulationButton();
 
 		/** Temperature Control **/
-		this.temperature = new Temperature(frame,frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
+
 		/** Time **/
-		this.time = new Time(frame,frame.getPresstimeBtn(), frame.getTimeSpinner(),frame.getDateChooser(), console);
+		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(),
+				frame.getSlider(), console);
 
 		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
@@ -67,8 +77,20 @@ public class SHSController {
 		// Open File
 		readFileEvent();
 
+		// Load File
+		loadFileEvent();
+
+		// Read File
+		saveFileEvent();
+
 		// User Event Handler
 		userEvents();
+
+		// Simulation Button Handler
+		simulationButtonEvents();
+
+		// Slider label
+		sliderLabel();
 	}
 
 	/**
@@ -96,9 +118,9 @@ public class SHSController {
 
 				// read .json file
 				rjFile = new ReadingJsonFile(jFileChooser.getSelectedFile().toString());
-				//rjFile.getRoomArray().size() - Number of rooms in the JSON file
-				//+ 2 - Outside and Hallway
-				String[] userRoomArray = new String[rjFile.getRoomArray().size()+2];
+				// rjFile.getRoomArray().size() - Number of rooms in the JSON file
+				// + 2 - Outside and Hallway
+				String[] userRoomArray = new String[rjFile.getRoomArray().size() + 2];
 				String[] userWindowArray = new String[rjFile.getRoomArray().size()];
 
 				// get value from array
@@ -111,14 +133,132 @@ public class SHSController {
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile);
 				frame.getPanelView().add(houseLayout);
-				
+
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
-				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(userWindowArray));
+				editSimulation.getContext().getComboBoxWindowLocation()
+						.setModel(new DefaultComboBoxModel(userWindowArray));
 
 				// refresh layout
 				frame.repaint();
 			}
 		});
+	}
+
+	/**
+	 * Save user in .txt file Event Handler
+	 */
+	private void saveFileEvent() {
+
+		this.frame.getMntmSave().addActionListener(new ActionListener() {
+
+			// On Click
+			public void actionPerformed(ActionEvent action) {
+
+				// Parent Component
+				JFrame parentFrame = new JFrame();
+
+				// Open File Explorer
+				JFileChooser jFileChooser = new JFileChooser();
+				jFileChooser.setDialogTitle("Select Location to Save File");
+				jFileChooser.setCurrentDirectory(new File("."));
+
+				// User Selection
+				int userSelection = jFileChooser.showSaveDialog(parentFrame);
+
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+
+					// File Selected
+					String fileToSave = jFileChooser.getSelectedFile().toString();
+					System.out.println(fileToSave);
+
+					try {
+						// File & Object Output Stream
+						FileOutputStream fos = new FileOutputStream(new File(fileToSave));
+						ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+						// Write User Object
+						for (Users u : user.getUserList()) {
+							oos.writeObject(u);
+						}
+
+						// Close Stream
+						fos.close();
+						oos.close();
+
+						// Console Message
+						console.msg("Users Profile has been SAVED.");
+
+					} catch (FileNotFoundException file_exception) {
+						file_exception.printStackTrace();
+					} catch (IOException io_exception) {
+						io_exception.printStackTrace();
+					}
+
+				}
+			}
+		});
+
+	}
+
+	/**
+	 * Load user from .txt file Event Handler
+	 */
+	private void loadFileEvent() {
+
+		this.frame.getMntmLoad().addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent action) {
+
+				// open file explorer
+				JFileChooser jFileChooser = new JFileChooser();
+				jFileChooser.setDialogTitle("Choose a JSON file: ");
+				jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				jFileChooser.setCurrentDirectory(new File("."));
+
+				// get file name
+				int returnValue = jFileChooser.showSaveDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					if (jFileChooser.getSelectedFile().isFile()) {
+						System.out.println("You loaded: " + jFileChooser.getSelectedFile());
+					}
+				}
+
+				if (jFileChooser.getSelectedFile() != null) {
+					try {
+						// File & Object Input Stream
+						FileInputStream fis = new FileInputStream(new File(jFileChooser.getSelectedFile().toString()));
+						ObjectInputStream ois = new ObjectInputStream(fis);
+
+						ArrayList<Users> file_list_users = new ArrayList<Users>();
+
+						// Read file
+						while (fis.available() > 0) {
+							file_list_users.add((Users) ois.readObject());
+						}
+
+						user.setUserList(file_list_users);
+
+						// Close Stream
+						fis.close();
+						ois.close();
+
+						// Console Message
+						console.msg("Users Profile has been LOADED");
+
+					} catch (IOException io_exception) {
+						System.out.println("File not found");
+						io_exception.printStackTrace();
+					} catch (ClassNotFoundException class_exception) {
+						class_exception.printStackTrace();
+					}
+
+					// Refresh Ui
+					frame.repaint();
+
+				}
+			}
+		});
+
 	}
 
 	/**
@@ -139,8 +279,9 @@ public class SHSController {
 						user.setActiveUser(true);
 						console.msg(user.getName() + " is now logged in");
 						frame.getUserLocationLabel().setText(user.getLocation());
-                        frame.repaint();
-						frame.getUserLocationLabel().setText(user.getLocation());
+						frame.getLabelUserPermissionValue().setText(user.getPermission());
+
+						// Refresh UI
 						frame.repaint();
 						break;
 					} else {
@@ -151,32 +292,36 @@ public class SHSController {
 			}
 		});
 
-		/** Add Use **/
+		/** Add User **/
 		JButton addNewUserButton = this.frame.getnewUserButton();
-		final JTextField enterNewUsername = this.frame.getNewUserName();
+		JTextField enterNewUsername = this.frame.getNewUserName();
+		JComboBox comboBoxPermission = this.frame.getComboBoxPermission();
 		addNewUserButton.addMouseListener(new MouseAdapter() {
 			// new user button click event
 			public void mouseClicked(MouseEvent e) {
 				boolean contains = false;
-				String NewUsername = enterNewUsername.getText();
+				String newUsername = enterNewUsername.getText();
+				String userPermission = comboBoxPermission.getSelectedItem().toString();
 				String[] users = user.getUserStringArray();
 				for (int i = 0; i < users.length; i++) {
-					if (users[i].equals(NewUsername))
+					if (users[i].equals(newUsername))
 						contains = true;
 				}
 				if (!contains) {
-					Users New = new Users(NewUsername);
+					Users New = new Users(newUsername, userPermission);
 					int index = 0;
 					for (int i = 0; i < user.getUserList().size(); i++) {
-						if (user.getUserList().get(i).getName().equals(NewUsername)) {
+						if (user.getUserList().get(i).getName().equals(newUsername)) {
 							index = i;
 							break;
 						}
 					}
-					console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+					console.msg(
+							newUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 					frame.repaint();
 				} else {
-					console.msg("The username \"" + NewUsername + "\" is already linked to an existing user. User will not be added");
+					console.msg("The username \"" + newUsername
+							+ "\" is already linked to an existing user. User will not be added");
 				}
 			}
 		});
@@ -241,15 +386,68 @@ public class SHSController {
 			}
 		};
 		comboBoxDeleteUser.addPopupMenuListener(userDeletedListener);
-		
+
 		frame.getComboBoxWeather().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String weather = frame.getComboBoxWeather().getSelectedItem().toString();
 				frame.getWeatherValue().setText(weather);
 				frame.repaint();
-				
-				}
+
+			}
 		});
+
+	}
+
+	/**
+	 * On Click Simulation Button Event Handler
+	 */
+	private void simulationButtonEvents() {
+		this.frame.getTogglebuttonSimulator().addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent itemEvent) {
+				int state = itemEvent.getStateChange();
+
+				if (state == ItemEvent.SELECTED) {
+					// Set Simulation State to TRUE
+					simulationButton.setSimulatorState(true);
+
+					// Run timer
+					time.startTimer();
+
+					// Display Message to Console
+					console.msg("Simulator ON");
+				} else if (state == ItemEvent.DESELECTED) {
+					// Set Simulation State to FALSE
+					simulationButton.setSimulatorState(false);
+
+					// Stop Timer
+					time.stopTimer();
+
+					// Display Message to Console
+					console.msg("Simulator OFF");
+				}
+
+			}
+		});
+
+	}
+
+	/**
+	 * Labels for the JSlider
+	 */
+	private void sliderLabel() {
+		// Add position label in the slider
+		JSlider slider = this.frame.getSlider();
+		Hashtable position = new Hashtable();
+		position.put(1, new JLabel("1m"));
+		position.put(15, new JLabel("15m"));
+		position.put(30, new JLabel("30m"));
+		position.put(45, new JLabel("45m"));
+		position.put(60, new JLabel("1h"));
+		position.put(75, new JLabel("1h15"));
+		position.put(90, new JLabel("1h30"));
+		position.put(105, new JLabel("1h45"));
+		position.put(120, new JLabel("2h"));
+		slider.setLabelTable(position);
 
 	}
 }

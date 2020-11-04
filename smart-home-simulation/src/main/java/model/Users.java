@@ -1,15 +1,18 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Users {
+public class Users implements Serializable {
 
+	private static final long serialVersionUID = 34319;
 	private String name;
 	private Boolean activeUser;
 	private static ArrayList<Users> userList = new ArrayList<Users>();
 	private int userNumber;
 	private static int counter = 0;
 	private String location;
+	private String permission;
 
 	/**
 	 * Class Constructor
@@ -24,8 +27,9 @@ public class Users {
 	/**
 	 * Class Constructor specifying number of objects to create
 	 */
-	public Users(String name) {
+	public Users(String name, String permission) {
 		this.name = name;
+		this.permission = permission;
 		this.activeUser = false;
 		this.location = "Hallway";
 		getUserList().add(this);
@@ -53,8 +57,8 @@ public class Users {
 			System.out.println(user.activeUser);
 			System.out.println("-----------");
 		}
-	}	
-	
+	}
+
 	/**
 	 * 
 	 * Returns string array of userList
@@ -68,6 +72,13 @@ public class Users {
 	}
 
 	/**
+	 * toString method
+	 */
+	public String toString() {
+		return this.name + " is at " + this.location;
+	}
+
+	/**
 	 * Getter userList
 	 */
 	public ArrayList<Users> getUserList() {
@@ -77,8 +88,9 @@ public class Users {
 	/**
 	 * Setter userList
 	 */
-	public static void setUserList(ArrayList<Users> userList) {
+	public void setUserList(ArrayList<Users> userList) {
 		Users.userList = userList;
+		counter = userList.size();
 	}
 
 	/**
@@ -136,4 +148,23 @@ public class Users {
 	public void setUserNumber(int userNumber) {
 		this.userNumber = userNumber;
 	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return permission level
+	 */
+	public String getPermission() {
+		return permission;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param permission level
+	 */
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
+
 }

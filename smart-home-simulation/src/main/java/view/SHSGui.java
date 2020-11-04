@@ -82,6 +82,8 @@ public class SHSGui extends JFrame {
 	private JButton awayModeBtn;
 	private JSpinner awayModeStartTime;
 	private JSpinner awayModeStopTime;
+	private JTextField timeToAlertInput;
+	private static SHPController SHPcontroller;
 
 	/**
 	 * Launch the application.
@@ -93,7 +95,7 @@ public class SHSGui extends JFrame {
 					SHSGui frame = new SHSGui();
 					// Controller
 					SHSController controller = new SHSController(frame);
-					SHPController SHPcontroller = new SHPController(frame);
+					SHPcontroller = new SHPController(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -447,6 +449,15 @@ public class SHSGui extends JFrame {
 		JLabel setAwayModeLabel = new JLabel("Away Mode Time");
 		setAwayModeLabel.setBounds(6, 25, 109, 16);
 		panelSHP.add(setAwayModeLabel);
+		
+		timeToAlertInput = new JTextField();
+		timeToAlertInput.setBounds(170, 59, 130, 26);
+		panelSHP.add(timeToAlertInput);
+		timeToAlertInput.setColumns(10);
+		
+		JLabel timeToAlertLabel = new JLabel("Time until alert");
+		timeToAlertLabel.setBounds(6, 64, 164, 16);
+		panelSHP.add(timeToAlertLabel);
 		/** SHH PANEL **/
 		JPanel panelSHH = new JPanel();
 		tabbedPane.addTab("SHH", null, panelSHH, null);
@@ -1073,4 +1084,11 @@ public class SHSGui extends JFrame {
 		this.awayModeBtn = awayModeBtn;
 	}
 
+	public static SHPController getSHPcontroller() {
+		return SHPcontroller;
+	}
+
+	public static void setSHPcontroller(SHPController sHPcontroller) {
+		SHPcontroller = sHPcontroller;
+	}
 }

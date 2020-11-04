@@ -9,7 +9,7 @@ public class MoveLoggedUser {
 	@Test
 	public void test() {
 		//Check User Logged in
-		Users user1 = new Users("test1");
+		Users user1 = new Users("test1", "Parent");
 		user1.setActiveUser(true);
 		assertEquals(true, user1.getActiveUser());
 		user1.setLocation("BedRoom");

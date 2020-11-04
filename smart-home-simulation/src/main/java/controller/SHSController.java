@@ -7,10 +7,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
@@ -53,19 +53,19 @@ public class SHSController {
 		rooms = new RoomCounter();
 
 		/** Create default User **/
-		Users defaultUser = new Users("Admin");
+		Users defaultUser = new Users("Admin","PARENT");
 
 		/** Control Console **/
 		this.console = new Console(frame.getTextAreaConsoleLog());
 		console.msg("Welcome to the Smart Home Simulator");
 
 		/** Simulation Button **/
-		this.simulationButton = new SimulationButton(frame.getTogglebuttonSimulator(), console);
+		this.simulationButton = new SimulationButton();
 
 		/** Temperature Control **/
 		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
 		/** Time **/
-		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), console);
+		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console);
 
 		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
@@ -309,18 +309,20 @@ public class SHSController {
 		/** Add Use **/
 		JButton addNewUserButton = this.frame.getnewUserButton();
 		final JTextField enterNewUsername = this.frame.getNewUserName();
+		JComboBox comboBoxPermission = this.frame.getComboBoxPermission();
 		addNewUserButton.addMouseListener(new MouseAdapter() {
 			// new user button click event
 			public void mouseClicked(MouseEvent e) {
 				boolean contains = false;
 				String NewUsername = enterNewUsername.getText();
+				String userPermission = comboBoxPermission.getSelectedItem().toString();
 				String[] users = user.getUserStringArray();
 				for (int i = 0; i < users.length; i++) {
 					if (users[i].equals(NewUsername))
 						contains = true;
 				}
 				if (!contains) {
-					Users New = new Users(NewUsername);
+					Users New = new Users(NewUsername, userPermission);
 					int index = 0;
 					for (int i = 0; i < user.getUserList().size(); i++) {
 						if (user.getUserList().get(i).getName().equals(NewUsername)) {

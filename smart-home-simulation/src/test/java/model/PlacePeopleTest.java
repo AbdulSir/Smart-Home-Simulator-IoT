@@ -9,8 +9,8 @@ public class PlacePeopleTest {
 	@Test
 	// Use case ID 8
 	public void test() {
-		Users user1 = new Users("test1");
-		Users user2 = new Users("test2");
+		Users user1 = new Users("test1", "Parent");
+		Users user2 = new Users("test2", "Parent");
 		user1.setActiveUser(true);
 		assertEquals(true, user1.getActiveUser());
 		assertEquals(false, user2.getActiveUser());

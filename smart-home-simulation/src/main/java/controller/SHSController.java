@@ -16,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.swing.*;
@@ -67,7 +68,8 @@ public class SHSController {
 		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
 
 		/** Time **/
-		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), console);
+		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(),
+				frame.getSlider(), console);
 
 		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
@@ -86,6 +88,9 @@ public class SHSController {
 
 		// Simulation Button Handler
 		simulationButtonEvents();
+
+		// Slider label
+		sliderLabel();
 	}
 
 	/**
@@ -423,6 +428,26 @@ public class SHSController {
 
 			}
 		});
+
+	}
+
+	/**
+	 * Labels for the JSlider
+	 */
+	private void sliderLabel() {
+		// Add position label in the slider
+		JSlider slider = this.frame.getSlider();
+		Hashtable position = new Hashtable();
+		position.put(1, new JLabel("1m"));
+		position.put(15, new JLabel("15m"));
+		position.put(30, new JLabel("30m"));
+		position.put(45, new JLabel("45m"));
+		position.put(60, new JLabel("1h"));
+		position.put(75, new JLabel("1h15"));
+		position.put(90, new JLabel("1h30"));
+		position.put(105, new JLabel("1h45"));
+		position.put(120, new JLabel("2h"));
+		slider.setLabelTable(position);
 
 	}
 }

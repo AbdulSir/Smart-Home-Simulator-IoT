@@ -13,8 +13,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JButton;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -30,11 +33,13 @@ public class Time {
 	private JDateChooser dateChooser;
 	private Timer t;
 	private Date time;
+	private int increment_time_value;
 
 	/**
 	 * Constructor
 	 */
-	public Time(SHSGui frame, JButton btn, JSpinner time_spinner, JDateChooser date, Console console) {
+	public Time(SHSGui frame, JButton btn, JSpinner time_spinner, JDateChooser date, JSlider slider, Console console) {
+		this.increment_time_value = 1;
 		this.console = console;
 
 		// set current date as default
@@ -67,6 +72,13 @@ public class Time {
 			}
 		});
 
+		// Slider Event Handler
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				setIncrement_time_value(slider.getValue());
+			}
+		});
+
 		// constantly incrementing timer
 		this.t = new Timer(1000, new ActionListener() {
 
@@ -78,7 +90,7 @@ public class Time {
 				// increment time
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(getTime());
-				calendar.add(Calendar.MINUTE, 15);
+				calendar.add(Calendar.MINUTE, increment_time_value);
 				setTime(calendar.getTime());
 			}
 		});
@@ -141,6 +153,24 @@ public class Time {
 	 */
 	public void setDateChooser(JDateChooser dateChooser) {
 		this.dateChooser = dateChooser;
+	}
+
+	/**
+	 * Getter
+	 */
+	public int getIncrement_time_value() {
+		return increment_time_value;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setIncrement_time_value(int increment_time_value) {
+		// at least 1
+		if (increment_time_value <= 0)
+			increment_time_value = 1;
+
+		this.increment_time_value = increment_time_value;
 	}
 
 }

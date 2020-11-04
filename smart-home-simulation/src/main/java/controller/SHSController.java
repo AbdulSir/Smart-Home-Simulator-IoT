@@ -199,7 +199,6 @@ public class SHSController {
 					}
 					console.msg(
 							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
-					//int count = rooms.getRooms().get(rooms.getRooms().size()-1).getCount();
 					rooms.getRooms().get(rooms.getRooms().size()-1).incrementCounter();
 					frame.repaint();
 				} else {

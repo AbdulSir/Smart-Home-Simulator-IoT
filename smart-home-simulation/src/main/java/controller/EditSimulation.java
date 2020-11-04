@@ -66,11 +66,9 @@ public class EditSimulation {
 					if(oldLocation.equals(newLocation))
 						break;
 					if (rooms.getRooms().get(i).getLocation().equals(oldLocation)) {
-						//int count = rooms.getRooms().get(i).getCount() - 1;
 						rooms.getRooms().get(i).decrementCounter();;
 						oldRoomIndex = i;
 					} else if(rooms.getRooms().get(i).getLocation().equals(newLocation)) {
-						//int count = rooms.getRooms().get(i).getCount() + 1;
 						rooms.getRooms().get(i).incrementCounter();
 						newRoomIndex = i;
 					}

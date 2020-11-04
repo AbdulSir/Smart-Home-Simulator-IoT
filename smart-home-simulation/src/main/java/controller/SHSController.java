@@ -130,7 +130,7 @@ public class SHSController {
 				itemsArray[itemsArray.length - 1] = "Entrance";
 				
 				//Setting count of entrance to account for default user
-				rooms.getRooms().get(itemsArray.length - 1).setCount(1);
+				rooms.getRooms().get(itemsArray.length - 1).incrementCounter();;
 				
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile);
@@ -199,8 +199,8 @@ public class SHSController {
 					}
 					console.msg(
 							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
-					int count = rooms.getRooms().get(rooms.getRooms().size()-1).getCount();
-					rooms.getRooms().get(rooms.getRooms().size()-1).setCount(count+1);
+					//int count = rooms.getRooms().get(rooms.getRooms().size()-1).getCount();
+					rooms.getRooms().get(rooms.getRooms().size()-1).incrementCounter();
 					frame.repaint();
 				} else {
 					console.msg("The username \"" + NewUsername

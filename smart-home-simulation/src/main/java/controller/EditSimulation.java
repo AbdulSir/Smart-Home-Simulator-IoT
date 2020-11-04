@@ -21,7 +21,7 @@ public class EditSimulation {
 	private Users user;
 	private Console console;
 	private SHSGui frame;
-
+	private Windows windows;
 	/**
 	 * Constructor
 	 */
@@ -31,6 +31,8 @@ public class EditSimulation {
 		this.user = user;
 		this.console = console;
 		this.frame = frame;
+		
+		windows = new Windows();
 		// event handler
 		createEvents();
 	}
@@ -64,12 +66,12 @@ public class EditSimulation {
 					if(oldLocation.equals(newLocation))
 						break;
 					if (rooms.getRooms().get(i).getLocation().equals(oldLocation)) {
-						int count = rooms.getRooms().get(i).getCount() - 1;
-						rooms.getRooms().get(i).setCount(count);
+						//int count = rooms.getRooms().get(i).getCount() - 1;
+						rooms.getRooms().get(i).decrementCounter();;
 						oldRoomIndex = i;
 					} else if(rooms.getRooms().get(i).getLocation().equals(newLocation)) {
-						int count = rooms.getRooms().get(i).getCount() + 1;
-						rooms.getRooms().get(i).setCount(count);
+						//int count = rooms.getRooms().get(i).getCount() + 1;
+						rooms.getRooms().get(i).incrementCounter();
 						newRoomIndex = i;
 					}
 				}
@@ -93,7 +95,6 @@ public class EditSimulation {
 		/** Block/Unblock Window **/
 		this.context.getBlockButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Windows windows = new Windows();
 				String location = context.getComboBoxWindowLocation().getSelectedItem().toString();
 				int index = context.getComboBoxWindowLocation().getSelectedIndex();
 				if (!windows.getWindowList().get(index).isBlocked()) {
@@ -111,7 +112,6 @@ public class EditSimulation {
 		/** Block all Windows **/
 		this.context.getBlockAllButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Windows windows = new Windows();
 				for (int i = 0; i < windows.getWindowList().size(); i++) {
 					windows.getWindowList().get(i).setBlocked(true);
 				}
@@ -122,7 +122,6 @@ public class EditSimulation {
 		/** Unblock all Windows **/
 		this.context.getUnblockAllButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Windows windows = new Windows();
 				for (int i = 0; i < windows.getWindowList().size(); i++) {
 					windows.getWindowList().get(i).setBlocked(false);
 				}

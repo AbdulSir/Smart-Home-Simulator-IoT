@@ -16,6 +16,15 @@ public class RoomCounter {
 		rooms.add(this);
 	}
 	
+	public void incrementCounter() {
+		count++;
+		setCount(count);
+	}
+
+	public void decrementCounter() {
+		count--;
+		setCount(count);
+	}
 	/**
 	 * Getter 
 	 */

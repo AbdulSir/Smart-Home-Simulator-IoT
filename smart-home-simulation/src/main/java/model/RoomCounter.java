@@ -18,12 +18,10 @@ public class RoomCounter {
 	
 	public void incrementCounter() {
 		count++;
-		//setCount(count);
 	}
 
 	public void decrementCounter() {
 		count--;
-		//setCount(count);
 	}
 	/**
 	 * Getter 

@@ -298,6 +298,7 @@ public class SHSController {
 						user.setActiveUser(true);
 						console.msg(user.getName() + " is now logged in");
 						frame.getUserLocationLabel().setText(user.getLocation());
+						frame.getLabelUserPermissionValue().setText(user.getPermission());
 						frame.repaint();
 						break;
 					}

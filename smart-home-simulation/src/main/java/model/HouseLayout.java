@@ -41,7 +41,7 @@ public class HouseLayout extends JPanel {
 		try {
 			int offSet = 0;
 			int countOutside = 0;
-			int countHallway = 0;
+			int countEntrance = 0;
 			int countRoom = 0;
 			userImage = ImageIO.read(getClass().getResource("/resources/user-2-icon.png"));
 			Users users = new Users();
@@ -113,11 +113,11 @@ public class HouseLayout extends JPanel {
 				if (i == 4) {
 					g.translate(150, -400);
 					g.drawRect(0, 0, 100, 400);
-					g.drawString("Hallway", 40, 200);
+					g.drawString("Entrance", 40, 200);
 					int x = 5, y = 20;
 					for (int j = 0; j < usersArray.size(); j++) {
-						if (("Hallway").equals(usersArray.get(j).getLocation())) {
-							if (countHallway == 0) {
+						if (("Entrance").equals(usersArray.get(j).getLocation())) {
+							if (countEntrance == 0) {
 								g.drawImage(userImage, x, y, 25, 25, null);
 								g.setColor(Color.BLUE);
 								if(usersArray.get(j).getUserNumber() < 10)
@@ -125,7 +125,7 @@ public class HouseLayout extends JPanel {
 								else
 									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 4, y + 18);
 							}
-							if (countHallway > 0) {
+							if (countEntrance > 0) {
 								y += 30;
 								g.drawImage(userImage, x, y, 25, 25, null);
 								g.setColor(Color.BLUE);
@@ -134,7 +134,7 @@ public class HouseLayout extends JPanel {
 								else
 									g.drawString(Integer.toString(usersArray.get(j).getUserNumber()), x + 4, y + 18);
 							}
-							countHallway++;
+							countEntrance++;
 						}
 					}
 					g.setColor(Color.BLACK);
@@ -227,6 +227,7 @@ public class HouseLayout extends JPanel {
 	 * 
 	 * @param g
 	 */
+	
 	public void drawDoors(Graphics g) {
 		Doors doors = new Doors();
 		try {
@@ -234,6 +235,10 @@ public class HouseLayout extends JPanel {
 			openedDoor = ImageIO.read(getClass().getResourceAsStream("/resources/openedDoor.png"));
 			closedDoor = ImageIO.read(getClass().getResourceAsStream("/resources/closedDoor.png"));
 			ReadingJsonFile rjFile = new ReadingJsonFile("myJSON.json");
+			if(doors.getDoorList().get(doors.getDoorList().size()-1).isOpen())
+				g.drawImage(openedDoor, 215, 0 , 25, 25, null);
+			else
+				g.drawImage(closedDoor, 215, 0 , 25, 25, null);
 			for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
 				if (i < 4) {
 					if(doors.getDoorList().get(i).isOpen())
@@ -271,6 +276,10 @@ public class HouseLayout extends JPanel {
 			lightOff = ImageIO.read(getClass().getResourceAsStream("/resources/lightOff.png"));
 			lightOn = ImageIO.read(getClass().getResourceAsStream("/resources/lightOn.png"));
 			ReadingJsonFile rjFile = new ReadingJsonFile("myJSON.json");
+			if(lights.getLightsList().get(lights.getLightsList().size()-1).areLightsOn())
+				g.drawImage(lightOn, 215, 375, 25, 25, null);
+			else
+				g.drawImage(lightOff, 215, 375, 25, 25, null);
 			for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
 				if (i < 4) {
 					if(lights.getLightsList().get(i).areLightsOn())
@@ -279,8 +288,10 @@ public class HouseLayout extends JPanel {
 						g.drawImage(lightOff, 0, 75, 25, 25, null);
 					g.translate(0, 100);
 				}
-				if (i == 4)
+				if (i == 4) {
 					g.translate(250, -400);
+					
+				}
 				if (i >= 4) {
 					if(lights.getLightsList().get(i).areLightsOn())
 						g.drawImage(lightOn, 0, 75, 25, 25, null);

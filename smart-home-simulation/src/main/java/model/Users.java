@@ -27,11 +27,10 @@ public class Users {
 	public Users(String name) {
 		this.name = name;
 		this.activeUser = false;
-		this.location = "Hallway";
+		this.location = "Entrance";
 		getUserList().add(this);
 		counter++;
 		this.userNumber = counter;
-
 	}
 
 	/**

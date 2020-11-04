@@ -18,8 +18,7 @@ public class SHCController {
 	private Console console;
 	private static boolean AutoModeState;
 
-	public SHCController() {
-	}
+	public SHCController() {}
 
 	public SHCController(SHSGui frame, Console console) {
 		this.frame = frame;
@@ -62,7 +61,7 @@ public class SHCController {
 						console.msg("The light in the " + location + " is on");
 					} else {
 						lights.getLightsList().get(index).setLights(false);
-						frame.repaint();
+						frame.repaint(); 
 						console.msg("The light in the " + location + " is off");
 					}
 				} else {

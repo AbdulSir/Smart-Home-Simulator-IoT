@@ -41,6 +41,7 @@ public class SHSController {
 	private HouseLayout houseLayout;
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
+	private RoomCounter rooms; 
 
 	public SHSController() {
 	}
@@ -49,7 +50,8 @@ public class SHSController {
 		/** Main GUI **/
 		this.frame = frame;
 		user = new Users();
-
+		rooms = new RoomCounter();
+		
 		/** Create default User **/
 		Users defaultUser = new Users("Admin");
 
@@ -104,30 +106,41 @@ public class SHSController {
 				// read .json file
 				rjFile = new ReadingJsonFile(jFileChooser.getSelectedFile().toString());
 				// rjFile.getRoomArray().size() - Number of rooms in the JSON file
-				// + 2 - Outside and Hallway
+				// + 2 - Outside and Entrance
 				String[] userRoomArray = new String[rjFile.getRoomArray().size() + 2];
-				String[] itemsArray = new String[rjFile.getRoomArray().size()];
+				String[] userWindowsArray = new String[rjFile.getRoomArray().size()];
+				String[] itemsArray = new String[rjFile.getRoomArray().size()+1];
 
 				// get value from array
 				for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
-					userRoomArray[i] = itemsArray[i] = rjFile.getRoomArray().get(i).toString();
+					userRoomArray[i] = itemsArray[i] = userWindowsArray[i] = rjFile.getRoomArray().get(i).toString();
+					
 					new Windows(rjFile.getRoomArray().get(i).toString());
 					new Doors(rjFile.getRoomArray().get(i).toString());
 					new Lights(rjFile.getRoomArray().get(i).toString());
 					new RoomCounter(rjFile.getRoomArray().get(i).toString());
+					if (i == rjFile.getRoomArray().size() - 1) {
+						new Doors("Entrance");
+						new Lights("Entrance");
+						new RoomCounter("Entrance");
+					}
 				}
 				userRoomArray[userRoomArray.length - 1] = "Outside";
-				userRoomArray[userRoomArray.length - 2] = "Hallway";
-
+				userRoomArray[userRoomArray.length - 2] = "Entrance";
+				itemsArray[itemsArray.length - 1] = "Entrance";
+				
+				//Setting count of entrance to account for default user
+				rooms.getRooms().get(itemsArray.length - 1).setCount(1);
+				
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile);
 				frame.getPanelView().add(houseLayout);
 
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
-				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(itemsArray));
+				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(userWindowsArray));
 				frame.getDoorsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getLightsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
-				frame.getOpenWindowsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
+				frame.getOpenWindowsComboBox().setModel(new DefaultComboBoxModel(userWindowsArray));
 
 				// refresh layout
 				frame.repaint();
@@ -168,6 +181,7 @@ public class SHSController {
 			// new user button click event
 			public void mouseClicked(MouseEvent e) {
 				boolean contains = false;
+				
 				String NewUsername = enterNewUsername.getText();
 				String[] users = user.getUserStringArray();
 				for (int i = 0; i < users.length; i++) {
@@ -185,6 +199,8 @@ public class SHSController {
 					}
 					console.msg(
 							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+					int count = rooms.getRooms().get(rooms.getRooms().size()-1).getCount();
+					rooms.getRooms().get(rooms.getRooms().size()-1).setCount(count+1);
 					frame.repaint();
 				} else {
 					console.msg("The username \"" + NewUsername

@@ -64,7 +64,6 @@ public class SHSGui extends JFrame {
 	private JMenuItem mntmOpen;
 	private JLabel labelBoxLocation;
 	private JComboBox comboBoxRole;
-	private JLabel userLocationLabel;
 	private JSpinner timeSpinner;
 	private JButton presstimebtn;
 	private JLabel indoorHouseTempValue;
@@ -85,8 +84,9 @@ public class SHSGui extends JFrame {
 	private JMenuItem mntmSave;
 	private JMenuItem mntmLoad;
 	private JComboBox comboBoxPermission;
-	private JLabel labelUserPermissionValue;
 	private JSlider slider;
+	private JLabel labelUserPermissionValue;
+	private JLabel userLocationLabel;
 
 	/**
 	 * Launch the application.
@@ -671,7 +671,7 @@ public class SHSGui extends JFrame {
 
 		/** Users Location **/
 		JLabel labelRole = new JLabel("User");
-		JLabel labelLocation = new JLabel("Location:");
+		JLabel labelLocation = new JLabel("Location");
 
 		/** Combo Box Role **/
 		comboBoxRole = new JComboBox();
@@ -679,56 +679,58 @@ public class SHSGui extends JFrame {
 		/** Combo Box Location **/
 		labelBoxLocation = new JLabel();
 
-		userLocationLabel = new JLabel("N/A");
-
 		JLabel labelPermission = new JLabel("Permission");
-
+		
+		userLocationLabel = new JLabel("N/A");
+		
 		labelUserPermissionValue = new JLabel("N/A");
 
 		GroupLayout gl_panelProfileInfo = new GroupLayout(panelProfileInfo);
-		gl_panelProfileInfo.setHorizontalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup().addContainerGap().addGroup(gl_panelProfileInfo
-						.createParallelGroup(Alignment.LEADING)
+		gl_panelProfileInfo.setHorizontalGroup(
+			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelProfileInfo.createSequentialGroup()
-								.addComponent(labelRole, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.UNRELATED))
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-								.addComponent(labelPermission, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-								.addComponent(labelLocation, GroupLayout.PREFERRED_SIZE, 194,
-										GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(labelLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(labelPermission, GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))
+							.addGap(110)
+							.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panelProfileInfo.createSequentialGroup()
-										.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-												.addComponent(labelUserPermissionValue, GroupLayout.PREFERRED_SIZE, 196,
-														GroupLayout.PREFERRED_SIZE)
-												.addComponent(comboBoxRole, 0, 199, Short.MAX_VALUE))
-										.addGap(18))
-								.addGroup(gl_panelProfileInfo.createSequentialGroup()
-										.addComponent(userLocationLabel, GroupLayout.PREFERRED_SIZE, 196,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)))
-						.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)
-						.addGap(10)));
-		gl_panelProfileInfo.setVerticalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup().addContainerGap()
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE).addComponent(labelRole)
-								.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(8)
-						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(6)
-										.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
-								.addGroup(gl_panelProfileInfo.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-												.addComponent(labelPermission, GroupLayout.PREFERRED_SIZE, 14,
-														GroupLayout.PREFERRED_SIZE)
-												.addComponent(labelUserPermissionValue))
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-												.addComponent(labelLocation).addComponent(userLocationLabel))))
-						.addContainerGap()));
+									.addComponent(userLocationLabel, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED))
+								.addComponent(labelUserPermissionValue, GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
+							.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addComponent(labelRole, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(comboBoxRole, 0, 221, Short.MAX_VALUE)))
+					.addGap(0))
+		);
+		gl_panelProfileInfo.setVerticalGroup(
+			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+						.addComponent(labelRole)
+						.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(8)
+					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addGap(6)
+							.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+								.addComponent(labelPermission, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+								.addComponent(labelUserPermissionValue))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+								.addComponent(labelLocation)
+								.addComponent(userLocationLabel))))
+					.addContainerGap())
+		);
 		panelProfileInfo.setLayout(gl_panelProfileInfo);
 		panelProfile.setLayout(gl_panelProfile);
 		contentPane.setLayout(gl_contentPane);
@@ -1209,5 +1211,4 @@ public class SHSGui extends JFrame {
 	public void setSlider(JSlider slider) {
 		this.slider = slider;
 	}
-
 }

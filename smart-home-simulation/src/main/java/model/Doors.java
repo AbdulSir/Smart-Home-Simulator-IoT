@@ -17,11 +17,11 @@ public class Doors {
 	public Doors(String location) {
 		this.location = location;
 		open = false;
-		doorList.add(this);
 		if(location.equals("Entrance") || location.equals("Backyard") || location.equals("Garage"))
 			locked = true;
 		else
 			locked = false;
+		doorList.add(this);
 	}
 
 	/**

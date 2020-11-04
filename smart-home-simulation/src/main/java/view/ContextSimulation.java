@@ -30,6 +30,8 @@ public class ContextSimulation extends JFrame {
 	private JComboBox comboBoxLocation;
 	private JButton BlockButton;
 	private JComboBox comboBoxWindowLocation;
+	private JButton blockAllButton;
+	private JButton unblockAllButton;
 
 	/**
 	 * Launch the application.
@@ -54,7 +56,7 @@ public class ContextSimulation extends JFrame {
 		setTitle("Edit Context of Simulation");
 
 		/** Window Size **/
-		setBounds(250, 250, 306, 398);
+		setBounds(250, 250, 306, 440);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -128,14 +130,14 @@ public class ContextSimulation extends JFrame {
 
 		/** Window Panel **/
 		JPanel panelWindows = new JPanel();
-		panelWindows.setBounds(5, 188, 252, 143);
+		panelWindows.setBounds(5, 188, 252, 197);
 		panelWindows.setBackground(Color.WHITE);
 
 		JLabel labelWindows = new JLabel("Block Windows");
 		labelWindows.setBounds(6, 12, 94, 16);
 		
 		JPanel panelBlockWindows = new JPanel();
-		panelBlockWindows.setBounds(16, 40, 230, 90);
+		panelBlockWindows.setBounds(16, 40, 230, 151);
 		panelBlockWindows.setLayout(null);
 		contentPane.setLayout(null);
 		contentPane.add(panelLocation);
@@ -154,6 +156,14 @@ public class ContextSimulation extends JFrame {
 		BlockButton = new JButton("Block/Unblock");
 		BlockButton.setBounds(16, 55, 137, 29);
 		panelBlockWindows.add(BlockButton);
+		
+		blockAllButton = new JButton("Block ALL");
+		blockAllButton.setBounds(16, 85, 105, 29);
+		panelBlockWindows.add(blockAllButton);
+		
+		unblockAllButton = new JButton("Unblock ALL");
+		unblockAllButton.setBounds(16, 115, 117, 29);
+		panelBlockWindows.add(unblockAllButton);
 		panelWindows.add(labelWindows);
 	}
 
@@ -223,4 +233,34 @@ public class ContextSimulation extends JFrame {
 	public void setComboBoxWindowLocation(JComboBox comboBoxWindowLocation) {
 		this.comboBoxWindowLocation = comboBoxWindowLocation;
 	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getBlockAllButton() {
+		return blockAllButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setBlockAllButton(JButton blockAllButton) {
+		this.blockAllButton = blockAllButton;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getUnblockAllButton() {
+		return unblockAllButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setUnblockAllButton(JButton unblockAllButton) {
+		this.unblockAllButton = unblockAllButton;
+	}
+	
+	
 }

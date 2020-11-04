@@ -90,7 +90,7 @@ public class EditSimulation {
 			}
 		});
 
-		/** Block/Unblock Windows **/
+		/** Block/Unblock Window **/
 		this.context.getBlockButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Windows windows = new Windows();
@@ -108,6 +108,28 @@ public class EditSimulation {
 			}
 		});
 
+		/** Block all Windows **/
+		this.context.getBlockAllButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Windows windows = new Windows();
+				for (int i = 0; i < windows.getWindowList().size(); i++) {
+					windows.getWindowList().get(i).setBlocked(true);
+				}
+				frame.repaint();
+			}
+		});
+		
+		/** Unblock all Windows **/
+		this.context.getUnblockAllButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Windows windows = new Windows();
+				for (int i = 0; i < windows.getWindowList().size(); i++) {
+					windows.getWindowList().get(i).setBlocked(false);
+				}
+				frame.repaint();
+			}
+		});
+		
 		/** User ComboBox **/
 		PopupMenuListener userListListener = new PopupMenuListener() {
 			boolean initialized = false;

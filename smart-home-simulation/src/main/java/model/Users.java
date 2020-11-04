@@ -31,11 +31,10 @@ public class Users implements Serializable {
 		this.name = name;
 		this.permission = permission;
 		this.activeUser = false;
-		this.location = "Hallway";
+		this.location = "Entrance";
 		getUserList().add(this);
 		counter++;
 		this.userNumber = counter;
-
 	}
 
 	/**

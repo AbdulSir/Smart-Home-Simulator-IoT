@@ -41,7 +41,7 @@ public class SHSController {
 	private HouseLayout houseLayout;
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
-	private RoomCounter rooms; 
+	private RoomCounter rooms;
 
 	public SHSController() {
 	}
@@ -51,7 +51,7 @@ public class SHSController {
 		this.frame = frame;
 		user = new Users();
 		rooms = new RoomCounter();
-		
+
 		/** Create default User **/
 		Users defaultUser = new Users("Admin");
 
@@ -76,8 +76,20 @@ public class SHSController {
 		// Open File
 		readFileEvent();
 
+		// Load File
+		loadFileEvent();
+
+		// Read File
+		saveFileEvent();
+
 		// User Event Handler
 		userEvents();
+
+		// Simulation Button Handler
+		simulationButtonEvents();
+
+		// Slider label
+		sliderLabel();
 	}
 
 	/**
@@ -109,12 +121,12 @@ public class SHSController {
 				// + 2 - Outside and Entrance
 				String[] userRoomArray = new String[rjFile.getRoomArray().size() + 2];
 				String[] userWindowsArray = new String[rjFile.getRoomArray().size()];
-				String[] itemsArray = new String[rjFile.getRoomArray().size()+1];
+				String[] itemsArray = new String[rjFile.getRoomArray().size() + 1];
 
 				// get value from array
 				for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
 					userRoomArray[i] = itemsArray[i] = userWindowsArray[i] = rjFile.getRoomArray().get(i).toString();
-					
+
 					new Windows(rjFile.getRoomArray().get(i).toString());
 					new Doors(rjFile.getRoomArray().get(i).toString());
 					new Lights(rjFile.getRoomArray().get(i).toString());
@@ -128,16 +140,17 @@ public class SHSController {
 				userRoomArray[userRoomArray.length - 1] = "Outside";
 				userRoomArray[userRoomArray.length - 2] = "Entrance";
 				itemsArray[itemsArray.length - 1] = "Entrance";
-				
-				//Setting count of entrance to account for default user
+
+				// Setting count of entrance to account for default user
 				rooms.getRooms().get(itemsArray.length - 1).incrementCounter();
-				
+
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile);
 				frame.getPanelView().add(houseLayout);
 
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
-				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(userWindowsArray));
+				editSimulation.getContext().getComboBoxWindowLocation()
+						.setModel(new DefaultComboBoxModel(userWindowsArray));
 				frame.getDoorsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getLightsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getOpenWindowsComboBox().setModel(new DefaultComboBoxModel(userWindowsArray));
@@ -147,6 +160,125 @@ public class SHSController {
 			}
 		});
 	}
+	
+	/**
+	 * Save user in .txt file Event Handler
+	 */
+	private void saveFileEvent() {
+
+		this.frame.getMntmSave().addActionListener(new ActionListener() {
+
+			// On Click
+			public void actionPerformed(ActionEvent action) {
+
+				// Parent Component
+				JFrame parentFrame = new JFrame();
+
+				// Open File Explorer
+				JFileChooser jFileChooser = new JFileChooser();
+				jFileChooser.setDialogTitle("Select Location to Save File");
+				jFileChooser.setCurrentDirectory(new File("."));
+
+				// User Selection
+				int userSelection = jFileChooser.showSaveDialog(parentFrame);
+
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+
+					// File Selected
+					String fileToSave = jFileChooser.getSelectedFile().toString();
+					System.out.println(fileToSave);
+
+					try {
+						// File & Object Output Stream
+						FileOutputStream fos = new FileOutputStream(new File(fileToSave));
+						ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+						// Write User Object
+						for (Users u : user.getUserList()) {
+							oos.writeObject(u);
+						}
+
+						// Close Stream
+						fos.close();
+						oos.close();
+
+						// Console Message
+						console.msg("Users Profile has been SAVED.");
+
+					} catch (FileNotFoundException file_exception) {
+						file_exception.printStackTrace();
+					} catch (IOException io_exception) {
+						io_exception.printStackTrace();
+					}
+
+				}
+			}
+		});
+
+	}
+
+	/**
+	 * Load user from .txt file Event Handler
+	 */
+	private void loadFileEvent() {
+
+		this.frame.getMntmLoad().addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent action) {
+
+				// open file explorer
+				JFileChooser jFileChooser = new JFileChooser();
+				jFileChooser.setDialogTitle("Choose a JSON file: ");
+				jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				jFileChooser.setCurrentDirectory(new File("."));
+
+				// get file name
+				int returnValue = jFileChooser.showSaveDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					if (jFileChooser.getSelectedFile().isFile()) {
+						System.out.println("You loaded: " + jFileChooser.getSelectedFile());
+					}
+				}
+
+				if (jFileChooser.getSelectedFile() != null) {
+					try {
+						// File & Object Input Stream
+						FileInputStream fis = new FileInputStream(new File(jFileChooser.getSelectedFile().toString()));
+						ObjectInputStream ois = new ObjectInputStream(fis);
+
+						ArrayList<Users> file_list_users = new ArrayList<Users>();
+
+						// Read file
+						while (fis.available() > 0) {
+							file_list_users.add((Users) ois.readObject());
+						}
+
+						user.setUserList(file_list_users);
+
+						// Close Stream
+						fis.close();
+						ois.close();
+
+						// Console Message
+						console.msg("Users Profile has been LOADED");
+
+					} catch (IOException io_exception) {
+						System.out.println("File not found");
+						io_exception.printStackTrace();
+					} catch (ClassNotFoundException class_exception) {
+						class_exception.printStackTrace();
+					}
+
+					// Refresh Ui
+					frame.repaint();
+
+				}
+			}
+		});
+
+	}
+	
+	
 
 	/**
 	 * User Event Handler
@@ -168,7 +300,7 @@ public class SHSController {
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.repaint();
 						break;
-					} 
+					}
 				}
 
 			}
@@ -198,7 +330,7 @@ public class SHSController {
 					}
 					console.msg(
 							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
-					rooms.getRooms().get(rooms.getRooms().size()-1).incrementCounter();
+					rooms.getRooms().get(rooms.getRooms().size() - 1).incrementCounter();
 					frame.repaint();
 				} else {
 					console.msg("The username \"" + NewUsername
@@ -273,6 +405,58 @@ public class SHSController {
 				frame.repaint();
 			}
 		});
+
+	}
+	/**
+	 * On Click Simulation Button Event Handler
+	 */
+	private void simulationButtonEvents() {
+		this.frame.getTogglebuttonSimulator().addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent itemEvent) {
+				int state = itemEvent.getStateChange();
+
+				if (state == ItemEvent.SELECTED) {
+					// Set Simulation State to TRUE
+					simulationButton.setSimulatorState(true);
+
+					// Run timer
+					time.startTimer();
+
+					// Display Message to Console
+					console.msg("Simulator ON");
+				} else if (state == ItemEvent.DESELECTED) {
+					// Set Simulation State to FALSE
+					simulationButton.setSimulatorState(false);
+
+					// Stop Timer
+					time.stopTimer();
+
+					// Display Message to Console
+					console.msg("Simulator OFF");
+				}
+
+			}
+		});
+
+	}
+
+	/**
+	 * Labels for the JSlider
+	 */
+	private void sliderLabel() {
+		// Add position label in the slider
+		JSlider slider = this.frame.getSlider();
+		Hashtable position = new Hashtable();
+		position.put(1, new JLabel("1m"));
+		position.put(15, new JLabel("15m"));
+		position.put(30, new JLabel("30m"));
+		position.put(45, new JLabel("45m"));
+		position.put(60, new JLabel("1h"));
+		position.put(75, new JLabel("1h15"));
+		position.put(90, new JLabel("1h30"));
+		position.put(105, new JLabel("1h45"));
+		position.put(120, new JLabel("2h"));
+		slider.setLabelTable(position);
 
 	}
 }

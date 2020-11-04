@@ -9,10 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JSpinner;
+import javax.swing.Timer;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -21,56 +23,122 @@ import view.SHSGui;
 
 public class Time {
 
-	private JSpinner time;
+	private JSpinner time_spinner;
 	private Console console;
 	private Date date;
 	private SHSGui frame;
 	private JDateChooser dateChooser;
+	private Timer t;
+	private Date time;
 
 	/**
 	 * Constructor
 	 */
-	public Time() {
-	}
-
-	public Time(SHSGui frame,final JButton btn, final JSpinner time, JDateChooser date, final Console console) {
+	public Time(SHSGui frame, JButton btn, JSpinner time_spinner, JDateChooser date, Console console) {
 		this.console = console;
+
+		// set current date as default
+		Date date_value = new Date();
+		String formattedValue = new SimpleDateFormat("HH:mm").format(date_value);
+		setTime(date_value);
+		frame.getTimeValue().setText(formattedValue);
+
+		// listen for button click
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				setTime(time);
-				Date value = (Date) time.getValue();
+
+				// set time
+				Date value = (Date) time_spinner.getValue();
 				String formattedValue = new SimpleDateFormat("HH:mm").format(value);
 				frame.getTimeValue().setText(formattedValue);
+				setTime(value);
+
+				// set date
 				Date setDate = date.getDate();
 				String strDate = DateFormat.getDateInstance().format(setDate);
 				frame.getDateValue().setText(strDate);
+
+				// refresh ui
 				frame.repaint();
+
+				// display console message
 				console.msg("The time has been set at " + formattedValue);
 				console.msg("The date has been set to " + strDate);
 			}
 		});
+
+		// constantly incrementing timer
+		this.t = new Timer(1000, new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// display time
+				String timeToString = new SimpleDateFormat("HH:mm").format(getTime());
+				frame.getTimeValue().setText(timeToString);
+
+				// increment time
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(getTime());
+				calendar.add(Calendar.MINUTE, 15);
+				setTime(calendar.getTime());
+			}
+		});
 	}
 
-	public JSpinner getTime() {
+	public Time() {
+	}
+
+	/**
+	 * Start Timer
+	 */
+	public void startTimer() {
+		this.t.start();
+	}
+
+	/**
+	 * Stop Timer
+	 */
+	public void stopTimer() {
+		this.t.stop();
+	}
+
+	/**
+	 * Getter
+	 */
+	public Date getTime() {
 		return time;
 	}
 
-	public void setTime(JSpinner time) {
+	/**
+	 * Setter
+	 */
+	public void setTime(Date time) {
 		this.time = time;
 	}
 
+	/**
+	 * Getter
+	 */
 	public Date getDate() {
 		return date;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
+	/**
+	 * Getter
+	 */
 	public JDateChooser getDateChooser() {
 		return dateChooser;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setDateChooser(JDateChooser dateChooser) {
 		this.dateChooser = dateChooser;
 	}

@@ -61,7 +61,7 @@ public class SHSController {
 		console.msg("Welcome to the Smart Home Simulator");
 
 		/** Simulation Button **/
-		this.simulationButton = new SimulationButton(frame.getTogglebuttonSimulator(), console);
+		this.simulationButton = new SimulationButton();
 
 		/** Temperature Control **/
 		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
@@ -83,6 +83,60 @@ public class SHSController {
 
 		// User Event Handler
 		userEvents();
+
+		// Simulation Button Handler
+		simulationButtonEvents();
+	}
+
+	/**
+	 * Read File Event Handler
+	 */
+	private void readFileEvent() {
+
+		/** Open File **/
+		this.frame.getMntmOpen().addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				// open file explorer
+				JFileChooser jFileChooser = new JFileChooser();
+				jFileChooser.setDialogTitle("Choose a JSON file: ");
+				jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				jFileChooser.setCurrentDirectory(new File("."));
+
+				// get file name
+				int returnValue = jFileChooser.showSaveDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					if (jFileChooser.getSelectedFile().isFile()) {
+						System.out.println("You selected: " + jFileChooser.getSelectedFile());
+					}
+				}
+
+				// read .json file
+				rjFile = new ReadingJsonFile(jFileChooser.getSelectedFile().toString());
+				// rjFile.getRoomArray().size() - Number of rooms in the JSON file
+				// + 2 - Outside and Hallway
+				String[] userRoomArray = new String[rjFile.getRoomArray().size() + 2];
+				String[] userWindowArray = new String[rjFile.getRoomArray().size()];
+
+				// get value from array
+				for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
+					userRoomArray[i] = userWindowArray[i] = rjFile.getRoomArray().get(i).toString();
+					new Windows(rjFile.getRoomArray().get(i).toString());
+				}
+				userRoomArray[userRoomArray.length - 1] = "Outside";
+				userRoomArray[userRoomArray.length - 2] = "Hallway";
+				// 2d layout
+				houseLayout = new HouseLayout(rjFile);
+				frame.getPanelView().add(houseLayout);
+
+				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
+				editSimulation.getContext().getComboBoxWindowLocation()
+						.setModel(new DefaultComboBoxModel(userWindowArray));
+
+				// refresh layout
+				frame.repaint();
+			}
+		});
 	}
 
 	/**
@@ -200,57 +254,6 @@ public class SHSController {
 			}
 		});
 
-	}
-
-	/**
-	 * Read File Event Handler
-	 */
-	private void readFileEvent() {
-
-		/** Open File **/
-		this.frame.getMntmOpen().addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				// open file explorer
-				JFileChooser jFileChooser = new JFileChooser();
-				jFileChooser.setDialogTitle("Choose a JSON file: ");
-				jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				jFileChooser.setCurrentDirectory(new File("."));
-
-				// get file name
-				int returnValue = jFileChooser.showSaveDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
-					if (jFileChooser.getSelectedFile().isFile()) {
-						System.out.println("You selected: " + jFileChooser.getSelectedFile());
-					}
-				}
-
-				// read .json file
-				rjFile = new ReadingJsonFile(jFileChooser.getSelectedFile().toString());
-				// rjFile.getRoomArray().size() - Number of rooms in the JSON file
-				// + 2 - Outside and Hallway
-				String[] userRoomArray = new String[rjFile.getRoomArray().size() + 2];
-				String[] userWindowArray = new String[rjFile.getRoomArray().size()];
-
-				// get value from array
-				for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
-					userRoomArray[i] = userWindowArray[i] = rjFile.getRoomArray().get(i).toString();
-					new Windows(rjFile.getRoomArray().get(i).toString());
-				}
-				userRoomArray[userRoomArray.length - 1] = "Outside";
-				userRoomArray[userRoomArray.length - 2] = "Hallway";
-				// 2d layout
-				houseLayout = new HouseLayout(rjFile);
-				frame.getPanelView().add(houseLayout);
-
-				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
-				editSimulation.getContext().getComboBoxWindowLocation()
-						.setModel(new DefaultComboBoxModel(userWindowArray));
-
-				// refresh layout
-				frame.repaint();
-			}
-		});
 	}
 
 	/**
@@ -384,6 +387,39 @@ public class SHSController {
 				String weather = frame.getComboBoxWeather().getSelectedItem().toString();
 				frame.getWeatherValue().setText(weather);
 				frame.repaint();
+
+			}
+		});
+
+	}
+
+	/**
+	 * On Click Simulation Button Event Handler
+	 */
+	private void simulationButtonEvents() {
+		this.frame.getTogglebuttonSimulator().addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent itemEvent) {
+				int state = itemEvent.getStateChange();
+
+				if (state == ItemEvent.SELECTED) {
+					// Set Simulation State to TRUE
+					simulationButton.setSimulatorState(true);
+
+					// Run timer
+					time.startTimer();
+
+					// Display Message to Console
+					console.msg("Simulator ON");
+				} else if (state == ItemEvent.DESELECTED) {
+					// Set Simulation State to FALSE
+					simulationButton.setSimulatorState(false);
+
+					// Stop Timer
+					time.stopTimer();
+
+					// Display Message to Console
+					console.msg("Simulator OFF");
+				}
 
 			}
 		});

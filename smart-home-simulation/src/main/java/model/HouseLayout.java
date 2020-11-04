@@ -21,6 +21,7 @@ public class HouseLayout extends JPanel {
 	private BufferedImage openedWindow;
 	private BufferedImage closedDoor;
 	private BufferedImage openedDoor;
+	private BufferedImage lockedDoor;
 	private BufferedImage lightOff;
 	private BufferedImage lightOn;
 	private BufferedImage userImage;
@@ -234,17 +235,22 @@ public class HouseLayout extends JPanel {
 			int offSet = 0;
 			openedDoor = ImageIO.read(getClass().getResourceAsStream("/resources/openedDoor.png"));
 			closedDoor = ImageIO.read(getClass().getResourceAsStream("/resources/closedDoor.png"));
+			lockedDoor = ImageIO.read(getClass().getResourceAsStream("/resources/lock.png"));
 			ReadingJsonFile rjFile = new ReadingJsonFile("myJSON.json");
 			if(doors.getDoorList().get(doors.getDoorList().size()-1).isOpen())
 				g.drawImage(openedDoor, 215, 0 , 25, 25, null);
 			else
 				g.drawImage(closedDoor, 215, 0 , 25, 25, null);
+			if(doors.getDoorList().get(doors.getDoorList().size()-1).isLocked())
+				g.drawImage(lockedDoor, 215, 25 , 25, 25, null);
 			for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
 				if (i < 4) {
 					if(doors.getDoorList().get(i).isOpen())
 						g.drawImage(openedDoor, 125, 0, 25, 25, null);
 					else
 						g.drawImage(closedDoor, 125, 0, 25, 25, null);
+					if(doors.getDoorList().get(i).isLocked())
+						g.drawImage(lockedDoor, 125, 25 , 25, 25, null);
 					g.translate(0, 100);
 				}
 				if (i == 4)
@@ -254,6 +260,8 @@ public class HouseLayout extends JPanel {
 						g.drawImage(openedDoor, 0, 0, 25, 25, null);
 					else
 						g.drawImage(closedDoor, 0, 0, 25, 25, null);
+					if(doors.getDoorList().get(i).isLocked())
+						g.drawImage(lockedDoor, 0, 25 , 25, 25, null);
 					g.translate(0, 100);
 					offSet = offSet - 100;
 				}

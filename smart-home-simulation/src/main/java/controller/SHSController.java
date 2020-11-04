@@ -130,7 +130,7 @@ public class SHSController {
 				itemsArray[itemsArray.length - 1] = "Entrance";
 				
 				//Setting count of entrance to account for default user
-				rooms.getRooms().get(itemsArray.length - 1).incrementCounter();;
+				rooms.getRooms().get(itemsArray.length - 1).incrementCounter();
 				
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile);
@@ -181,7 +181,6 @@ public class SHSController {
 			// new user button click event
 			public void mouseClicked(MouseEvent e) {
 				boolean contains = false;
-				
 				String NewUsername = enterNewUsername.getText();
 				String[] users = user.getUserStringArray();
 				for (int i = 0; i < users.length; i++) {

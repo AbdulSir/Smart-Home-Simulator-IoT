@@ -117,6 +117,25 @@ public class SHCController {
 				}
 			}
 		});
+		
+		frame.getLockDoorsButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Doors doors = new Doors();
+				String location = frame.getDoorsComboBox().getSelectedItem().toString();
+				int index = frame.getDoorsComboBox().getSelectedIndex();
+				if(!doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
+					doors.getDoorList().get(index).setLocked(true);
+					frame.repaint();
+					console.msg("The door in the " + location + " has been locked");
+				} else if(doors.getDoorList().get(index).isLocked()) {
+					doors.getDoorList().get(index).setLocked(false);
+					frame.repaint();
+					console.msg("The door in the " + location + " has been unlocked");
+				} else if(doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
+					console.msg("The door in the " + location + " cannot be locked because its open");
+				}
+			}
+		});
 	}
 
 	/**

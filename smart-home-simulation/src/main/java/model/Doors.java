@@ -5,17 +5,23 @@ import java.util.ArrayList;
 public class Doors {
 	private String location;
 	private boolean open;
+	private boolean locked;
 	private static ArrayList<Doors> doorList = new ArrayList<Doors>();
 
 	public Doors() {
 		location = "";
 		open = false;
+		locked = false;
 	}
 
 	public Doors(String location) {
 		this.location = location;
 		open = false;
 		doorList.add(this);
+		if(location.equals("Entrance") || location.equals("Backyard") || location.equals("Garage"))
+			locked = true;
+		else
+			locked = false;
 	}
 
 	/**
@@ -32,6 +38,9 @@ public class Doors {
 		this.location = location;
 	}
 
+	/**
+	 * Setter
+	 */
 	public boolean isOpen() {
 		return open;
 	}
@@ -58,4 +67,19 @@ public class Doors {
 	public static void setDoorList(ArrayList<Doors> doorList) {
 		Doors.doorList = doorList;
 	}
+
+	/**
+	 * Getter
+	 */
+	public boolean isLocked() {
+		return locked;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
+	
 }

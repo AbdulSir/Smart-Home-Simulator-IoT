@@ -75,6 +75,7 @@ public class SHSGui extends JFrame {
 	private JComboBox OpenWindowsComboBox;
 	private JButton openWindowsButton;
 	private JToggleButton AutoModeToggleButton;
+	private JButton lockDoorsButton;
 
 	/**
 	 * Launch the application.
@@ -323,6 +324,10 @@ public class SHSGui extends JFrame {
 		OpenDoorsButton = new JButton("Open/Close");
 		OpenDoorsButton.setBounds(69, 32, 117, 29);
 		DoorsPanel.add(OpenDoorsButton);
+		
+		lockDoorsButton = new JButton("Lock/Unlock");
+		lockDoorsButton.setBounds(69, 57, 117, 29);
+		DoorsPanel.add(lockDoorsButton);
 		
 		JPanel WindowsPanel = new JPanel();
 		tabbedPane_1.addTab("Windows", null, WindowsPanel, null);
@@ -953,5 +958,19 @@ public class SHSGui extends JFrame {
 	 */
 	public void setAutoModeToggleButton(JToggleButton autoModeToggleButton) {
 		AutoModeToggleButton = autoModeToggleButton;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getLockDoorsButton() {
+		return lockDoorsButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setLockDoorsButton(JButton lockDoorsButton) {
+		this.lockDoorsButton = lockDoorsButton;
 	}
 }

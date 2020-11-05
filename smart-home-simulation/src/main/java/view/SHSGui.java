@@ -29,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import controller.SHSController;
+import controller.SHPController;
 import controller.SHCController;
 import model.Users;
 import model.ReadingJsonFile;
@@ -85,6 +86,11 @@ public class SHSGui extends JFrame {
 	private JMenuItem mntmLoad;
 	private JComboBox comboBoxPermission;
 	private JSlider slider;
+	private JButton awayModeBtn;
+	private JSpinner awayModeStartTime;
+	private JSpinner awayModeStopTime;
+	private JTextField timeToAlertInput;
+	private static SHPController SHPcontroller;
 	private JLabel labelUserPermissionValue;
 	private JLabel userLocationLabel;
 
@@ -98,6 +104,7 @@ public class SHSGui extends JFrame {
 					SHSGui frame = new SHSGui();
 					// Controller
 					SHSController controller = new SHSController(frame);
+					SHPcontroller = new SHPController(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -498,7 +505,34 @@ public class SHSGui extends JFrame {
 		/** SHP PANEL **/
 		JPanel panelSHP = new JPanel();
 		tabbedPane.addTab("SHP", null, panelSHP, null);
+		panelSHP.setLayout(null);
 
+		awayModeStartTime = new JSpinner();
+		awayModeStartTime.setBounds(125, 17, 91, 32);
+		awayModeStartTime.setModel(new SpinnerDateModel());
+		awayModeStartTime.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
+		awayModeStopTime = new JSpinner();
+		awayModeStopTime.setBounds(216, 17, 91, 32);
+		awayModeStopTime.setModel(new SpinnerDateModel());
+		awayModeStopTime.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
+		panelSHP.add(awayModeStartTime);
+		panelSHP.add(awayModeStopTime);
+		awayModeBtn = new JButton("Away Mode");
+		awayModeBtn.setBounds(190, 450, 117, 29);
+		panelSHP.add(awayModeBtn);
+		
+		JLabel setAwayModeLabel = new JLabel("Away Mode Time");
+		setAwayModeLabel.setBounds(6, 25, 109, 16);
+		panelSHP.add(setAwayModeLabel);
+		
+		timeToAlertInput = new JTextField();
+		timeToAlertInput.setBounds(169, 60, 130, 26);
+		panelSHP.add(timeToAlertInput);
+		timeToAlertInput.setColumns(10);
+		
+		JLabel timeToAlertLabel = new JLabel("Time until alert (seconds)");
+		timeToAlertLabel.setBounds(6, 64, 164, 16);
+		panelSHP.add(timeToAlertLabel);
 		/** SHH PANEL **/
 		JPanel panelSHH = new JPanel();
 		tabbedPane.addTab("SHH", null, panelSHH, null);
@@ -734,6 +768,20 @@ public class SHSGui extends JFrame {
 		panelProfileInfo.setLayout(gl_panelProfileInfo);
 		panelProfile.setLayout(gl_panelProfile);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	/**
+	 * Getter
+	 */
+	public JTextField getTimeToAlertInput() {
+		return timeToAlertInput;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTimeToAlertInput(JTextField timeToAlertInput) {
+		this.timeToAlertInput = timeToAlertInput;
 	}
 
 	/**
@@ -1211,4 +1259,26 @@ public class SHSGui extends JFrame {
 	public void setSlider(JSlider slider) {
 		this.slider = slider;
 	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getAwayModeBtn() {
+		return awayModeBtn;
+	}
+	/**
+	 * Setter
+	 */
+	public void setAwayModeBtn(JButton awayModeBtn) {
+		this.awayModeBtn = awayModeBtn;
+	}
+
+	public static SHPController getSHPcontroller() {
+		return SHPcontroller;
+	}
+
+	public static void setSHPcontroller(SHPController sHPcontroller) {
+		SHPcontroller = sHPcontroller;
+	}
+
 }

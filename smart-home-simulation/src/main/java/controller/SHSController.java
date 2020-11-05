@@ -153,8 +153,7 @@ public class SHSController {
 				frame.getPanelView().add(houseLayout);
 
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
-				editSimulation.getContext().getComboBoxWindowLocation()
-						.setModel(new DefaultComboBoxModel(userWindowsArray));
+				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(userWindowsArray));
 				frame.getDoorsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getLightsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getOpenWindowsComboBox().setModel(new DefaultComboBoxModel(userWindowsArray));

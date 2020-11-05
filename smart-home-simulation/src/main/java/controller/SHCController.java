@@ -15,6 +15,7 @@ import view.SHSGui;
 public class SHCController {
 	private SHSGui frame;
 	private Console console;
+	private SHPController securityController;
 	private Users user;
 	private Lights lights;
 	private Doors doors;
@@ -29,9 +30,11 @@ public class SHCController {
 	 * @param frame
 	 * @param console
 	 */
-	public SHCController(SHSGui frame, Console console) {
+	public SHCController(SHSGui frame, SHPController securityController) {
 		this.frame = frame;
-		this.console = console;
+		this.console = new Console(frame.getTextAreaConsoleLog());
+		/** SHP Controller **/
+		this.securityController = securityController;
 		user = new Users();
 		lights = new Lights();
 		doors = new Doors();
@@ -218,14 +221,12 @@ public class SHCController {
 		case "PARENT":
 			return true;
 		case "CHILDREN":
-			// Add stipulation for away mode
-			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights")))
+			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights")) && !securityController.getAwayMode())
 				return true;
 			else
 				return false;
 		case "GUEST":
-			// Add stipulation for away mode
-			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights")))
+			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights"))  && !securityController.getAwayMode())
 				return true;
 			else
 				return false;

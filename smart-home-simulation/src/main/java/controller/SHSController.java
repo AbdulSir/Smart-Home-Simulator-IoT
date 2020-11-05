@@ -47,7 +47,7 @@ public class SHSController {
 	public SHSController() {
 	}
 
-	public SHSController(SHSGui frame) {
+	public SHSController(SHSGui frame, SHCController coreController) {
 		/** Main GUI **/
 		this.frame = frame;
 		user = new Users();
@@ -71,7 +71,7 @@ public class SHSController {
 		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console);
 
 		/** SHC Controller **/
-		this.coreController = new SHCController(frame, console);
+		this.coreController = coreController;
 		
 		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame, coreController);

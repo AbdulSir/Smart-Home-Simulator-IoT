@@ -86,13 +86,13 @@ public class SHSGui extends JFrame {
 	private JMenuItem mntmLoad;
 	private JComboBox comboBoxPermission;
 	private JSlider slider;
-	private JButton awayModeBtn;
 	private JSpinner awayModeStartTime;
 	private JSpinner awayModeStopTime;
 	private JTextField timeToAlertInput;
 	private static SHPController SHPcontroller;
 	private JLabel labelUserPermissionValue;
 	private JLabel userLocationLabel;
+	private JToggleButton AwayModeToggleButton;
 
 	/**
 	 * Launch the application.
@@ -103,8 +103,10 @@ public class SHSGui extends JFrame {
 				try {
 					SHSGui frame = new SHSGui();
 					// Controller
-					SHSController controller = new SHSController(frame);
 					SHPcontroller = new SHPController(frame);
+					SHCController coreController = new SHCController(frame, SHPcontroller);
+					SHSController controller = new SHSController(frame, coreController);
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -517,9 +519,6 @@ public class SHSGui extends JFrame {
 		awayModeStopTime.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
 		panelSHP.add(awayModeStartTime);
 		panelSHP.add(awayModeStopTime);
-		awayModeBtn = new JButton("Away Mode");
-		awayModeBtn.setBounds(190, 450, 117, 29);
-		panelSHP.add(awayModeBtn);
 		
 		JLabel setAwayModeLabel = new JLabel("Away Mode Time");
 		setAwayModeLabel.setBounds(6, 25, 109, 16);
@@ -533,6 +532,10 @@ public class SHSGui extends JFrame {
 		JLabel timeToAlertLabel = new JLabel("Time until alert (seconds)");
 		timeToAlertLabel.setBounds(6, 64, 164, 16);
 		panelSHP.add(timeToAlertLabel);
+		
+		AwayModeToggleButton = new JToggleButton("Away Mode");
+		AwayModeToggleButton.setBounds(139, 463, 161, 29);
+		panelSHP.add(AwayModeToggleButton);
 		/** SHH PANEL **/
 		JPanel panelSHH = new JPanel();
 		tabbedPane.addTab("SHH", null, panelSHH, null);
@@ -1256,6 +1259,9 @@ public class SHSGui extends JFrame {
 		this.lockDoorsButton = lockDoorsButton;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setSlider(JSlider slider) {
 		this.slider = slider;
 	}
@@ -1263,14 +1269,15 @@ public class SHSGui extends JFrame {
 	/**
 	 * Getter
 	 */
-	public JButton getAwayModeBtn() {
-		return awayModeBtn;
+	public JToggleButton getAwayModeToggleButton() {
+		return AwayModeToggleButton;
 	}
+
 	/**
 	 * Setter
 	 */
-	public void setAwayModeBtn(JButton awayModeBtn) {
-		this.awayModeBtn = awayModeBtn;
+	public void setAwayModeToggleButton(JToggleButton awayModeToggleButton) {
+		AwayModeToggleButton = awayModeToggleButton;
 	}
 
 	public static SHPController getSHPcontroller() {
@@ -1280,5 +1287,4 @@ public class SHSGui extends JFrame {
 	public static void setSHPcontroller(SHPController sHPcontroller) {
 		SHPcontroller = sHPcontroller;
 	}
-
 }

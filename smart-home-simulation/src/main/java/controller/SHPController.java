@@ -2,12 +2,15 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.Timer;
 
 import model.Users;
@@ -40,16 +43,18 @@ public class SHPController {
 
 	private void userEvents() {
 		/** awayModeBtn event **/
-		JButton AwayModeBtn = this.frame.getAwayModeBtn();
-		AwayModeBtn.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (awayMode == false) {
-					awayMode = true;
-					console.msg("Away mode ON");
+		JToggleButton AwayModeBtn = this.frame.getAwayModeToggleButton();
+		AwayModeBtn.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent itemEvent) {
+				int state = itemEvent.getStateChange();
+
+				if (state == ItemEvent.SELECTED) {
+					setAwayMode(true);
+					console.msg("Away Mode ON");
 				}
-				else if (awayMode == true) {
-					awayMode = false;
-					console.msg("Away mode OFF");
+				else if (state == ItemEvent.DESELECTED) {
+					setAwayMode(false);
+					console.msg("Away Mode OFF");
 				}
 			}
 				

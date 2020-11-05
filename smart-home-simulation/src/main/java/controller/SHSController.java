@@ -259,6 +259,15 @@ public class SHSController {
 						}
 
 						user.setUserList(file_list_users);
+						for(int i = 0; i < user.getUserList().size(); i++) {
+							String location = user.getUserList().get(i).getLocation();
+							for(int j = 0; j < rooms.getRooms().size(); j++) {
+								if(rooms.getRooms().get(j).getLocation().equals(location)) {
+									rooms.getRooms().get(j).incrementCounter();
+									break;
+								}
+							}
+						}
 
 						// Close Stream
 						fis.close();

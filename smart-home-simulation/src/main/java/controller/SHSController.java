@@ -7,17 +7,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
@@ -25,8 +18,11 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
+import model.Doors;
 import model.HouseLayout;
+import model.Lights;
 import model.ReadingJsonFile;
+import model.RoomCounter;
 import model.Temperature;
 import model.Time;
 import model.Users;
@@ -44,7 +40,9 @@ public class SHSController {
 	private EditSimulation editSimulation;
 	private HouseLayout houseLayout;
 	private ReadingJsonFile rjFile;
-	private ContextSimulation contextSimulation;
+	private SHCController coreController;
+	private RoomCounter rooms;
+	private Lights lights;
 
 	public SHSController() {
 	}
@@ -53,9 +51,12 @@ public class SHSController {
 		/** Main GUI **/
 		this.frame = frame;
 		user = new Users();
+		rooms = new RoomCounter();
+		lights = new Lights();
+
 
 		/** Create default User **/
-		Users defaultUser = new Users("Admin", "PARENT");
+		Users defaultUser = new Users("Admin","PARENT");
 
 		/** Control Console **/
 		this.console = new Console(frame.getTextAreaConsoleLog());
@@ -66,13 +67,14 @@ public class SHSController {
 
 		/** Temperature Control **/
 		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
-
 		/** Time **/
-		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(),
-				frame.getSlider(), console);
+		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console);
 
 		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
+
+		/** SHC Controller **/
+		this.coreController = new SHCController(frame, console);
 
 		// Open File
 		readFileEvent();
@@ -119,31 +121,51 @@ public class SHSController {
 				// read .json file
 				rjFile = new ReadingJsonFile(jFileChooser.getSelectedFile().toString());
 				// rjFile.getRoomArray().size() - Number of rooms in the JSON file
-				// + 2 - Outside and Hallway
+				// + 2 - Outside and Entrance
 				String[] userRoomArray = new String[rjFile.getRoomArray().size() + 2];
-				String[] userWindowArray = new String[rjFile.getRoomArray().size()];
+				String[] userWindowsArray = new String[rjFile.getRoomArray().size()];
+				String[] itemsArray = new String[rjFile.getRoomArray().size() + 1];
 
 				// get value from array
 				for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
-					userRoomArray[i] = userWindowArray[i] = rjFile.getRoomArray().get(i).toString();
+					userRoomArray[i] = itemsArray[i] = userWindowsArray[i] = rjFile.getRoomArray().get(i).toString();
+
 					new Windows(rjFile.getRoomArray().get(i).toString());
+					new Doors(rjFile.getRoomArray().get(i).toString());
+					new Lights(rjFile.getRoomArray().get(i).toString());
+					new RoomCounter(rjFile.getRoomArray().get(i).toString());
+					if (i == rjFile.getRoomArray().size() - 1) {
+						new Doors("Entrance");
+						new Lights("Entrance");
+						new RoomCounter("Entrance");
+					}
 				}
 				userRoomArray[userRoomArray.length - 1] = "Outside";
-				userRoomArray[userRoomArray.length - 2] = "Hallway";
+				userRoomArray[userRoomArray.length - 2] = "Entrance";
+				itemsArray[itemsArray.length - 1] = "Entrance";
+
+				// Setting count of entrance to account for default user
+				rooms.getRooms().get(itemsArray.length - 1).incrementCounter();
+				if(coreController.getAutoModeState())
+					lights.getLightsList().get(itemsArray.length - 1).setLights(true);
+				
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile);
 				frame.getPanelView().add(houseLayout);
 
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
 				editSimulation.getContext().getComboBoxWindowLocation()
-						.setModel(new DefaultComboBoxModel(userWindowArray));
+						.setModel(new DefaultComboBoxModel(userWindowsArray));
+				frame.getDoorsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
+				frame.getLightsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
+				frame.getOpenWindowsComboBox().setModel(new DefaultComboBoxModel(userWindowsArray));
 
 				// refresh layout
 				frame.repaint();
 			}
 		});
 	}
-
+	
 	/**
 	 * Save user in .txt file Event Handler
 	 */
@@ -260,6 +282,8 @@ public class SHSController {
 		});
 
 	}
+	
+	
 
 	/**
 	 * User Event Handler
@@ -280,47 +304,46 @@ public class SHSController {
 						console.msg(user.getName() + " is now logged in");
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.getLabelUserPermissionValue().setText(user.getPermission());
-
-						// Refresh UI
 						frame.repaint();
 						break;
-					} else {
-						continue;
 					}
 				}
 
 			}
 		});
 
-		/** Add User **/
+		/** Add Use **/
 		JButton addNewUserButton = this.frame.getnewUserButton();
-		JTextField enterNewUsername = this.frame.getNewUserName();
+		final JTextField enterNewUsername = this.frame.getNewUserName();
 		JComboBox comboBoxPermission = this.frame.getComboBoxPermission();
 		addNewUserButton.addMouseListener(new MouseAdapter() {
 			// new user button click event
 			public void mouseClicked(MouseEvent e) {
 				boolean contains = false;
-				String newUsername = enterNewUsername.getText();
+				String NewUsername = enterNewUsername.getText();
 				String userPermission = comboBoxPermission.getSelectedItem().toString();
 				String[] users = user.getUserStringArray();
 				for (int i = 0; i < users.length; i++) {
-					if (users[i].equals(newUsername))
+					if (users[i].equals(NewUsername))
 						contains = true;
 				}
 				if (!contains) {
-					Users New = new Users(newUsername, userPermission);
+					Users New = new Users(NewUsername, userPermission);
 					int index = 0;
 					for (int i = 0; i < user.getUserList().size(); i++) {
-						if (user.getUserList().get(i).getName().equals(newUsername)) {
+						if (user.getUserList().get(i).getName().equals(NewUsername)) {
 							index = i;
 							break;
 						}
 					}
 					console.msg(
-							newUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+					rooms.getRooms().get(rooms.getRooms().size() - 1).incrementCounter();
+					if(coreController.getAutoModeState())
+						lights.getLightsList().get(rooms.getRooms().size() - 1).setLights(true);
 					frame.repaint();
 				} else {
-					console.msg("The username \"" + newUsername
+					console.msg("The username \"" + NewUsername
 							+ "\" is already linked to an existing user. User will not be added");
 				}
 			}
@@ -340,8 +363,6 @@ public class SHSController {
 						console.msg(userToDelete + "'s profile has been deleted from the system");
 						frame.repaint();
 						break;
-					} else {
-						continue;
 					}
 				}
 			}
@@ -392,12 +413,10 @@ public class SHSController {
 				String weather = frame.getComboBoxWeather().getSelectedItem().toString();
 				frame.getWeatherValue().setText(weather);
 				frame.repaint();
-
 			}
 		});
 
 	}
-
 	/**
 	 * On Click Simulation Button Event Handler
 	 */

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Windows {
 	private String location;
 	private boolean blocked;
+	private boolean open;
 	private static ArrayList<Windows> windowList = new ArrayList<Windows>();
 
 	public Windows() {
@@ -32,10 +33,19 @@ public class Windows {
 		this.location = location;
 	}
 
+	/**
+	 * Getter
+	 */
 	public boolean isBlocked() {
 		return blocked;
 	}
 
+	/**
+	 * Getter
+	 */
+	public boolean isOpen() {
+		return open;
+	}
 	/**
 	 * List of Windows
 	 * 
@@ -52,6 +62,13 @@ public class Windows {
 		this.blocked = blocked;
 	}
 
+	/**
+	 * Setter
+	 */
+	public void setOpen(boolean open) {
+		this.open = open;
+	}
+	
 	/**
 	 * Setter
 	 */

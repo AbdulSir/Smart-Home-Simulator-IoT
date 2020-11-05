@@ -7,6 +7,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import model.Lights;
+import model.RoomCounter;
 import model.Users;
 import model.Windows;
 import view.ContextSimulation;
@@ -19,7 +21,7 @@ public class EditSimulation {
 	private Users user;
 	private Console console;
 	private SHSGui frame;
-
+	private Windows windows;
 	/**
 	 * Constructor
 	 */
@@ -29,7 +31,9 @@ public class EditSimulation {
 		this.user = user;
 		this.console = console;
 		this.frame = frame;
-		 //event handler
+		
+		windows = new Windows();
+		// event handler
 		createEvents();
 	}
 
@@ -48,6 +52,9 @@ public class EditSimulation {
 		/** Change the location of a user **/
 		this.context.getSetLocation().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				RoomCounter rooms = new RoomCounter();
+				SHCController core = new SHCController();
+				Lights lights = new Lights();
 				JComboBox comboBoxUsers = context.getComboBoxUsers();
 				int index = comboBoxUsers.getSelectedIndex();
 				String userToMove = comboBoxUsers.getSelectedItem().toString();
@@ -56,6 +63,17 @@ public class EditSimulation {
 				String newLocation = user.getUserList().get(index).getLocation();
 				if (frame.getSHPcontroller().getAwayMode() == true && newLocation != "Outside") {
 					console.msg ("Intruder Alert!");
+				int newRoomIndex = 0, oldRoomIndex = 0;
+				for (int i = 0; i < rooms.getRooms().size(); i++) {
+					if(oldLocation.equals(newLocation))
+						break;
+					if (rooms.getRooms().get(i).getLocation().equals(oldLocation) && !oldLocation.equals("Outside")) {
+						rooms.getRooms().get(i).decrementCounter();;
+						oldRoomIndex = i;
+					} else if(rooms.getRooms().get(i).getLocation().equals(newLocation) && !newLocation.equals("Outside")) {
+						rooms.getRooms().get(i).incrementCounter();
+						newRoomIndex = i;
+					}
 				}
 				if (oldLocation.equalsIgnoreCase(newLocation) && oldLocation.equalsIgnoreCase("Outside"))
 					console.msg(userToMove + " is still outside of the house");
@@ -65,47 +83,52 @@ public class EditSimulation {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
 				else
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
+
+				if(core.getAutoModeState() && !newLocation.equals("Outside"))
+					lights.getLightsList().get(newRoomIndex).setLights(true);
+				if(core.getAutoModeState() && rooms.getRooms().get(oldRoomIndex).getCount() == 0)
+					lights.getLightsList().get(oldRoomIndex).setLights(false);
 				frame.repaint();
 			}
 		});
 
-		/** Block/Unblock Windows **/
+		/** Block/Unblock Window **/
 		this.context.getBlockButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Windows windows = new Windows();
 				String location = context.getComboBoxWindowLocation().getSelectedItem().toString();
-				for (int i = 0; i < windows.getWindowList().size(); i++) {
-					if(windows.getWindowList().get(i).getLocation().equals(location)) {
-						if(!windows.getWindowList().get(i).isBlocked()) {
-							windows.getWindowList().get(i).setBlocked(true);
-							frame.repaint();
-							console.msg("The window in the " + location + " has been blocked");
-						} else 
-							console.msg("The window in the " + location + " is already blocked");
-						break;
-					}
+				int index = context.getComboBoxWindowLocation().getSelectedIndex();
+				if (!windows.getWindowList().get(index).isBlocked()) {
+					windows.getWindowList().get(index).setBlocked(true);
+					frame.repaint();
+					console.msg("The window in the " + location + " has been blocked");
+				} else {
+					windows.getWindowList().get(index).setBlocked(false);
+					frame.repaint();
+					console.msg("The window in the " + location + " has been unblocked");
 				}
 			}
 		});
 
-		this.context.getUnblockButton().addActionListener(new ActionListener() {
+		/** Block all Windows **/
+		this.context.getBlockAllButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Windows windows = new Windows();
-				String location = context.getComboBoxWindowLocation().getSelectedItem().toString();
 				for (int i = 0; i < windows.getWindowList().size(); i++) {
-					if(windows.getWindowList().get(i).getLocation().equals(location)) {
-						if(windows.getWindowList().get(i).isBlocked()) {
-							windows.getWindowList().get(i).setBlocked(false);
-							frame.repaint();
-							console.msg("The window in the " + location + " has been unblocked");
-						} else 
-							console.msg("The window in the " + location + " is already unblocked");
-						break;
-					}
+					windows.getWindowList().get(i).setBlocked(true);
 				}
+				frame.repaint();
 			}
 		});
-
+		
+		/** Unblock all Windows **/
+		this.context.getUnblockAllButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < windows.getWindowList().size(); i++) {
+					windows.getWindowList().get(i).setBlocked(false);
+				}
+				frame.repaint();
+			}
+		});
+		
 		/** User ComboBox **/
 		PopupMenuListener userListListener = new PopupMenuListener() {
 			boolean initialized = false;
@@ -126,7 +149,7 @@ public class EditSimulation {
 		};
 		context.getComboBoxUsers().addPopupMenuListener(userListListener);
 	}
-	
+
 	/**
 	 * Getter
 	 */

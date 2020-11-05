@@ -22,16 +22,17 @@ public class EditSimulation {
 	private Console console;
 	private SHSGui frame;
 	private Windows windows;
+	private SHCController core;
 	/**
 	 * Constructor
 	 */
-	public EditSimulation(JButton editContext, Users user, Console console, SHSGui frame) {
+	public EditSimulation(JButton editContext, Users user, Console console, SHSGui frame, SHCController core) {
 		this.context = new ContextSimulation();
 		this.editContext = editContext;
 		this.user = user;
 		this.console = console;
 		this.frame = frame;
-		
+		this.core = core;
 		windows = new Windows();
 		// event handler
 		createEvents();
@@ -53,7 +54,6 @@ public class EditSimulation {
 		this.context.getSetLocation().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RoomCounter rooms = new RoomCounter();
-				SHCController core = new SHCController();
 				Lights lights = new Lights();
 				JComboBox comboBoxUsers = context.getComboBoxUsers();
 				int index = comboBoxUsers.getSelectedIndex();
@@ -61,17 +61,14 @@ public class EditSimulation {
 				String oldLocation = user.getUserList().get(index).getLocation();
 				user.getUserList().get(index).setLocation(context.getComboBoxLocation().getSelectedItem().toString());
 				String newLocation = user.getUserList().get(index).getLocation();
-				int newRoomIndex = 0, oldRoomIndex = 0;
 				for (int i = 0; i < rooms.getRooms().size(); i++) {
 					if(oldLocation.equals(newLocation))
 						break;
-					if (rooms.getRooms().get(i).getLocation().equals(oldLocation) && !oldLocation.equals("Outside")) {
-						rooms.getRooms().get(i).decrementCounter();;
-						oldRoomIndex = i;
-					} else if(rooms.getRooms().get(i).getLocation().equals(newLocation) && !newLocation.equals("Outside")) {
+					if (rooms.getRooms().get(i).getLocation().equals(oldLocation) && !oldLocation.equals("Outside")) 
+						rooms.getRooms().get(i).decrementCounter();
+					else if(rooms.getRooms().get(i).getLocation().equals(newLocation) && !newLocation.equals("Outside")) 
 						rooms.getRooms().get(i).incrementCounter();
-						newRoomIndex = i;
-					}
+					
 				}
 				if (oldLocation.equalsIgnoreCase(newLocation) && oldLocation.equalsIgnoreCase("Outside"))
 					console.msg(userToMove + " is still outside of the house");
@@ -81,11 +78,8 @@ public class EditSimulation {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
 				else
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
-
-				if(core.getAutoModeState() && !newLocation.equals("Outside"))
-					lights.getLightsList().get(newRoomIndex).setLights(true);
-				if(core.getAutoModeState() && rooms.getRooms().get(oldRoomIndex).getCount() == 0)
-					lights.getLightsList().get(oldRoomIndex).setLights(false);
+				
+				core.checkLights();
 				frame.repaint();
 			}
 		});

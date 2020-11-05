@@ -70,11 +70,11 @@ public class SHSController {
 		/** Time **/
 		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console);
 
-		/** Edit Simulation **/
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
-
 		/** SHC Controller **/
 		this.coreController = new SHCController(frame, console);
+		
+		/** Edit Simulation **/
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame, coreController);
 
 		// Open File
 		readFileEvent();
@@ -146,8 +146,7 @@ public class SHSController {
 
 				// Setting count of entrance to account for default user
 				rooms.getRooms().get(itemsArray.length - 1).incrementCounter();
-				if(coreController.getAutoModeState())
-					lights.getLightsList().get(itemsArray.length - 1).setLights(true);
+				coreController.checkLights();
 				
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile);
@@ -268,7 +267,9 @@ public class SHSController {
 								}
 							}
 						}
-
+						rooms.getRooms().get(rooms.getRooms().size() - 1).decrementCounter();
+						coreController.checkLights();
+						
 						// Close Stream
 						fis.close();
 						ois.close();
@@ -285,7 +286,6 @@ public class SHSController {
 
 					// Refresh Ui
 					frame.repaint();
-
 				}
 			}
 		});
@@ -345,11 +345,9 @@ public class SHSController {
 							break;
 						}
 					}
-					console.msg(
-							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+					console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 					rooms.getRooms().get(rooms.getRooms().size() - 1).incrementCounter();
-					if(coreController.getAutoModeState())
-						lights.getLightsList().get(rooms.getRooms().size() - 1).setLights(true);
+					coreController.checkLights();
 					frame.repaint();
 				} else {
 					console.msg("The username \"" + NewUsername
@@ -365,15 +363,24 @@ public class SHSController {
 			// Delete User function
 			public void mouseClicked(MouseEvent e) {
 				String userToDelete = comboBoxDeleteUser.getSelectedItem().toString();
+				String location = "";
 				ArrayList<Users> userList = user.getUserList();
 				for (Users user : userList) {
 					if (user.getName().equalsIgnoreCase(userToDelete)) {
 						userList.remove(user);
+						location = user.getLocation();
 						console.msg(userToDelete + "'s profile has been deleted from the system");
 						frame.repaint();
 						break;
 					}
 				}
+				for (RoomCounter room : rooms.getRooms()) {
+					if (room.getLocation().equals(location)) {
+						room.decrementCounter();
+						break;
+					}
+				}
+				coreController.checkLights();
 			}
 		});
 

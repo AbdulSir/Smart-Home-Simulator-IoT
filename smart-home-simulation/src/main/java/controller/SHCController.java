@@ -16,6 +16,7 @@ public class SHCController {
 	private Console console;
 	private Lights lights;
 	private Doors doors;
+	private RoomCounter rooms;
 	private static boolean AutoModeState;
 
 	public SHCController() {
@@ -26,6 +27,7 @@ public class SHCController {
 		this.console = console;
 		lights = new Lights();
 		doors = new Doors();
+		rooms = new RoomCounter();
 		AutoModeState = false;
 
 		// User Event Handler
@@ -101,17 +103,11 @@ public class SHCController {
 		frame.getAutoModeToggleButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				int state = itemEvent.getStateChange();
-				RoomCounter rooms = new RoomCounter();
 
 				if (state == ItemEvent.SELECTED) {
 					setAutoModeState(true);
 					console.msg("Auto Mode ON");
-					for (int i = 0; i < rooms.getRooms().size(); i++) {
-						if (rooms.getRooms().get(i).getCount() > 0)
-							lights.getLightsList().get(i).setLights(true);
-						else if (rooms.getRooms().get(i).getCount() == 0)
-							lights.getLightsList().get(i).setLights(false);
-					}
+					checkLights();
 					frame.repaint();
 				} else if (state == ItemEvent.DESELECTED) {
 					setAutoModeState(false);
@@ -151,5 +147,16 @@ public class SHCController {
 	 */
 	public static void setAutoModeState(boolean autoModeState) {
 		AutoModeState = autoModeState;
+	}
+
+	public void checkLights() {
+		if (getAutoModeState()) {
+			for (int i = 0; i < rooms.getRooms().size(); i++) {
+				if (rooms.getRooms().get(i).getCount() > 0)
+					lights.getLightsList().get(i).setLights(true);
+				else if (rooms.getRooms().get(i).getCount() == 0)
+					lights.getLightsList().get(i).setLights(false);
+			}
+		}
 	}
 }

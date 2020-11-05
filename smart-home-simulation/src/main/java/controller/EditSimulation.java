@@ -95,7 +95,7 @@ public class EditSimulation {
 		        final Timer t = new Timer(10, new ActionListener() {
 		            public void actionPerformed(ActionEvent evt) {
 						int timeToAlert = security.getTimeToAlert();					
-						if (security.getAwayMode() == true && newLocation != "Outside") {
+						if (security.getAwayMode() == true && !newLocation.equals("Outside")) {
 							if (timeToAlert != 0) {
 								console.msg("Authorities will be alerted");
 								final Timer t = new Timer(10, new ActionListener() {

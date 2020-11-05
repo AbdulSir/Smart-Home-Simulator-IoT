@@ -29,11 +29,8 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import controller.SHSController;
-<<<<<<< HEAD
 import controller.SHPController;
-=======
 import controller.SHCController;
->>>>>>> 52682fdf65dc5c2b3b063a242c5496cda11b972b
 import model.Users;
 import model.ReadingJsonFile;
 
@@ -529,11 +526,11 @@ public class SHSGui extends JFrame {
 		panelSHP.add(setAwayModeLabel);
 		
 		timeToAlertInput = new JTextField();
-		timeToAlertInput.setBounds(170, 59, 130, 26);
+		timeToAlertInput.setBounds(169, 60, 130, 26);
 		panelSHP.add(timeToAlertInput);
 		timeToAlertInput.setColumns(10);
 		
-		JLabel timeToAlertLabel = new JLabel("Time until alert");
+		JLabel timeToAlertLabel = new JLabel("Time until alert (seconds)");
 		timeToAlertLabel.setBounds(6, 64, 164, 16);
 		panelSHP.add(timeToAlertLabel);
 		/** SHH PANEL **/
@@ -771,6 +768,20 @@ public class SHSGui extends JFrame {
 		panelProfileInfo.setLayout(gl_panelProfileInfo);
 		panelProfile.setLayout(gl_panelProfile);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	/**
+	 * Getter
+	 */
+	public JTextField getTimeToAlertInput() {
+		return timeToAlertInput;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTimeToAlertInput(JTextField timeToAlertInput) {
+		this.timeToAlertInput = timeToAlertInput;
 	}
 
 	/**

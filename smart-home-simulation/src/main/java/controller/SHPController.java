@@ -7,10 +7,13 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.Timer;
 
 import model.Users;
 import view.ContextSimulation;
 import view.SHSGui;
+
 
 public class SHPController {
 	private SHSGui frame;
@@ -18,6 +21,9 @@ public class SHPController {
 	private Boolean awayMode;
 	private Users user;
 	private ContextSimulation context;
+	private int timeToAlert;
+
+	
 
 	public SHPController() {
 	}
@@ -39,15 +45,24 @@ public class SHPController {
 			public void mouseClicked(MouseEvent e) {
 				if (awayMode == false) {
 					awayMode = true;
-					console.msg("Away mode on");
+					console.msg("Away mode ON");
 				}
 				else if (awayMode == true) {
 					awayMode = false;
-					console.msg("Away mode off");
+					console.msg("Away mode OFF");
 				}
 			}
-			
-			
+				
+		});
+		
+		JTextField timer = this.frame.getTimeToAlertInput();
+		timer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String timerStr = timer.getText();
+				timeToAlert = Integer.parseInt(timerStr);
+				setTimeToAlert(timeToAlert);
+				console.msg("Time to alert authorities has been set to " + getTimeToAlert() + " seconds");
+			}
 		});
 	}
 
@@ -57,5 +72,13 @@ public class SHPController {
 
 	public void setAwayMode(Boolean awayMode) {
 		this.awayMode = awayMode;
+	}
+	
+	public int getTimeToAlert() {
+		return timeToAlert;
+	}
+
+	public void setTimeToAlert(int timeToAlert) {
+		this.timeToAlert = timeToAlert;
 	}
 }

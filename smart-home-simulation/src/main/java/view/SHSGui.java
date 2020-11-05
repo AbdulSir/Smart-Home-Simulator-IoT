@@ -185,28 +185,35 @@ public class SHSGui extends JFrame {
 		panelView = new JPanel();
 
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
-				.createSequentialGroup().addContainerGap()
-				.addComponent(panelProfile, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(panelConsole, GroupLayout.PREFERRED_SIZE, 795, Short.MAX_VALUE))
-						.addGroup(gl_contentPane.createSequentialGroup().addGap(11)
-								.addComponent(panelControl, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)))
-				.addContainerGap()));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(panelControl, GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
-								.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE))
-						.addGap(18).addComponent(panelConsole, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-						.addGap(10))
+					.addContainerGap()
+					.addComponent(panelProfile, GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(panelConsole, GroupLayout.PREFERRED_SIZE, 795, Short.MAX_VALUE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(11)
+							.addComponent(panelControl, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-						.addComponent(panelProfile, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addContainerGap()));
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(panelControl, GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+						.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE))
+					.addGap(18)
+					.addComponent(panelConsole, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+					.addGap(10))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelProfile, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(21))
+		);
 		GroupLayout gl_panelView = new GroupLayout(panelView);
 		gl_panelView.setHorizontalGroup(
 				gl_panelView.createParallelGroup(Alignment.LEADING).addGap(0, 438, Short.MAX_VALUE));
@@ -328,8 +335,8 @@ public class SHSGui extends JFrame {
 					.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
 						.addComponent(panel_1, Alignment.TRAILING, 0, 0, Short.MAX_VALUE)
 						.addComponent(panelUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(pressbuttonEditContext, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-						.addComponent(panel_2, 0, 0, Short.MAX_VALUE))
+						.addComponent(pressbuttonEditContext, GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+						.addComponent(panel_2, Alignment.TRAILING, 0, 0, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panelSHS.setVerticalGroup(
@@ -338,10 +345,10 @@ public class SHSGui extends JFrame {
 					.addGap(10)
 					.addComponent(panelUser, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(26)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(pressbuttonEditContext, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
@@ -409,33 +416,55 @@ public class SHSGui extends JFrame {
 		timeSpinner.setModel(new SpinnerDateModel());
 		timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
 		presstimebtn = new JButton("Set new Date & Time");
+		
+				slider = new JSlider();
+				slider.setValue(0);
+				
+						slider.setToolTipText("");
+						slider.setPaintLabels(true);
+						slider.setSnapToTicks(true);
+						slider.setMaximum(120);
+						slider.setPaintTicks(true);
+						slider.setMinorTickSpacing(15);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-						.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(Alignment.TRAILING,
-										gl_panel_1.createSequentialGroup().addContainerGap().addComponent(dateChooser,
-												GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE))
-								.addGroup(Alignment.TRAILING,
-										gl_panel_1.createSequentialGroup().addContainerGap()
-												.addComponent(labelTime, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-												.addPreferredGap(ComponentPlacement.RELATED).addComponent(timeSpinner,
-														GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel_1.createSequentialGroup().addContainerGap().addComponent(
-										labelDateAndTimeSetting, GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE))
-								.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup().addContainerGap()
-										.addComponent(presstimebtn, GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)))
-						.addContainerGap()));
-		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
-				.createSequentialGroup().addGap(6)
-				.addComponent(labelDateAndTimeSetting, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(
-						dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE).addComponent(labelTime).addComponent(
-						timeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.RELATED).addComponent(presstimebtn).addGap(6)));
+					.addContainerGap()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+								.addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addComponent(labelTime, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE))
+								.addComponent(labelDateAndTimeSetting, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
+							.addContainerGap())
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(slider, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(presstimebtn, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+							.addGap(6))))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(6)
+					.addComponent(labelDateAndTimeSetting, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(labelTime)
+						.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(presstimebtn)
+					.addGap(22))
+		);
 		panel_1.setLayout(gl_panel_1);
 		panelSHS.setLayout(gl_panelSHS);
 		JPanel panelSHC = new JPanel();
@@ -560,34 +589,50 @@ public class SHSGui extends JFrame {
 		JPanel panel = new JPanel();
 
 		GroupLayout gl_panelProfile = new GroupLayout(panelProfile);
-		gl_panelProfile.setHorizontalGroup(gl_panelProfile.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfile.createSequentialGroup().addGap(153)
-						.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE).addGap(148))
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-						.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE).addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-						.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 420, Short.MAX_VALUE)
-						.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addContainerGap()));
-		gl_panelProfile.setVerticalGroup(gl_panelProfile.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap().addComponent(togglebuttonSimulator)
-						.addGap(7).addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panelHouseInfo, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE).addGap(140)));
+		gl_panelProfile.setHorizontalGroup(
+			gl_panelProfile.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addGap(153)
+					.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+					.addGap(148))
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 420, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panelProfile.setVerticalGroup(
+			gl_panelProfile.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(togglebuttonSimulator)
+					.addGap(7)
+					.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelHouseInfo, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
+					.addGap(192))
+		);
 
 		JLabel dateLabel = new JLabel("Date");
 
@@ -596,35 +641,20 @@ public class SHSGui extends JFrame {
 		JLabel timeLabel = new JLabel("Time");
 
 		timeValue = new JLabel("N/A");
-
-		slider = new JSlider();
-		slider.setValue(0);
-
-		slider.setToolTipText("");
-		slider.setPaintLabels(true);
-		slider.setSnapToTicks(true);
-		slider.setMaximum(120);
-		slider.setPaintTicks(true);
-		slider.setMinorTickSpacing(15);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(dateLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
+						.addComponent(timeLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addContainerGap(14, Short.MAX_VALUE)
-							.addComponent(slider, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(dateLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
-								.addComponent(timeLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(timeValue, GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
-									.addGap(10))
-								.addComponent(dateValue, GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))))
+							.addComponent(timeValue, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+							.addGap(10))
+						.addComponent(dateValue, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
@@ -638,9 +668,7 @@ public class SHSGui extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(timeLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
 						.addComponent(timeValue, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(20, Short.MAX_VALUE))
+					.addContainerGap(59, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 

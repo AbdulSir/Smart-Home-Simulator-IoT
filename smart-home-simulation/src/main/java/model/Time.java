@@ -43,10 +43,10 @@ public class Time {
 		this.console = console;
 
 		// set current date as default
-		Date date_value = new Date();
-		String formattedValue = new SimpleDateFormat("HH:mm").format(date_value);
-		setTime(date_value);
-		frame.getTimeValue().setText(formattedValue);
+//		Date date_value = new Date();
+//		String formattedValue = new SimpleDateFormat("HH:mm").format(date_value);
+//		setTime(date_value);
+//		frame.getTimeValue().setText(formattedValue);
 
 		// listen for button click
 		btn.addActionListener(new ActionListener() {
@@ -83,15 +83,19 @@ public class Time {
 		this.t = new Timer(1000, new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// display time
-				String timeToString = new SimpleDateFormat("HH:mm").format(getTime());
-				frame.getTimeValue().setText(timeToString);
+				// make sure there a value for time
+				if (getTime() != null) {
 
-				// increment time
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(getTime());
-				calendar.add(Calendar.MINUTE, increment_time_value);
-				setTime(calendar.getTime());
+					// display time
+					String timeToString = new SimpleDateFormat("HH:mm").format(getTime());
+					frame.getTimeValue().setText(timeToString);
+
+					// increment time
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(getTime());
+					calendar.add(Calendar.MINUTE, increment_time_value);
+					setTime(calendar.getTime());
+				}
 			}
 		});
 	}

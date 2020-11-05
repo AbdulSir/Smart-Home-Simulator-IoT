@@ -89,7 +89,6 @@ public class SHSGui extends JFrame {
 	private JSpinner awayModeStartTime;
 	private JSpinner awayModeStopTime;
 	private JTextField timeToAlertInput;
-	private static SHPController SHPcontroller;
 	private JLabel labelUserPermissionValue;
 	private JLabel userLocationLabel;
 	private JToggleButton AwayModeToggleButton;
@@ -103,10 +102,9 @@ public class SHSGui extends JFrame {
 				try {
 					SHSGui frame = new SHSGui();
 					// Controller
-					SHPcontroller = new SHPController(frame);
-					SHCController coreController = new SHCController(frame, SHPcontroller);
-					SHSController controller = new SHSController(frame, coreController);
-					
+					SHPController securityController = new SHPController(frame);
+					SHCController coreController = new SHCController(frame, securityController);
+					SHSController controller = new SHSController(frame, coreController, securityController);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1278,13 +1276,5 @@ public class SHSGui extends JFrame {
 	 */
 	public void setAwayModeToggleButton(JToggleButton awayModeToggleButton) {
 		AwayModeToggleButton = awayModeToggleButton;
-	}
-
-	public static SHPController getSHPcontroller() {
-		return SHPcontroller;
-	}
-
-	public static void setSHPcontroller(SHPController sHPcontroller) {
-		SHPcontroller = sHPcontroller;
 	}
 }

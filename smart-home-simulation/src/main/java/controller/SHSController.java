@@ -47,7 +47,7 @@ public class SHSController {
 	public SHSController() {
 	}
 
-	public SHSController(SHSGui frame, SHCController coreController) {
+	public SHSController(SHSGui frame, SHCController coreController, SHPController securityController) {
 		/** Main GUI **/
 		this.frame = frame;
 		user = new Users();
@@ -74,7 +74,7 @@ public class SHSController {
 		this.coreController = coreController;
 		
 		/** Edit Simulation **/
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame, coreController);
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame, coreController, securityController);
 
 		// Open File
 		readFileEvent();

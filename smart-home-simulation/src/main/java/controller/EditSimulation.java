@@ -24,17 +24,19 @@ public class EditSimulation {
 	private SHSGui frame;
 	private Windows windows;
 	private SHCController core;
+	private SHPController security;
 
 	/**
 	 * Constructor
 	 */
-	public EditSimulation(JButton editContext, Users user, Console console, SHSGui frame, SHCController core) {
+	public EditSimulation(JButton editContext, Users user, Console console, SHSGui frame, SHCController core, SHPController security) {
 		this.context = new ContextSimulation();
 		this.editContext = editContext;
 		this.user = user;
 		this.console = console;
 		this.frame = frame;
 		this.core = core;
+		this.security = security;
 		windows = new Windows();
 		// event handler
 		createEvents();
@@ -83,26 +85,22 @@ public class EditSimulation {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
 				
 				core.checkLights();
-				if(core.getAutoModeState() && !newLocation.equals("Outside"))
-					lights.getLightsList().get(newRoomIndex).setLights(true);
-				if(core.getAutoModeState() && rooms.getRooms().get(oldRoomIndex).getCount() == 0)
-					lights.getLightsList().get(oldRoomIndex).setLights(false);
 				
 				/** Motion detected during away mode **/
-				if (frame.getSHPcontroller().getAwayMode() == true && newLocation != "Outside") {
+				if (security.getAwayMode() == true && !newLocation.equals("Outside")) {
 					console.msg ("Motion is detected in " + newLocation);
 				}				
 				
 				/** Alert authorities if motion is detected**/
 		        final Timer t = new Timer(10, new ActionListener() {
 		            public void actionPerformed(ActionEvent evt) {
-						int timeToAlert = SHSGui.getSHPcontroller().getTimeToAlert();					
-						if (SHSGui.getSHPcontroller().getAwayMode() == true && newLocation != "Outside") {
+						int timeToAlert = security.getTimeToAlert();					
+						if (security.getAwayMode() == true && newLocation != "Outside") {
 							if (timeToAlert != 0) {
 								console.msg("Authorities will be alerted");
 								final Timer t = new Timer(10, new ActionListener() {
 						            public void actionPerformed(ActionEvent evt) {
-										int timeToAlert = frame.getSHPcontroller().getTimeToAlert();
+										int timeToAlert = security.getTimeToAlert();
 										while (timeToAlert != 0) {
 											timeToAlert--;
 											try {

@@ -24,7 +24,7 @@ public class SHCController {
 
 	public SHCController() {
 	}
-	
+
 	/**
 	 * 
 	 * @param frame
@@ -46,7 +46,7 @@ public class SHCController {
 	}
 
 	private void userEvents() {
-		
+
 		/**
 		 * Open/Close doors
 		 */
@@ -139,15 +139,20 @@ public class SHCController {
 		frame.getAutoModeToggleButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				int state = itemEvent.getStateChange();
-
-				if (state == ItemEvent.SELECTED) {
-					setAutoModeState(true);
-					console.msg("Auto Mode ON");
-					checkLights();
-					frame.repaint();
-				} else if (state == ItemEvent.DESELECTED) {
-					setAutoModeState(false);
-					console.msg("Auto Mode OFF");
+				Users loggedUser = user.getLoggedUser();
+				if (hasPermissions(loggedUser, user.getLocation(), "Lights")) {
+					if (state == ItemEvent.SELECTED) {
+						setAutoModeState(true);
+						console.msg("Auto Mode ON");
+						checkLights();
+						frame.repaint();
+					} else if (state == ItemEvent.DESELECTED) {
+						setAutoModeState(false);
+						console.msg("Auto Mode OFF");
+					}
+				} else {
+					if (state == ItemEvent.SELECTED)
+						console.msg("You do not have the permission to execute this command");
 				}
 			}
 		});
@@ -160,7 +165,7 @@ public class SHCController {
 				String location = frame.getDoorsComboBox().getSelectedItem().toString();
 				int index = frame.getDoorsComboBox().getSelectedIndex();
 				Users loggedUser = user.getLoggedUser();
-				if (hasPermissions(loggedUser, location, "Windows")) {
+				if (hasPermissions(loggedUser, location, "Doors")) {
 					if (!doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
 						doors.getDoorList().get(index).setLocked(true);
 						frame.repaint();
@@ -193,8 +198,9 @@ public class SHCController {
 	}
 
 	/**
-	 * When Auto Mode is activated, this method will check all of the rooms and turn on the lights if its occupied.
-	 * It will turn the lights off, if a room is unoccupied.
+	 * When Auto Mode is activated, this method will check all of the rooms and turn
+	 * on the lights if its occupied. It will turn the lights off, if a room is
+	 * unoccupied.
 	 */
 	public void checkLights() {
 		if (getAutoModeState()) {
@@ -209,6 +215,7 @@ public class SHCController {
 
 	/**
 	 * Determines if the logged-in user has access to commands
+	 * 
 	 * @param user
 	 * @param location
 	 * @param item
@@ -221,12 +228,14 @@ public class SHCController {
 		case "PARENT":
 			return true;
 		case "CHILDREN":
-			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights")) && !securityController.getAwayMode())
+			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights"))
+					&& !securityController.getAwayMode())
 				return true;
 			else
 				return false;
 		case "GUEST":
-			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights"))  && !securityController.getAwayMode())
+			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights"))
+					&& !securityController.getAwayMode())
 				return true;
 			else
 				return false;

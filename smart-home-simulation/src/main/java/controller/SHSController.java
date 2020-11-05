@@ -231,7 +231,7 @@ public class SHSController {
 
 				// open file explorer
 				JFileChooser jFileChooser = new JFileChooser();
-				jFileChooser.setDialogTitle("Choose a JSON file: ");
+				jFileChooser.setDialogTitle("Choose a Text file: ");
 				jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				jFileChooser.setCurrentDirectory(new File("."));
 
@@ -305,18 +305,36 @@ public class SHSController {
 			public void actionPerformed(ActionEvent e) {
 				user.removeActiveUsers();
 				String userToMakeActive = comboBoxRole.getSelectedItem().toString();
+				String permission = "";
 				ArrayList<Users> userList = user.getUserList();
 				for (Users user : userList) {
 					if (user.getName().equalsIgnoreCase(userToMakeActive)) {
 						user.setActiveUser(true);
+						permission = user.getPermission();
 						console.msg("A new user is logged into the system: " + user.getName() + ". UserID: " + user.getUserNumber());
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.getLabelUserPermissionValue().setText(user.getPermission());
-						frame.repaint();
 						break;
 					}
 				}
-
+				switch(permission) {
+				case "PARENT":
+					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/mother.png")));
+					break;
+				case "CHILDREN":
+					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/daughter.png")));
+					break;
+				case "GUEST":
+					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/guest.png")));
+					break;
+				case "STRANGER":
+					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/stranger.png")));
+					break;
+				default:
+					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
+					break;	
+				}
+				frame.repaint();
 			}
 		});
 

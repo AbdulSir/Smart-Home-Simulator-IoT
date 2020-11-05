@@ -1299,5 +1299,5 @@ public class SHSGui extends JFrame {
 	 */
 	public void setAwayModeToggleButton(JToggleButton awayModeToggleButton) {
 		AwayModeToggleButton = awayModeToggleButton;
-	}
+	}	
 }

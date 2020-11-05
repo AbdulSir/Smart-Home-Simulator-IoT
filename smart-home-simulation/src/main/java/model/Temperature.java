@@ -58,15 +58,6 @@ public class Temperature {
 		});
 	}
 
-	public void temperatureBalance() {
-		// SHH shall shut down air conditioning and open windows if temperature outside
-		// is cooler than the inside temperature
-		if (outsideTemp < insideTemp) {
-
-		}
-
-	}
-
 	public int getOutsideTemp() {
 		return outsideTemp;
 	}

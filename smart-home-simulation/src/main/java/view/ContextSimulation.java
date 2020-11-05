@@ -17,6 +17,8 @@ import model.ReadingJsonFile;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ContextSimulation extends JFrame {
 
@@ -78,6 +80,7 @@ public class ContextSimulation extends JFrame {
 
 		/** Set Location Button **/
 		setLocation = new JButton("Set Location");
+
 
 		GroupLayout gl_panelUserLocation = new GroupLayout(panelUserLocation);
 		gl_panelUserLocation.setHorizontalGroup(gl_panelUserLocation.createParallelGroup(Alignment.LEADING)

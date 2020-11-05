@@ -47,7 +47,7 @@ public class SHSController {
 	public SHSController() {
 	}
 
-	public SHSController(SHSGui frame) {
+	public SHSController(SHSGui frame, SHCController coreController, SHPController securityController) {
 		/** Main GUI **/
 		this.frame = frame;
 		user = new Users();
@@ -70,11 +70,11 @@ public class SHSController {
 		/** Time **/
 		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console);
 
-		/** Edit Simulation **/
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame);
-
 		/** SHC Controller **/
-		this.coreController = new SHCController(frame, console);
+		this.coreController = coreController;
+		
+		/** Edit Simulation **/
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame, coreController, securityController);
 
 		// Open File
 		readFileEvent();
@@ -146,16 +146,14 @@ public class SHSController {
 
 				// Setting count of entrance to account for default user
 				rooms.getRooms().get(itemsArray.length - 1).incrementCounter();
-				if(coreController.getAutoModeState())
-					lights.getLightsList().get(itemsArray.length - 1).setLights(true);
+				coreController.checkLights();
 				
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile);
 				frame.getPanelView().add(houseLayout);
 
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
-				editSimulation.getContext().getComboBoxWindowLocation()
-						.setModel(new DefaultComboBoxModel(userWindowsArray));
+				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(userWindowsArray));
 				frame.getDoorsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getLightsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getOpenWindowsComboBox().setModel(new DefaultComboBoxModel(userWindowsArray));
@@ -268,7 +266,9 @@ public class SHSController {
 								}
 							}
 						}
-
+						rooms.getRooms().get(rooms.getRooms().size() - 1).decrementCounter();
+						coreController.checkLights();
+						
 						// Close Stream
 						fis.close();
 						ois.close();
@@ -285,7 +285,6 @@ public class SHSController {
 
 					// Refresh Ui
 					frame.repaint();
-
 				}
 			}
 		});
@@ -310,7 +309,7 @@ public class SHSController {
 				for (Users user : userList) {
 					if (user.getName().equalsIgnoreCase(userToMakeActive)) {
 						user.setActiveUser(true);
-						console.msg(user.getName() + " is now logged in");
+						console.msg("A new user is logged into the system: " + user.getName() + ". UserID: " + user.getUserNumber());
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.getLabelUserPermissionValue().setText(user.getPermission());
 						frame.repaint();
@@ -345,11 +344,9 @@ public class SHSController {
 							break;
 						}
 					}
-					console.msg(
-							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+					console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 					rooms.getRooms().get(rooms.getRooms().size() - 1).incrementCounter();
-					if(coreController.getAutoModeState())
-						lights.getLightsList().get(rooms.getRooms().size() - 1).setLights(true);
+					coreController.checkLights();
 					frame.repaint();
 				} else {
 					console.msg("The username \"" + NewUsername
@@ -365,15 +362,24 @@ public class SHSController {
 			// Delete User function
 			public void mouseClicked(MouseEvent e) {
 				String userToDelete = comboBoxDeleteUser.getSelectedItem().toString();
+				String location = "";
 				ArrayList<Users> userList = user.getUserList();
 				for (Users user : userList) {
 					if (user.getName().equalsIgnoreCase(userToDelete)) {
 						userList.remove(user);
+						location = user.getLocation();
 						console.msg(userToDelete + "'s profile has been deleted from the system");
 						frame.repaint();
 						break;
 					}
 				}
+				for (RoomCounter room : rooms.getRooms()) {
+					if (room.getLocation().equals(location)) {
+						room.decrementCounter();
+						break;
+					}
+				}
+				coreController.checkLights();
 			}
 		});
 

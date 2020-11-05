@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.event.*;
 
 import model.Lights;
@@ -22,16 +23,20 @@ public class EditSimulation {
 	private Console console;
 	private SHSGui frame;
 	private Windows windows;
+	private SHCController core;
+	private SHPController security;
+
 	/**
 	 * Constructor
 	 */
-	public EditSimulation(JButton editContext, Users user, Console console, SHSGui frame) {
+	public EditSimulation(JButton editContext, Users user, Console console, SHSGui frame, SHCController core, SHPController security) {
 		this.context = new ContextSimulation();
 		this.editContext = editContext;
 		this.user = user;
 		this.console = console;
 		this.frame = frame;
-		
+		this.core = core;
+		this.security = security;
 		windows = new Windows();
 		// event handler
 		createEvents();
@@ -53,7 +58,6 @@ public class EditSimulation {
 		this.context.getSetLocation().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RoomCounter rooms = new RoomCounter();
-				SHCController core = new SHCController();
 				Lights lights = new Lights();
 				JComboBox comboBoxUsers = context.getComboBoxUsers();
 				int index = comboBoxUsers.getSelectedIndex();
@@ -65,13 +69,11 @@ public class EditSimulation {
 				for (int i = 0; i < rooms.getRooms().size(); i++) {
 					if(oldLocation.equals(newLocation))
 						break;
-					if (rooms.getRooms().get(i).getLocation().equals(oldLocation) && !oldLocation.equals("Outside")) {
-						rooms.getRooms().get(i).decrementCounter();;
-						oldRoomIndex = i;
-					} else if(rooms.getRooms().get(i).getLocation().equals(newLocation) && !newLocation.equals("Outside")) {
+					if (rooms.getRooms().get(i).getLocation().equals(oldLocation) && !oldLocation.equals("Outside")) 
+						rooms.getRooms().get(i).decrementCounter();
+					else if(rooms.getRooms().get(i).getLocation().equals(newLocation) && !newLocation.equals("Outside")) 
 						rooms.getRooms().get(i).incrementCounter();
-						newRoomIndex = i;
-					}
+					
 				}
 				if (oldLocation.equalsIgnoreCase(newLocation) && oldLocation.equalsIgnoreCase("Outside"))
 					console.msg(userToMove + " is still outside of the house");
@@ -81,14 +83,48 @@ public class EditSimulation {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
 				else
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
-
-				if(core.getAutoModeState() && !newLocation.equals("Outside"))
-					lights.getLightsList().get(newRoomIndex).setLights(true);
-				if(core.getAutoModeState() && rooms.getRooms().get(oldRoomIndex).getCount() == 0)
-					lights.getLightsList().get(oldRoomIndex).setLights(false);
+				
+				core.checkLights();
+				
+				/** Motion detected during away mode **/
+				if (security.getAwayMode() == true && !newLocation.equals("Outside")) {
+					console.msg ("Motion is detected in " + newLocation);
+				}				
+				
+				/** Alert authorities if motion is detected**/
+		        final Timer t = new Timer(10, new ActionListener() {
+		            public void actionPerformed(ActionEvent evt) {
+						int timeToAlert = security.getTimeToAlert();					
+						if (security.getAwayMode() == true && newLocation != "Outside") {
+							if (timeToAlert != 0) {
+								console.msg("Authorities will be alerted");
+								final Timer t = new Timer(10, new ActionListener() {
+						            public void actionPerformed(ActionEvent evt) {
+										int timeToAlert = security.getTimeToAlert();
+										while (timeToAlert != 0) {
+											timeToAlert--;
+											try {
+												Thread.sleep(1000);
+											} catch (InterruptedException ie) {
+												Thread.currentThread().interrupt();
+								            }
+										}
+										console.msg("Authorities alerted");
+						            }
+						        });
+						        t.setRepeats(false);
+						        t.start();
+							}else 
+								console.msg ("Authorities alerted");
+						}
+		            }
+		        });
+		        t.setRepeats(false);
+		        t.start();
+							
 				frame.repaint();
-			}
-		});
+				}
+			});
 
 		/** Block/Unblock Window **/
 		this.context.getBlockButton().addActionListener(new ActionListener() {

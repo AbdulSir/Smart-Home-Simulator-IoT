@@ -8,24 +8,37 @@ import java.awt.event.ItemListener;
 import model.Doors;
 import model.Lights;
 import model.RoomCounter;
+import model.Users;
 import model.Windows;
 import view.SHSGui;
 
 public class SHCController {
 	private SHSGui frame;
 	private Console console;
+	private SHPController securityController;
+	private Users user;
 	private Lights lights;
 	private Doors doors;
+	private RoomCounter rooms;
 	private static boolean AutoModeState;
 
 	public SHCController() {
 	}
-
-	public SHCController(SHSGui frame, Console console) {
+	
+	/**
+	 * 
+	 * @param frame
+	 * @param console
+	 */
+	public SHCController(SHSGui frame, SHPController securityController) {
 		this.frame = frame;
-		this.console = console;
+		this.console = new Console(frame.getTextAreaConsoleLog());
+		/** SHP Controller **/
+		this.securityController = securityController;
+		user = new Users();
 		lights = new Lights();
 		doors = new Doors();
+		rooms = new RoomCounter();
 		AutoModeState = false;
 
 		// User Event Handler
@@ -33,85 +46,104 @@ public class SHCController {
 	}
 
 	private void userEvents() {
+		
+		/**
+		 * Open/Close doors
+		 */
 		frame.getOpenDoorsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String location = frame.getDoorsComboBox().getSelectedItem().toString();
 				int index = frame.getDoorsComboBox().getSelectedIndex();
-				if (!doors.getDoorList().get(index).isLocked()) {
-					if (!doors.getDoorList().get(index).isOpen()) {
-						doors.getDoorList().get(index).setOpen(true);
-						frame.repaint();
-						console.msg("The " + location + " door is open");
-					} else {
-						doors.getDoorList().get(index).setOpen(false);
-						frame.repaint();
-						console.msg("The " + location + " door is closed");
-					}
-				} else {
-					console.msg("The door in the " + location + " is locked so it cannot be opened");
-				}
+				Users loggedUser = user.getLoggedUser();
+				if (hasPermissions(loggedUser, location, "Doors")) {
+					if (!doors.getDoorList().get(index).isLocked()) {
+						if (!doors.getDoorList().get(index).isOpen()) {
+							doors.getDoorList().get(index).setOpen(true);
+							frame.repaint();
+							console.msg("The " + location + " door is open");
+						} else {
+							doors.getDoorList().get(index).setOpen(false);
+							frame.repaint();
+							console.msg("The " + location + " door is closed");
+						}
+					} else
+						console.msg("The door in the " + location + " is locked so it cannot be opened");
+				} else
+					console.msg("You do not have the permission to execute this command");
 			}
 		});
 
+		/**
+		 * Turn on/off lights
+		 */
 		frame.getLightsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!getAutoModeState()) {
 					String location = frame.getLightsComboBox().getSelectedItem().toString();
 					int index = frame.getLightsComboBox().getSelectedIndex();
-					if (!lights.getLightsList().get(index).areLightsOn()) {
-						lights.getLightsList().get(index).setLights(true);
-						frame.repaint();
-						console.msg("The light in the " + location + " is on");
-					} else {
-						lights.getLightsList().get(index).setLights(false);
-						frame.repaint();
-						console.msg("The light in the " + location + " is off");
-					}
-				} else {
+					Users loggedUser = user.getLoggedUser();
+					if (hasPermissions(loggedUser, location, "Lights")) {
+						if (!lights.getLightsList().get(index).areLightsOn()) {
+							lights.getLightsList().get(index).setLights(true);
+							frame.repaint();
+							console.msg("The light in the " + location + " is on");
+						} else {
+							lights.getLightsList().get(index).setLights(false);
+							frame.repaint();
+							console.msg("The light in the " + location + " is off");
+						}
+					} else
+						console.msg("You do not have the permission to execute this command");
+				} else
 					console.msg("The ON/OFF button for the lights is disabled when Auto Mode is activated");
-				}
 			}
 
 		});
 
+		/**
+		 * Open/Close windows
+		 */
 		frame.getOpenWindowsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Windows windows = new Windows();
 				String location = frame.getOpenWindowsComboBox().getSelectedItem().toString();
 				int index = frame.getOpenWindowsComboBox().getSelectedIndex();
-				if (!windows.getWindowList().get(index).isBlocked()) {
-					if (!windows.getWindowList().get(index).isOpen()) {
-						windows.getWindowList().get(index).setOpen(true);
-						frame.repaint();
-						console.msg("The window in the " + location + " is open");
+				Users loggedUser = user.getLoggedUser();
+				if (hasPermissions(loggedUser, location, "Windows")) {
+					if (!windows.getWindowList().get(index).isBlocked()) {
+						if (!windows.getWindowList().get(index).isOpen()) {
+							windows.getWindowList().get(index).setOpen(true);
+							frame.repaint();
+							console.msg("The window in the " + location + " is open");
+						} else {
+							windows.getWindowList().get(index).setOpen(false);
+							frame.repaint();
+							console.msg("The window in the " + location + " is closed");
+						}
 					} else {
-						windows.getWindowList().get(index).setOpen(false);
-						frame.repaint();
-						console.msg("The window in the " + location + " is closed");
+						if (windows.getWindowList().get(index).isOpen())
+							console.msg(
+									"The window in the " + location + " cannot be closed because its path is blocked");
+						else
+							console.msg(
+									"The window in the " + location + " cannot be opened because its path is blocked");
 					}
-				} else {
-					if (windows.getWindowList().get(index).isOpen())
-						console.msg("The window in the " + location + " cannot be closed because its path is blocked");
-					else
-						console.msg("The window in the " + location + " cannot be opened because its path is blocked");
-				}
+				} else
+					console.msg("You do not have the permission to execute this command");
 			}
 		});
 
+		/**
+		 * Activate/Deactivate Auto Mode
+		 */
 		frame.getAutoModeToggleButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				int state = itemEvent.getStateChange();
-				RoomCounter rooms = new RoomCounter();
 
 				if (state == ItemEvent.SELECTED) {
 					setAutoModeState(true);
 					console.msg("Auto Mode ON");
-					for (int i = 0; i < rooms.getRooms().size(); i++) {
-						if (rooms.getRooms().get(i).getCount() > 0)
-							lights.getLightsList().get(i).setLights(true);
-						else if (rooms.getRooms().get(i).getCount() == 0)
-							lights.getLightsList().get(i).setLights(false);
-					}
+					checkLights();
 					frame.repaint();
 				} else if (state == ItemEvent.DESELECTED) {
 					setAutoModeState(false);
@@ -120,21 +152,28 @@ public class SHCController {
 			}
 		});
 
+		/**
+		 * Lock/Unlock doors
+		 */
 		frame.getLockDoorsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String location = frame.getDoorsComboBox().getSelectedItem().toString();
 				int index = frame.getDoorsComboBox().getSelectedIndex();
-				if (!doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
-					doors.getDoorList().get(index).setLocked(true);
-					frame.repaint();
-					console.msg("The door in the " + location + " has been locked");
-				} else if (doors.getDoorList().get(index).isLocked()) {
-					doors.getDoorList().get(index).setLocked(false);
-					frame.repaint();
-					console.msg("The door in the " + location + " has been unlocked");
-				} else if (doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
-					console.msg("The door in the " + location + " cannot be locked because its open");
-				}
+				Users loggedUser = user.getLoggedUser();
+				if (hasPermissions(loggedUser, location, "Windows")) {
+					if (!doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
+						doors.getDoorList().get(index).setLocked(true);
+						frame.repaint();
+						console.msg("The door in the " + location + " has been locked");
+					} else if (doors.getDoorList().get(index).isLocked()) {
+						doors.getDoorList().get(index).setLocked(false);
+						frame.repaint();
+						console.msg("The door in the " + location + " has been unlocked");
+					} else if (doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
+						console.msg("The door in the " + location + " cannot be locked because its open");
+					}
+				} else
+					console.msg("You do not have the permission to execute this command");
 			}
 		});
 	}
@@ -151,5 +190,50 @@ public class SHCController {
 	 */
 	public static void setAutoModeState(boolean autoModeState) {
 		AutoModeState = autoModeState;
+	}
+
+	/**
+	 * When Auto Mode is activated, this method will check all of the rooms and turn on the lights if its occupied.
+	 * It will turn the lights off, if a room is unoccupied.
+	 */
+	public void checkLights() {
+		if (getAutoModeState()) {
+			for (int i = 0; i < rooms.getRooms().size(); i++) {
+				if (rooms.getRooms().get(i).getCount() > 0)
+					lights.getLightsList().get(i).setLights(true);
+				else if (rooms.getRooms().get(i).getCount() == 0)
+					lights.getLightsList().get(i).setLights(false);
+			}
+		}
+	}
+
+	/**
+	 * Determines if the logged-in user has access to commands
+	 * @param user
+	 * @param location
+	 * @param item
+	 * @return
+	 */
+	public boolean hasPermissions(Users user, String location, String item) {
+		if (user == null)
+			return false;
+		switch (user.getPermission()) {
+		case "PARENT":
+			return true;
+		case "CHILDREN":
+			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights")) && !securityController.getAwayMode())
+				return true;
+			else
+				return false;
+		case "GUEST":
+			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights"))  && !securityController.getAwayMode())
+				return true;
+			else
+				return false;
+		case "STRANGER":
+			return false;
+		default:
+			return false;
+		}
 	}
 }

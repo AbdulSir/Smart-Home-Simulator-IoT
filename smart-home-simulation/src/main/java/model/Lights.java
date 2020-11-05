@@ -32,14 +32,17 @@ public class Lights {
 		this.location = location;
 	}
 
+	/**
+	 * Getter
+	 */
 	public boolean areLightsOn() {
 		return on;
 	}
 
 	/**
-	 * List of Windows
+	 * List of Lights
 	 * 
-	 * @return All Windows
+	 * @return All Lights
 	 */
 	public ArrayList<Lights> getLightsList() {
 		return lightsList;

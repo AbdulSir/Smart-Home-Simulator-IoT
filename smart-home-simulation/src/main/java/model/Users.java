@@ -166,4 +166,17 @@ public class Users implements Serializable {
 		this.permission = permission;
 	}
 
+	/**
+	 * Method returns the user that is logged into the system
+	 */
+	public Users getLoggedUser() {
+		Users loggedUser = null;
+		for (Users user : getUserList()) {
+			if(user.activeUser) {
+				loggedUser = user;
+				break;
+			}
+		}
+		return loggedUser;
+	}
 }

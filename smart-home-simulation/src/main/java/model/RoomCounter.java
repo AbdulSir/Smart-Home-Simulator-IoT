@@ -15,11 +15,17 @@ public class RoomCounter {
 		count = 0;
 		rooms.add(this);
 	}
-	
+
+	/**
+	 * Method will increment the count when someone enters a room
+	 */
 	public void incrementCounter() {
 		count++;
 	}
 
+	/**
+	 * Method will decrement the count when someone leaves a room
+	 */
 	public void decrementCounter() {
 		count--;
 	}

@@ -310,7 +310,7 @@ public class SHSController {
 				for (Users user : userList) {
 					if (user.getName().equalsIgnoreCase(userToMakeActive)) {
 						user.setActiveUser(true);
-						console.msg(user.getName() + " is now logged in");
+						console.msg("A new user is logged into the system: " + user.getName() + ". UserID: " + user.getUserNumber());
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.getLabelUserPermissionValue().setText(user.getPermission());
 						frame.repaint();

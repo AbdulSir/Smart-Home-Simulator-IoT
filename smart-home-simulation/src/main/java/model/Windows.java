@@ -8,11 +8,18 @@ public class Windows {
 	private boolean open;
 	private static ArrayList<Windows> windowList = new ArrayList<Windows>();
 
+	/**
+	 * Default Constructor
+	 */
 	public Windows() {
 		location = "";
 		blocked = false;
 	}
 
+
+	/**
+	 * Parametrized Constructor
+	 */
 	public Windows(String location) {
 		this.location = location;
 		blocked = false;

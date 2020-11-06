@@ -42,7 +42,6 @@ public class SHSController {
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
 	private RoomCounter rooms;
-	private Lights lights;
 
 	public SHSController() {
 	}
@@ -52,8 +51,6 @@ public class SHSController {
 		this.frame = frame;
 		user = new Users();
 		rooms = new RoomCounter();
-		lights = new Lights();
-
 
 		/** Create default User **/
 		Users defaultUser = new Users("Admin","PARENT");
@@ -67,14 +64,16 @@ public class SHSController {
 
 		/** Temperature Control **/
 		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		
 		/** Time **/
 		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console);
 
 		/** SHC Controller **/
 		this.coreController = coreController;
+		this.coreController.setSimButton(simulationButton);
 		
 		/** Edit Simulation **/
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame, coreController, securityController);
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton, frame, coreController, securityController);
 
 		// Open File
 		readFileEvent();
@@ -231,7 +230,7 @@ public class SHSController {
 
 				// open file explorer
 				JFileChooser jFileChooser = new JFileChooser();
-				jFileChooser.setDialogTitle("Choose a JSON file: ");
+				jFileChooser.setDialogTitle("Choose a Text file: ");
 				jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				jFileChooser.setCurrentDirectory(new File("."));
 
@@ -284,7 +283,7 @@ public class SHSController {
 					}
 
 					// Refresh Ui
-					frame.repaint();
+					paint();
 				}
 			}
 		});
@@ -305,18 +304,36 @@ public class SHSController {
 			public void actionPerformed(ActionEvent e) {
 				user.removeActiveUsers();
 				String userToMakeActive = comboBoxRole.getSelectedItem().toString();
+				String permission = "";
 				ArrayList<Users> userList = user.getUserList();
 				for (Users user : userList) {
 					if (user.getName().equalsIgnoreCase(userToMakeActive)) {
 						user.setActiveUser(true);
+						permission = user.getPermission();
 						console.msg("A new user is logged into the system: " + user.getName() + ". UserID: " + user.getUserNumber());
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.getLabelUserPermissionValue().setText(user.getPermission());
-						frame.repaint();
 						break;
 					}
 				}
-
+				switch(permission) {
+				case "PARENT":
+					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/mother.png")));
+					break;
+				case "CHILDREN":
+					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/daughter.png")));
+					break;
+				case "GUEST":
+					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/guest.png")));
+					break;
+				case "STRANGER":
+					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/stranger.png")));
+					break;
+				default:
+					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
+					break;	
+				}
+				paint();
 			}
 		});
 
@@ -332,8 +349,10 @@ public class SHSController {
 				String userPermission = comboBoxPermission.getSelectedItem().toString();
 				String[] users = user.getUserStringArray();
 				for (int i = 0; i < users.length; i++) {
-					if (users[i].equals(NewUsername))
+					if (users[i].equals(NewUsername)) {
 						contains = true;
+						break;
+					}
 				}
 				if (!contains) {
 					Users New = new Users(NewUsername, userPermission);
@@ -347,7 +366,7 @@ public class SHSController {
 					console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 					rooms.getRooms().get(rooms.getRooms().size() - 1).incrementCounter();
 					coreController.checkLights();
-					frame.repaint();
+					paint();
 				} else {
 					console.msg("The username \"" + NewUsername
 							+ "\" is already linked to an existing user. User will not be added");
@@ -369,7 +388,7 @@ public class SHSController {
 						userList.remove(user);
 						location = user.getLocation();
 						console.msg(userToDelete + "'s profile has been deleted from the system");
-						frame.repaint();
+						paint();
 						break;
 					}
 				}
@@ -427,7 +446,6 @@ public class SHSController {
 			public void actionPerformed(ActionEvent e) {
 				String weather = frame.getComboBoxWeather().getSelectedItem().toString();
 				frame.getWeatherValue().setText(weather);
-				frame.repaint();
 			}
 		});
 
@@ -446,7 +464,10 @@ public class SHSController {
 
 					// Run timer
 					time.startTimer();
-
+					
+					//Refresh UI
+					frame.repaint();
+					
 					// Display Message to Console
 					console.msg("Simulator ON");
 				} else if (state == ItemEvent.DESELECTED) {
@@ -483,5 +504,13 @@ public class SHSController {
 		position.put(120, new JLabel("2h"));
 		slider.setLabelTable(position);
 
+	}
+
+	/**
+	 * Repaints frame if the simulator is on
+	 */
+	private void paint() {
+		if(simulationButton.isSimulatorState())
+			frame.repaint();
 	}
 }

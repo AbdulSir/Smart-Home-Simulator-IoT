@@ -80,15 +80,15 @@ public class SHPController {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				Users loggedUser = user.getLoggedUser();
 				int state = itemEvent.getStateChange();
-				/** No users at home to enable set away mode ON**/
-				ArrayList<Users> userArray = user.getUserList();
-				Boolean allUsersOutside = true;
 				
-				for (int i = 0; i < userArray.size() ; i++) {
-					if(userArray.get(i).getLocation() != "Outside") 
-						allUsersOutside = false;
-				}	
+				/** No users at home to enable set away mode **/
+				ArrayList<Users> userArray = user.getUserList();				
+				Boolean allUsersOutside = true;
 				if (hasPermissions(loggedUser)) {
+					for (int i = 0; i < userArray.size() ; i++) {
+						if(!(userArray.get(i).getLocation()).equals("Outside")) 							
+							allUsersOutside = false;
+					}	
 					if(allUsersOutside == true) {			
 							if (state == ItemEvent.SELECTED) {
 								setAwayMode(true);
@@ -124,33 +124,18 @@ public class SHPController {
 			}					
 		});
 		
-
-//		Users loggedUser = user.getLoggedUser();
-//		int state = itemEvent.getStateChange();
-//		if (hasPermissions(loggedUser)) {
-//			if (state == ItemEvent.SELECTED) {
-//				setAwayMode(true);
-//				console.msg("Away Mode ON");
-//			} else if (state == ItemEvent.DESELECTED) {
-//				setAwayMode(false);
-//				console.msg("Away Mode OFF");
-//			}
-//		} else {
-//			if (state == ItemEvent.SELECTED && isUserLoggedIn)
-//				console.msg("You do not have the permission to execute this command");
-//		}
-
-
-
 		/** Time input until authorities will be alerted **/
 		JTextField timer = this.frame.getTimeToAlertInput();
 		timer.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				String timerStr = timer.getText();
-				timeToAlert = Integer.parseInt(timerStr);
-				setTimeToAlert(timeToAlert);
-				console.msg("Time to alert authorities has been set to " + getTimeToAlert() + " seconds");
+				if(awayMode == true) {
+					String timerStr = timer.getText();
+					timeToAlert = Integer.parseInt(timerStr);
+					setTimeToAlert(timeToAlert);
+					console.msg("Time to alert authorities has been set to " + getTimeToAlert() + " seconds");
+				}else 
+					console.msg("Away mode is currently OFF");
 			}
 
 		});
@@ -159,144 +144,93 @@ public class SHPController {
 		JButton btnAwayLights = this.frame.getBtnAwayLights();
 		btnAwayLights.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				Date startALTime = (Date) startAwayLightTime.getValue();				
-				Date stopALTime = (Date) stopAwayLightTime.getValue();
-				Date currentTime = time.getTime();
-				ArrayList<Lights> lightsList = lights.getLightsList();
-				
-				Timer clockTimer = new Timer();
-				clockTimer.schedule(new TimerTask() {
-					public void run() {
-
-							if (//currentTime != null && 
-									startALTime != null) {
-								if ((currentTime).compareTo(startALTime) == 0) 
-
-							    if(frame.getChckbxBedRMLight().isSelected())
-							       	lightsList.get(0).setLights(true);	
-							        
-						        if(frame.getChckbxMasterBedRMLight().isSelected())
-							       	lightsList.get(1).setLights(true);	
-						        
-						        if(frame.getChckbxBathRMLight().isSelected())
-						        	lightsList.get(2).setLights(true);	
-							        
-						        if(frame.getChckbxKitchenLight().isSelected())
-						        	lightsList.get(3).setLights(true);	
-							        
-						        if(frame.getChckbxLivingRMLight().isSelected())
-						        	lightsList.get(4).setLights(true);	
-							        
-						        if(frame.getChckbxGarageLight().isSelected())
-						        	lightsList.get(5).setLights(true);	
-							        
-						       if(frame.getChckbxBackyardLight().isSelected())
-						        	lightsList.get(6).setLights(true);	
-							        
-						        if(frame.getChckbxEntranceLight().isSelected())
-						        	lightsList.get(7).setLights(true);	
-							        
-						        frame.repaint();
-							}
+				if(awayMode == true) {
+					Date startALTime = (Date) startAwayLightTime.getValue();
+					String formattedStartALTime = new SimpleDateFormat("HH:mm").format(startALTime);
+					Date stopALTime = (Date) stopAwayLightTime.getValue();
+					String formattedStopALTime = new SimpleDateFormat("HH:mm").format(stopALTime);
+	
+					ArrayList<Lights> lightsList = lights.getLightsList();
+					
+					for(int i = 0; i < lightsList.size(); i++) {
+						lightsList.get(i).setLights(false);
 					}
-				}, 50,50);
+					
+					Timer clockTimer = new Timer();
+					clockTimer.schedule(new TimerTask() {
+						public void run() {
+							Date currentTime = time.getTime();
+							String formattedCurrentTime = new SimpleDateFormat("HH:mm").format(currentTime);
+								if (currentTime != null && startALTime != null) {
+									if ((formattedCurrentTime).compareTo(formattedStartALTime) > 0 && (formattedCurrentTime).compareTo(formattedStopALTime) < 0) { 
+										System.out.println(startALTime);
+									    if(frame.getChckbxBedRMLight().isSelected())
+									       	lightsList.get(0).setLights(true);	
+									        
+								        if(frame.getChckbxMasterBedRMLight().isSelected())
+									       	lightsList.get(1).setLights(true);	
+								        
+								        if(frame.getChckbxBathRMLight().isSelected())
+								        	lightsList.get(2).setLights(true);	
+									        
+								        if(frame.getChckbxKitchenLight().isSelected())
+								        	lightsList.get(3).setLights(true);	
+									        
+								        if(frame.getChckbxLivingRMLight().isSelected())
+								        	lightsList.get(4).setLights(true);	
+									        
+								        if(frame.getChckbxGarageLight().isSelected())
+								        	lightsList.get(5).setLights(true);	
+									        
+								       if(frame.getChckbxBackyardLight().isSelected())
+								        	lightsList.get(6).setLights(true);	
+									        
+								        if(frame.getChckbxEntranceLight().isSelected())
+								        	lightsList.get(7).setLights(true);	
+									        
+								        frame.repaint();							     
+									}
+								}
+	
+								if (currentTime != null && stopALTime != null) {
+									if ((formattedCurrentTime).compareTo(formattedStopALTime) > 0) {
+										
+										    if(frame.getChckbxBedRMLight().isSelected())
+										       	lightsList.get(0).setLights(false);	
+										        
+									        if(frame.getChckbxMasterBedRMLight().isSelected())
+										       	lightsList.get(1).setLights(false);	
+									        
+									        if(frame.getChckbxBathRMLight().isSelected())
+									        	lightsList.get(2).setLights(false);	
+										        
+									        if(frame.getChckbxKitchenLight().isSelected())
+									        	lightsList.get(3).setLights(false);	
+										        
+									        if(frame.getChckbxLivingRMLight().isSelected())
+									        	lightsList.get(4).setLights(false);	
+										        
+									        if(frame.getChckbxGarageLight().isSelected())
+									        	lightsList.get(5).setLights(false);	
+										        
+									       if(frame.getChckbxBackyardLight().isSelected())
+									        	lightsList.get(6).setLights(false);	
+										        
+									        if(frame.getChckbxEntranceLight().isSelected())
+									        	lightsList.get(7).setLights(false);	
+										    				
+									        clockTimer.cancel();
+									        frame.repaint();
+									}
+	
+								}
+						}
+					}, 50,50);		
+				}else 
+					console.msg("Away mode is currently OFF");
 				
-				clockTimer.schedule(new TimerTask() {
-					public void run() {
-
-							if (//currentTime != null && 
-									stopALTime != null) {
-								if ((currentTime).compareTo(stopALTime) == 0) 
-									
-								    if(frame.getChckbxBedRMLight().isSelected())
-								       	lightsList.get(0).setLights(false);	
-								        
-							        if(frame.getChckbxMasterBedRMLight().isSelected())
-								       	lightsList.get(1).setLights(false);	
-							        
-							        if(frame.getChckbxBathRMLight().isSelected())
-							        	lightsList.get(2).setLights(false);	
-								        
-							        if(frame.getChckbxKitchenLight().isSelected())
-							        	lightsList.get(3).setLights(false);	
-								        
-							        if(frame.getChckbxLivingRMLight().isSelected())
-							        	lightsList.get(4).setLights(false);	
-								        
-							        if(frame.getChckbxGarageLight().isSelected())
-							        	lightsList.get(5).setLights(false);	
-								        
-							       if(frame.getChckbxBackyardLight().isSelected())
-							        	lightsList.get(6).setLights(false);	
-								        
-							        if(frame.getChckbxEntranceLight().isSelected())
-							        	lightsList.get(7).setLights(false);	
-								        
-							        frame.repaint();
-							}
-					}
-				}, 50,50);
-
-//				Date startALTime = (Date) startAwayLightTime.getValue();
-//				StrStartALTime = new SimpleDateFormat("HH:mm").format(startALTime);
-//				Date stopALTime = (Date) stopAwayLightTime.getValue();
-//				StrStopALTime = new SimpleDateFormat("HH:mm").format(stopALTime);
-//				
-//				setStrStartALTime(StrStartALTime);
-//				setStrStopALTime(StrStopALTime);
-//				
-//				LocalTime t1 = LocalTime.parse(StrStartALTime);
-//				LocalTime t2 = LocalTime.parse(StrStopALTime);
-//				Duration diff = Duration.between(t2, t1);
-//				time = diff.toMinutes()*60000;	
-//				
-//				setTime(time);
-
-				awayModeLights();
-
 			}
 		});
-	}
-
-
-	public void awayModeLights() {
-		ArrayList<Lights> lightsList = lights.getLightsList();
-//		String currentTime = frame.getTimeValue().getText();	
-//		
-//		if (currentTime == StrStartALTime) {
-		if (frame.getChckbxBedRMLight().isSelected())
-			lightsList.get(0).setLights(true);
-
-		if (frame.getChckbxMasterBedRMLight().isSelected())
-			lightsList.get(1).setLights(true);
-
-		if (frame.getChckbxBathRMLight().isSelected())
-			lightsList.get(2).setLights(true);
-
-		if (frame.getChckbxKitchenLight().isSelected())
-			lightsList.get(3).setLights(true);
-
-		if (frame.getChckbxLivingRMLight().isSelected())
-			lightsList.get(4).setLights(true);
-
-		if (frame.getChckbxGarageLight().isSelected())
-			lightsList.get(5).setLights(true);
-
-		if (frame.getChckbxBackyardLight().isSelected())
-			lightsList.get(6).setLights(true);
-
-		if (frame.getChckbxEntranceLight().isSelected())
-			lightsList.get(7).setLights(true);
-
-		frame.repaint();
-
-//	        if(frame.getTimeValue().getText() == StrStopALTime) {
-//	        	for(int i =0; i < lightsList.size(); i++ ) {
-//	        		lightsList.get(i).setLights(false);	
-//	        	}
-//	        }
-//		}
 	}
 
 	/**

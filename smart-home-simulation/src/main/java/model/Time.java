@@ -33,7 +33,7 @@ public class Time {
 	private SHSGui frame;
 	private JDateChooser dateChooser;
 	private Timer t;
-	private Date time;
+	private static Date time;
 	private int increment_time_value;
 
 	/**

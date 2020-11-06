@@ -570,41 +570,45 @@ public class SHSGui extends JFrame {
 		WindowsPanel.add(openWindowsButton);
 
 		/** SHP PANEL **/
+
+		/** Time to alert authorities **/
+		
+		/** Away Mode Lights remain open **/
+		
+		/** Away Mode Button **/
+		
+		/** SHH PANEL **/
 		JPanel panelSHP = new JPanel();
 		tabbedPane.addTab("SHP", null, panelSHP, null);
 		panelSHP.setLayout(null);
-
-		/** Time to alert authorities **/
 		timeToAlertInput = new JTextField();
-		timeToAlertInput.setBounds(161, 6, 130, 26);
+		timeToAlertInput.setBounds(162, 105, 130, 26);
 		panelSHP.add(timeToAlertInput);
 		timeToAlertInput.setColumns(10);
 		
-		JLabel timeToAlertLabel = new JLabel("Time until alert (seconds)");
-		timeToAlertLabel.setBounds(10, 11, 164, 16);
+		JLabel timeToAlertLabel = new JLabel("Time until authorities");
+		timeToAlertLabel.setBounds(10, 100, 130, 26);
 		panelSHP.add(timeToAlertLabel);
-		
-		/** Away Mode Lights remain open **/
 		JLabel setAwayLightsLabel = new JLabel("Away Mode Lights");
-		setAwayLightsLabel.setBounds(10, 54, 109, 16);
+		setAwayLightsLabel.setBounds(10, 187, 109, 16);
 		panelSHP.add(setAwayLightsLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Remain on from");
-		lblNewLabel_1.setBounds(10, 323, 75, 14);
+		lblNewLabel_1.setBounds(10, 447, 75, 16);
 		panelSHP.add(lblNewLabel_1);
 		
 		awayLightsStartTime = new JSpinner();
-		awayLightsStartTime.setBounds(95, 314, 91, 32);
+		awayLightsStartTime.setBounds(95, 440, 91, 32);
 		awayLightsStartTime.setModel(new SpinnerDateModel());
 		awayLightsStartTime.setEditor(new JSpinner.DateEditor(awayLightsStartTime, "HH:mm"));
 		panelSHP.add(awayLightsStartTime);
 		
 		JLabel lblNewLabel_2 = new JLabel("to");
-		lblNewLabel_2.setBounds(196, 323, 16, 14);
+		lblNewLabel_2.setBounds(196, 449, 16, 14);
 		panelSHP.add(lblNewLabel_2);
 		
 		awayLightsStopTime = new JSpinner();
-		awayLightsStopTime.setBounds(222, 314, 91, 32);
+		awayLightsStopTime.setBounds(222, 440, 91, 32);
 		awayLightsStopTime.setModel(new SpinnerDateModel());
 		awayLightsStopTime.setEditor(new JSpinner.DateEditor(awayLightsStopTime, "HH:mm"));
 		panelSHP.add(awayLightsStopTime);	
@@ -618,33 +622,34 @@ public class SHSGui extends JFrame {
 		chckbxBackyardLight = new JCheckBox("Backyard");	
 		chckbxEntranceLight = new JCheckBox("Entrance");	
 		
-		chckbxEntranceLight.setBounds(10, 258, 97, 23);
+		chckbxEntranceLight.setBounds(10, 392, 97, 23);
 		panelSHP.add(chckbxEntranceLight);	
-		chckbxBedRMLight.setBounds(10, 77, 97, 23);
+		chckbxBedRMLight.setBounds(10, 210, 97, 23);
 		panelSHP.add(chckbxBedRMLight);		
-		chckbxMasterBedRMLight.setBounds(10, 103, 97, 23);
+		chckbxMasterBedRMLight.setBounds(10, 236, 97, 23);
 		panelSHP.add(chckbxMasterBedRMLight);		
-		chckbxBathRMLight.setBounds(10, 129, 97, 23);
+		chckbxBathRMLight.setBounds(10, 262, 97, 23);
 		panelSHP.add(chckbxBathRMLight);		
-		chckbxKitchenLight.setBounds(10, 155, 97, 23);
+		chckbxKitchenLight.setBounds(10, 288, 97, 23);
 		panelSHP.add(chckbxKitchenLight);		
-		chckbxLivingRMLight.setBounds(10, 181, 97, 23);
+		chckbxLivingRMLight.setBounds(10, 314, 97, 23);
 		panelSHP.add(chckbxLivingRMLight);		
-		chckbxGarageLight.setBounds(10, 207, 97, 23);
+		chckbxGarageLight.setBounds(10, 340, 97, 23);
 		panelSHP.add(chckbxGarageLight);		
-		chckbxBackyardLight.setBounds(10, 232, 97, 23);
+		chckbxBackyardLight.setBounds(10, 366, 97, 23);
 		panelSHP.add(chckbxBackyardLight);
 		
 		btnAwayLights = new JButton("Confirm");
-		btnAwayLights.setBounds(222, 357, 89, 23);
+		btnAwayLights.setBounds(224, 483, 89, 23);
 		panelSHP.add(btnAwayLights);
-		
-		/** Away Mode Button **/
-		AwayModeToggleButton = new JToggleButton("Away Mode");
-		AwayModeToggleButton.setBounds(139, 463, 161, 29);
+		AwayModeToggleButton = new JToggleButton("Away Mode ON/OFF");
+		AwayModeToggleButton.setBounds(74, 30, 161, 29);
 		panelSHP.add(AwayModeToggleButton);
 		
-		/** SHH PANEL **/
+		JLabel lblTimeToAlert2 = new JLabel("are alerted (seconds):");
+		lblTimeToAlert2.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblTimeToAlert2.setBounds(10, 117, 130, 14);
+		panelSHP.add(lblTimeToAlert2);
 		JPanel panelSHH = new JPanel();
 		tabbedPane.addTab("SHH", null, panelSHH, null);
 

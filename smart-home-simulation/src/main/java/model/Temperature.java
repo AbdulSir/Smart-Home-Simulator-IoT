@@ -26,6 +26,9 @@ public class Temperature {
 	public Temperature() {
 	}
 
+	/**
+	 * Parametrized Constructor
+	 */
 	public Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console) {
 		this.console = console;
 		out.addActionListener(new ActionListener() {
@@ -58,20 +61,31 @@ public class Temperature {
 		});
 	}
 
+	/**
+	 * Getter
+	 */
 	public int getOutsideTemp() {
 		return outsideTemp;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setOutsideTemp(int x) {
 		this.outsideTemp = x;
 	}
 
+	/**
+	 * Getter
+	 */
 	public int getInsideTemp() {
 		return insideTemp;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setInsideTemp(int x) {
 		this.insideTemp = x;
 	}
-
 }

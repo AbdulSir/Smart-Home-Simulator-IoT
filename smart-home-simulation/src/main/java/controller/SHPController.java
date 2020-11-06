@@ -28,6 +28,10 @@ public class SHPController {
 	public SHPController() {
 	}
 
+	/**
+	 * Parametrized Constructor
+	 * @param frame
+	 */
 	public SHPController(SHSGui frame) {
 		/** Main GUI **/
 		this.frame = frame;
@@ -76,22 +80,42 @@ public class SHPController {
 		});
 	}
 
+	/**
+	 * Getter
+	 */
 	public Boolean getAwayMode() {
 		return awayMode;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setAwayMode(Boolean awayMode) {
 		this.awayMode = awayMode;
 	}
 
+	/**
+	 * Getter
+	 */
 	public int getTimeToAlert() {
 		return timeToAlert;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setTimeToAlert(int timeToAlert) {
 		this.timeToAlert = timeToAlert;
 	}
 
+	/**
+	 * Determines if the logged-in user has access to these commands
+	 * 
+	 * @param user
+	 * @param location
+	 * @param item
+	 * @return
+	 */
 	public boolean hasPermissions(Users user) {
 		if (user == null)
 			return false;

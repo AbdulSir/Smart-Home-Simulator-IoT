@@ -214,7 +214,7 @@ public class SHCController {
 	}
 
 	/**
-	 * Determines if the logged-in user has access to commands
+	 * Determines if the logged-in user has access to these commands
 	 * 
 	 * @param user
 	 * @param location

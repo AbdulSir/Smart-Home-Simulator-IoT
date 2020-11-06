@@ -42,12 +42,6 @@ public class Time {
 		this.increment_time_value = 1;
 		this.console = console;
 
-		// set current date as default
-//		Date date_value = new Date();
-//		String formattedValue = new SimpleDateFormat("HH:mm").format(date_value);
-//		setTime(date_value);
-//		frame.getTimeValue().setText(formattedValue);
-
 		// listen for button click
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

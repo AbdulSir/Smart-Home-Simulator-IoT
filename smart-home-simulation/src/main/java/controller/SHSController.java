@@ -350,8 +350,10 @@ public class SHSController {
 				String userPermission = comboBoxPermission.getSelectedItem().toString();
 				String[] users = user.getUserStringArray();
 				for (int i = 0; i < users.length; i++) {
-					if (users[i].equals(NewUsername))
+					if (users[i].equals(NewUsername)) {
 						contains = true;
+						break;
+					}
 				}
 				if (!contains) {
 					Users New = new Users(NewUsername, userPermission);

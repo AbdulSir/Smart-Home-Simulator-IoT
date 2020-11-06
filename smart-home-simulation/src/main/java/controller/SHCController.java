@@ -30,9 +30,7 @@ public class SHCController {
 	}
 
 	/**
-	 * 
-	 * @param frame
-	 * @param console
+	 * Parametrized constructor
 	 */
 	public SHCController(SHSGui frame, SHPController securityController) {
 		this.frame = frame;
@@ -346,6 +344,9 @@ public class SHCController {
 		}
 	}
 	
+	/**
+	 * Append all of the console messages to the corresponding log file
+	 */
 	public void appendToLog(String text) {
 		pw.write(text + "\n");
 	}

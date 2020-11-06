@@ -140,6 +140,7 @@ public class SHSGui extends JFrame {
 		/** Termiante on close **/
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		/** Closes streams for log files when the application is closed by the user**/
 		this.addWindowListener((new WindowListener(){
 			@Override
 			public void windowClosing(WindowEvent e) {

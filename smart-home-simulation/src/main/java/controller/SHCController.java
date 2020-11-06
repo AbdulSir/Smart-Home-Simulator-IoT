@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.*;
 
 import model.Doors;
 import model.Lights;
@@ -23,6 +24,7 @@ public class SHCController {
 	private SimulationButton simulationButton;
 	private static boolean AutoModeState;
 	private boolean isUserLoggedIn;
+	private PrintWriter pw;
 
 	public SHCController() {
 	}
@@ -43,6 +45,12 @@ public class SHCController {
 		rooms = new RoomCounter();
 		AutoModeState = false;
 		isUserLoggedIn = true;
+		
+		try {
+			pw = new PrintWriter(new FileOutputStream("SHCControllerLog.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		// User Event Handler
 		userEvents();
@@ -63,16 +71,22 @@ public class SHCController {
 						if (!doors.getDoorList().get(index).isOpen()) {
 							doors.getDoorList().get(index).setOpen(true);
 							console.msg("The " + location + " door is open");
+							appendToLog("The " + location + " door is open");
 						} else {
 							doors.getDoorList().get(index).setOpen(false);
 							console.msg("The " + location + " door is closed");
+							appendToLog("The " + location + " door is closed");
 						}
 						paint();
-					} else
+					} else {
 						console.msg("The door in the " + location + " is locked so it cannot be opened");
+						appendToLog("The door in the " + location + " is locked so it cannot be opened");
+					}
 				} else {
-					if (isUserLoggedIn)
+					if (isUserLoggedIn) {
 						console.msg("You do not have the permission to execute this command");
+						appendToLog("You do not have the permission to execute this command");
+					}
 				}
 			}
 		});
@@ -90,17 +104,23 @@ public class SHCController {
 						if (!lights.getLightsList().get(index).areLightsOn()) {
 							lights.getLightsList().get(index).setLights(true);
 							console.msg("The light in the " + location + " is on");
+							appendToLog("The light in the " + location + " is on");
 						} else {
 							lights.getLightsList().get(index).setLights(false);
 							console.msg("The light in the " + location + " is off");
+							appendToLog("The light in the " + location + " is off");
 						}
 						paint();
 					} else {
-						if (isUserLoggedIn)
+						if (isUserLoggedIn) {
 							console.msg("You do not have the permission to execute this command");
+							appendToLog("You do not have the permission to execute this command");
+						}
 					}
-				} else
+				} else {
 					console.msg("The ON/OFF button for the lights is disabled when Auto Mode is activated");
+					appendToLog("The ON/OFF button for the lights is disabled when Auto Mode is activated");
+				}
 			}
 
 		});
@@ -119,22 +139,28 @@ public class SHCController {
 						if (!windows.getWindowList().get(index).isOpen()) {
 							windows.getWindowList().get(index).setOpen(true);
 							console.msg("The window in the " + location + " is open");
+							appendToLog("The window in the " + location + " is open");
 						} else {
 							windows.getWindowList().get(index).setOpen(false);
 							console.msg("The window in the " + location + " is closed");
+							appendToLog("The window in the " + location + " is closed");
 						}
 						paint();
 					} else {
-						if (windows.getWindowList().get(index).isOpen())
-							console.msg(
-									"The window in the " + location + " cannot be closed because its path is blocked");
-						else
-							console.msg(
-									"The window in the " + location + " cannot be opened because its path is blocked");
+						if (windows.getWindowList().get(index).isOpen()) {
+							console.msg("The window in the " + location + " cannot be closed because its path is blocked");
+							appendToLog("The window in the " + location + " cannot be closed because its path is blocked");
+						}
+						else {
+							console.msg("The window in the " + location + " cannot be opened because its path is blocked");
+							appendToLog("The window in the " + location + " cannot be opened because its path is blocked");
+						}
 					}
 				} else {
-					if (isUserLoggedIn)
+					if (isUserLoggedIn) {
 						console.msg("You do not have the permission to execute this command");
+						appendToLog("You do not have the permission to execute this command");
+					}
 				}
 			}
 		});
@@ -150,15 +176,19 @@ public class SHCController {
 					if (state == ItemEvent.SELECTED) {
 						setAutoModeState(true);
 						console.msg("Auto Mode ON");
+						appendToLog("Auto Mode ON");
 						checkLights();
 						paint();
 					} else if (state == ItemEvent.DESELECTED) {
 						setAutoModeState(false);
 						console.msg("Auto Mode OFF");
+						appendToLog("Auto Mode OFF");
 					}
 				} else {
-					if (state == ItemEvent.SELECTED && isUserLoggedIn)
+					if (state == ItemEvent.SELECTED && isUserLoggedIn) {
 						console.msg("You do not have the permission to execute this command");
+						appendToLog("You do not have the permission to execute this command");
+					}
 				}
 			}
 		});
@@ -176,16 +206,21 @@ public class SHCController {
 						doors.getDoorList().get(index).setLocked(true);
 						paint();
 						console.msg("The door in the " + location + " has been locked");
+						appendToLog("The door in the " + location + " has been locked");
 					} else if (doors.getDoorList().get(index).isLocked()) {
 						doors.getDoorList().get(index).setLocked(false);
 						paint();
 						console.msg("The door in the " + location + " has been unlocked");
+						appendToLog("The door in the " + location + " has been unlocked");
 					} else if (doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
 						console.msg("The door in the " + location + " cannot be locked because its open");
+						appendToLog("The door in the " + location + " cannot be locked because its open");
 					}
 				} else {
-					if (isUserLoggedIn)
+					if (isUserLoggedIn) {
 						console.msg("You do not have the permission to execute this command");
+						appendToLog("You do not have the permission to execute this command");
+					}
 				}
 			}
 		});
@@ -234,6 +269,20 @@ public class SHCController {
 	}
 
 	/**
+	 * Getter
+	 */
+	public PrintWriter getPrintWriter() {
+		return pw;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setPrintWriter(PrintWriter pw) {
+		this.pw = pw;
+	}
+	
+	/**
 	 * Repaints frame if the simulator is on
 	 */
 	private void paint() {
@@ -267,6 +316,7 @@ public class SHCController {
 	public boolean hasPermissions(Users user, String location, String item) {
 		if (user == null) {
 			console.msg("The system does not have a logged-in user");
+			appendToLog("The system does not have a logged-in user");
 			isUserLoggedIn = false;
 			return false;
 		}
@@ -294,5 +344,9 @@ public class SHCController {
 		default:
 			return false;
 		}
+	}
+	
+	public void appendToLog(String text) {
+		pw.write(text + "\n");
 	}
 }

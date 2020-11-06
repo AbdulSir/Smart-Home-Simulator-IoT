@@ -42,6 +42,9 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.PrintWriter;
 import java.util.Hashtable;
 
 import javax.swing.JSlider;
@@ -92,6 +95,9 @@ public class SHSGui extends JFrame {
 	private JLabel labelUserPermissionValue;
 	private JLabel userLocationLabel;
 	private JToggleButton AwayModeToggleButton;
+	private static SHPController securityController;
+	private static SHCController coreController;
+	private static SHSController controller;
 
 	/**
 	 * Launch the application.
@@ -102,9 +108,9 @@ public class SHSGui extends JFrame {
 				try {
 					SHSGui frame = new SHSGui();
 					// Controller
-					SHPController securityController = new SHPController(frame);
-					SHCController coreController = new SHCController(frame, securityController);
-					SHSController controller = new SHSController(frame, coreController, securityController);
+					securityController = new SHPController(frame);
+					coreController = new SHCController(frame, securityController);
+					controller = new SHSController(frame, coreController, securityController);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -133,7 +139,33 @@ public class SHSGui extends JFrame {
 
 		/** Termiante on close **/
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
+		this.addWindowListener((new WindowListener(){
+			@Override
+			public void windowClosing(WindowEvent e) {
+				coreController.getPrintWriter().flush();
+				coreController.getPrintWriter().close();
+			}
+			@Override
+			public void windowOpened(WindowEvent e) {
+			}
+			@Override
+			public void windowClosed(WindowEvent e) {
+			}
+			@Override
+			public void windowIconified(WindowEvent e) {
+			}
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+			}
+			@Override
+			public void windowActivated(WindowEvent e) {
+			}
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+			}
+           }));
+            
 		/** Window Size **/
 		setBounds(100, 100, 1255, 792);
 

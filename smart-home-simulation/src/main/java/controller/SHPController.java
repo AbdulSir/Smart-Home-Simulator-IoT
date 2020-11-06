@@ -9,16 +9,19 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
-import javax.swing.Timer;
+
 
 import model.Doors;
 import model.Lights;
+import model.Time;
 import model.Users;
 import model.Windows;
 import view.ContextSimulation;
@@ -37,9 +40,7 @@ public class SHPController {
 	private Lights lights;
 	private JSpinner startAwayLightTime;
 	private JSpinner stopAwayLightTime;
-	private String StrStartALTime;
-	private String StrStopALTime;
-	private long time;
+	private Time time;
 
 	public SHPController() {
 	}
@@ -57,6 +58,7 @@ public class SHPController {
 		this.lights = new Lights();
 		this.startAwayLightTime = frame.getAwayLightsStartTime();
 		this.stopAwayLightTime = frame.getAwayLightsStopTime();
+		this.time = new Time();
 		userEvents();
 	}
 
@@ -121,68 +123,88 @@ public class SHPController {
 		JButton btnAwayLights = this.frame.getBtnAwayLights();
 		btnAwayLights.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
-
-//				Date startALTime = (Date) startAwayLightTime.getValue();
-//				StrStartALTime = new SimpleDateFormat("HH:mm").format(startALTime);
-//				Date stopALTime = (Date) stopAwayLightTime.getValue();
-//				StrStopALTime = new SimpleDateFormat("HH:mm").format(stopALTime);
-//				
-//				setStrStartALTime(StrStartALTime);
-//				setStrStopALTime(StrStopALTime);
-//				
-//				LocalTime t1 = LocalTime.parse(StrStartALTime);
-//				LocalTime t2 = LocalTime.parse(StrStopALTime);
-//				Duration diff = Duration.between(t2, t1);
-//				time = diff.toMinutes()*60000;	
-//				
-//				setTime(time);
 				
-				awayModeLights();
+				Date startALTime = (Date) startAwayLightTime.getValue();				
+				Date stopALTime = (Date) stopAwayLightTime.getValue();
+				Date currentTime = time.getTime();
+				ArrayList<Lights> lightsList = lights.getLightsList();
+				
+				Timer clockTimer = new Timer();
+				clockTimer.schedule(new TimerTask() {
+					public void run() {
+
+							if (//currentTime != null && 
+									startALTime != null) {
+								if ((currentTime).compareTo(startALTime) == 0) 
+
+							    if(frame.getChckbxBedRMLight().isSelected())
+							       	lightsList.get(0).setLights(true);	
+							        
+						        if(frame.getChckbxMasterBedRMLight().isSelected())
+							       	lightsList.get(1).setLights(true);	
+						        
+						        if(frame.getChckbxBathRMLight().isSelected())
+						        	lightsList.get(2).setLights(true);	
+							        
+						        if(frame.getChckbxKitchenLight().isSelected())
+						        	lightsList.get(3).setLights(true);	
+							        
+						        if(frame.getChckbxLivingRMLight().isSelected())
+						        	lightsList.get(4).setLights(true);	
+							        
+						        if(frame.getChckbxGarageLight().isSelected())
+						        	lightsList.get(5).setLights(true);	
+							        
+						       if(frame.getChckbxBackyardLight().isSelected())
+						        	lightsList.get(6).setLights(true);	
+							        
+						        if(frame.getChckbxEntranceLight().isSelected())
+						        	lightsList.get(7).setLights(true);	
+							        
+						        frame.repaint();
+							}
+					}
+				}, 50,50);
+				
+				clockTimer.schedule(new TimerTask() {
+					public void run() {
+
+							if (//currentTime != null && 
+									stopALTime != null) {
+								if ((currentTime).compareTo(stopALTime) == 0) 
+									
+								    if(frame.getChckbxBedRMLight().isSelected())
+								       	lightsList.get(0).setLights(false);	
+								        
+							        if(frame.getChckbxMasterBedRMLight().isSelected())
+								       	lightsList.get(1).setLights(false);	
+							        
+							        if(frame.getChckbxBathRMLight().isSelected())
+							        	lightsList.get(2).setLights(false);	
+								        
+							        if(frame.getChckbxKitchenLight().isSelected())
+							        	lightsList.get(3).setLights(false);	
+								        
+							        if(frame.getChckbxLivingRMLight().isSelected())
+							        	lightsList.get(4).setLights(false);	
+								        
+							        if(frame.getChckbxGarageLight().isSelected())
+							        	lightsList.get(5).setLights(false);	
+								        
+							       if(frame.getChckbxBackyardLight().isSelected())
+							        	lightsList.get(6).setLights(false);	
+								        
+							        if(frame.getChckbxEntranceLight().isSelected())
+							        	lightsList.get(7).setLights(false);	
+								        
+							        frame.repaint();
+							}
+					}
+				}, 50,50);
 			}
 		});
 	}
 
-
-
-	public void awayModeLights() {
-		ArrayList<Lights> lightsList = lights.getLightsList();
-//		String currentTime = frame.getTimeValue().getText();	
-//		
-//		if (currentTime == StrStartALTime) {
-	        if(frame.getChckbxBedRMLight().isSelected())
-	        	lightsList.get(0).setLights(true);	
-	        
-	        if(frame.getChckbxMasterBedRMLight().isSelected())
-	        	lightsList.get(1).setLights(true);	
-	        
-	        if(frame.getChckbxBathRMLight().isSelected())
-	        	lightsList.get(2).setLights(true);	
-	        
-	        if(frame.getChckbxKitchenLight().isSelected())
-	        	lightsList.get(3).setLights(true);	
-	        
-	        if(frame.getChckbxLivingRMLight().isSelected())
-	        	lightsList.get(4).setLights(true);	
-	        
-	        if(frame.getChckbxGarageLight().isSelected())
-	        	lightsList.get(5).setLights(true);	
-	        
-	        if(frame.getChckbxBackyardLight().isSelected())
-	        	lightsList.get(6).setLights(true);	
-	        
-	        if(frame.getChckbxEntranceLight().isSelected())
-	        	lightsList.get(7).setLights(true);	
-	        
-	        frame.repaint();	 
-	        
-//	        if(frame.getTimeValue().getText() == StrStopALTime) {
-//	        	for(int i =0; i < lightsList.size(); i++ ) {
-//	        		lightsList.get(i).setLights(false);	
-//	        	}
-//	        }
-//		}
-	}
 
 	public Boolean getAwayMode() {
 		return awayMode;
@@ -200,23 +222,4 @@ public class SHPController {
 		this.timeToAlert = timeToAlert;
 	}
 	
-	public String getStrStartALTime() {
-		return StrStartALTime;
-	}
-
-	public void setStrStartALTime(String strStartALTime) {
-		StrStartALTime = strStartALTime;
-	}
-
-	public String getStrStopALTime() {
-		return StrStopALTime;
-	}
-
-	public void setStrStopALTime(String strStopALTime) {
-		StrStopALTime = strStopALTime;
-	}
-	
-	public void setTime(long time) {
-		this.time = time;
-	}
 }

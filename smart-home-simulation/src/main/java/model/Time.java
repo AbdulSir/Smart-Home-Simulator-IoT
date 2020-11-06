@@ -36,6 +36,17 @@ public class Time {
 	private int increment_time_value;
 
 	/**
+	 * Default constructor
+	 */
+	public Time() {
+		date = null;
+		dateChooser = null;
+		t= null;
+		time = null;
+		increment_time_value = 0;
+	}
+	
+	/**
 	 * Constructor
 	 */
 	public Time(SHSGui frame, JButton btn, JSpinner time_spinner, JDateChooser date, JSlider slider, Console console) {
@@ -98,9 +109,6 @@ public class Time {
 				}
 			}
 		});
-	}
-
-	public Time() {
 	}
 
 	/**

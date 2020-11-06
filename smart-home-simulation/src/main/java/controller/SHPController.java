@@ -23,6 +23,7 @@ public class SHPController {
 	private Boolean awayMode;
 	private Users user;
 	private ContextSimulation context;
+	private boolean isUserLoggedIn;
 	private int timeToAlert;
 
 	public SHPController() {
@@ -36,6 +37,7 @@ public class SHPController {
 		/** Main GUI **/
 		this.frame = frame;
 		awayMode = false;
+		isUserLoggedIn = true;
 		user = new Users();
 		/** Control Console **/
 		this.console = new Console(frame.getTextAreaConsoleLog());
@@ -60,7 +62,7 @@ public class SHPController {
 						console.msg("Away Mode OFF");
 					}
 				} else {
-					if (state == ItemEvent.SELECTED)
+					if (state == ItemEvent.SELECTED && isUserLoggedIn)
 						console.msg("You do not have the permission to execute this command");
 				}
 			}
@@ -117,8 +119,11 @@ public class SHPController {
 	 * @return
 	 */
 	public boolean hasPermissions(Users user) {
-		if (user == null)
+		if (user == null) {
+			console.msg("The system does not have a logged-in user");
+			isUserLoggedIn = false;
 			return false;
+		}
 		switch (user.getPermission()) {
 		case "PARENT":
 			return true;

@@ -20,6 +20,7 @@ public class SHCController {
 	private Lights lights;
 	private Doors doors;
 	private RoomCounter rooms;
+	private SimulationButton simulationButton;
 	private static boolean AutoModeState;
 	private boolean isUserLoggedIn;
 
@@ -61,11 +62,11 @@ public class SHCController {
 					if (!doors.getDoorList().get(index).isLocked()) {
 						if (!doors.getDoorList().get(index).isOpen()) {
 							doors.getDoorList().get(index).setOpen(true);
-							frame.repaint();
+							paint();
 							console.msg("The " + location + " door is open");
 						} else {
 							doors.getDoorList().get(index).setOpen(false);
-							frame.repaint();
+							paint();
 							console.msg("The " + location + " door is closed");
 						}
 					} else
@@ -89,11 +90,11 @@ public class SHCController {
 					if (hasPermissions(loggedUser, location, "Lights")) {
 						if (!lights.getLightsList().get(index).areLightsOn()) {
 							lights.getLightsList().get(index).setLights(true);
-							frame.repaint();
+							paint();
 							console.msg("The light in the " + location + " is on");
 						} else {
 							lights.getLightsList().get(index).setLights(false);
-							frame.repaint();
+							paint();
 							console.msg("The light in the " + location + " is off");
 						}
 					} else {
@@ -119,11 +120,11 @@ public class SHCController {
 					if (!windows.getWindowList().get(index).isBlocked()) {
 						if (!windows.getWindowList().get(index).isOpen()) {
 							windows.getWindowList().get(index).setOpen(true);
-							frame.repaint();
+							paint();
 							console.msg("The window in the " + location + " is open");
 						} else {
 							windows.getWindowList().get(index).setOpen(false);
-							frame.repaint();
+							paint();
 							console.msg("The window in the " + location + " is closed");
 						}
 					} else {
@@ -153,7 +154,7 @@ public class SHCController {
 						setAutoModeState(true);
 						console.msg("Auto Mode ON");
 						checkLights();
-						frame.repaint();
+						paint();
 					} else if (state == ItemEvent.DESELECTED) {
 						setAutoModeState(false);
 						console.msg("Auto Mode OFF");
@@ -176,11 +177,11 @@ public class SHCController {
 				if (hasPermissions(loggedUser, location, "Doors")) {
 					if (!doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
 						doors.getDoorList().get(index).setLocked(true);
-						frame.repaint();
+						paint();
 						console.msg("The door in the " + location + " has been locked");
 					} else if (doors.getDoorList().get(index).isLocked()) {
 						doors.getDoorList().get(index).setLocked(false);
-						frame.repaint();
+						paint();
 						console.msg("The door in the " + location + " has been unlocked");
 					} else if (doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
 						console.msg("The door in the " + location + " cannot be locked because its open");
@@ -221,6 +222,27 @@ public class SHCController {
 		this.isUserLoggedIn = isUserLoggedIn;
 	}
 
+	/**
+	 * Getter
+	 */
+	public SimulationButton getSimButton() {
+		return simulationButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setSimButton(SimulationButton simulationButton) {
+		this.simulationButton = simulationButton;
+	}
+
+	/**
+	 * Repaints frame if the simulator is on
+	 */
+	private void paint() {
+		if(simulationButton.isSimulatorState())
+			frame.repaint();
+	}
 	/**
 	 * When Auto Mode is activated, this method will check all of the rooms and turn
 	 * on the lights if its occupied. It will turn the lights off, if a room is

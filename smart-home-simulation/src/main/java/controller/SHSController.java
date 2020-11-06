@@ -42,7 +42,6 @@ public class SHSController {
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
 	private RoomCounter rooms;
-	private Lights lights;
 
 	public SHSController() {
 	}
@@ -52,8 +51,6 @@ public class SHSController {
 		this.frame = frame;
 		user = new Users();
 		rooms = new RoomCounter();
-		lights = new Lights();
-
 
 		/** Create default User **/
 		Users defaultUser = new Users("Admin","PARENT");
@@ -66,15 +63,16 @@ public class SHSController {
 		this.simulationButton = new SimulationButton();
 
 		/** Temperature Control **/
-		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console, simulationButton);
 		/** Time **/
-		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console);
+		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console, simulationButton);
 
 		/** SHC Controller **/
 		this.coreController = coreController;
+		this.coreController.setSimButton(simulationButton);
 		
 		/** Edit Simulation **/
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, frame, coreController, securityController);
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton,frame, coreController, securityController);
 
 		// Open File
 		readFileEvent();
@@ -284,7 +282,7 @@ public class SHSController {
 					}
 
 					// Refresh Ui
-					frame.repaint();
+					paint();
 				}
 			}
 		});
@@ -334,7 +332,7 @@ public class SHSController {
 					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
 					break;	
 				}
-				frame.repaint();
+				paint();
 			}
 		});
 
@@ -367,7 +365,7 @@ public class SHSController {
 					console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 					rooms.getRooms().get(rooms.getRooms().size() - 1).incrementCounter();
 					coreController.checkLights();
-					frame.repaint();
+					paint();
 				} else {
 					console.msg("The username \"" + NewUsername
 							+ "\" is already linked to an existing user. User will not be added");
@@ -389,7 +387,7 @@ public class SHSController {
 						userList.remove(user);
 						location = user.getLocation();
 						console.msg(userToDelete + "'s profile has been deleted from the system");
-						frame.repaint();
+						paint();
 						break;
 					}
 				}
@@ -447,7 +445,7 @@ public class SHSController {
 			public void actionPerformed(ActionEvent e) {
 				String weather = frame.getComboBoxWeather().getSelectedItem().toString();
 				frame.getWeatherValue().setText(weather);
-				frame.repaint();
+				paint();
 			}
 		});
 
@@ -466,7 +464,10 @@ public class SHSController {
 
 					// Run timer
 					time.startTimer();
-
+					
+					//Refresh UI
+					frame.repaint();
+					
 					// Display Message to Console
 					console.msg("Simulator ON");
 				} else if (state == ItemEvent.DESELECTED) {
@@ -503,5 +504,13 @@ public class SHSController {
 		position.put(120, new JLabel("2h"));
 		slider.setLabelTable(position);
 
+	}
+
+	/**
+	 * Repaints frame if the simulator is on
+	 */
+	private void paint() {
+		if(simulationButton.isSimulatorState())
+			frame.repaint();
 	}
 }

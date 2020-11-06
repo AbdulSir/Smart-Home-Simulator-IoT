@@ -21,6 +21,7 @@ public class EditSimulation {
 	private ContextSimulation context;
 	private Users user;
 	private Console console;
+	private SimulationButton simulationButton;
 	private SHSGui frame;
 	private Windows windows;
 	private SHCController core;
@@ -29,12 +30,13 @@ public class EditSimulation {
 	/**
 	 * Constructor
 	 */
-	public EditSimulation(JButton editContext, Users user, Console console, SHSGui frame, SHCController core,
+	public EditSimulation(JButton editContext, Users user, Console console, SimulationButton simulationButton, SHSGui frame, SHCController core,
 			SHPController security) {
 		this.context = new ContextSimulation();
 		this.editContext = editContext;
 		this.user = user;
 		this.console = console;
+		this.simulationButton = simulationButton;
 		this.frame = frame;
 		this.core = core;
 		this.security = security;
@@ -124,7 +126,7 @@ public class EditSimulation {
 				t.setRepeats(false);
 				t.start();
 
-				frame.repaint();
+				paint();
 			}
 		});
 
@@ -137,11 +139,11 @@ public class EditSimulation {
 				if (core.hasPermissions(loggedUser, location, "Windows")) {
 					if (!windows.getWindowList().get(index).isBlocked()) {
 						windows.getWindowList().get(index).setBlocked(true);
-						frame.repaint();
+						paint();
 						console.msg("The window in the " + location + " has been blocked");
 					} else {
 						windows.getWindowList().get(index).setBlocked(false);
-						frame.repaint();
+						paint();
 						console.msg("The window in the " + location + " has been unblocked");
 					}
 				} else {
@@ -159,7 +161,7 @@ public class EditSimulation {
 					for (int i = 0; i < windows.getWindowList().size(); i++) {
 						windows.getWindowList().get(i).setBlocked(true);
 					}
-					frame.repaint();
+					paint();
 				} else {
 					if (core.isUserLoggedIn())
 						console.msg("You do not have the permission to execute this command");
@@ -175,7 +177,7 @@ public class EditSimulation {
 					for (int i = 0; i < windows.getWindowList().size(); i++) {
 						windows.getWindowList().get(i).setBlocked(false);
 					}
-					frame.repaint();
+					paint();
 				} else {
 					if (core.isUserLoggedIn())
 						console.msg("You do not have the permission to execute this command");
@@ -204,6 +206,13 @@ public class EditSimulation {
 		context.getComboBoxUsers().addPopupMenuListener(userListListener);
 	}
 
+	/**
+	 * Repaints frame if the simulator is on
+	 */
+	private void paint() {
+		if(simulationButton.isSimulatorState())
+			frame.repaint();
+	}
 	/**
 	 * Getter
 	 */

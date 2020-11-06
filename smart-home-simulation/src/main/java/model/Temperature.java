@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
 import controller.Console;
+import controller.SimulationButton;
 import view.SHSGui;
 
 public class Temperature {
@@ -18,7 +19,7 @@ public class Temperature {
 	private int outsideTemp;
 	private int insideTemp;
 	private Console console;
-	private SHSGui Frame;
+	private SHSGui frame;
 
 	/**
 	 * Constructor
@@ -26,8 +27,13 @@ public class Temperature {
 	public Temperature() {
 	}
 
+	/**
+	 * Parametrized Constructor
+	 */
 	public Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console) {
+		this.frame = frame;
 		this.console = console;
+		
 		out.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 
@@ -38,7 +44,6 @@ public class Temperature {
 				// call set method
 				setOutsideTemp(outsideTempIntValue);
 				frame.getOutdoorTemperatureValue().setText(outsideTempStrValue + "\u00B0C");
-				frame.repaint();
 				console.msg("The temperature for the outside of the house has been set at " + outsideTemp + "\u00B0C");
 			}
 		});
@@ -52,26 +57,36 @@ public class Temperature {
 				// call set method
 				setInsideTemp(insideTempIntValue);
 				frame.getIndoorHouseTempValue().setText(insideTempStrValue + "\u00B0C");
-				frame.repaint();
 				console.msg("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
 			}
 		});
 	}
 
+	/**
+	 * Getter
+	 */
 	public int getOutsideTemp() {
 		return outsideTemp;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setOutsideTemp(int x) {
 		this.outsideTemp = x;
 	}
 
+	/**
+	 * Getter
+	 */
 	public int getInsideTemp() {
 		return insideTemp;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setInsideTemp(int x) {
 		this.insideTemp = x;
 	}
-
 }

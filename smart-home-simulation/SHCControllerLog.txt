@@ -1,0 +1,14 @@
+The light in the BedRM is on
+The light in the Kitchen is on
+Auto Mode ON
+The door in the Living RM has been locked
+The door in the Living RM has been unlocked
+The Living RM door is open
+The door in the Living RM cannot be locked because its open
+The Living RM door is closed
+The window in the BedRM is open
+The window in the BathRM is open
+The Living RM door is open
+The door in the Entrance is locked so it cannot be opened
+The window in the Living RM is open
+The door in the Garage is locked so it cannot be opened

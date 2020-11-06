@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import com.toedter.calendar.JDateChooser;
 
 import controller.Console;
+import controller.SimulationButton;
 import view.SHSGui;
 
 public class Time {
@@ -41,13 +42,8 @@ public class Time {
 	public Time(SHSGui frame, JButton btn, JSpinner time_spinner, JDateChooser date, JSlider slider, Console console) {
 		this.increment_time_value = 1;
 		this.console = console;
-
-		// set current date as default
-//		Date date_value = new Date();
-//		String formattedValue = new SimpleDateFormat("HH:mm").format(date_value);
-//		setTime(date_value);
-//		frame.getTimeValue().setText(formattedValue);
-
+		this.frame = frame;
+		
 		// listen for button click
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -62,9 +58,6 @@ public class Time {
 				Date setDate = date.getDate();
 				String strDate = DateFormat.getDateInstance().format(setDate);
 				frame.getDateValue().setText(strDate);
-
-				// refresh ui
-				frame.repaint();
 
 				// display console message
 				console.msg("The time has been set at " + formattedValue);
@@ -176,5 +169,4 @@ public class Time {
 
 		this.increment_time_value = increment_time_value;
 	}
-
 }

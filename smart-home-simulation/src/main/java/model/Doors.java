@@ -8,12 +8,18 @@ public class Doors {
 	private boolean locked;
 	private static ArrayList<Doors> doorList = new ArrayList<Doors>();
 
+	/**
+	 * Default Constructor
+	 */
 	public Doors() {
 		location = "";
 		open = false;
 		locked = false;
 	}
 
+	/**
+	 * Parametrized Constructor
+	 */
 	public Doors(String location) {
 		this.location = location;
 		open = false;

@@ -7,9 +7,10 @@ public class RoomCounter {
 	private int count;
 	private static ArrayList<RoomCounter> rooms = new ArrayList<RoomCounter>();
 	
+	/** Default Constructor **/
 	public RoomCounter() {}
 	
-	/** Constructor **/
+	/** Parametrized Constructor **/
 	public RoomCounter(String location) {
 		this.location = location;
 		count = 0;

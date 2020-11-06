@@ -72,7 +72,7 @@ public class SHSController {
 		this.coreController.setSimButton(simulationButton);
 		
 		/** Edit Simulation **/
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton,frame, coreController, securityController);
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton, frame, coreController, securityController);
 
 		// Open File
 		readFileEvent();

@@ -213,6 +213,7 @@ public class EditSimulation {
 		if(simulationButton.isSimulatorState())
 			frame.repaint();
 	}
+	
 	/**
 	 * Getter
 	 */

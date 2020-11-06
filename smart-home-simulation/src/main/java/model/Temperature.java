@@ -93,6 +93,7 @@ public class Temperature {
 	public void setInsideTemp(int x) {
 		this.insideTemp = x;
 	}
+
 	/**
 	 * Repaints frame if the simulator is on
 	 */

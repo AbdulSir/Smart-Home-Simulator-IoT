@@ -29,9 +29,9 @@ public class Time {
 
 	private JSpinner time_spinner;
 	private Console console;
-	private SimulationButton simulationButton;
 	private Date date;
 	private SHSGui frame;
+	private SimulationButton simulationButton;
 	private JDateChooser dateChooser;
 	private Timer t;
 	private Date time;
@@ -43,8 +43,8 @@ public class Time {
 	public Time(SHSGui frame, JButton btn, JSpinner time_spinner, JDateChooser date, JSlider slider, Console console, SimulationButton simulationButton) {
 		this.increment_time_value = 1;
 		this.console = console;
-		this.simulationButton = simulationButton;
 		this.frame = frame;
+		this.simulationButton = simulationButton;
 		
 		// listen for button click
 		btn.addActionListener(new ActionListener() {

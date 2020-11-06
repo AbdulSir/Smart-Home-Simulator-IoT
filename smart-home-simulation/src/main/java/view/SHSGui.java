@@ -797,20 +797,6 @@ public class SHSGui extends JFrame {
 	/**
 	 * Getter
 	 */
-	public JTextField getTimeToAlertInput() {
-		return timeToAlertInput;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setTimeToAlertInput(JTextField timeToAlertInput) {
-		this.timeToAlertInput = timeToAlertInput;
-	}
-
-	/**
-	 * Getter
-	 */
 	public JMenuItem getMntmOpen() {
 		return mntmOpen;
 	}
@@ -1299,5 +1285,19 @@ public class SHSGui extends JFrame {
 	 */
 	public void setAwayModeToggleButton(JToggleButton awayModeToggleButton) {
 		AwayModeToggleButton = awayModeToggleButton;
+	}
+	
+	/**
+	 * Getter
+	 */
+	public JTextField getTimeToAlertInput() {
+		return timeToAlertInput;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTimeToAlertInput(JTextField timeToAlertInput) {
+		this.timeToAlertInput = timeToAlertInput;
 	}
 }

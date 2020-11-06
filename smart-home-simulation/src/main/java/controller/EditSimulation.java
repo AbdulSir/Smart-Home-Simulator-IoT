@@ -29,7 +29,8 @@ public class EditSimulation {
 	/**
 	 * Constructor
 	 */
-	public EditSimulation(JButton editContext, Users user, Console console, SHSGui frame, SHCController core, SHPController security) {
+	public EditSimulation(JButton editContext, Users user, Console console, SHSGui frame, SHCController core,
+			SHPController security) {
 		this.context = new ContextSimulation();
 		this.editContext = editContext;
 		this.user = user;
@@ -67,13 +68,14 @@ public class EditSimulation {
 				String newLocation = user.getUserList().get(index).getLocation();
 				int newRoomIndex = 0, oldRoomIndex = 0;
 				for (int i = 0; i < rooms.getRooms().size(); i++) {
-					if(oldLocation.equals(newLocation))
+					if (oldLocation.equals(newLocation))
 						break;
-					if (rooms.getRooms().get(i).getLocation().equals(oldLocation) && !oldLocation.equals("Outside")) 
+					if (rooms.getRooms().get(i).getLocation().equals(oldLocation) && !oldLocation.equals("Outside"))
 						rooms.getRooms().get(i).decrementCounter();
-					else if(rooms.getRooms().get(i).getLocation().equals(newLocation) && !newLocation.equals("Outside")) 
+					else if (rooms.getRooms().get(i).getLocation().equals(newLocation)
+							&& !newLocation.equals("Outside"))
 						rooms.getRooms().get(i).incrementCounter();
-					
+
 				}
 				if (oldLocation.equalsIgnoreCase(newLocation) && oldLocation.equalsIgnoreCase("Outside"))
 					console.msg(userToMove + " is still outside of the house");
@@ -83,23 +85,23 @@ public class EditSimulation {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
 				else
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
-				
+
 				core.checkLights();
-				
+
 				/** Motion detected during away mode **/
 				if (security.getAwayMode() == true && !newLocation.equals("Outside")) {
-					console.msg ("Motion is detected in " + newLocation);
-				}				
-				
-				/** Alert authorities if motion is detected**/
-		        final Timer t = new Timer(10, new ActionListener() {
-		            public void actionPerformed(ActionEvent evt) {
-						int timeToAlert = security.getTimeToAlert();					
+					console.msg("Motion is detected in " + newLocation);
+				}
+
+				/** Alert authorities if motion is detected **/
+				final Timer t = new Timer(10, new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						int timeToAlert = security.getTimeToAlert();
 						if (security.getAwayMode() == true && !newLocation.equals("Outside")) {
 							if (timeToAlert != 0) {
 								console.msg("Authorities will be alerted");
 								final Timer t = new Timer(10, new ActionListener() {
-						            public void actionPerformed(ActionEvent evt) {
+									public void actionPerformed(ActionEvent evt) {
 										int timeToAlert = security.getTimeToAlert();
 										while (timeToAlert != 0) {
 											timeToAlert--;
@@ -107,38 +109,44 @@ public class EditSimulation {
 												Thread.sleep(1000);
 											} catch (InterruptedException ie) {
 												Thread.currentThread().interrupt();
-								            }
+											}
 										}
 										console.msg("Authorities alerted");
-						            }
-						        });
-						        t.setRepeats(false);
-						        t.start();
-							}else 
-								console.msg ("Authorities alerted");
+									}
+								});
+								t.setRepeats(false);
+								t.start();
+							} else
+								console.msg("Authorities alerted");
 						}
-		            }
-		        });
-		        t.setRepeats(false);
-		        t.start();
-							
+					}
+				});
+				t.setRepeats(false);
+				t.start();
+
 				frame.repaint();
-				}
-			});
+			}
+		});
 
 		/** Block/Unblock Window **/
 		this.context.getBlockButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String location = context.getComboBoxWindowLocation().getSelectedItem().toString();
 				int index = context.getComboBoxWindowLocation().getSelectedIndex();
-				if (!windows.getWindowList().get(index).isBlocked()) {
-					windows.getWindowList().get(index).setBlocked(true);
-					frame.repaint();
-					console.msg("The window in the " + location + " has been blocked");
+				Users loggedUser = user.getLoggedUser();
+				if (core.hasPermissions(loggedUser, location, "Windows")) {
+					if (!windows.getWindowList().get(index).isBlocked()) {
+						windows.getWindowList().get(index).setBlocked(true);
+						frame.repaint();
+						console.msg("The window in the " + location + " has been blocked");
+					} else {
+						windows.getWindowList().get(index).setBlocked(false);
+						frame.repaint();
+						console.msg("The window in the " + location + " has been unblocked");
+					}
 				} else {
-					windows.getWindowList().get(index).setBlocked(false);
-					frame.repaint();
-					console.msg("The window in the " + location + " has been unblocked");
+					if (core.isUserLoggedIn())
+						console.msg("You do not have the permission to execute this command");
 				}
 			}
 		});
@@ -146,23 +154,35 @@ public class EditSimulation {
 		/** Block all Windows **/
 		this.context.getBlockAllButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < windows.getWindowList().size(); i++) {
-					windows.getWindowList().get(i).setBlocked(true);
+				Users loggedUser = user.getLoggedUser();
+				if (core.hasPermissions(loggedUser, "ALL", "Windows")) {
+					for (int i = 0; i < windows.getWindowList().size(); i++) {
+						windows.getWindowList().get(i).setBlocked(true);
+					}
+					frame.repaint();
+				} else {
+					if (core.isUserLoggedIn())
+						console.msg("You do not have the permission to execute this command");
 				}
-				frame.repaint();
 			}
 		});
-		
+
 		/** Unblock all Windows **/
 		this.context.getUnblockAllButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < windows.getWindowList().size(); i++) {
-					windows.getWindowList().get(i).setBlocked(false);
+				Users loggedUser = user.getLoggedUser();
+				if (core.hasPermissions(loggedUser, "ALL", "Windows")) {
+					for (int i = 0; i < windows.getWindowList().size(); i++) {
+						windows.getWindowList().get(i).setBlocked(false);
+					}
+					frame.repaint();
+				} else {
+					if (core.isUserLoggedIn())
+						console.msg("You do not have the permission to execute this command");
 				}
-				frame.repaint();
 			}
 		});
-		
+
 		/** User ComboBox **/
 		PopupMenuListener userListListener = new PopupMenuListener() {
 			boolean initialized = false;

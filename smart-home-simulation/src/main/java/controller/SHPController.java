@@ -126,12 +126,16 @@ public class SHPController {
 		}
 		switch (user.getPermission()) {
 		case "PARENT":
+			isUserLoggedIn = true;
 			return true;
 		case "CHILDREN":
+			isUserLoggedIn = true;
 			return true;
 		case "GUEST":
+			isUserLoggedIn = true;
 			return false;
 		case "STRANGER":
+			isUserLoggedIn = true;
 			return false;
 		default:
 			return false;

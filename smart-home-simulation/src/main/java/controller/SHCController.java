@@ -208,6 +208,20 @@ public class SHCController {
 	}
 
 	/**
+	 * Getter
+	 */
+	public boolean isUserLoggedIn() {
+		return isUserLoggedIn;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setUserLoggedIn(boolean isUserLoggedIn) {
+		this.isUserLoggedIn = isUserLoggedIn;
+	}
+
+	/**
 	 * When Auto Mode is activated, this method will check all of the rooms and turn
 	 * on the lights if its occupied. It will turn the lights off, if a room is
 	 * unoccupied.
@@ -239,20 +253,24 @@ public class SHCController {
 		}
 		switch (user.getPermission()) {
 		case "PARENT":
+			isUserLoggedIn = true;
 			return true;
 		case "CHILDREN":
+			isUserLoggedIn = true;
 			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights"))
 					&& !securityController.getAwayMode())
 				return true;
 			else
 				return false;
 		case "GUEST":
+			isUserLoggedIn = true;
 			if (user.getLocation().equals(location) && (item.equals("Windows") || item.equals("Lights"))
 					&& !securityController.getAwayMode())
 				return true;
 			else
 				return false;
 		case "STRANGER":
+			isUserLoggedIn = true;
 			return false;
 		default:
 			return false;

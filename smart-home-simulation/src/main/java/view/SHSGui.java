@@ -1428,5 +1428,4 @@ public class SHSGui extends JFrame {
 	public JSpinner getAwayLightsStopTime() {
 		return awayLightsStopTime;
 	}	
-
 }

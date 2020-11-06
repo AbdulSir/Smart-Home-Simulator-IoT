@@ -41,6 +41,8 @@ public class SHPController {
 	private JSpinner startAwayLightTime;
 	private JSpinner stopAwayLightTime;
 	private Time time;
+	private String StrStartALTime;
+	private String StrStopALTime;
 
 
 	public SHPController() {
@@ -48,6 +50,7 @@ public class SHPController {
 
 	/**
 	 * Parametrized Constructor
+	 * 
 	 * @param frame
 	 */
 	public SHPController(SHSGui frame) {
@@ -137,6 +140,8 @@ public class SHPController {
 //				console.msg("You do not have the permission to execute this command");
 //		}
 
+
+
 		/** Time input until authorities will be alerted **/
 		JTextField timer = this.frame.getTimeToAlertInput();
 		timer.addActionListener(new ActionListener() {
@@ -149,8 +154,8 @@ public class SHPController {
 			}
 
 		});
-		
-		/** Confirm button for Away mode lights**/
+
+		/** Confirm button for Away mode lights **/
 		JButton btnAwayLights = this.frame.getBtnAwayLights();
 		btnAwayLights.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -232,11 +237,67 @@ public class SHPController {
 							}
 					}
 				}, 50,50);
+
+//				Date startALTime = (Date) startAwayLightTime.getValue();
+//				StrStartALTime = new SimpleDateFormat("HH:mm").format(startALTime);
+//				Date stopALTime = (Date) stopAwayLightTime.getValue();
+//				StrStopALTime = new SimpleDateFormat("HH:mm").format(stopALTime);
+//				
+//				setStrStartALTime(StrStartALTime);
+//				setStrStopALTime(StrStopALTime);
+//				
+//				LocalTime t1 = LocalTime.parse(StrStartALTime);
+//				LocalTime t2 = LocalTime.parse(StrStopALTime);
+//				Duration diff = Duration.between(t2, t1);
+//				time = diff.toMinutes()*60000;	
+//				
+//				setTime(time);
+
+				awayModeLights();
+
 			}
 		});
 	}
 
 
+	public void awayModeLights() {
+		ArrayList<Lights> lightsList = lights.getLightsList();
+//		String currentTime = frame.getTimeValue().getText();	
+//		
+//		if (currentTime == StrStartALTime) {
+		if (frame.getChckbxBedRMLight().isSelected())
+			lightsList.get(0).setLights(true);
+
+		if (frame.getChckbxMasterBedRMLight().isSelected())
+			lightsList.get(1).setLights(true);
+
+		if (frame.getChckbxBathRMLight().isSelected())
+			lightsList.get(2).setLights(true);
+
+		if (frame.getChckbxKitchenLight().isSelected())
+			lightsList.get(3).setLights(true);
+
+		if (frame.getChckbxLivingRMLight().isSelected())
+			lightsList.get(4).setLights(true);
+
+		if (frame.getChckbxGarageLight().isSelected())
+			lightsList.get(5).setLights(true);
+
+		if (frame.getChckbxBackyardLight().isSelected())
+			lightsList.get(6).setLights(true);
+
+		if (frame.getChckbxEntranceLight().isSelected())
+			lightsList.get(7).setLights(true);
+
+		frame.repaint();
+
+//	        if(frame.getTimeValue().getText() == StrStopALTime) {
+//	        	for(int i =0; i < lightsList.size(); i++ ) {
+//	        		lightsList.get(i).setLights(false);	
+//	        	}
+//	        }
+//		}
+	}
 
 	/**
 	 * Getter
@@ -264,6 +325,22 @@ public class SHPController {
 	 */
 	public void setTimeToAlert(int timeToAlert) {
 		this.timeToAlert = timeToAlert;
+	}
+
+	public String getStrStartALTime() {
+		return StrStartALTime;
+	}
+
+	public void setStrStartALTime(String strStartALTime) {
+		StrStartALTime = strStartALTime;
+	}
+
+	public String getStrStopALTime() {
+		return StrStopALTime;
+	}
+
+	public void setStrStopALTime(String strStopALTime) {
+		StrStopALTime = strStopALTime;
 	}
 
 	/**

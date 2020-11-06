@@ -4,12 +4,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.Timer;
 
 import model.Doors;
+import model.Lights;
 import model.Users;
 import model.Windows;
 import view.ContextSimulation;
@@ -25,7 +34,12 @@ public class SHPController {
 	private int timeToAlert;
 	private Windows windows;
 	private Doors doors;
-	
+	private Lights lights;
+	private JSpinner startAwayLightTime;
+	private JSpinner stopAwayLightTime;
+	private String StrStartALTime;
+	private String StrStopALTime;
+	private long time;
 
 	public SHPController() {
 	}
@@ -40,6 +54,9 @@ public class SHPController {
 		this.user = new Users();
 		this.windows = new Windows();
 		this.doors = new Doors();
+		this.lights = new Lights();
+		this.startAwayLightTime = frame.getAwayLightsStartTime();
+		this.stopAwayLightTime = frame.getAwayLightsStopTime();
 		userEvents();
 	}
 
@@ -89,6 +106,7 @@ public class SHPController {
 			}					
 		});
 		
+		/** Time input until authorities will be alerted **/
 		JTextField timer = this.frame.getTimeToAlertInput();
 		timer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -98,6 +116,72 @@ public class SHPController {
 				console.msg("Time to alert authorities has been set to " + getTimeToAlert() + " seconds");
 			}
 		});
+		
+		/** Confirm button for Away mode lights**/
+		JButton btnAwayLights = this.frame.getBtnAwayLights();
+		btnAwayLights.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+
+//				Date startALTime = (Date) startAwayLightTime.getValue();
+//				StrStartALTime = new SimpleDateFormat("HH:mm").format(startALTime);
+//				Date stopALTime = (Date) stopAwayLightTime.getValue();
+//				StrStopALTime = new SimpleDateFormat("HH:mm").format(stopALTime);
+//				
+//				setStrStartALTime(StrStartALTime);
+//				setStrStopALTime(StrStopALTime);
+//				
+//				LocalTime t1 = LocalTime.parse(StrStartALTime);
+//				LocalTime t2 = LocalTime.parse(StrStopALTime);
+//				Duration diff = Duration.between(t2, t1);
+//				time = diff.toMinutes()*60000;	
+//				
+//				setTime(time);
+				
+				awayModeLights();
+			}
+		});
+	}
+
+
+
+	public void awayModeLights() {
+		ArrayList<Lights> lightsList = lights.getLightsList();
+//		String currentTime = frame.getTimeValue().getText();	
+//		
+//		if (currentTime == StrStartALTime) {
+	        if(frame.getChckbxBedRMLight().isSelected())
+	        	lightsList.get(0).setLights(true);	
+	        
+	        if(frame.getChckbxMasterBedRMLight().isSelected())
+	        	lightsList.get(1).setLights(true);	
+	        
+	        if(frame.getChckbxBathRMLight().isSelected())
+	        	lightsList.get(2).setLights(true);	
+	        
+	        if(frame.getChckbxKitchenLight().isSelected())
+	        	lightsList.get(3).setLights(true);	
+	        
+	        if(frame.getChckbxLivingRMLight().isSelected())
+	        	lightsList.get(4).setLights(true);	
+	        
+	        if(frame.getChckbxGarageLight().isSelected())
+	        	lightsList.get(5).setLights(true);	
+	        
+	        if(frame.getChckbxBackyardLight().isSelected())
+	        	lightsList.get(6).setLights(true);	
+	        
+	        if(frame.getChckbxEntranceLight().isSelected())
+	        	lightsList.get(7).setLights(true);	
+	        
+	        frame.repaint();	 
+	        
+//	        if(frame.getTimeValue().getText() == StrStopALTime) {
+//	        	for(int i =0; i < lightsList.size(); i++ ) {
+//	        		lightsList.get(i).setLights(false);	
+//	        	}
+//	        }
+//		}
 	}
 
 	public Boolean getAwayMode() {
@@ -114,5 +198,25 @@ public class SHPController {
 
 	public void setTimeToAlert(int timeToAlert) {
 		this.timeToAlert = timeToAlert;
+	}
+	
+	public String getStrStartALTime() {
+		return StrStartALTime;
+	}
+
+	public void setStrStartALTime(String strStartALTime) {
+		StrStartALTime = strStartALTime;
+	}
+
+	public String getStrStopALTime() {
+		return StrStopALTime;
+	}
+
+	public void setStrStopALTime(String strStopALTime) {
+		StrStopALTime = strStopALTime;
+	}
+	
+	public void setTime(long time) {
+		this.time = time;
 	}
 }

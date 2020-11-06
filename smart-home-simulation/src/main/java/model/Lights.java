@@ -7,11 +7,17 @@ public class Lights {
 	private boolean on;
 	private static ArrayList<Lights> lightsList = new ArrayList<Lights>();
 
+	/**
+	 * Default Constructor
+	 */
 	public Lights() {
 		location = "";
 		on = false;
 	}
 
+	/**
+	 * Parametrized Constructor
+	 */
 	public Lights(String location) {
 		this.location = location;
 		on = false;

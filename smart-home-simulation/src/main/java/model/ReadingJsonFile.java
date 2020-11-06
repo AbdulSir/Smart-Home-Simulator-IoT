@@ -18,6 +18,9 @@ public class ReadingJsonFile {
 
 	private JSONArray roomArray;
 
+	/**
+	 * Read JSON file for House Layout
+	 */
 	public ReadingJsonFile(String fileName) {
 		JSONParser parser = new JSONParser();
 		try (FileReader reader = new FileReader(fileName)) {
@@ -37,10 +40,16 @@ public class ReadingJsonFile {
 
 	}
 
+	/**
+	 * Getter
+	 */
 	public JSONArray getRoomArray() {
 		return roomArray;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setRoomArray(JSONArray roomArray) {
 		this.roomArray = roomArray;
 	}

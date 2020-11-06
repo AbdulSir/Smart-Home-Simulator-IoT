@@ -139,13 +139,12 @@ public class EditSimulation {
 				if (core.hasPermissions(loggedUser, location, "Windows")) {
 					if (!windows.getWindowList().get(index).isBlocked()) {
 						windows.getWindowList().get(index).setBlocked(true);
-						paint();
 						console.msg("The window in the " + location + " has been blocked");
 					} else {
 						windows.getWindowList().get(index).setBlocked(false);
-						paint();
 						console.msg("The window in the " + location + " has been unblocked");
 					}
+					paint();
 				} else {
 					if (core.isUserLoggedIn())
 						console.msg("You do not have the permission to execute this command");

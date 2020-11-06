@@ -31,7 +31,6 @@ public class Time {
 	private Console console;
 	private Date date;
 	private SHSGui frame;
-	private SimulationButton simulationButton;
 	private JDateChooser dateChooser;
 	private Timer t;
 	private Date time;
@@ -40,11 +39,10 @@ public class Time {
 	/**
 	 * Constructor
 	 */
-	public Time(SHSGui frame, JButton btn, JSpinner time_spinner, JDateChooser date, JSlider slider, Console console, SimulationButton simulationButton) {
+	public Time(SHSGui frame, JButton btn, JSpinner time_spinner, JDateChooser date, JSlider slider, Console console) {
 		this.increment_time_value = 1;
 		this.console = console;
 		this.frame = frame;
-		this.simulationButton = simulationButton;
 		
 		// listen for button click
 		btn.addActionListener(new ActionListener() {
@@ -60,9 +58,6 @@ public class Time {
 				Date setDate = date.getDate();
 				String strDate = DateFormat.getDateInstance().format(setDate);
 				frame.getDateValue().setText(strDate);
-
-				// refresh ui
-				paint();
 
 				// display console message
 				console.msg("The time has been set at " + formattedValue);
@@ -173,13 +168,5 @@ public class Time {
 			increment_time_value = 1;
 
 		this.increment_time_value = increment_time_value;
-	}
-
-	/**
-	 * Repaints frame if the simulator is on
-	 */
-	private void paint() {
-		if(simulationButton.isSimulatorState())
-			frame.repaint();
 	}
 }

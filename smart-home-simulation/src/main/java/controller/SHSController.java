@@ -63,9 +63,10 @@ public class SHSController {
 		this.simulationButton = new SimulationButton();
 
 		/** Temperature Control **/
-		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console, simulationButton);
+		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		
 		/** Time **/
-		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console, simulationButton);
+		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console);
 
 		/** SHC Controller **/
 		this.coreController = coreController;
@@ -445,7 +446,6 @@ public class SHSController {
 			public void actionPerformed(ActionEvent e) {
 				String weather = frame.getComboBoxWeather().getSelectedItem().toString();
 				frame.getWeatherValue().setText(weather);
-				paint();
 			}
 		});
 

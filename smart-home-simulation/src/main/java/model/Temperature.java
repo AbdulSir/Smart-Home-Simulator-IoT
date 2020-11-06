@@ -20,7 +20,6 @@ public class Temperature {
 	private int insideTemp;
 	private Console console;
 	private SHSGui frame;
-	private SimulationButton simulationButton;
 
 	/**
 	 * Constructor
@@ -31,10 +30,9 @@ public class Temperature {
 	/**
 	 * Parametrized Constructor
 	 */
-	public Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console, SimulationButton simulationButton) {
+	public Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console) {
 		this.frame = frame;
 		this.console = console;
-		this.simulationButton = simulationButton;
 		
 		out.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -46,7 +44,6 @@ public class Temperature {
 				// call set method
 				setOutsideTemp(outsideTempIntValue);
 				frame.getOutdoorTemperatureValue().setText(outsideTempStrValue + "\u00B0C");
-				paint();
 				console.msg("The temperature for the outside of the house has been set at " + outsideTemp + "\u00B0C");
 			}
 		});
@@ -60,7 +57,6 @@ public class Temperature {
 				// call set method
 				setInsideTemp(insideTempIntValue);
 				frame.getIndoorHouseTempValue().setText(insideTempStrValue + "\u00B0C");
-				paint();
 				console.msg("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
 			}
 		});
@@ -92,13 +88,5 @@ public class Temperature {
 	 */
 	public void setInsideTemp(int x) {
 		this.insideTemp = x;
-	}
-
-	/**
-	 * Repaints frame if the simulator is on
-	 */
-	private void paint() {
-		if(simulationButton.isSimulatorState())
-			frame.repaint();
 	}
 }

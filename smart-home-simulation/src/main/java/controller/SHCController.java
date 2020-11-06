@@ -62,13 +62,12 @@ public class SHCController {
 					if (!doors.getDoorList().get(index).isLocked()) {
 						if (!doors.getDoorList().get(index).isOpen()) {
 							doors.getDoorList().get(index).setOpen(true);
-							paint();
 							console.msg("The " + location + " door is open");
 						} else {
 							doors.getDoorList().get(index).setOpen(false);
-							paint();
 							console.msg("The " + location + " door is closed");
 						}
+						paint();
 					} else
 						console.msg("The door in the " + location + " is locked so it cannot be opened");
 				} else {
@@ -90,13 +89,12 @@ public class SHCController {
 					if (hasPermissions(loggedUser, location, "Lights")) {
 						if (!lights.getLightsList().get(index).areLightsOn()) {
 							lights.getLightsList().get(index).setLights(true);
-							paint();
 							console.msg("The light in the " + location + " is on");
 						} else {
 							lights.getLightsList().get(index).setLights(false);
-							paint();
 							console.msg("The light in the " + location + " is off");
 						}
+						paint();
 					} else {
 						if (isUserLoggedIn)
 							console.msg("You do not have the permission to execute this command");
@@ -120,13 +118,12 @@ public class SHCController {
 					if (!windows.getWindowList().get(index).isBlocked()) {
 						if (!windows.getWindowList().get(index).isOpen()) {
 							windows.getWindowList().get(index).setOpen(true);
-							paint();
 							console.msg("The window in the " + location + " is open");
 						} else {
 							windows.getWindowList().get(index).setOpen(false);
-							paint();
 							console.msg("The window in the " + location + " is closed");
 						}
+						paint();
 					} else {
 						if (windows.getWindowList().get(index).isOpen())
 							console.msg(

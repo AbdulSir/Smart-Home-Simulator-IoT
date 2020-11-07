@@ -33,9 +33,20 @@ public class Time {
 	private SHSGui frame;
 	private JDateChooser dateChooser;
 	private Timer t;
-	private Date time;
+	private static Date time;
 	private int increment_time_value;
 
+	/**
+	 * Default constructor
+	 */
+	public Time() {
+		date = null;
+		dateChooser = null;
+		t= null;
+		time = null;
+		increment_time_value = 0;
+	}
+	
 	/**
 	 * Constructor
 	 */
@@ -91,9 +102,6 @@ public class Time {
 				}
 			}
 		});
-	}
-
-	public Time() {
 	}
 
 	/**

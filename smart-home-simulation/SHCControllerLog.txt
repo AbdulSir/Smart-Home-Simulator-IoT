@@ -1,14 +1,64 @@
-The light in the BedRM is on
-The light in the Kitchen is on
-Auto Mode ON
-The door in the Living RM has been locked
-The door in the Living RM has been unlocked
-The Living RM door is open
-The door in the Living RM cannot be locked because its open
-The Living RM door is closed
-The window in the BedRM is open
-The window in the BathRM is open
-The Living RM door is open
-The door in the Entrance is locked so it cannot be opened
-The window in the Living RM is open
-The door in the Garage is locked so it cannot be opened
+[07/11/2020 13:18:56] The light in the BedRM is on
+[07/11/2020 13:18:56] The light in the BedRM is off
+[07/11/2020 13:18:56] The light in the BedRM is on
+[07/11/2020 13:18:56] The light in the BedRM is off
+[07/11/2020 13:18:56] The light in the BedRM is on
+[07/11/2020 13:18:57] The light in the BedRM is off
+[07/11/2020 13:18:57] The light in the BedRM is on
+[07/11/2020 13:18:57] The light in the BedRM is off
+[07/11/2020 13:18:57] The light in the BedRM is on
+[07/11/2020 13:18:57] The light in the BedRM is off
+[07/11/2020 13:18:57] The light in the BedRM is on
+[07/11/2020 13:18:58] The light in the BedRM is off
+[07/11/2020 13:18:58] The light in the BedRM is on
+[07/11/2020 13:18:58] The light in the BedRM is off
+[07/11/2020 13:18:58] The light in the BedRM is on
+[07/11/2020 13:18:58] The light in the BedRM is off
+[07/11/2020 13:18:59] The light in the BedRM is on
+[07/11/2020 13:18:59] The light in the BedRM is off
+[07/11/2020 13:18:59] The light in the BedRM is on
+[07/11/2020 13:18:59] The light in the BedRM is off
+[07/11/2020 13:18:59] The light in the BedRM is on
+[07/11/2020 13:18:59] The light in the BedRM is off
+[07/11/2020 13:19:00] The light in the BedRM is on
+[07/11/2020 13:19:00] The light in the BedRM is off
+[07/11/2020 13:19:00] The light in the BedRM is on
+[07/11/2020 13:19:00] The light in the BedRM is off
+[07/11/2020 13:19:01] The light in the BedRM is on
+[07/11/2020 13:19:01] The light in the BedRM is off
+[07/11/2020 13:19:01] The light in the BedRM is on
+[07/11/2020 13:19:01] The light in the BedRM is off
+[07/11/2020 13:19:01] The light in the BedRM is on
+[07/11/2020 13:19:02] The light in the BedRM is off
+[07/11/2020 13:19:02] The light in the BedRM is on
+[07/11/2020 13:19:02] The light in the BedRM is off
+[07/11/2020 13:19:03] The light in the BedRM is on
+[07/11/2020 13:19:03] The light in the BedRM is off
+[07/11/2020 13:19:03] The light in the BedRM is on
+[07/11/2020 13:19:03] The light in the BedRM is off
+[07/11/2020 13:19:04] The light in the BedRM is on
+[07/11/2020 13:19:04] The light in the BedRM is off
+[07/11/2020 13:19:04] The light in the BedRM is on
+[07/11/2020 13:19:05] The light in the BedRM is off
+[07/11/2020 13:19:07] The BedRM door is open
+[07/11/2020 13:19:08] The BedRM door is closed
+[07/11/2020 13:19:08] The BedRM door is open
+[07/11/2020 13:19:08] The BedRM door is closed
+[07/11/2020 13:19:08] The BedRM door is open
+[07/11/2020 13:19:08] The BedRM door is closed
+[07/11/2020 13:19:08] The BedRM door is open
+[07/11/2020 13:19:08] The BedRM door is closed
+[07/11/2020 13:19:09] The BedRM door is open
+[07/11/2020 13:19:09] The BedRM door is closed
+[07/11/2020 13:19:09] The BedRM door is open
+[07/11/2020 13:19:10] The window in the BedRM is open
+[07/11/2020 13:19:10] The window in the BedRM is closed
+[07/11/2020 13:19:10] The window in the BedRM is open
+[07/11/2020 13:19:11] The window in the BedRM is closed
+[07/11/2020 13:19:11] The window in the BedRM is open
+[07/11/2020 13:19:11] The window in the BedRM is closed
+[07/11/2020 13:19:11] The window in the BedRM is open
+[07/11/2020 13:19:11] The window in the BedRM is closed
+[07/11/2020 13:19:11] The window in the BedRM is open
+[07/11/2020 13:19:12] The window in the BedRM is closed
+[07/11/2020 13:19:12] The window in the BedRM is open

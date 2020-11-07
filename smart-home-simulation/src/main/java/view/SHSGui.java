@@ -49,6 +49,7 @@ import java.util.Hashtable;
 
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+import javax.swing.JCheckBox;
 
 public class SHSGui extends JFrame {
 	private JLabel labelProfileImage;
@@ -89,12 +90,21 @@ public class SHSGui extends JFrame {
 	private JMenuItem mntmLoad;
 	private JComboBox comboBoxPermission;
 	private JSlider slider;
-	private JSpinner awayModeStartTime;
-	private JSpinner awayModeStopTime;
+	private JSpinner awayLightsStartTime;
+	private JSpinner awayLightsStopTime;
 	private JTextField timeToAlertInput;
 	private JLabel labelUserPermissionValue;
 	private JLabel userLocationLabel;
 	private JToggleButton AwayModeToggleButton;
+	private JButton btnAwayLights;
+	private JCheckBox chckbxBedRMLight;
+	private JCheckBox chckbxMasterBedRMLight;
+	private JCheckBox chckbxBathRMLight;
+	private JCheckBox chckbxKitchenLight;
+	private JCheckBox chckbxLivingRMLight;
+	private JCheckBox chckbxGarageLight;
+	private JCheckBox chckbxBackyardLight;
+	private JCheckBox chckbxEntranceLight;
 	private static SHPController securityController;
 	private static SHCController coreController;
 	private static SHSController controller;
@@ -111,6 +121,7 @@ public class SHSGui extends JFrame {
 					securityController = new SHPController(frame);
 					coreController = new SHCController(frame, securityController);
 					controller = new SHSController(frame, coreController, securityController);
+					securityController.setSimulationButton(controller.getSimulationButton());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -146,12 +157,15 @@ public class SHSGui extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				coreController.getPrintWriter().flush();
 				coreController.getPrintWriter().close();
+				securityController.getPrintWriter().flush();
+				securityController.getPrintWriter().close();
 			}
 			@Override
 			public void windowOpened(WindowEvent e) {
 			}
 			@Override
 			public void windowClosed(WindowEvent e) {
+				
 			}
 			@Override
 			public void windowIconified(WindowEvent e) {
@@ -560,38 +574,81 @@ public class SHSGui extends JFrame {
 		WindowsPanel.add(openWindowsButton);
 
 		/** SHP PANEL **/
+
+		/** Time to alert authorities **/
+		
+		/** Away Mode Lights remain open **/
+		
+		/** Away Mode Button **/
+		
+		/** SHH PANEL **/
 		JPanel panelSHP = new JPanel();
 		tabbedPane.addTab("SHP", null, panelSHP, null);
 		panelSHP.setLayout(null);
-
-		awayModeStartTime = new JSpinner();
-		awayModeStartTime.setBounds(125, 17, 91, 32);
-		awayModeStartTime.setModel(new SpinnerDateModel());
-		awayModeStartTime.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
-		awayModeStopTime = new JSpinner();
-		awayModeStopTime.setBounds(216, 17, 91, 32);
-		awayModeStopTime.setModel(new SpinnerDateModel());
-		awayModeStopTime.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
-		panelSHP.add(awayModeStartTime);
-		panelSHP.add(awayModeStopTime);
-		
-		JLabel setAwayModeLabel = new JLabel("Away Mode Time");
-		setAwayModeLabel.setBounds(6, 25, 109, 16);
-		panelSHP.add(setAwayModeLabel);
-		
 		timeToAlertInput = new JTextField();
-		timeToAlertInput.setBounds(169, 60, 130, 26);
+		timeToAlertInput.setBounds(153, 128, 130, 26);
 		panelSHP.add(timeToAlertInput);
 		timeToAlertInput.setColumns(10);
 		
-		JLabel timeToAlertLabel = new JLabel("Time until alert (seconds)");
-		timeToAlertLabel.setBounds(6, 64, 164, 16);
+		JLabel timeToAlertLabel = new JLabel("Time until authorities are alerted (seconds):");
+		timeToAlertLabel.setBounds(10, 100, 290, 26);
 		panelSHP.add(timeToAlertLabel);
+		JLabel setAwayLightsLabel = new JLabel("Away Mode Lights");
+		setAwayLightsLabel.setBounds(10, 172, 130, 16);
+		panelSHP.add(setAwayLightsLabel);
 		
-		AwayModeToggleButton = new JToggleButton("Away Mode");
-		AwayModeToggleButton.setBounds(139, 463, 161, 29);
+		JLabel lblNewLabel_1 = new JLabel("Remain on from");
+		lblNewLabel_1.setBounds(10, 428, 105, 16);
+		panelSHP.add(lblNewLabel_1);
+		
+		awayLightsStartTime = new JSpinner();
+		awayLightsStartTime.setBounds(113, 420, 91, 32);
+		awayLightsStartTime.setModel(new SpinnerDateModel());
+		awayLightsStartTime.setEditor(new JSpinner.DateEditor(awayLightsStartTime, "HH:mm"));
+		panelSHP.add(awayLightsStartTime);
+		
+		JLabel lblNewLabel_2 = new JLabel("to");
+		lblNewLabel_2.setBounds(205, 429, 16, 14);
+		panelSHP.add(lblNewLabel_2);
+		
+		awayLightsStopTime = new JSpinner();
+		awayLightsStopTime.setBounds(216, 420, 91, 32);
+		awayLightsStopTime.setModel(new SpinnerDateModel());
+		awayLightsStopTime.setEditor(new JSpinner.DateEditor(awayLightsStopTime, "HH:mm"));
+		panelSHP.add(awayLightsStopTime);	
+		
+		chckbxBedRMLight = new JCheckBox("BedRM");	
+		chckbxMasterBedRMLight = new JCheckBox("Master BedRM");	
+		chckbxBathRMLight = new JCheckBox("BathRM");	
+		chckbxKitchenLight = new JCheckBox("Kitchen");	
+		chckbxLivingRMLight = new JCheckBox("Living RM");	
+		chckbxGarageLight = new JCheckBox("Garage");		
+		chckbxBackyardLight = new JCheckBox("Backyard");	
+		chckbxEntranceLight = new JCheckBox("Entrance");	
+		
+		chckbxEntranceLight.setBounds(10, 377, 97, 23);
+		panelSHP.add(chckbxEntranceLight);	
+		chckbxBedRMLight.setBounds(10, 195, 97, 23);
+		panelSHP.add(chckbxBedRMLight);		
+		chckbxMasterBedRMLight.setBounds(10, 221, 130, 23);
+		panelSHP.add(chckbxMasterBedRMLight);		
+		chckbxBathRMLight.setBounds(10, 247, 97, 23);
+		panelSHP.add(chckbxBathRMLight);		
+		chckbxKitchenLight.setBounds(10, 273, 97, 23);
+		panelSHP.add(chckbxKitchenLight);		
+		chckbxLivingRMLight.setBounds(10, 299, 97, 23);
+		panelSHP.add(chckbxLivingRMLight);		
+		chckbxGarageLight.setBounds(10, 325, 97, 23);
+		panelSHP.add(chckbxGarageLight);		
+		chckbxBackyardLight.setBounds(10, 351, 97, 23);
+		panelSHP.add(chckbxBackyardLight);
+		
+		btnAwayLights = new JButton("Confirm");
+		btnAwayLights.setBounds(180, 464, 120, 23);
+		panelSHP.add(btnAwayLights);
+		AwayModeToggleButton = new JToggleButton("Away Mode ON/OFF");
+		AwayModeToggleButton.setBounds(10, 30, 290, 29);
 		panelSHP.add(AwayModeToggleButton);
-		/** SHH PANEL **/
 		JPanel panelSHH = new JPanel();
 		tabbedPane.addTab("SHH", null, panelSHH, null);
 
@@ -827,19 +884,6 @@ public class SHSGui extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 
-	/**
-	 * Getter
-	 */
-	public JTextField getTimeToAlertInput() {
-		return timeToAlertInput;
-	}
-
-	/**
-	 * Setter
-	 */
-	public void setTimeToAlertInput(JTextField timeToAlertInput) {
-		this.timeToAlertInput = timeToAlertInput;
-	}
 
 	/**
 	 * Getter
@@ -1332,5 +1376,60 @@ public class SHSGui extends JFrame {
 	 */
 	public void setAwayModeToggleButton(JToggleButton awayModeToggleButton) {
 		AwayModeToggleButton = awayModeToggleButton;
+	}
+	
+	/**
+	 * Getter
+	 */
+	public JTextField getTimeToAlertInput() {
+		return timeToAlertInput;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTimeToAlertInput(JTextField timeToAlertInput) {
+		this.timeToAlertInput = timeToAlertInput;
+	}
+	
+	/**
+	 * Getter
+	 */
+	public JButton getBtnAwayLights() {
+		return btnAwayLights;
+	}
+	
+	/** Checkbox getters **/
+	public JCheckBox getChckbxBedRMLight() {
+		return chckbxBedRMLight;
+	}
+	public JCheckBox getChckbxMasterBedRMLight() {
+		return chckbxMasterBedRMLight;
+	}
+	public JCheckBox getChckbxBathRMLight() {
+		return chckbxBathRMLight;
+	}
+	public JCheckBox getChckbxKitchenLight() {
+		return chckbxKitchenLight;
+	}
+	public JCheckBox getChckbxLivingRMLight() {
+		return chckbxLivingRMLight;
+	}
+	public JCheckBox getChckbxGarageLight() {
+		return chckbxGarageLight;
+	}
+	public JCheckBox getChckbxBackyardLight() {
+		return chckbxBackyardLight;
+	}
+	public JCheckBox getChckbxEntranceLight() {
+		return chckbxEntranceLight;
+	}
+	
+	/** Start & stop time getters for Away mode lights**/
+	public JSpinner getAwayLightsStartTime() {
+		return awayLightsStartTime;
+	}
+	public JSpinner getAwayLightsStopTime() {
+		return awayLightsStopTime;
 	}	
 }

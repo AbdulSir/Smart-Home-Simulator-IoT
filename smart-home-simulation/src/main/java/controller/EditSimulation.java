@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.Color;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ public class EditSimulation {
 	private Windows windows;
 	private SHCController core;
 	private SHPController security;
+	private RoomCounter rooms;
 
 	/**
 	 * Constructor
@@ -41,6 +43,7 @@ public class EditSimulation {
 		this.core = core;
 		this.security = security;
 		windows = new Windows();
+		rooms = new RoomCounter();
 		// event handler
 		createEvents();
 	}
@@ -60,8 +63,9 @@ public class EditSimulation {
 		/** Change the location of a user **/
 		this.context.getSetLocation().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RoomCounter rooms = new RoomCounter();
 				Lights lights = new Lights();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = new Date();
 				JComboBox comboBoxUsers = context.getComboBoxUsers();
 				int index = comboBoxUsers.getSelectedIndex();
 				String userToMove = comboBoxUsers.getSelectedItem().toString();
@@ -93,6 +97,7 @@ public class EditSimulation {
 				/** Motion detected during away mode **/
 				if (security.getAwayMode() == true && !newLocation.equals("Outside")) {
 					console.msg("Motion is detected in " + newLocation);
+					core.appendToLog("[" + formatter.format(date) + "] " + "Motion is detected in " + newLocation);
 				}
 
 				/** Alert authorities if motion is detected **/
@@ -102,6 +107,7 @@ public class EditSimulation {
 						if (security.getAwayMode() == true && !newLocation.equals("Outside")) {
 							if (timeToAlert != 0) {
 								console.msg("Authorities will be alerted");
+								core.appendToLog("[" + formatter.format(date) + "] " + "Authorities will be alerted");
 								final Timer t = new Timer(10, new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
 										int timeToAlert = security.getTimeToAlert();
@@ -114,12 +120,15 @@ public class EditSimulation {
 											}
 										}
 										console.msg("Authorities alerted");
+										core.appendToLog("[" + formatter.format(date) + "] " + "Authorities alerted");
 									}
 								});
 								t.setRepeats(false);
 								t.start();
-							} else
+							} else {
 								console.msg("Authorities alerted");
+								core.appendToLog("[" + formatter.format(date) + "] " + "Authorities alerted");
+							}
 						}
 					}
 				});
@@ -184,6 +193,23 @@ public class EditSimulation {
 			}
 		});
 
+		/** Sends all of the users to the outside of the house **/
+		this.context.getSendUsersOutisdeBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < user.getUserList().size(); i++) {
+					for(int j = 0; j < rooms.getRooms().size(); j++) {
+						if(user.getUserList().get(i).getLocation().equals(rooms.getRooms().get(j).getLocation())) {
+							rooms.getRooms().get(j).decrementCounter();
+							break;
+						}
+					}
+					user.getUserList().get(i).setLocation("Outside");
+				}
+				paint();
+				console.msg("All of the users have been moved to the outside of the house");
+			}
+		});
+		
 		/** User ComboBox **/
 		PopupMenuListener userListListener = new PopupMenuListener() {
 			boolean initialized = false;

@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import model.Doors;
 import model.Lights;
@@ -43,7 +45,7 @@ public class SHCController {
 		rooms = new RoomCounter();
 		AutoModeState = false;
 		isUserLoggedIn = true;
-		
+
 		try {
 			pw = new PrintWriter(new FileOutputStream("SHCControllerLog.txt"));
 		} catch (IOException e) {
@@ -146,12 +148,15 @@ public class SHCController {
 						paint();
 					} else {
 						if (windows.getWindowList().get(index).isOpen()) {
-							console.msg("The window in the " + location + " cannot be closed because its path is blocked");
-							appendToLog("The window in the " + location + " cannot be closed because its path is blocked");
-						}
-						else {
-							console.msg("The window in the " + location + " cannot be opened because its path is blocked");
-							appendToLog("The window in the " + location + " cannot be opened because its path is blocked");
+							console.msg(
+									"The window in the " + location + " cannot be closed because its path is blocked");
+							appendToLog(
+									"The window in the " + location + " cannot be closed because its path is blocked");
+						} else {
+							console.msg(
+									"The window in the " + location + " cannot be opened because its path is blocked");
+							appendToLog(
+									"The window in the " + location + " cannot be opened because its path is blocked");
 						}
 					}
 				} else {
@@ -279,14 +284,15 @@ public class SHCController {
 	public void setPrintWriter(PrintWriter pw) {
 		this.pw = pw;
 	}
-	
+
 	/**
 	 * Repaints frame if the simulator is on
 	 */
 	private void paint() {
-		if(simulationButton.isSimulatorState())
+		if (simulationButton.isSimulatorState())
 			frame.repaint();
 	}
+
 	/**
 	 * When Auto Mode is activated, this method will check all of the rooms and turn
 	 * on the lights if its occupied. It will turn the lights off, if a room is
@@ -343,11 +349,13 @@ public class SHCController {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Append all of the console messages to the corresponding log file
 	 */
 	public void appendToLog(String text) {
-		pw.write(text + "\n");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
+		pw.write("[" + formatter.format(date) + "] " + text + "\n");
 	}
 }

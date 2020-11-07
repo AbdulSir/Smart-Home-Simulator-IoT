@@ -507,6 +507,20 @@ public class SHSController {
 	}
 
 	/**
+	 * Getter
+	 */
+	public SimulationButton getSimulationButton() {
+		return simulationButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setSimulationButton(SimulationButton simulationButton) {
+		this.simulationButton = simulationButton;
+	}
+
+	/**
 	 * Repaints frame if the simulator is on
 	 */
 	private void paint() {

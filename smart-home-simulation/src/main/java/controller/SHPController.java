@@ -90,8 +90,6 @@ public class SHPController {
 		JToggleButton AwayModeBtn = this.frame.getAwayModeToggleButton();
 		AwayModeBtn.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
-				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-				Date date = new Date();
 				Users loggedUser = user.getLoggedUser();
 				int state = itemEvent.getStateChange();
 				
@@ -109,7 +107,7 @@ public class SHPController {
 							if (state == ItemEvent.SELECTED) {
 								setAwayMode(true);
 								console.msg("Away Mode ON");
-								appendToLog("[" + formatter.format(date) + "] " + "Away Mode ON");
+								appendToLog("Away Mode ON");
 								/** Close all windows and lock all doors **/
 								for (int i = 0; i < windows.getWindowList().size(); i++) {
 									windows.getWindowList().get(i).setOpen(false);
@@ -123,19 +121,19 @@ public class SHPController {
 							else if (state == ItemEvent.DESELECTED) {
 								setAwayMode(false);
 								console.msg("Away Mode OFF");
-								appendToLog("[" + formatter.format(date) + "] " + "Away Mode OFF");
+								appendToLog("Away Mode OFF");
 							}
 					}else {
 						setAwayMode(false);
 						if (state == ItemEvent.SELECTED) {
 							console.msg("Away Mode cannot be activated while users are indoor.");
-							appendToLog("[" + formatter.format(date) + "] " + "Away Mode cannot be activated while users are indoor.");
+							appendToLog("Away Mode cannot be activated while users are indoor.");
 						}
 					}
 				}else {
 					if (state == ItemEvent.SELECTED && isUserLoggedIn) {
 						console.msg("You do not have the permission to execute this command");
-						appendToLog("[" + formatter.format(date) + "] " + "You do not have the permission to execute this command");
+						appendToLog("You do not have the permission to execute this command");
 					}
 				}
 			}					
@@ -144,19 +142,16 @@ public class SHPController {
 		/** Time input until authorities will be alerted **/
 		JTextField timer = this.frame.getTimeToAlertInput();
 		timer.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent arg0) {
-				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-				Date date = new Date();
 				if(awayMode == true) {
 					String timerStr = timer.getText();
 					timeToAlert = Integer.parseInt(timerStr);
 					setTimeToAlert(timeToAlert);
 					console.msg("Time to alert authorities has been set to " + getTimeToAlert() + " seconds");
-					appendToLog("[" + formatter.format(date) + "] " + "Time to alert authorities has been set to " + getTimeToAlert() + " seconds");
+					appendToLog("Time to alert authorities has been set to " + getTimeToAlert() + " seconds");
 				} else { 
 					console.msg("Away mode is currently OFF");
-					appendToLog("[" + formatter.format(date) + "] " + "Away mode is currently OFF");
+					appendToLog("Away mode is currently OFF");
 				}
 			}
 
@@ -166,8 +161,6 @@ public class SHPController {
 		JButton btnAwayLights = this.frame.getBtnAwayLights();
 		btnAwayLights.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-				Date date = new Date();
 				if(awayMode == true) {
 					Date startALTime = (Date) startAwayLightTime.getValue();
 					String formattedStartALTime = new SimpleDateFormat("HH:mm").format(startALTime);
@@ -180,7 +173,7 @@ public class SHPController {
 						lightsList.get(i).setLights(false);
 					}
 					console.msg("The times for the Away Mode lights' setting have been set");
-					appendToLog("[" + formatter.format(date) + "] " + "The times for the Away Mode lights' setting has been set");
+					appendToLog("The times for the Away Mode lights' setting has been set");
 					
 					Timer clockTimer = new Timer();
 					clockTimer.schedule(new TimerTask() {
@@ -253,7 +246,7 @@ public class SHPController {
 					}, 50,50);		
 				} else { 
 					console.msg("Away mode is currently OFF");
-					appendToLog("[" + formatter.format(date) + "] " + "Away mode is currently OFF");
+					appendToLog("Away mode is currently OFF");
 				}
 				
 			}
@@ -341,11 +334,9 @@ public class SHPController {
 	 * @return
 	 */
 	public boolean hasPermissions(Users user) {
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		Date date = new Date();
 		if (user == null) {
 			console.msg("The system does not have a logged-in user");
-			appendToLog("[" + formatter.format(date) + "] " + "The system does not have a logged-in user");
+			appendToLog("The system does not have a logged-in user");
 			isUserLoggedIn = false;
 			return false;
 		}
@@ -379,6 +370,8 @@ public class SHPController {
 	 * Append all of the console messages to the corresponding log file
 	 */
 	private void appendToLog(String text) {
-		pw.write(text + "\n");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
+		pw.write("[" + formatter.format(date) + "] " + text + "\n");
 	}
 }

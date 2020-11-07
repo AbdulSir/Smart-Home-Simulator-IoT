@@ -1,0 +1,6 @@
+[07/11/2020 13:19:14] Away Mode cannot be activated while users are indoor.
+[07/11/2020 13:19:25] Away Mode OFF
+[07/11/2020 13:19:26] Away Mode ON
+[07/11/2020 13:19:43] The times for the Away Mode lights' setting has been set
+[07/11/2020 13:19:52] Time to alert authorities has been set to 10 seconds
+[07/11/2020 13:20:40] Away Mode OFF

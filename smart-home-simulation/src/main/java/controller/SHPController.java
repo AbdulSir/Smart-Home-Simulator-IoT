@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -43,7 +46,8 @@ public class SHPController {
 	private Time time;
 	private String StrStartALTime;
 	private String StrStopALTime;
-
+	private SimulationButton simulationButton;
+	private PrintWriter pw;
 
 	public SHPController() {
 	}
@@ -69,6 +73,14 @@ public class SHPController {
 		this.startAwayLightTime = frame.getAwayLightsStartTime();
 		this.stopAwayLightTime = frame.getAwayLightsStopTime();
 		this.time = new Time();
+		
+		try {
+			pw = new PrintWriter(new FileOutputStream("SHPControllerLog.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// User Event Handler
 		userEvents();
 	}
 
@@ -78,6 +90,8 @@ public class SHPController {
 		JToggleButton AwayModeBtn = this.frame.getAwayModeToggleButton();
 		AwayModeBtn.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = new Date();
 				Users loggedUser = user.getLoggedUser();
 				int state = itemEvent.getStateChange();
 				
@@ -86,40 +100,43 @@ public class SHPController {
 				Boolean allUsersOutside = true;
 				if (hasPermissions(loggedUser)) {
 					for (int i = 0; i < userArray.size() ; i++) {
-						if(!(userArray.get(i).getLocation()).equals("Outside")) 							
+						if(!(userArray.get(i).getLocation()).equals("Outside")) {						
 							allUsersOutside = false;
+							break;
+						}
 					}	
 					if(allUsersOutside == true) {			
 							if (state == ItemEvent.SELECTED) {
 								setAwayMode(true);
 								console.msg("Away Mode ON");
+								appendToLog("[" + formatter.format(date) + "] " + "Away Mode ON");
 								/** Close all windows and lock all doors **/
 								for (int i = 0; i < windows.getWindowList().size(); i++) {
 									windows.getWindowList().get(i).setOpen(false);
 								}
 								for (int i = 0; i < doors.getDoorList().size(); i++) {
 									doors.getDoorList().get(i).setOpen(false);
+									doors.getDoorList().get(i).setLocked(true);
 								}			
-								frame.repaint();
+								paint();
 							}
 							else if (state == ItemEvent.DESELECTED) {
 								setAwayMode(false);
 								console.msg("Away Mode OFF");
+								appendToLog("[" + formatter.format(date) + "] " + "Away Mode OFF");
 							}
 					}else {
-						
+						setAwayMode(false);
 						if (state == ItemEvent.SELECTED) {
-							setAwayMode(false);
-							console.msg("Away Mode can not be turned on while users are indoor.");
-						}
-						else if (state == ItemEvent.DESELECTED) {
-							setAwayMode(false);
-							console.msg("Away Mode can not be turned on while users are indoor.");
+							console.msg("Away Mode cannot be activated while users are indoor.");
+							appendToLog("[" + formatter.format(date) + "] " + "Away Mode cannot be activated while users are indoor.");
 						}
 					}
 				}else {
-					if (state == ItemEvent.SELECTED && isUserLoggedIn)
+					if (state == ItemEvent.SELECTED && isUserLoggedIn) {
 						console.msg("You do not have the permission to execute this command");
+						appendToLog("[" + formatter.format(date) + "] " + "You do not have the permission to execute this command");
+					}
 				}
 			}					
 		});
@@ -129,13 +146,18 @@ public class SHPController {
 		timer.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = new Date();
 				if(awayMode == true) {
 					String timerStr = timer.getText();
 					timeToAlert = Integer.parseInt(timerStr);
 					setTimeToAlert(timeToAlert);
 					console.msg("Time to alert authorities has been set to " + getTimeToAlert() + " seconds");
-				}else 
+					appendToLog("[" + formatter.format(date) + "] " + "Time to alert authorities has been set to " + getTimeToAlert() + " seconds");
+				} else { 
 					console.msg("Away mode is currently OFF");
+					appendToLog("[" + formatter.format(date) + "] " + "Away mode is currently OFF");
+				}
 			}
 
 		});
@@ -144,6 +166,8 @@ public class SHPController {
 		JButton btnAwayLights = this.frame.getBtnAwayLights();
 		btnAwayLights.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = new Date();
 				if(awayMode == true) {
 					Date startALTime = (Date) startAwayLightTime.getValue();
 					String formattedStartALTime = new SimpleDateFormat("HH:mm").format(startALTime);
@@ -155,6 +179,8 @@ public class SHPController {
 					for(int i = 0; i < lightsList.size(); i++) {
 						lightsList.get(i).setLights(false);
 					}
+					console.msg("The times for the Away Mode lights' setting have been set");
+					appendToLog("[" + formatter.format(date) + "] " + "The times for the Away Mode lights' setting has been set");
 					
 					Timer clockTimer = new Timer();
 					clockTimer.schedule(new TimerTask() {
@@ -163,7 +189,6 @@ public class SHPController {
 							String formattedCurrentTime = new SimpleDateFormat("HH:mm").format(currentTime);
 								if (currentTime != null && startALTime != null) {
 									if ((formattedCurrentTime).compareTo(formattedStartALTime) > 0 && (formattedCurrentTime).compareTo(formattedStopALTime) < 0) { 
-										System.out.println(startALTime);
 									    if(frame.getChckbxBedRMLight().isSelected())
 									       	lightsList.get(0).setLights(true);	
 									        
@@ -188,7 +213,7 @@ public class SHPController {
 								        if(frame.getChckbxEntranceLight().isSelected())
 								        	lightsList.get(7).setLights(true);	
 									        
-								        frame.repaint();							     
+								        paint();							     
 									}
 								}
 	
@@ -220,14 +245,16 @@ public class SHPController {
 									        	lightsList.get(7).setLights(false);	
 										    				
 									        clockTimer.cancel();
-									        frame.repaint();
+									        paint();
 									}
 	
 								}
 						}
 					}, 50,50);		
-				}else 
+				} else { 
 					console.msg("Away mode is currently OFF");
+					appendToLog("[" + formatter.format(date) + "] " + "Away mode is currently OFF");
+				}
 				
 			}
 		});
@@ -278,6 +305,34 @@ public class SHPController {
 	}
 
 	/**
+	 * Getter
+	 */
+	public SimulationButton getSimulationButton() {
+		return simulationButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setSimulationButton(SimulationButton simulationButton) {
+		this.simulationButton = simulationButton;
+	}
+
+	/**
+	 * Getter
+	 */
+	public PrintWriter getPrintWriter() {
+		return pw;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setPrintWriter(PrintWriter pw) {
+		this.pw = pw;
+	}
+
+	/**
 	 * Determines if the logged-in user has access to these commands
 	 * 
 	 * @param user
@@ -286,8 +341,11 @@ public class SHPController {
 	 * @return
 	 */
 	public boolean hasPermissions(Users user) {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
 		if (user == null) {
 			console.msg("The system does not have a logged-in user");
+			appendToLog("[" + formatter.format(date) + "] " + "The system does not have a logged-in user");
 			isUserLoggedIn = false;
 			return false;
 		}
@@ -307,5 +365,20 @@ public class SHPController {
 		default:
 			return false;
 		}
+	}
+
+	/**
+	 * Repaints frame if the simulator is on
+	 */
+	private void paint() {
+		if(simulationButton.isSimulatorState())
+			frame.repaint();
+	}
+	
+	/**
+	 * Append all of the console messages to the corresponding log file
+	 */
+	private void appendToLog(String text) {
+		pw.write(text + "\n");
 	}
 }

@@ -184,6 +184,16 @@ public class EditSimulation {
 			}
 		});
 
+		/** Sends all of the users to the outside of the house **/
+		this.context.getSendUsersOutisdeBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < user.getUserList().size(); i++) 
+					user.getUserList().get(i).setLocation("Outside");
+				paint();
+				console.msg("All of the users have been moved to the outside of the house");
+			}
+		});
+		
 		/** User ComboBox **/
 		PopupMenuListener userListListener = new PopupMenuListener() {
 			boolean initialized = false;

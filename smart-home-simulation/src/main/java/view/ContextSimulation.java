@@ -34,6 +34,7 @@ public class ContextSimulation extends JFrame {
 	private JComboBox comboBoxWindowLocation;
 	private JButton blockAllButton;
 	private JButton unblockAllButton;
+	private JButton sendUsersOutisdeBtn;
 
 	/**
 	 * Launch the application.
@@ -66,7 +67,7 @@ public class ContextSimulation extends JFrame {
 
 		/** Location Panel **/
 		JPanel panelLocation = new JPanel();
-		panelLocation.setBounds(5, 11, 252, 166);
+		panelLocation.setBounds(5, 11, 252, 192);
 		panelLocation.setBackground(Color.WHITE);
 
 		/** User Location Panel **/
@@ -80,60 +81,72 @@ public class ContextSimulation extends JFrame {
 
 		/** Set Location Button **/
 		setLocation = new JButton("Set Location");
+		
+		sendUsersOutisdeBtn = new JButton("Send Users Outside");
 
 
 		GroupLayout gl_panelUserLocation = new GroupLayout(panelUserLocation);
-		gl_panelUserLocation.setHorizontalGroup(gl_panelUserLocation.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelUserLocation.createSequentialGroup().addContainerGap()
-						.addGroup(gl_panelUserLocation.createParallelGroup(Alignment.LEADING)
-								.addGroup(Alignment.TRAILING,
-										gl_panelUserLocation.createSequentialGroup().addComponent(labelUsers)
-												.addPreferredGap(ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-												.addComponent(comboBoxUsers, GroupLayout.PREFERRED_SIZE, 152,
-														GroupLayout.PREFERRED_SIZE))
-								.addGroup(Alignment.TRAILING,
-										gl_panelUserLocation.createSequentialGroup().addComponent(labelLocation)
-												.addPreferredGap(ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-												.addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE, 152,
-														GroupLayout.PREFERRED_SIZE))
-								.addComponent(setLocation))
-						.addContainerGap()));
-		gl_panelUserLocation.setVerticalGroup(gl_panelUserLocation.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelUserLocation.createSequentialGroup().addContainerGap()
-						.addGroup(gl_panelUserLocation.createParallelGroup(Alignment.BASELINE).addComponent(labelUsers)
-								.addComponent(comboBoxUsers, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(gl_panelUserLocation.createParallelGroup(Alignment.BASELINE)
-								.addComponent(labelLocation).addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE,
-										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGap(18).addComponent(setLocation)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		gl_panelUserLocation.setHorizontalGroup(
+			gl_panelUserLocation.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelUserLocation.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelUserLocation.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_panelUserLocation.createSequentialGroup()
+							.addComponent(labelUsers)
+							.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+							.addComponent(comboBoxUsers, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.TRAILING, gl_panelUserLocation.createSequentialGroup()
+							.addComponent(labelLocation)
+							.addPreferredGap(ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+							.addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+						.addComponent(setLocation)
+						.addComponent(sendUsersOutisdeBtn))
+					.addContainerGap())
+		);
+		gl_panelUserLocation.setVerticalGroup(
+			gl_panelUserLocation.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelUserLocation.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelUserLocation.createParallelGroup(Alignment.BASELINE)
+						.addComponent(labelUsers)
+						.addComponent(comboBoxUsers, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelUserLocation.createParallelGroup(Alignment.BASELINE)
+						.addComponent(labelLocation)
+						.addComponent(comboBoxLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(setLocation)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(sendUsersOutisdeBtn))
+		);
 		panelUserLocation.setLayout(gl_panelUserLocation);
 
 		JLabel labelUserLocation = new JLabel("Set Location of Users");
 
 		GroupLayout gl_panelLocation = new GroupLayout(panelLocation);
-		gl_panelLocation.setHorizontalGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panelLocation.createSequentialGroup().addContainerGap()
-						.addGroup(gl_panelLocation.createParallelGroup(Alignment.TRAILING)
-								.addComponent(panelUserLocation, GroupLayout.PREFERRED_SIZE, 233,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(labelUserLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE))
-						.addContainerGap()));
-		gl_panelLocation
-				.setVerticalGroup(gl_panelLocation.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panelLocation.createSequentialGroup().addContainerGap()
-								.addComponent(labelUserLocation, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-								.addPreferredGap(ComponentPlacement.RELATED).addComponent(panelUserLocation,
-										GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap()));
+		gl_panelLocation.setHorizontalGroup(
+			gl_panelLocation.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelLocation.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panelUserLocation, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
+						.addComponent(labelUserLocation, GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_panelLocation.setVerticalGroup(
+			gl_panelLocation.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelLocation.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(labelUserLocation, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelUserLocation, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
 		panelLocation.setLayout(gl_panelLocation);
 
 		/** Window Panel **/
 		JPanel panelWindows = new JPanel();
-		panelWindows.setBounds(5, 188, 252, 197);
+		panelWindows.setBounds(5, 215, 252, 197);
 		panelWindows.setBackground(Color.WHITE);
 
 		JLabel labelWindows = new JLabel("Block Windows");
@@ -264,6 +277,18 @@ public class ContextSimulation extends JFrame {
 	public void setUnblockAllButton(JButton unblockAllButton) {
 		this.unblockAllButton = unblockAllButton;
 	}
-	
-	
+
+	/**
+	 * Getter
+	 */
+	public JButton getSendUsersOutisdeBtn() {
+		return sendUsersOutisdeBtn;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setSendUsersOutisdeBtn(JButton sendUsersOutisdeBtn) {
+		this.sendUsersOutisdeBtn = sendUsersOutisdeBtn;
+	}
 }

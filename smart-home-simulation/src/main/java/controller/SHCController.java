@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import model.Doors;
 import model.Lights;
@@ -61,6 +63,8 @@ public class SHCController {
 		 */
 		frame.getOpenDoorsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = new Date();
 				String location = frame.getDoorsComboBox().getSelectedItem().toString();
 				int index = frame.getDoorsComboBox().getSelectedIndex();
 				Users loggedUser = user.getLoggedUser();
@@ -69,21 +73,21 @@ public class SHCController {
 						if (!doors.getDoorList().get(index).isOpen()) {
 							doors.getDoorList().get(index).setOpen(true);
 							console.msg("The " + location + " door is open");
-							appendToLog("The " + location + " door is open");
+							appendToLog("[" + formatter.format(date) + "] " + "The " + location + " door is open");
 						} else {
 							doors.getDoorList().get(index).setOpen(false);
 							console.msg("The " + location + " door is closed");
-							appendToLog("The " + location + " door is closed");
+							appendToLog("[" + formatter.format(date) + "] " + "The " + location + " door is closed");
 						}
 						paint();
 					} else {
 						console.msg("The door in the " + location + " is locked so it cannot be opened");
-						appendToLog("The door in the " + location + " is locked so it cannot be opened");
+						appendToLog("[" + formatter.format(date) + "] " + "The door in the " + location + " is locked so it cannot be opened");
 					}
 				} else {
 					if (isUserLoggedIn) {
 						console.msg("You do not have the permission to execute this command");
-						appendToLog("You do not have the permission to execute this command");
+						appendToLog("[" + formatter.format(date) + "] " + "You do not have the permission to execute this command");
 					}
 				}
 			}
@@ -94,6 +98,8 @@ public class SHCController {
 		 */
 		frame.getLightsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = new Date();
 				if (!getAutoModeState()) {
 					String location = frame.getLightsComboBox().getSelectedItem().toString();
 					int index = frame.getLightsComboBox().getSelectedIndex();
@@ -102,22 +108,22 @@ public class SHCController {
 						if (!lights.getLightsList().get(index).areLightsOn()) {
 							lights.getLightsList().get(index).setLights(true);
 							console.msg("The light in the " + location + " is on");
-							appendToLog("The light in the " + location + " is on");
+							appendToLog("[" + formatter.format(date) + "] " + "The light in the " + location + " is on");
 						} else {
 							lights.getLightsList().get(index).setLights(false);
 							console.msg("The light in the " + location + " is off");
-							appendToLog("The light in the " + location + " is off");
+							appendToLog("[" + formatter.format(date) + "] " + "The light in the " + location + " is off");
 						}
 						paint();
 					} else {
 						if (isUserLoggedIn) {
 							console.msg("You do not have the permission to execute this command");
-							appendToLog("You do not have the permission to execute this command");
+							appendToLog("[" + formatter.format(date) + "] " + "You do not have the permission to execute this command");
 						}
 					}
 				} else {
 					console.msg("The ON/OFF button for the lights is disabled when Auto Mode is activated");
-					appendToLog("The ON/OFF button for the lights is disabled when Auto Mode is activated");
+					appendToLog("[" + formatter.format(date) + "] " + "The ON/OFF button for the lights is disabled when Auto Mode is activated");
 				}
 			}
 
@@ -128,6 +134,8 @@ public class SHCController {
 		 */
 		frame.getOpenWindowsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = new Date();
 				Windows windows = new Windows();
 				String location = frame.getOpenWindowsComboBox().getSelectedItem().toString();
 				int index = frame.getOpenWindowsComboBox().getSelectedIndex();
@@ -137,27 +145,27 @@ public class SHCController {
 						if (!windows.getWindowList().get(index).isOpen()) {
 							windows.getWindowList().get(index).setOpen(true);
 							console.msg("The window in the " + location + " is open");
-							appendToLog("The window in the " + location + " is open");
+							appendToLog("[" + formatter.format(date) + "] " + "The window in the " + location + " is open");
 						} else {
 							windows.getWindowList().get(index).setOpen(false);
 							console.msg("The window in the " + location + " is closed");
-							appendToLog("The window in the " + location + " is closed");
+							appendToLog("[" + formatter.format(date) + "] " + "The window in the " + location + " is closed");
 						}
 						paint();
 					} else {
 						if (windows.getWindowList().get(index).isOpen()) {
 							console.msg("The window in the " + location + " cannot be closed because its path is blocked");
-							appendToLog("The window in the " + location + " cannot be closed because its path is blocked");
+							appendToLog("[" + formatter.format(date) + "] " + "The window in the " + location + " cannot be closed because its path is blocked");
 						}
 						else {
 							console.msg("The window in the " + location + " cannot be opened because its path is blocked");
-							appendToLog("The window in the " + location + " cannot be opened because its path is blocked");
+							appendToLog("[" + formatter.format(date) + "] " + "The window in the " + location + " cannot be opened because its path is blocked");
 						}
 					}
 				} else {
 					if (isUserLoggedIn) {
 						console.msg("You do not have the permission to execute this command");
-						appendToLog("You do not have the permission to execute this command");
+						appendToLog("[" + formatter.format(date) + "] " + "You do not have the permission to execute this command");
 					}
 				}
 			}
@@ -168,24 +176,26 @@ public class SHCController {
 		 */
 		frame.getAutoModeToggleButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = new Date();
 				int state = itemEvent.getStateChange();
 				Users loggedUser = user.getLoggedUser();
 				if (hasPermissions(loggedUser, user.getLocation(), "Lights")) {
 					if (state == ItemEvent.SELECTED) {
 						setAutoModeState(true);
 						console.msg("Auto Mode ON");
-						appendToLog("Auto Mode ON");
+						appendToLog("[" + formatter.format(date) + "] " + "Auto Mode ON");
 						checkLights();
 						paint();
 					} else if (state == ItemEvent.DESELECTED) {
 						setAutoModeState(false);
 						console.msg("Auto Mode OFF");
-						appendToLog("Auto Mode OFF");
+						appendToLog("[" + formatter.format(date) + "] " + "Auto Mode OFF");
 					}
 				} else {
 					if (state == ItemEvent.SELECTED && isUserLoggedIn) {
 						console.msg("You do not have the permission to execute this command");
-						appendToLog("You do not have the permission to execute this command");
+						appendToLog("[" + formatter.format(date) + "] " + "You do not have the permission to execute this command");
 					}
 				}
 			}
@@ -196,6 +206,8 @@ public class SHCController {
 		 */
 		frame.getLockDoorsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = new Date();
 				String location = frame.getDoorsComboBox().getSelectedItem().toString();
 				int index = frame.getDoorsComboBox().getSelectedIndex();
 				Users loggedUser = user.getLoggedUser();
@@ -204,20 +216,20 @@ public class SHCController {
 						doors.getDoorList().get(index).setLocked(true);
 						paint();
 						console.msg("The door in the " + location + " has been locked");
-						appendToLog("The door in the " + location + " has been locked");
+						appendToLog("[" + formatter.format(date) + "] " + "The door in the " + location + " has been locked");
 					} else if (doors.getDoorList().get(index).isLocked()) {
 						doors.getDoorList().get(index).setLocked(false);
 						paint();
 						console.msg("The door in the " + location + " has been unlocked");
-						appendToLog("The door in the " + location + " has been unlocked");
+						appendToLog("[" + formatter.format(date) + "] " + "The door in the " + location + " has been unlocked");
 					} else if (doors.getDoorList().get(index).isOpen() && !doors.getDoorList().get(index).isLocked()) {
 						console.msg("The door in the " + location + " cannot be locked because its open");
-						appendToLog("The door in the " + location + " cannot be locked because its open");
+						appendToLog("[" + formatter.format(date) + "] " + "The door in the " + location + " cannot be locked because its open");
 					}
 				} else {
 					if (isUserLoggedIn) {
 						console.msg("You do not have the permission to execute this command");
-						appendToLog("You do not have the permission to execute this command");
+						appendToLog("[" + formatter.format(date) + "] " + "You do not have the permission to execute this command");
 					}
 				}
 			}
@@ -312,9 +324,11 @@ public class SHCController {
 	 * @return
 	 */
 	public boolean hasPermissions(Users user, String location, String item) {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
 		if (user == null) {
 			console.msg("The system does not have a logged-in user");
-			appendToLog("The system does not have a logged-in user");
+			appendToLog("[" + formatter.format(date) + "] " + "The system does not have a logged-in user");
 			isUserLoggedIn = false;
 			return false;
 		}
@@ -347,7 +361,7 @@ public class SHCController {
 	/**
 	 * Append all of the console messages to the corresponding log file
 	 */
-	public void appendToLog(String text) {
+	private void appendToLog(String text) {
 		pw.write(text + "\n");
 	}
 }

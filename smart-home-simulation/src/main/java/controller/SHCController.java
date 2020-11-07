@@ -361,7 +361,7 @@ public class SHCController {
 	/**
 	 * Append all of the console messages to the corresponding log file
 	 */
-	private void appendToLog(String text) {
+	public void appendToLog(String text) {
 		pw.write(text + "\n");
 	}
 }

@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.Color;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.swing.*;
@@ -62,6 +63,8 @@ public class EditSimulation {
 			public void actionPerformed(ActionEvent e) {
 				RoomCounter rooms = new RoomCounter();
 				Lights lights = new Lights();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = new Date();
 				JComboBox comboBoxUsers = context.getComboBoxUsers();
 				int index = comboBoxUsers.getSelectedIndex();
 				String userToMove = comboBoxUsers.getSelectedItem().toString();
@@ -93,6 +96,7 @@ public class EditSimulation {
 				/** Motion detected during away mode **/
 				if (security.getAwayMode() == true && !newLocation.equals("Outside")) {
 					console.msg("Motion is detected in " + newLocation);
+					core.appendToLog("[" + formatter.format(date) + "] " + "Motion is detected in " + newLocation);
 				}
 
 				/** Alert authorities if motion is detected **/
@@ -102,6 +106,7 @@ public class EditSimulation {
 						if (security.getAwayMode() == true && !newLocation.equals("Outside")) {
 							if (timeToAlert != 0) {
 								console.msg("Authorities will be alerted");
+								core.appendToLog("[" + formatter.format(date) + "] " + "Authorities will be alerted");
 								final Timer t = new Timer(10, new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
 										int timeToAlert = security.getTimeToAlert();
@@ -114,12 +119,15 @@ public class EditSimulation {
 											}
 										}
 										console.msg("Authorities alerted");
+										core.appendToLog("[" + formatter.format(date) + "] " + "Authorities alerted");
 									}
 								});
 								t.setRepeats(false);
 								t.start();
-							} else
+							} else {
 								console.msg("Authorities alerted");
+								core.appendToLog("[" + formatter.format(date) + "] " + "Authorities alerted");
+							}
 						}
 					}
 				});

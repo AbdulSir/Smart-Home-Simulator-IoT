@@ -27,6 +27,7 @@ public class EditSimulation {
 	private Windows windows;
 	private SHCController core;
 	private SHPController security;
+	private RoomCounter rooms;
 
 	/**
 	 * Constructor
@@ -42,6 +43,7 @@ public class EditSimulation {
 		this.core = core;
 		this.security = security;
 		windows = new Windows();
+		rooms = new RoomCounter();
 		// event handler
 		createEvents();
 	}
@@ -61,7 +63,6 @@ public class EditSimulation {
 		/** Change the location of a user **/
 		this.context.getSetLocation().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RoomCounter rooms = new RoomCounter();
 				Lights lights = new Lights();
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				Date date = new Date();
@@ -195,8 +196,15 @@ public class EditSimulation {
 		/** Sends all of the users to the outside of the house **/
 		this.context.getSendUsersOutisdeBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < user.getUserList().size(); i++) 
+				for (int i = 0; i < user.getUserList().size(); i++) {
+					for(int j = 0; j < rooms.getRooms().size(); j++) {
+						if(user.getUserList().get(i).getLocation().equals(rooms.getRooms().get(j).getLocation())) {
+							rooms.getRooms().get(j).decrementCounter();
+							break;
+						}
+					}
 					user.getUserList().get(i).setLocation("Outside");
+				}
 				paint();
 				console.msg("All of the users have been moved to the outside of the house");
 			}

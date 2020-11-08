@@ -10,9 +10,9 @@ import model.Windows;
 
 public class SHCTest {
 
-	
+	@Test
 	public void doorTest() {
-		Doors door = new Doors();
+		Doors door = Doors.getDoor();
 		door.setOpen(true);
 		assertTrue(door.isOpen());
 		door.setOpen(false);
@@ -26,7 +26,7 @@ public class SHCTest {
 		window.setOpen(false);
 		assertFalse(window.isOpen());		
 	}
-	
+	@Test
 	public void lightTest() {
 		Lights light = new Lights();
 		light.setLights(true);
@@ -34,8 +34,9 @@ public class SHCTest {
 		light.setLights(false);
 		assertFalse(light.areLightsOn());		
 	}
+	@Test
 	public void autoModeTest() {
-		SHCController shc = SHCController.getShcController();
+		SHCController shc = new SHCController();
 		shc.setAutoModeState(true);
 		assertTrue(shc.getAutoModeState());
 		shc.setAutoModeState(false);

@@ -57,7 +57,7 @@ public class SHSController {
 		Users defaultUser = new Users("Admin","PARENT");
 
 		/** Control Console **/
-		this.console = new Console(frame.getTextAreaConsoleLog());
+		this.console = Console.getConsole();
 		console.msg("Welcome to the Smart Home Simulator");
 
 		/** Simulation Button **/

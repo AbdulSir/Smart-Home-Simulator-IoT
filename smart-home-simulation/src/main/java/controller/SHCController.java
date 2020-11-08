@@ -28,7 +28,7 @@ public class SHCController {
 	private boolean isUserLoggedIn;
 	private PrintWriter pw;
 	private static SHCController shcController;
-	private SHCController() {
+	public SHCController() {
 	}
 
 	/**
@@ -36,12 +36,12 @@ public class SHCController {
 	 */
 	private SHCController(SHSGui frame, SHPController securityController) {
 		this.frame = frame;
-		this.console = new Console(frame.getTextAreaConsoleLog());
+		this.console = Console.getConsole();
 		/** SHP Controller **/
 		this.securityController = securityController;
 		user = new Users();
 		lights = new Lights();
-		doors = new Doors();
+		doors = Doors.getDoor();
 		rooms = new RoomCounter();
 		AutoModeState = false;
 		isUserLoggedIn = true;

@@ -230,7 +230,7 @@ public class HouseLayout extends JPanel {
 	 */
 	
 	public void drawDoors(Graphics g) {
-		Doors doors = new Doors();
+		Doors doors = Doors.getDoor();
 		try {
 			int offSet = 0;
 			openedDoor = ImageIO.read(getClass().getResourceAsStream("/resources/openedDoor.png"));

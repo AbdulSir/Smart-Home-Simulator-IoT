@@ -49,7 +49,7 @@ public class SHPController {
 	private SimulationButton simulationButton;
 	private PrintWriter pw;
 	private static SHPController shpController;
-	private SHPController() {
+	public SHPController() {
 	}
 
 	/**
@@ -64,11 +64,11 @@ public class SHPController {
 		isUserLoggedIn = true;
 		user = new Users();
 		/** Control Console **/
-		this.console = new Console(frame.getTextAreaConsoleLog());
+		this.console = Console.getConsole();
 		this.context = new ContextSimulation();
 		this.user = new Users();
 		this.windows = new Windows();
-		this.doors = new Doors();
+		this.doors = Doors.getDoor();
 		this.lights = new Lights();
 		this.startAwayLightTime = frame.getAwayLightsStartTime();
 		this.stopAwayLightTime = frame.getAwayLightsStopTime();

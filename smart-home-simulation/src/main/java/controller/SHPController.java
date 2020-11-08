@@ -132,8 +132,8 @@ public class SHPController {
 					}
 				}else {
 					if (state == ItemEvent.SELECTED && isUserLoggedIn) {
-						console.msg("You do not have the permission to execute this command");
-						appendToLog("You do not have the permission to execute this command");
+						console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
+						appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
 					}
 				}
 			}					
@@ -369,7 +369,7 @@ public class SHPController {
 	/**
 	 * Append all of the console messages to the corresponding log file
 	 */
-	private void appendToLog(String text) {
+	public void appendToLog(String text) {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
 		pw.write("[" + formatter.format(date) + "] " + text + "\n");

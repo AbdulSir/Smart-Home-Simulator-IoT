@@ -10,14 +10,14 @@ public class SHPTest {
 
 	@Test
 	public void awayModeTest() {
-		SHPController shp = new SHPController();
+		SHPController shp = SHPController.getShpController();
 		shp.setAwayMode(true);
 		assertTrue(shp.getAwayMode());
 		shp.setAwayMode(false);
 		assertFalse(shp.getAwayMode());
 	}
 	public void authorityTimer() {
-		SHPController shp = new SHPController();
+		SHPController shp = SHPController.getShpController();
 		shp.setTimeToAlert(10);
 		assertEquals(shp.getTimeToAlert(),10);
 	}

@@ -1,0 +1,1 @@
+[07/11/2020 19:40:04] Away Mode cannot be activated while users are indoor.

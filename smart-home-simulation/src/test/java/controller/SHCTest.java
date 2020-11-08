@@ -35,7 +35,7 @@ public class SHCTest {
 		assertFalse(light.areLightsOn());		
 	}
 	public void autoModeTest() {
-		SHCController shc = new SHCController();
+		SHCController shc = SHCController.getShcController();
 		shc.setAutoModeState(true);
 		assertTrue(shc.getAutoModeState());
 		shc.setAutoModeState(false);

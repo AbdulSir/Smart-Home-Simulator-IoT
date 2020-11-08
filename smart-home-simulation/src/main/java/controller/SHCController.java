@@ -27,14 +27,14 @@ public class SHCController {
 	private static boolean AutoModeState;
 	private boolean isUserLoggedIn;
 	private PrintWriter pw;
-
-	public SHCController() {
+	private static SHCController shcController;
+	private SHCController() {
 	}
 
 	/**
 	 * Parametrized constructor
 	 */
-	public SHCController(SHSGui frame, SHPController securityController) {
+	private SHCController(SHSGui frame, SHPController securityController) {
 		this.frame = frame;
 		this.console = new Console(frame.getTextAreaConsoleLog());
 		/** SHP Controller **/
@@ -357,5 +357,14 @@ public class SHCController {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
 		pw.write("[" + formatter.format(date) + "] " + text + "\n");
+	}
+
+	public static SHCController getShcController() {
+		if (shcController != null)
+			return shcController;
+		else {
+			SHCController.shcController = new SHCController(SHSGui.getShs(),SHPController.getShpController());
+			return shcController;
+		}
 	}
 }

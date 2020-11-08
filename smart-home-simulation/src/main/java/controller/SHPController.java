@@ -48,8 +48,8 @@ public class SHPController {
 	private String StrStopALTime;
 	private SimulationButton simulationButton;
 	private PrintWriter pw;
-
-	public SHPController() {
+	private static SHPController shpController;
+	private SHPController() {
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class SHPController {
 	 * 
 	 * @param frame
 	 */
-	public SHPController(SHSGui frame) {
+	private SHPController(SHSGui frame) {
 		/** Main GUI **/
 		this.frame = frame;
 		awayMode = false;
@@ -373,5 +373,14 @@ public class SHPController {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
 		pw.write("[" + formatter.format(date) + "] " + text + "\n");
+	}
+
+	public static SHPController getShpController() {
+		if (shpController != null)
+			return shpController;
+		else {
+			SHPController.shpController = new SHPController(SHSGui.getShs());
+			return shpController;
+		}
 	}
 }

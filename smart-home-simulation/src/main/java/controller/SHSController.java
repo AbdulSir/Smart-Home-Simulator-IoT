@@ -42,11 +42,12 @@ public class SHSController {
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
 	private RoomCounter rooms;
+	private static SHSController shsController;
 
-	public SHSController() {
+	private SHSController() {
 	}
 
-	public SHSController(SHSGui frame, SHCController coreController, SHPController securityController) {
+	private SHSController(SHSGui frame, SHCController coreController, SHPController securityController) {
 		/** Main GUI **/
 		this.frame = frame;
 		user = new Users();
@@ -60,7 +61,7 @@ public class SHSController {
 		console.msg("Welcome to the Smart Home Simulator");
 
 		/** Simulation Button **/
-		this.simulationButton = new SimulationButton();
+		this.simulationButton = SimulationButton.getSimulatorButton();
 
 		/** Temperature Control **/
 		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
@@ -527,4 +528,13 @@ public class SHSController {
 		if(simulationButton.isSimulatorState())
 			frame.repaint();
 	}
+	public static SHSController getSHSController() {
+		if (shsController != null)
+			return shsController;
+		else {
+			SHSController.shsController = new SHSController(SHSGui.getShs(),SHCController.getShcController(),SHPController.getShpController());
+			return shsController;
+		}
+		
+	}	
 }

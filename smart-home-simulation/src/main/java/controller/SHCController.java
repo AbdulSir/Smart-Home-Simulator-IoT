@@ -39,10 +39,10 @@ public class SHCController {
 		this.console = Console.getConsole();
 		/** SHP Controller **/
 		this.securityController = securityController;
-		user = new Users();
-		lights = new Lights();
+		user = Users.getUser();
+		lights = Lights.getLight();
 		doors = Doors.getDoor();
-		rooms = new RoomCounter();
+		rooms = RoomCounter.getRoomCounter();
 		AutoModeState = false;
 		isUserLoggedIn = true;
 
@@ -130,7 +130,7 @@ public class SHCController {
 		 */
 		frame.getOpenWindowsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Windows windows = new Windows();
+				Windows windows = Windows.getWindow();
 				String location = frame.getOpenWindowsComboBox().getSelectedItem().toString();
 				int index = frame.getOpenWindowsComboBox().getSelectedIndex();
 				Users loggedUser = user.getLoggedUser();

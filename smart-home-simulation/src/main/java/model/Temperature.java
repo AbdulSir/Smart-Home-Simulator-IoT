@@ -20,17 +20,18 @@ public class Temperature {
 	private int insideTemp;
 	private Console console;
 	private SHSGui frame;
+	private static Temperature temperature;
 
 	/**
 	 * Constructor
 	 */
-	public Temperature() {
+	private Temperature() {
 	}
 
 	/**
 	 * Parametrized Constructor
 	 */
-	public Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console) {
+	private Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console) {
 		this.frame = frame;
 		this.console = console;
 		
@@ -88,5 +89,13 @@ public class Temperature {
 	 */
 	public void setInsideTemp(int x) {
 		this.insideTemp = x;
+	}
+	public static Temperature getTemperature() {
+		if (temperature != null)
+			return temperature;
+		else {
+			Temperature.temperature = new Temperature(SHSGui.getShs(),SHSGui.getShs().getOutsideTemp(),SHSGui.getShs().getHouseTemp(),Console.getConsole());
+			return temperature;
+		}
 	}
 }

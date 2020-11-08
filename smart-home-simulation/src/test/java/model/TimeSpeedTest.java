@@ -15,7 +15,7 @@ public class TimeSpeedTest {
 	@Test
 	public void test() {
 		JSlider testSlider = new JSlider();
-		Time testTime = new Time();
+		Time testTime = Time.getWatch();
 		testTime.setIncrement_time_value(10);
 		assertEquals(testTime.getIncrement_time_value(),10);
 	}

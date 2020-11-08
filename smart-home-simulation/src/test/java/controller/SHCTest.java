@@ -20,7 +20,7 @@ public class SHCTest {
 	}
 	@Test
 	public void windowTest() {
-		Windows window = new Windows();
+		Windows window = Windows.getWindow();
 		window.setOpen(true);
 		assertTrue(window.isOpen());
 		window.setOpen(false);
@@ -28,7 +28,7 @@ public class SHCTest {
 	}
 	@Test
 	public void lightTest() {
-		Lights light = new Lights();
+		Lights light = Lights.getLight();
 		light.setLights(true);
 		assertTrue(light.areLightsOn());
 		light.setLights(false);

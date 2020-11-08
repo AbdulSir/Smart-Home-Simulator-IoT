@@ -43,6 +43,7 @@ public class SHSController {
 	private SHCController coreController;
 	private RoomCounter rooms;
 	private static SHSController shsController;
+	
 
 	private SHSController() {
 	}
@@ -50,8 +51,8 @@ public class SHSController {
 	private SHSController(SHSGui frame, SHCController coreController, SHPController securityController) {
 		/** Main GUI **/
 		this.frame = frame;
-		user = new Users();
-		rooms = new RoomCounter();
+		user = Users.getUser();
+		rooms = RoomCounter.getRoomCounter();
 
 		/** Create default User **/
 		Users defaultUser = new Users("Admin","PARENT");
@@ -64,7 +65,7 @@ public class SHSController {
 		this.simulationButton = SimulationButton.getSimulatorButton();
 
 		/** Temperature Control **/
-		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		this.temperature = Temperature.getTemperature();
 		
 		/** Time **/
 		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console);
@@ -149,7 +150,7 @@ public class SHSController {
 				coreController.checkLights();
 				
 				// 2d layout
-				houseLayout = new HouseLayout(rjFile);
+				houseLayout = HouseLayout.getHouseLayout();
 				frame.getPanelView().add(houseLayout);
 
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
@@ -300,7 +301,7 @@ public class SHSController {
 
 		/** Changes User Logged In **/
 		final JComboBox comboBoxRole = this.frame.getJComboRole();
-		user = new Users();
+		user = Users.getUser();
 		comboBoxRole.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				user.removeActiveUsers();
@@ -528,6 +529,9 @@ public class SHSController {
 		if(simulationButton.isSimulatorState())
 			frame.repaint();
 	}
+	/**
+	 * Singleton Getter
+	 */
 	public static SHSController getSHSController() {
 		if (shsController != null)
 			return shsController;
@@ -536,5 +540,11 @@ public class SHSController {
 			return shsController;
 		}
 		
+	}
+	/**
+	 * Getter
+	 */
+	public ReadingJsonFile getRjFile() {
+		return rjFile;
 	}	
 }

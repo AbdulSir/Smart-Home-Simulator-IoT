@@ -62,17 +62,16 @@ public class SHPController {
 		this.frame = frame;
 		awayMode = false;
 		isUserLoggedIn = true;
-		user = new Users();
+		user = Users.getUser();
 		/** Control Console **/
 		this.console = Console.getConsole();
 		this.context = new ContextSimulation();
-		this.user = new Users();
-		this.windows = new Windows();
+		this.windows = Windows.getWindow();
 		this.doors = Doors.getDoor();
-		this.lights = new Lights();
+		this.lights = Lights.getLight();
 		this.startAwayLightTime = frame.getAwayLightsStartTime();
 		this.stopAwayLightTime = frame.getAwayLightsStopTime();
-		this.time = new Time();
+		this.time = Time.getWatch();
 		
 		try {
 			pw = new PrintWriter(new FileOutputStream("SHPControllerLog.txt"));

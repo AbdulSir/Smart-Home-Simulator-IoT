@@ -8,12 +8,12 @@ public class TemperatureTest {
 	// Use case ID 9
 	@Test
 	public void insideTemperatureTest() {
-		Temperature temp = new Temperature();
+		Temperature temp = Temperature.getTemperature();
 		temp.setInsideTemp(15);
 		assertEquals(15, temp.getInsideTemp());
 	}
 	public void outsideTemperatureTest() {
-		Temperature temp = new Temperature();
+		Temperature temp = Temperature.getTemperature();
 		temp.setOutsideTemp(15);
 		assertEquals(15, temp.getOutsideTemp());
 	}

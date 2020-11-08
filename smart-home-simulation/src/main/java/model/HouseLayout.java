@@ -26,11 +26,14 @@ public class HouseLayout extends JPanel {
 	private BufferedImage lightOn;
 	private BufferedImage userImage;
 	private BufferedImage blocked;
+	private BufferedImage awayModeIcon;
+	private SHPController security;
 	private ReadingJsonFile rjFile;
 
-	public HouseLayout(ReadingJsonFile rjFile) {
+	public HouseLayout(ReadingJsonFile rjFile, SHPController security) {
 		this.setSize(1000, 1000);
 		this.rjFile = rjFile;
+		this.security= security;
 	}
 
 	/**
@@ -325,6 +328,19 @@ public class HouseLayout extends JPanel {
 		g.drawRect(0, 0, 150, 100);
 		g.drawString(s, 40, 50);
 	}
+	
+	//This method draws the AwayMode icon when away mode is activated
+	public void drawAwayModeIcon(Graphics g) {
+		try {
+			if (security.getAwayMode()==true) {
+				awayModeIcon = ImageIO.read(getClass().getResourceAsStream("/resources/AwayModeIcon.png"));
+				g.drawImage(awayModeIcon, 215, 50, 25, 25, null);
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Display
@@ -334,5 +350,6 @@ public class HouseLayout extends JPanel {
 		drawWindows(g);
 		drawDoors(g);
 		drawLights(g);
+		drawAwayModeIcon(g);
 	}
 }

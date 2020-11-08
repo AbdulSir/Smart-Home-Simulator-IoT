@@ -41,6 +41,7 @@ public class SHSController {
 	private HouseLayout houseLayout;
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
+	private SHPController securityController;
 	private RoomCounter rooms;
 
 	public SHSController() {
@@ -71,6 +72,9 @@ public class SHSController {
 		/** SHC Controller **/
 		this.coreController = coreController;
 		this.coreController.setSimButton(simulationButton);
+		
+		/** SHP Controller **/
+		this.securityController=securityController;
 		
 		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton, frame, coreController, securityController);
@@ -148,7 +152,7 @@ public class SHSController {
 				coreController.checkLights();
 				
 				// 2d layout
-				houseLayout = new HouseLayout(rjFile);
+				houseLayout = new HouseLayout(rjFile, securityController);
 				frame.getPanelView().add(houseLayout);
 
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));

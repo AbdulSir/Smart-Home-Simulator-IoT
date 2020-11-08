@@ -1,8 +1,0 @@
-[08/11/2020 15:54:24] Users Profile has been LOADED
-[08/11/2020 15:54:28] The time has been set at 15:54
-[08/11/2020 15:54:28] The date has been set to 8-Nov-2020
-[08/11/2020 15:54:31] The temperature for the outside of the house has been set at 21°C
-[08/11/2020 15:54:32] The temperature for the inside of the house has been set at 21°C
-[08/11/2020 15:54:40] Loogogo has been added. UserID: 9
-[08/11/2020 15:54:44] lkdngsdlf has been added. UserID: 10
-[08/11/2020 15:54:47] Rodrigo's profile has been deleted from the system

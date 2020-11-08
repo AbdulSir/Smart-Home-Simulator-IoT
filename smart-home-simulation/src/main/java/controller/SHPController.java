@@ -132,8 +132,8 @@ public class SHPController {
 					}
 				}else {
 					if (state == ItemEvent.SELECTED && isUserLoggedIn) {
-						console.msg("You do not have the permission to execute this command");
-						appendToLog("You do not have the permission to execute this command");
+						console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
+						appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
 					}
 				}
 			}					

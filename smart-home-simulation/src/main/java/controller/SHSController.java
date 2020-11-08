@@ -65,18 +65,11 @@ public class SHSController {
 		/** Simulation Button **/
 		this.simulationButton = new SimulationButton();
 
-		/** Temperature Control **/
-		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console, this);
-		
-		/** Time **/
-		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console, this);
-
 		/** SHC Controller **/
 		this.coreController = coreController;
 		this.coreController.setSimButton(simulationButton);
 		
-		/** Edit Simulation **/
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton, frame, coreController, securityController);
+		
 
 		/** PrintWriter **/
 		try {
@@ -84,6 +77,15 @@ public class SHSController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		/** Temperature Control **/
+		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console, this);
+		
+		/** Time **/
+		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console, this);
+		
+		/** Edit Simulation **/
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton, frame, coreController, securityController, this);
 		
 		// Open File
 		readFileEvent();

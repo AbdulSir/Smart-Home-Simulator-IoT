@@ -8,8 +8,10 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -42,7 +44,8 @@ public class SHSController {
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
 	private RoomCounter rooms;
-
+	private PrintWriter pw;
+	
 	public SHSController() {
 	}
 
@@ -63,10 +66,10 @@ public class SHSController {
 		this.simulationButton = new SimulationButton();
 
 		/** Temperature Control **/
-		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console);
+		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console, this);
 		
 		/** Time **/
-		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console);
+		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console, this);
 
 		/** SHC Controller **/
 		this.coreController = coreController;
@@ -75,6 +78,13 @@ public class SHSController {
 		/** Edit Simulation **/
 		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton, frame, coreController, securityController);
 
+		/** PrintWriter **/
+		try {
+			pw = new PrintWriter(new FileOutputStream("SHSControllerLog.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		// Open File
 		readFileEvent();
 
@@ -206,6 +216,7 @@ public class SHSController {
 
 						// Console Message
 						console.msg("Users Profile has been SAVED.");
+						appendToLog("Users Profile has been SAVED.");
 
 					} catch (FileNotFoundException file_exception) {
 						file_exception.printStackTrace();
@@ -274,6 +285,7 @@ public class SHSController {
 
 						// Console Message
 						console.msg("Users Profile has been LOADED");
+						appendToLog("Users Profile has been LOADED");
 
 					} catch (IOException io_exception) {
 						System.out.println("File not found");
@@ -311,6 +323,7 @@ public class SHSController {
 						user.setActiveUser(true);
 						permission = user.getPermission();
 						console.msg("A new user is logged into the system: " + user.getName() + ". UserID: " + user.getUserNumber());
+						appendToLog("A new user is logged into the system: " + user.getName() + ". UserID: " + user.getUserNumber());
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.getLabelUserPermissionValue().setText(user.getPermission());
 						break;
@@ -364,11 +377,14 @@ public class SHSController {
 						}
 					}
 					console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+					appendToLog(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 					rooms.getRooms().get(rooms.getRooms().size() - 1).incrementCounter();
 					coreController.checkLights();
 					paint();
 				} else {
 					console.msg("The username \"" + NewUsername
+							+ "\" is already linked to an existing user. User will not be added");
+					appendToLog("The username \"" + NewUsername
 							+ "\" is already linked to an existing user. User will not be added");
 				}
 			}
@@ -388,6 +404,7 @@ public class SHSController {
 						userList.remove(user);
 						location = user.getLocation();
 						console.msg(userToDelete + "'s profile has been deleted from the system");
+						appendToLog(userToDelete + "'s profile has been deleted from the system");
 						paint();
 						break;
 					}
@@ -470,6 +487,7 @@ public class SHSController {
 					
 					// Display Message to Console
 					console.msg("Simulator ON");
+					appendToLog("Simulator ON");
 				} else if (state == ItemEvent.DESELECTED) {
 					// Set Simulation State to FALSE
 					simulationButton.setSimulatorState(false);
@@ -479,6 +497,7 @@ public class SHSController {
 
 					// Display Message to Console
 					console.msg("Simulator OFF");
+					appendToLog("Simulator OFF");
 				}
 
 			}
@@ -526,5 +545,28 @@ public class SHSController {
 	private void paint() {
 		if(simulationButton.isSimulatorState())
 			frame.repaint();
+	}
+
+	/**
+	 * Getter
+	 */
+	public PrintWriter getPrintWriter() {
+		return pw;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setPrintWriter(PrintWriter pw) {
+		this.pw = pw;
+	}
+	
+	/**
+	 * Append all of the console messages to the corresponding log file
+	 */
+	public void appendToLog(String text) {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
+		pw.write("[" + formatter.format(date) + "] " + text + "\n");
 	}
 }

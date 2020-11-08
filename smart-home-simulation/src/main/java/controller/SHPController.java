@@ -369,7 +369,7 @@ public class SHPController {
 	/**
 	 * Append all of the console messages to the corresponding log file
 	 */
-	private void appendToLog(String text) {
+	public void appendToLog(String text) {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
 		pw.write("[" + formatter.format(date) + "] " + text + "\n");

@@ -1,0 +1,12 @@
+[08/11/2020 18:55:38] Brian has been added. UserID: 2
+[08/11/2020 18:55:41] A new user is logged into the system: Admin. UserID: 1
+[08/11/2020 18:55:42] A new user is logged into the system: Brian. UserID: 2
+[08/11/2020 18:55:49] Children has been added. UserID: 3
+[08/11/2020 18:55:51] A new user is logged into the system: Children. UserID: 3
+[08/11/2020 18:56:02] The temperature for the inside of the house has been set at 123123°C
+[08/11/2020 18:56:04] The temperature for the outside of the house has been set at 12312°C
+[08/11/2020 18:56:18] All of the users have been moved to the outside of the house
+[08/11/2020 18:56:21] Simulator ON
+[08/11/2020 18:56:22] Simulator OFF
+[08/11/2020 18:56:55] Simulator ON
+[08/11/2020 18:57:03] Simulator OFF

@@ -84,8 +84,8 @@ public class SHCController {
 					}
 				} else {
 					if (isUserLoggedIn) {
-						console.msg("You do not have the permission to execute this command");
-						appendToLog("You do not have the permission to execute this command");
+						console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
+						appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
 					}
 				}
 			}
@@ -113,8 +113,16 @@ public class SHCController {
 						paint();
 					} else {
 						if (isUserLoggedIn) {
-							console.msg("You do not have the permission to execute this command");
-							appendToLog("You do not have the permission to execute this command");
+							if(!loggedUser.getLocation().equals(location) && !loggedUser.getPermission().equals("STRANGER")) {
+								console.msg("You do not have the permission to execute this command. Reason: Location");
+								appendToLog("You do not have the permission to execute this command. Reason: Location");
+							} else if(securityController.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")){
+								console.msg("You do not have the permission to execute this command. Reason: Away Mode is activated");
+								appendToLog("You do not have the permission to execute this command. Reason: Away Mode is activated");
+							} else {
+								console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
+								appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
+							}
 						}
 					}
 				} else {
@@ -148,21 +156,25 @@ public class SHCController {
 						paint();
 					} else {
 						if (windows.getWindowList().get(index).isOpen()) {
-							console.msg(
-									"The window in the " + location + " cannot be closed because its path is blocked");
-							appendToLog(
-									"The window in the " + location + " cannot be closed because its path is blocked");
+							console.msg("The window in the " + location + " cannot be closed because its path is blocked");
+							appendToLog("The window in the " + location + " cannot be closed because its path is blocked");
 						} else {
-							console.msg(
-									"The window in the " + location + " cannot be opened because its path is blocked");
-							appendToLog(
-									"The window in the " + location + " cannot be opened because its path is blocked");
+							console.msg("The window in the " + location + " cannot be opened because its path is blocked");
+							appendToLog("The window in the " + location + " cannot be opened because its path is blocked");
 						}
 					}
 				} else {
 					if (isUserLoggedIn) {
-						console.msg("You do not have the permission to execute this command");
-						appendToLog("You do not have the permission to execute this command");
+						if(!loggedUser.getLocation().equals(location) && !loggedUser.getPermission().equals("STRANGER")) {
+							console.msg("You do not have the permission to execute this command. Reason: Location");
+							appendToLog("You do not have the permission to execute this command. Reason: Location");
+						} else if(securityController.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")){
+							console.msg("You do not have the permission to execute this command. Reason: Away Mode is activated");
+							appendToLog("You do not have the permission to execute this command. Reason: Away Mode is activated");
+						} else {
+							console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
+							appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
+						}
 					}
 				}
 			}
@@ -175,7 +187,7 @@ public class SHCController {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				int state = itemEvent.getStateChange();
 				Users loggedUser = user.getLoggedUser();
-				if (hasPermissions(loggedUser, user.getLocation(), "Lights")) {
+				if (hasPermissions(loggedUser, loggedUser.getLocation(), "Lights")) {
 					if (state == ItemEvent.SELECTED) {
 						setAutoModeState(true);
 						console.msg("Auto Mode ON");
@@ -189,8 +201,13 @@ public class SHCController {
 					}
 				} else {
 					if (state == ItemEvent.SELECTED && isUserLoggedIn) {
-						console.msg("You do not have the permission to execute this command");
-						appendToLog("You do not have the permission to execute this command");
+						if(securityController.getAwayMode()  && !loggedUser.getPermission().equals("STRANGER")){
+							console.msg("You do not have the permission to execute this command. Reason: Away Mode is activated");
+							appendToLog("You do not have the permission to execute this command. Reason: Away Mode is activated");
+						} else {
+							console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
+							appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
+						}
 					}
 				}
 			}
@@ -221,8 +238,8 @@ public class SHCController {
 					}
 				} else {
 					if (isUserLoggedIn) {
-						console.msg("You do not have the permission to execute this command");
-						appendToLog("You do not have the permission to execute this command");
+						console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
+						appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
 					}
 				}
 			}

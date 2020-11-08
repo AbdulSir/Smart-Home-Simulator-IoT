@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
 import controller.Console;
+import controller.SHSController;
 import controller.SimulationButton;
 import view.SHSGui;
 
@@ -21,19 +22,26 @@ public class Temperature {
 	private Console console;
 	private SHSGui frame;
 	private static Temperature temperature;
+	private SHSController controller;
+
 
 	/**
 	 * Constructor
 	 */
-	public Temperature() {
+	private Temperature() {
 	}
 
 	/**
 	 * Parametrized Constructor
 	 */
-	private Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console) {
+
+
+
+	public Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console, SHSController controller) {
+
 		this.frame = frame;
 		this.console = console;
+		this.controller = controller;
 		
 		out.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -46,6 +54,7 @@ public class Temperature {
 				setOutsideTemp(outsideTempIntValue);
 				frame.getOutdoorTemperatureValue().setText(outsideTempStrValue + "\u00B0C");
 				console.msg("The temperature for the outside of the house has been set at " + outsideTemp + "\u00B0C");
+				controller.appendToLog("The temperature for the outside of the house has been set at " + outsideTemp + "\u00B0C");
 			}
 		});
 
@@ -59,6 +68,7 @@ public class Temperature {
 				setInsideTemp(insideTempIntValue);
 				frame.getIndoorHouseTempValue().setText(insideTempStrValue + "\u00B0C");
 				console.msg("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
+				controller.appendToLog("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
 			}
 		});
 	}
@@ -94,7 +104,7 @@ public class Temperature {
 		if (temperature != null)
 			return temperature;
 		else {
-			Temperature.temperature = new Temperature(SHSGui.getShs(),SHSGui.getShs().getOutsideTemp(),SHSGui.getShs().getHouseTemp(),Console.getConsole());
+			Temperature.temperature = new Temperature();
 			return temperature;
 		}
 	}

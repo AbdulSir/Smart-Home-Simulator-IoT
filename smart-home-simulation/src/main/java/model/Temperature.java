@@ -25,7 +25,7 @@ public class Temperature {
 	/**
 	 * Constructor
 	 */
-	private Temperature() {
+	public Temperature() {
 	}
 
 	/**

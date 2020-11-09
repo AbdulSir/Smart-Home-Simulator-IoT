@@ -28,6 +28,8 @@ public class SHCController {
 	private boolean isUserLoggedIn;
 	private PrintWriter pw;
 	private static SHCController shcController;
+	private int counter;
+	
 	public SHCController() {
 	}
 
@@ -45,6 +47,7 @@ public class SHCController {
 		rooms = RoomCounter.getRoomCounter();
 		AutoModeState = false;
 		isUserLoggedIn = true;
+		counter = 0;
 
 		try {
 			pw = new PrintWriter(new FileOutputStream("SHCControllerLog.txt"));
@@ -185,9 +188,10 @@ public class SHCController {
 		 */
 		frame.getAutoModeToggleButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
+				counter++;
 				int state = itemEvent.getStateChange();
 				Users loggedUser = user.getLoggedUser();
-				if (hasPermissions(loggedUser, loggedUser.getLocation(), "Lights")) {
+				if (hasPermissions(loggedUser, "ALL", "Lights")) {
 					if (state == ItemEvent.SELECTED) {
 						setAutoModeState(true);
 						console.msg("Auto Mode ON");
@@ -336,8 +340,10 @@ public class SHCController {
 	 */
 	public boolean hasPermissions(Users user, String location, String item) {
 		if (user == null) {
-			console.msg("The system does not have a logged-in user");
-			appendToLog("The system does not have a logged-in user");
+			if(counter % 2 != 0) {
+				console.msg("The system does not have a logged-in user");
+				appendToLog("The system does not have a logged-in user");
+			}
 			isUserLoggedIn = false;
 			return false;
 		}

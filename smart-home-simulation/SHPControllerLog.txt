@@ -1,4 +1,0 @@
-[08/11/2020 18:56:13] Away Mode cannot be activated while users are indoor.
-[08/11/2020 18:56:26] Away Mode OFF
-[08/11/2020 18:56:26] Away Mode ON
-[08/11/2020 18:56:53] The times for the Away Mode lights' setting has been set

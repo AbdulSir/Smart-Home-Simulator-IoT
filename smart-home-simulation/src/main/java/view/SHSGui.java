@@ -52,6 +52,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JCheckBox;
 
 public class SHSGui extends JFrame {
+	private static SHSGui shs;
 	private JLabel labelProfileImage;
 	private JTextArea textAreaConsoleLog;
 	private JToggleButton togglebuttonSimulator;
@@ -116,11 +117,11 @@ public class SHSGui extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SHSGui frame = new SHSGui();
+					SHSGui frame = getShs();
 					// Controller
-					securityController = new SHPController(frame);
-					coreController = new SHCController(frame, securityController);
-					controller = new SHSController(frame, coreController, securityController);
+					securityController = SHPController.getShpController();
+					coreController = SHCController.getShcController();
+					controller = SHSController.getSHSController();
 					securityController.setSimulationButton(controller.getSimulationButton());
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -133,7 +134,7 @@ public class SHSGui extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SHSGui() {
+	private SHSGui() {
 		initComponents();
 	}
 
@@ -1433,5 +1434,15 @@ public class SHSGui extends JFrame {
 	}
 	public JSpinner getAwayLightsStopTime() {
 		return awayLightsStopTime;
+	}
+
+	public static SHSGui getShs() {
+		if (shs != null)
+			return shs;
+		else {
+			SHSGui.shs = new SHSGui();
+			return shs;
+		}
+		
 	}	
 }

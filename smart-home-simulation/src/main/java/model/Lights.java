@@ -2,15 +2,18 @@ package model;
 
 import java.util.ArrayList;
 
+import controller.SimulationButton;
+
 public class Lights {
 	private String location;
 	private boolean on;
+	private static Lights light;
 	private static ArrayList<Lights> lightsList = new ArrayList<Lights>();
 
 	/**
 	 * Default Constructor
 	 */
-	public Lights() {
+	private Lights() {
 		location = "";
 		on = false;
 	}
@@ -66,5 +69,14 @@ public class Lights {
 	 */
 	public static void setLightsList(ArrayList<Lights> lightsList) {
 		Lights.lightsList = lightsList;
+	}
+
+	public static Lights getLight() {
+		if (light != null)
+			return light;
+		else {
+			Lights.light = new Lights();
+			return light;
+		}
 	}
 }

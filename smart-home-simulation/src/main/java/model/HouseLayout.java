@@ -16,6 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controller.SHPController;
+import controller.SHSController;
+import controller.SimulationButton;
 
 public class HouseLayout extends JPanel {
 	private BufferedImage closedWindow;
@@ -30,7 +32,8 @@ public class HouseLayout extends JPanel {
 	private BufferedImage awayModeIcon;
 	private SHPController security;
 	private ReadingJsonFile rjFile;
-
+	private static HouseLayout houseLayout;
+	
 	public HouseLayout(ReadingJsonFile rjFile, SHPController security) {
 		this.setSize(1000, 1000);
 		this.rjFile = rjFile;
@@ -49,7 +52,7 @@ public class HouseLayout extends JPanel {
 			int countEntrance = 0;
 			int countRoom = 0;
 			userImage = ImageIO.read(getClass().getResource("/resources/user-2-icon.png"));
-			Users users = new Users();
+			Users users = Users.getUser();
 			ArrayList<Users> usersArray = users.getUserList();
 			// ReadingJsonFile rjFile = new ReadingJsonFile("myJSON.json");
 			for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
@@ -191,7 +194,7 @@ public class HouseLayout extends JPanel {
 	 * @param g
 	 */
 	public void drawWindows(Graphics g) {
-		Windows windows = new Windows();
+		Windows windows = Windows.getWindow();
 		try {
 			int offSet = 0;
 			closedWindow = ImageIO.read(getClass().getResource("/resources/closedWindow.png"));
@@ -234,7 +237,7 @@ public class HouseLayout extends JPanel {
 	 */
 
 	public void drawDoors(Graphics g) {
-		Doors doors = new Doors();
+		Doors doors = Doors.getDoor();
 		try {
 			int offSet = 0;
 			openedDoor = ImageIO.read(getClass().getResourceAsStream("/resources/openedDoor.png"));
@@ -282,7 +285,7 @@ public class HouseLayout extends JPanel {
 	 * @param g
 	 */
 	public void drawLights(Graphics g) {
-		Lights lights = new Lights();
+		Lights lights = Lights.getLight();
 		try {
 			int offSet = 0;
 			lightOff = ImageIO.read(getClass().getResourceAsStream("/resources/lightOff.png"));
@@ -351,5 +354,14 @@ public class HouseLayout extends JPanel {
 		drawDoors(g);
 		drawLights(g);
 		drawAwayModeIcon(g);
+	}
+
+	public static HouseLayout getHouseLayout() {
+		if (houseLayout != null)
+			return houseLayout;
+		else {
+			HouseLayout.houseLayout = new HouseLayout(SHSController.getSHSController().getRjFile(), SHPController.getShpController());
+			return houseLayout;
+		}
 	}
 }

@@ -27,24 +27,27 @@ public class SHCController {
 	private static boolean AutoModeState;
 	private boolean isUserLoggedIn;
 	private PrintWriter pw;
-
+	private static SHCController shcController;
+	private int counter;
+	
 	public SHCController() {
 	}
 
 	/**
 	 * Parametrized constructor
 	 */
-	public SHCController(SHSGui frame, SHPController securityController) {
+	private SHCController(SHSGui frame, SHPController securityController) {
 		this.frame = frame;
-		this.console = new Console(frame.getTextAreaConsoleLog());
+		this.console = Console.getConsole();
 		/** SHP Controller **/
 		this.securityController = securityController;
-		user = new Users();
-		lights = new Lights();
-		doors = new Doors();
-		rooms = new RoomCounter();
+		user = Users.getUser();
+		lights = Lights.getLight();
+		doors = Doors.getDoor();
+		rooms = RoomCounter.getRoomCounter();
 		AutoModeState = false;
 		isUserLoggedIn = true;
+		counter = 0;
 
 		try {
 			pw = new PrintWriter(new FileOutputStream("SHCControllerLog.txt"));
@@ -138,7 +141,7 @@ public class SHCController {
 		 */
 		frame.getOpenWindowsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Windows windows = new Windows();
+				Windows windows = Windows.getWindow();
 				String location = frame.getOpenWindowsComboBox().getSelectedItem().toString();
 				int index = frame.getOpenWindowsComboBox().getSelectedIndex();
 				Users loggedUser = user.getLoggedUser();
@@ -185,9 +188,10 @@ public class SHCController {
 		 */
 		frame.getAutoModeToggleButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
+				counter++;
 				int state = itemEvent.getStateChange();
 				Users loggedUser = user.getLoggedUser();
-				if (hasPermissions(loggedUser, loggedUser.getLocation(), "Lights")) {
+				if (hasPermissions(loggedUser, "ALL", "Lights")) {
 					if (state == ItemEvent.SELECTED) {
 						setAutoModeState(true);
 						console.msg("Auto Mode ON");
@@ -336,8 +340,10 @@ public class SHCController {
 	 */
 	public boolean hasPermissions(Users user, String location, String item) {
 		if (user == null) {
-			console.msg("The system does not have a logged-in user");
-			appendToLog("The system does not have a logged-in user");
+			if(counter % 2 != 0) {
+				console.msg("The system does not have a logged-in user");
+				appendToLog("The system does not have a logged-in user");
+			}
 			isUserLoggedIn = false;
 			return false;
 		}
@@ -374,5 +380,14 @@ public class SHCController {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
 		pw.write("[" + formatter.format(date) + "] " + text + "\n");
+	}
+
+	public static SHCController getShcController() {
+		if (shcController != null)
+			return shcController;
+		else {
+			SHCController.shcController = new SHCController(SHSGui.getShs(),SHPController.getShpController());
+			return shcController;
+		}
 	}
 }

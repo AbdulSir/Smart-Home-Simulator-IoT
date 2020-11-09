@@ -1,13 +1,16 @@
 package controller;
 
+import view.SHSGui;
+
 public class SimulationButton {
 
 	private boolean simulatorState;
+	private static SimulationButton simulatorButton;
 
 	/**
 	 * Constructor
 	 */
-	public SimulationButton() {
+	private SimulationButton() {
 		simulatorState = false;
 
 	}
@@ -26,6 +29,15 @@ public class SimulationButton {
 	 */
 	public void setSimulatorState(boolean simulatorState) {
 		this.simulatorState = simulatorState;
+	}
+
+	public static SimulationButton getSimulatorButton() {
+		if (simulatorButton != null)
+			return simulatorButton;
+		else {
+			SimulationButton.simulatorButton = new SimulationButton();
+			return simulatorButton;
+		}
 	}
 
 }

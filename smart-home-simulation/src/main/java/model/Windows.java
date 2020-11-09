@@ -7,11 +7,11 @@ public class Windows {
 	private boolean blocked;
 	private boolean open;
 	private static ArrayList<Windows> windowList = new ArrayList<Windows>();
-
+	private static Windows window;
 	/**
 	 * Default Constructor
 	 */
-	public Windows() {
+	private Windows() {
 		location = "";
 		blocked = false;
 	}
@@ -81,5 +81,13 @@ public class Windows {
 	 */
 	public static void setWindowList(ArrayList<Windows> windowList) {
 		Windows.windowList = windowList;
+	}
+	public static Windows getWindow() {
+		if (window != null)
+			return window;
+		else {
+			Windows.window = new Windows();
+			return window;
+		}
 	}
 }

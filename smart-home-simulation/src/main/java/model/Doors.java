@@ -2,16 +2,19 @@ package model;
 
 import java.util.ArrayList;
 
+import controller.SimulationButton;
+
 public class Doors {
 	private String location;
 	private boolean open;
 	private boolean locked;
 	private static ArrayList<Doors> doorList = new ArrayList<Doors>();
+	private static Doors door;
 
 	/**
 	 * Default Constructor
 	 */
-	public Doors() {
+	private Doors() {
 		location = "";
 		open = false;
 		locked = false;
@@ -86,6 +89,14 @@ public class Doors {
 	 */
 	public void setLocked(boolean locked) {
 		this.locked = locked;
+	}
+	public static Doors getDoor() {
+		if (door != null)
+			return door;
+		else {
+			Doors.door = new Doors();
+			return door;
+		}
 	}
 	
 }

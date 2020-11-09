@@ -6,9 +6,9 @@ public class RoomCounter {
 	private String location;
 	private int count;
 	private static ArrayList<RoomCounter> rooms = new ArrayList<RoomCounter>();
-	
+	private static RoomCounter roomCounter;
 	/** Default Constructor **/
-	public RoomCounter() {}
+	private RoomCounter() {}
 	
 	/** Parametrized Constructor **/
 	public RoomCounter(String location) {
@@ -70,5 +70,13 @@ public class RoomCounter {
 	 */
 	public static void setRooms(ArrayList<RoomCounter> rooms) {
 		RoomCounter.rooms = rooms;
+	}
+	public static RoomCounter getRoomCounter() {
+		if (roomCounter != null)
+			return roomCounter;
+		else {
+			RoomCounter.roomCounter = new RoomCounter();
+			return roomCounter;
+		}
 	}
 }

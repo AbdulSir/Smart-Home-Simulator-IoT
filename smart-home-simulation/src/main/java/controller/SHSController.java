@@ -45,26 +45,31 @@ public class SHSController {
 	private SHCController coreController;
 	private SHPController securityController;
 	private RoomCounter rooms;
+	private static SHSController shsController;
 	private PrintWriter pw;
-	
 	public SHSController() {
+
 	}
 
-	public SHSController(SHSGui frame, SHCController coreController, SHPController securityController) {
+	private SHSController(SHSGui frame, SHCController coreController, SHPController securityController) {
 		/** Main GUI **/
 		this.frame = frame;
-		user = new Users();
-		rooms = new RoomCounter();
+		user = Users.getUser();
+		rooms = RoomCounter.getRoomCounter();
 
 		/** Create default User **/
 		Users defaultUser = new Users("Admin","PARENT");
 
 		/** Control Console **/
-		this.console = new Console(frame.getTextAreaConsoleLog());
+		this.console = Console.getConsole();
 		console.msg("Welcome to the Smart Home Simulator");
 
 		/** Simulation Button **/
-		this.simulationButton = new SimulationButton();
+		this.simulationButton = SimulationButton.getSimulatorButton();
+
+
+
+
 
 		/** SHC Controller **/
 		this.coreController = coreController;
@@ -163,6 +168,7 @@ public class SHSController {
 				
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile, securityController);
+				houseLayout = HouseLayout.getHouseLayout();
 				frame.getPanelView().add(houseLayout);
 
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
@@ -315,7 +321,7 @@ public class SHSController {
 
 		/** Changes User Logged In **/
 		final JComboBox comboBoxRole = this.frame.getJComboRole();
-		user = new Users();
+		user = Users.getUser();
 		comboBoxRole.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				user.removeActiveUsers();
@@ -552,6 +558,26 @@ public class SHSController {
 	}
 
 	/**
+	 * Singleton Getter
+	 */
+	public static SHSController getSHSController() {
+		if (shsController != null)
+			return shsController;
+		else {
+			SHSController.shsController = new SHSController(SHSGui.getShs(),SHCController.getShcController(),SHPController.getShpController());
+			return shsController;
+		}
+		
+	}
+	/**
+	 * Getter
+	 */
+	public ReadingJsonFile getRjFile() {
+		return rjFile;
+	}	
+
+
+	/**
 	 * Getter
 	 */
 	public PrintWriter getPrintWriter() {
@@ -573,4 +599,5 @@ public class SHSController {
 		Date date = new Date();
 		pw.write("[" + formatter.format(date) + "] " + text + "\n");
 	}
+
 }

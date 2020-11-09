@@ -43,9 +43,10 @@ public class EditSimulation {
 		this.frame = frame;
 		this.core = core;
 		this.security = security;
+		windows = Windows.getWindow();
+		rooms = RoomCounter.getRoomCounter();
 		this.controller = controller;
-		windows = new Windows();
-		rooms = new RoomCounter();
+
 		// event handler
 		createEvents();
 	}
@@ -65,7 +66,7 @@ public class EditSimulation {
 		/** Change the location of a user **/
 		this.context.getSetLocation().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Lights lights = new Lights();
+				Lights lights = Lights.getLight();
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				Date date = new Date();
 				JComboBox comboBoxUsers = context.getComboBoxUsers();

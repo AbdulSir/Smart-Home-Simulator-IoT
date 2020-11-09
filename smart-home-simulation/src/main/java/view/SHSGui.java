@@ -185,7 +185,7 @@ public class SHSGui extends JFrame {
            }));
             
 		/** Window Size **/
-		setBounds(100, 100, 1255, 792);
+		setBounds(100, 100, 1301, 808);
 
 		/** Menu Bar **/
 		JMenuBar menuBar = new JMenuBar();

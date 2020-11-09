@@ -159,6 +159,8 @@ public class SHSGui extends JFrame {
 				coreController.getPrintWriter().close();
 				securityController.getPrintWriter().flush();
 				securityController.getPrintWriter().close();
+				controller.getPrintWriter().flush();
+				controller.getPrintWriter().close();
 			}
 			@Override
 			public void windowOpened(WindowEvent e) {

@@ -27,13 +27,14 @@ public class EditSimulation {
 	private Windows windows;
 	private SHCController core;
 	private SHPController security;
+	private SHSController controller;
 	private RoomCounter rooms;
 
 	/**
 	 * Constructor
 	 */
 	public EditSimulation(JButton editContext, Users user, Console console, SimulationButton simulationButton, SHSGui frame, SHCController core,
-			SHPController security) {
+			SHPController security, SHSController controller){
 		this.context = new ContextSimulation();
 		this.editContext = editContext;
 		this.user = user;
@@ -42,6 +43,7 @@ public class EditSimulation {
 		this.frame = frame;
 		this.core = core;
 		this.security = security;
+		this.controller = controller;
 		windows = new Windows();
 		rooms = new RoomCounter();
 		// event handler
@@ -83,14 +85,22 @@ public class EditSimulation {
 						rooms.getRooms().get(i).incrementCounter();
 
 				}
-				if (oldLocation.equalsIgnoreCase(newLocation) && oldLocation.equalsIgnoreCase("Outside"))
+				if (oldLocation.equalsIgnoreCase(newLocation) && oldLocation.equalsIgnoreCase("Outside")) {
 					console.msg(userToMove + " is still outside of the house");
-				else if (oldLocation.equalsIgnoreCase(newLocation))
+					controller.appendToLog(userToMove + " is still outside of the house");
+				}
+				else if (oldLocation.equalsIgnoreCase(newLocation)) {
 					console.msg(userToMove + " is still in the " + newLocation);
-				else if (!newLocation.equalsIgnoreCase("Outside"))
+					controller.appendToLog(userToMove + " is still in the " + newLocation);
+				}
+				else if (!newLocation.equalsIgnoreCase("Outside")) {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
-				else
+					controller.appendToLog(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
+				}
+				else {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
+					controller.appendToLog(userToMove + " has moved from the " + oldLocation + " to outside of the house");
+				}
 
 				core.checkLights();
 
@@ -149,14 +159,26 @@ public class EditSimulation {
 					if (!windows.getWindowList().get(index).isBlocked()) {
 						windows.getWindowList().get(index).setBlocked(true);
 						console.msg("The window in the " + location + " has been blocked");
+						controller.appendToLog("The window in the " + location + " has been blocked");
 					} else {
 						windows.getWindowList().get(index).setBlocked(false);
 						console.msg("The window in the " + location + " has been unblocked");
+						controller.appendToLog("The window in the " + location + " has been unblocked");
 					}
 					paint();
 				} else {
-					if (core.isUserLoggedIn())
-						console.msg("You do not have the permission to execute this command");
+					if (core.isUserLoggedIn()) {
+						if(!loggedUser.getLocation().equals(location) && !loggedUser.getPermission().equals("STRANGER")) {
+							console.msg("You do not have the permission to execute this command. Reason: Location");
+							controller.appendToLog("You do not have the permission to execute this command. Reason: Location");
+						} else if(security.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")){
+							console.msg("You do not have the permission to execute this command. Reason: Away Mode is activated");
+							controller.appendToLog("You do not have the permission to execute this command. Reason: Away Mode is activated");
+						} else {
+							console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
+							controller.appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
+						}
+					}
 				}
 			}
 		});
@@ -171,8 +193,18 @@ public class EditSimulation {
 					}
 					paint();
 				} else {
-					if (core.isUserLoggedIn())
-						console.msg("You do not have the permission to execute this command");
+					if (core.isUserLoggedIn()) {
+						if(!loggedUser.getLocation().equals("ALL") && !loggedUser.getPermission().equals("STRANGER")) {
+							console.msg("You do not have the permission to execute this command. Reason: Location");
+							controller.appendToLog("You do not have the permission to execute this command. Reason: Location");
+						} else if(security.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")){
+							console.msg("You do not have the permission to execute this command. Reason: Away Mode is activated");
+							controller.appendToLog("You do not have the permission to execute this command. Reason: Away Mode is activated");
+						} else {
+							console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
+							controller.appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
+						}
+					}
 				}
 			}
 		});
@@ -187,8 +219,18 @@ public class EditSimulation {
 					}
 					paint();
 				} else {
-					if (core.isUserLoggedIn())
-						console.msg("You do not have the permission to execute this command");
+					if (core.isUserLoggedIn()) {
+						if(!loggedUser.getLocation().equals("ALL") && !loggedUser.getPermission().equals("STRANGER")) {
+							console.msg("You do not have the permission to execute this command. Reason: Location");
+							controller.appendToLog("You do not have the permission to execute this command. Reason: Location");
+						} else if(security.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")){
+							console.msg("You do not have the permission to execute this command. Reason: Away Mode is activated");
+							controller.appendToLog("You do not have the permission to execute this command. Reason: Away Mode is activated");
+						} else {
+							console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
+							controller.appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
+						}
+					}
 				}
 			}
 		});
@@ -207,6 +249,7 @@ public class EditSimulation {
 				}
 				paint();
 				console.msg("All of the users have been moved to the outside of the house");
+				controller.appendToLog("All of the users have been moved to the outside of the house");
 			}
 		});
 		

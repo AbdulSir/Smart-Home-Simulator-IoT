@@ -21,7 +21,7 @@ public class ProfileFileTest {
 		Users user1 = new Users("test1", "CHILDREN");
 		try {
 			// File & Object Output Stream
-			FileOutputStream fos = new FileOutputStream(new File("test.txt"));
+			FileOutputStream fos = new FileOutputStream(new File("JUnitTest.txt"));
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			// Write User Object
 			oos.writeObject(user1);

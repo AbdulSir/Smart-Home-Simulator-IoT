@@ -13,11 +13,12 @@ public class Users implements Serializable {
 	private static int counter = 0;
 	private String location;
 	private String permission;
+	private static Users user;
 
 	/**
 	 * Class Constructor
 	 */
-	public Users() {
+	private Users() {
 		this.name = null;
 		this.activeUser = null;
 		this.userNumber = 0;
@@ -178,5 +179,14 @@ public class Users implements Serializable {
 			}
 		}
 		return loggedUser;
+	}
+	
+	public static Users getUser() {
+		if (user != null)
+			return user;
+		else {
+			Users.user = new Users();
+			return user;
+		}
 	}
 }

@@ -48,7 +48,7 @@ public class SHPController {
 	private String StrStopALTime;
 	private SimulationButton simulationButton;
 	private PrintWriter pw;
-
+	private static SHPController shpController;
 	public SHPController() {
 	}
 
@@ -57,22 +57,21 @@ public class SHPController {
 	 * 
 	 * @param frame
 	 */
-	public SHPController(SHSGui frame) {
+	private SHPController(SHSGui frame) {
 		/** Main GUI **/
 		this.frame = frame;
 		awayMode = false;
 		isUserLoggedIn = true;
-		user = new Users();
+		user = Users.getUser();
 		/** Control Console **/
-		this.console = new Console(frame.getTextAreaConsoleLog());
+		this.console = Console.getConsole();
 		this.context = new ContextSimulation();
-		this.user = new Users();
-		this.windows = new Windows();
-		this.doors = new Doors();
-		this.lights = new Lights();
+		this.windows = Windows.getWindow();
+		this.doors = Doors.getDoor();
+		this.lights = Lights.getLight();
 		this.startAwayLightTime = frame.getAwayLightsStartTime();
 		this.stopAwayLightTime = frame.getAwayLightsStopTime();
-		this.time = new Time();
+		this.time = Time.getWatch();
 		
 		try {
 			pw = new PrintWriter(new FileOutputStream("SHPControllerLog.txt"));
@@ -373,5 +372,14 @@ public class SHPController {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
 		pw.write("[" + formatter.format(date) + "] " + text + "\n");
+	}
+
+	public static SHPController getShpController() {
+		if (shpController != null)
+			return shpController;
+		else {
+			SHPController.shpController = new SHPController(SHSGui.getShs());
+			return shpController;
+		}
 	}
 }

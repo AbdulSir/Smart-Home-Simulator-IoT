@@ -5,16 +5,19 @@ import java.util.Date;
 
 import javax.swing.JTextArea;
 
+import view.SHSGui;
+
 public class Console {
 
 	private JTextArea textAreaConsoleLog;
+	private static Console console;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param textAreaConsoleLog console log text area
 	 */
-	public Console(JTextArea textAreaConsoleLog) {
+	private Console(JTextArea textAreaConsoleLog) {
 		this.textAreaConsoleLog = textAreaConsoleLog;
 	}
 
@@ -30,5 +33,14 @@ public class Console {
 
 		// display in console log
 		this.textAreaConsoleLog.append("[" + formatter.format(date) + "] " + msg + "\n");
+	}
+
+	public static Console getConsole() {
+		if (console != null)
+			return console;
+		else {
+			Console.console = new Console(SHSGui.getShs().getTextAreaConsoleLog());
+			return console;
+		}
 	}
 }

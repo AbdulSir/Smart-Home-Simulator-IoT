@@ -14,7 +14,7 @@ public class TimeTest {
 	@Test
 	//Use Case ID 3
 	public void timeTest() {
-		Time timeTest = new Time();
+		Time timeTest = Time.getWatch();
 		Date date = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR_OF_DAY,17);
@@ -30,7 +30,7 @@ public class TimeTest {
 		
 	}
 	public void dateTest() {
-		Time timeTest = new Time();
+		Time timeTest = Time.getWatch();
 		Date date = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DATE, 12);

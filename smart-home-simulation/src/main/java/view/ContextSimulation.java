@@ -24,7 +24,7 @@ public class ContextSimulation extends JFrame {
 
 	private JPanel contentPane;
 
-	final Users users = new Users();
+	final Users users = Users.getUser();;
 	private JButton setLocation;
 	private HouseLayout panelHouse;
 	private ReadingJsonFile rjFile;

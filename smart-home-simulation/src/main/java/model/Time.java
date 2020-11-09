@@ -22,7 +22,11 @@ import javax.swing.event.ChangeListener;
 import com.toedter.calendar.JDateChooser;
 
 import controller.Console;
+
+import controller.SHPController;
+
 import controller.SHSController;
+
 import controller.SimulationButton;
 import view.SHSGui;
 
@@ -36,12 +40,16 @@ public class Time {
 	private Timer t;
 	private static Date time;
 	private int increment_time_value;
+
+	private static Time watch;
+
 	private SHSController controller;
+
 
 	/**
 	 * Default constructor
 	 */
-	public Time() {
+	private Time() {
 		date = null;
 		dateChooser = null;
 		t= null;
@@ -181,5 +189,13 @@ public class Time {
 			increment_time_value = 1;
 
 		this.increment_time_value = increment_time_value;
+	}
+	public static Time getWatch() {
+		if (watch != null)
+			return watch;
+		else {
+			Time.watch = new Time();
+			return watch;
+		}
 	}
 }

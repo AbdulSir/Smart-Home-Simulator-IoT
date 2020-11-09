@@ -73,9 +73,6 @@ public class SHSController {
 		/** SHP Controller **/
 		this.securityController=securityController;
 		
-		/** Edit Simulation **/
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton, frame, coreController, securityController);
-
 		/** PrintWriter **/
 		try {
 			pw = new PrintWriter(new FileOutputStream("SHSControllerLog.txt"));

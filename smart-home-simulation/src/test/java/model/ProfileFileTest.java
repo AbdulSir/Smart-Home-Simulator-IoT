@@ -15,8 +15,9 @@ import org.junit.Test;
 public class ProfileFileTest {
 
 	@Test
+	// Delivery 2 Use Case 2. Save the user profiles in a file
 	public void test() {
-		//Create user
+		// Create user
 		Users user1 = new Users("test1", "CHILDREN");
 		try {
 			// File & Object Output Stream
@@ -29,7 +30,7 @@ public class ProfileFileTest {
 			fos.close();
 			oos.close();
 		}
-	
+
 		catch (FileNotFoundException file_exception) {
 			file_exception.printStackTrace();
 		}
@@ -37,9 +38,9 @@ public class ProfileFileTest {
 		catch (IOException io_exception) {
 			io_exception.printStackTrace();
 		}
-		//creating second user 
+		// creating second user
 		Users user2 = null;
-		//reading object from text file
+		// reading object from text file
 		try {
 			FileInputStream fis = new FileInputStream(new File("test.txt"));
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -55,8 +56,8 @@ public class ProfileFileTest {
 			e.printStackTrace();
 		}
 		// Checking if user1 and user2 are the same
-		assertEquals(user1.getName(),user2.getName());
-		assertEquals(user1.getPermission(),user2.getPermission());
+		assertEquals(user1.getName(), user2.getName());
+		assertEquals(user1.getPermission(), user2.getPermission());
 
 	}
 

@@ -18,16 +18,17 @@ public class ManageUserTest {
 		// Add user
 		Users user = new Users("Test", "Parent");
 		boolean userListContains = user.getUserList().contains(user);
-		assertEquals(true,userListContains);
-		
+		assertEquals(true, userListContains);
+
 	}
+
 	@Test
 	public void deleteUserTest() {
 		Users user = new Users("Test", "Parent");
 		boolean userListContains = user.getUserList().contains(user);
-		assertEquals(true,userListContains);
+		assertEquals(true, userListContains);
 		user.getUserList().remove(user);
 		userListContains = user.getUserList().contains(user);
-		assertEquals(false,userListContains);
+		assertEquals(false, userListContains);
 	}
 }

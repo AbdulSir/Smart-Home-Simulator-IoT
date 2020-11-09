@@ -13,15 +13,12 @@ import view.SHSGui;
 public class TimeSpeedTest {
 
 	@Test
-	public void test() {
+	// Delivery 3 Use Case 3. Change the speed of the simulation
+	public void timeSpeedTest() {
 		JSlider testSlider = new JSlider();
 		Time testTime = Time.getWatch();
 		testTime.setIncrement_time_value(10);
-		assertEquals(testTime.getIncrement_time_value(),10);
+		assertEquals(testTime.getIncrement_time_value(), 10);
 	}
-//	public void test2() {
-//		SHSGui frame = new SHSGui();
-//		String timeToString = new SimpleDateFormat("HH:mm").format(new java.util.Date());
-//		frame.getTimeValue().setText(timeToString);
-//	}
+
 }

@@ -43,6 +43,7 @@ public class SHSController {
 	private HouseLayout houseLayout;
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
+	private SHPController securityController;
 	private RoomCounter rooms;
 	private static SHSController shsController;
 	private PrintWriter pw;
@@ -74,8 +75,9 @@ public class SHSController {
 		this.coreController = coreController;
 		this.coreController.setSimButton(simulationButton);
 		
+		/** SHP Controller **/
+		this.securityController=securityController;
 		
-
 		/** PrintWriter **/
 		try {
 			pw = new PrintWriter(new FileOutputStream("SHSControllerLog.txt"));
@@ -165,6 +167,7 @@ public class SHSController {
 				coreController.checkLights();
 				
 				// 2d layout
+				houseLayout = new HouseLayout(rjFile, securityController);
 				houseLayout = HouseLayout.getHouseLayout();
 				frame.getPanelView().add(houseLayout);
 

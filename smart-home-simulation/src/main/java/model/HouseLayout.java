@@ -360,7 +360,7 @@ public class HouseLayout extends JPanel {
 		if (houseLayout != null)
 			return houseLayout;
 		else {
-			HouseLayout.houseLayout = new HouseLayout(SHSController.getSHSController().getRjFile(), SHPController.getShpController());
+			HouseLayout.houseLayout = new HouseLayout(SHSController.getSHSController().getRjFile(), SHPController.getSHPController());
 			return houseLayout;
 		}
 	}

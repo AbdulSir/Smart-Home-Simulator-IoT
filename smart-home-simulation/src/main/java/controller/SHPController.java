@@ -374,11 +374,11 @@ public class SHPController {
 		pw.write("[" + formatter.format(date) + "] " + text + "\n");
 	}
 
-	public static SHPController getShpController() {
+	public static SHPController getSHPController() {
 		if (shpController != null)
 			return shpController;
 		else {
-			SHPController.shpController = new SHPController(SHSGui.getShs());
+			SHPController.shpController = new SHPController(SHSGui.getSHS());
 			return shpController;
 		}
 	}

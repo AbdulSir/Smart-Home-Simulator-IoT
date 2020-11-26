@@ -564,7 +564,7 @@ public class SHSController {
 		if (shsController != null)
 			return shsController;
 		else {
-			SHSController.shsController = new SHSController(SHSGui.getShs(),SHCController.getShcController(),SHPController.getShpController());
+			SHSController.shsController = new SHSController(SHSGui.getSHS(),SHCController.getSHCController(),SHPController.getSHPController());
 			return shsController;
 		}
 		

@@ -117,10 +117,10 @@ public class SHSGui extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SHSGui frame = getShs();
+					SHSGui frame = getSHS();
 					// Controller
-					securityController = SHPController.getShpController();
-					coreController = SHCController.getShcController();
+					securityController = SHPController.getSHPController();
+					coreController = SHCController.getSHCController();
 					controller = SHSController.getSHSController();
 					securityController.setSimulationButton(controller.getSimulationButton());
 					frame.setVisible(true);
@@ -1436,7 +1436,7 @@ public class SHSGui extends JFrame {
 		return awayLightsStopTime;
 	}
 
-	public static SHSGui getShs() {
+	public static SHSGui getSHS() {
 		if (shs != null)
 			return shs;
 		else {

@@ -35,6 +35,11 @@ public class ContextSimulation extends JFrame {
 	private JButton blockAllButton;
 	private JButton unblockAllButton;
 	private JButton sendUsersOutisdeBtn;
+	private JComboBox comboBoxWinterStart;
+	private JComboBox comboBoxWinterEnd;
+	private JComboBox comboBoxSummerStart;
+	private JComboBox comboBoxSummerEnd;
+	private JButton setSeasonsBtn;
 
 	/**
 	 * Launch the application.
@@ -59,7 +64,7 @@ public class ContextSimulation extends JFrame {
 		setTitle("Edit Context of Simulation");
 
 		/** Window Size **/
-		setBounds(250, 250, 306, 440);
+		setBounds(250, 250, 648, 500);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -181,6 +186,62 @@ public class ContextSimulation extends JFrame {
 		unblockAllButton.setBounds(16, 115, 117, 29);
 		panelBlockWindows.add(unblockAllButton);
 		panelWindows.add(labelWindows);
+		
+		JPanel panelSeasons = new JPanel();
+		panelSeasons.setLayout(null);
+		panelSeasons.setBackground(Color.WHITE);
+		panelSeasons.setBounds(269, 138, 326, 216);
+		contentPane.add(panelSeasons);
+		
+		JPanel panelChangeSeasons = new JPanel();
+		panelChangeSeasons.setLayout(null);
+		panelChangeSeasons.setBounds(16, 40, 304, 170);
+		panelSeasons.add(panelChangeSeasons);
+		
+		JLabel labelWinterStart = new JLabel("Winter (Start):");
+		labelWinterStart.setBounds(6, 27, 101, 16);
+		panelChangeSeasons.add(labelWinterStart);
+		
+		String[] monthsArray = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+		comboBoxWinterStart = new JComboBox();
+		comboBoxWinterStart.setBounds(119, 23, 152, 27);
+		comboBoxWinterStart.setModel(new DefaultComboBoxModel(monthsArray));
+		panelChangeSeasons.add(comboBoxWinterStart);
+		
+		JLabel lblWinterEnd = new JLabel("Winter (End):");
+		lblWinterEnd.setBounds(6, 55, 101, 16);
+		panelChangeSeasons.add(lblWinterEnd);
+		
+		comboBoxWinterEnd = new JComboBox();
+		comboBoxWinterEnd.setBounds(119, 51, 152, 27);
+		comboBoxWinterEnd.setModel(new DefaultComboBoxModel(monthsArray));
+		panelChangeSeasons.add(comboBoxWinterEnd);
+		
+		JLabel lblSummerstart = new JLabel("Summer (Start):");
+		lblSummerstart.setBounds(6, 83, 101, 16);
+		panelChangeSeasons.add(lblSummerstart);
+		
+		comboBoxSummerStart = new JComboBox();
+		comboBoxSummerStart.setBounds(119, 79, 152, 27);
+		comboBoxSummerStart.setModel(new DefaultComboBoxModel(monthsArray));
+		panelChangeSeasons.add(comboBoxSummerStart);
+		
+		JLabel lblSummerend = new JLabel("Summer (End):");
+		lblSummerend.setBounds(6, 111, 101, 16);
+		panelChangeSeasons.add(lblSummerend);
+		
+		comboBoxSummerEnd = new JComboBox();
+		comboBoxSummerEnd.setBounds(119, 107, 152, 27);
+		comboBoxSummerEnd.setModel(new DefaultComboBoxModel(monthsArray));
+		panelChangeSeasons.add(comboBoxSummerEnd);
+		
+		setSeasonsBtn = new JButton("Set Seasons");
+		setSeasonsBtn.setBounds(181, 135, 117, 29);
+		panelChangeSeasons.add(setSeasonsBtn);
+		
+		JLabel labelWindows_1 = new JLabel("Set Winter/Summer Months");
+		labelWindows_1.setBounds(6, 12, 183, 16);
+		panelSeasons.add(labelWindows_1);
 	}
 
 	/**
@@ -291,4 +352,75 @@ public class ContextSimulation extends JFrame {
 	public void setSendUsersOutisdeBtn(JButton sendUsersOutisdeBtn) {
 		this.sendUsersOutisdeBtn = sendUsersOutisdeBtn;
 	}
+
+	/**
+	 * Getter
+	 */
+	public JComboBox getComboBoxWinterStart() {
+		return comboBoxWinterStart;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setComboBoxWinterStart(JComboBox comboBoxWinterStart) {
+		this.comboBoxWinterStart = comboBoxWinterStart;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JComboBox getComboBoxWinterEnd() {
+		return comboBoxWinterEnd;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setComboBoxWinterEnd(JComboBox comboBoxWinterEnd) {
+		this.comboBoxWinterEnd = comboBoxWinterEnd;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JComboBox getComboBoxSummerStart() {
+		return comboBoxSummerStart;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setComboBoxSummerStart(JComboBox comboBoxSummerStart) {
+		this.comboBoxSummerStart = comboBoxSummerStart;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JComboBox getComboBoxSummerEnd() {
+		return comboBoxSummerEnd;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setComboBoxSummerEnd(JComboBox comboBoxSummerEnd) {
+		this.comboBoxSummerEnd = comboBoxSummerEnd;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getSetSeasonsBtn() {
+		return setSeasonsBtn;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setSetSeasonsBtn(JButton setSeasonsBtn) {
+		this.setSeasonsBtn = setSeasonsBtn;
+	}
+	
 }

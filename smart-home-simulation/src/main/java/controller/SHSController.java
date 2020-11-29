@@ -51,7 +51,7 @@ public class SHSController {
 
 	}
 
-	private SHSController(SHSGui frame, SHCController coreController, SHPController securityController) {
+	private SHSController(SHSGui frame, SHCController coreController, SHPController securityController, SHHController heat) {
 		/** Main GUI **/
 		this.frame = frame;
 		user = Users.getUser();
@@ -92,7 +92,7 @@ public class SHSController {
 		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console, this);
 		
 		/** Edit Simulation **/
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton, frame, coreController, securityController, this);
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton, frame, coreController, securityController, this, heat);
 		
 		// Open File
 		readFileEvent();
@@ -564,7 +564,7 @@ public class SHSController {
 		if (shsController != null)
 			return shsController;
 		else {
-			SHSController.shsController = new SHSController(SHSGui.getShs(),SHCController.getShcController(),SHPController.getShpController());
+			SHSController.shsController = new SHSController(SHSGui.getSHS(),SHCController.getSHCController(),SHPController.getSHPController(), SHHController.getSHHController());
 			return shsController;
 		}
 		

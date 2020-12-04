@@ -42,7 +42,7 @@ public class ProfileFileTest {
 		Users user2 = null;
 		// reading object from text file
 		try {
-			FileInputStream fis = new FileInputStream(new File("test.txt"));
+			FileInputStream fis = new FileInputStream(new File("JUnitTest.txt"));
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			user2 = (Users) ois.readObject();
 

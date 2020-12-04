@@ -28,13 +28,14 @@ public class EditSimulation {
 	private SHCController core;
 	private SHPController security;
 	private SHSController controller;
+	private SHHController heat;
 	private RoomCounter rooms;
 
 	/**
 	 * Constructor
 	 */
-	public EditSimulation(JButton editContext, Users user, Console console, SimulationButton simulationButton, SHSGui frame, SHCController core,
-			SHPController security, SHSController controller){
+	public EditSimulation(JButton editContext, Users user, Console console, SimulationButton simulationButton,
+			SHSGui frame, SHCController core, SHPController security, SHSController controller, SHHController heat) {
 		this.context = new ContextSimulation();
 		this.editContext = editContext;
 		this.user = user;
@@ -46,6 +47,7 @@ public class EditSimulation {
 		windows = Windows.getWindow();
 		rooms = RoomCounter.getRoomCounter();
 		this.controller = controller;
+		this.heat = heat;
 
 		// event handler
 		createEvents();
@@ -89,18 +91,17 @@ public class EditSimulation {
 				if (oldLocation.equalsIgnoreCase(newLocation) && oldLocation.equalsIgnoreCase("Outside")) {
 					console.msg(userToMove + " is still outside of the house");
 					controller.appendToLog(userToMove + " is still outside of the house");
-				}
-				else if (oldLocation.equalsIgnoreCase(newLocation)) {
+				} else if (oldLocation.equalsIgnoreCase(newLocation)) {
 					console.msg(userToMove + " is still in the " + newLocation);
 					controller.appendToLog(userToMove + " is still in the " + newLocation);
-				}
-				else if (!newLocation.equalsIgnoreCase("Outside")) {
+				} else if (!newLocation.equalsIgnoreCase("Outside")) {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
-					controller.appendToLog(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
-				}
-				else {
+					controller
+							.appendToLog(userToMove + " has moved from the " + oldLocation + " to the " + newLocation);
+				} else {
 					console.msg(userToMove + " has moved from the " + oldLocation + " to outside of the house");
-					controller.appendToLog(userToMove + " has moved from the " + oldLocation + " to outside of the house");
+					controller.appendToLog(
+							userToMove + " has moved from the " + oldLocation + " to outside of the house");
 				}
 
 				core.checkLights();
@@ -169,15 +170,21 @@ public class EditSimulation {
 					paint();
 				} else {
 					if (core.isUserLoggedIn()) {
-						if(!loggedUser.getLocation().equals(location) && !loggedUser.getPermission().equals("STRANGER")) {
+						if (!loggedUser.getLocation().equals(location)
+								&& !loggedUser.getPermission().equals("STRANGER")) {
 							console.msg("You do not have the permission to execute this command. Reason: Location");
-							controller.appendToLog("You do not have the permission to execute this command. Reason: Location");
-						} else if(security.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")){
-							console.msg("You do not have the permission to execute this command. Reason: Away Mode is activated");
-							controller.appendToLog("You do not have the permission to execute this command. Reason: Away Mode is activated");
+							controller.appendToLog(
+									"You do not have the permission to execute this command. Reason: Location");
+						} else if (security.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")) {
+							console.msg(
+									"You do not have the permission to execute this command. Reason: Away Mode is activated");
+							controller.appendToLog(
+									"You do not have the permission to execute this command. Reason: Away Mode is activated");
 						} else {
-							console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
-							controller.appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
+							console.msg(
+									"You do not have the permission to execute this command. Reason: Permission status of user");
+							controller.appendToLog(
+									"You do not have the permission to execute this command. Reason: Permission status of user");
 						}
 					}
 				}
@@ -195,15 +202,20 @@ public class EditSimulation {
 					paint();
 				} else {
 					if (core.isUserLoggedIn()) {
-						if(!loggedUser.getLocation().equals("ALL") && !loggedUser.getPermission().equals("STRANGER")) {
+						if (!loggedUser.getLocation().equals("ALL") && !loggedUser.getPermission().equals("STRANGER")) {
 							console.msg("You do not have the permission to execute this command. Reason: Location");
-							controller.appendToLog("You do not have the permission to execute this command. Reason: Location");
-						} else if(security.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")){
-							console.msg("You do not have the permission to execute this command. Reason: Away Mode is activated");
-							controller.appendToLog("You do not have the permission to execute this command. Reason: Away Mode is activated");
+							controller.appendToLog(
+									"You do not have the permission to execute this command. Reason: Location");
+						} else if (security.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")) {
+							console.msg(
+									"You do not have the permission to execute this command. Reason: Away Mode is activated");
+							controller.appendToLog(
+									"You do not have the permission to execute this command. Reason: Away Mode is activated");
 						} else {
-							console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
-							controller.appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
+							console.msg(
+									"You do not have the permission to execute this command. Reason: Permission status of user");
+							controller.appendToLog(
+									"You do not have the permission to execute this command. Reason: Permission status of user");
 						}
 					}
 				}
@@ -221,15 +233,20 @@ public class EditSimulation {
 					paint();
 				} else {
 					if (core.isUserLoggedIn()) {
-						if(!loggedUser.getLocation().equals("ALL") && !loggedUser.getPermission().equals("STRANGER")) {
+						if (!loggedUser.getLocation().equals("ALL") && !loggedUser.getPermission().equals("STRANGER")) {
 							console.msg("You do not have the permission to execute this command. Reason: Location");
-							controller.appendToLog("You do not have the permission to execute this command. Reason: Location");
-						} else if(security.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")){
-							console.msg("You do not have the permission to execute this command. Reason: Away Mode is activated");
-							controller.appendToLog("You do not have the permission to execute this command. Reason: Away Mode is activated");
+							controller.appendToLog(
+									"You do not have the permission to execute this command. Reason: Location");
+						} else if (security.getAwayMode() && !loggedUser.getPermission().equals("STRANGER")) {
+							console.msg(
+									"You do not have the permission to execute this command. Reason: Away Mode is activated");
+							controller.appendToLog(
+									"You do not have the permission to execute this command. Reason: Away Mode is activated");
 						} else {
-							console.msg("You do not have the permission to execute this command. Reason: Permission status of user");
-							controller.appendToLog("You do not have the permission to execute this command. Reason: Permission status of user");
+							console.msg(
+									"You do not have the permission to execute this command. Reason: Permission status of user");
+							controller.appendToLog(
+									"You do not have the permission to execute this command. Reason: Permission status of user");
 						}
 					}
 				}
@@ -240,8 +257,8 @@ public class EditSimulation {
 		this.context.getSendUsersOutisdeBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < user.getUserList().size(); i++) {
-					for(int j = 0; j < rooms.getRooms().size(); j++) {
-						if(user.getUserList().get(i).getLocation().equals(rooms.getRooms().get(j).getLocation())) {
+					for (int j = 0; j < rooms.getRooms().size(); j++) {
+						if (user.getUserList().get(i).getLocation().equals(rooms.getRooms().get(j).getLocation())) {
 							rooms.getRooms().get(j).decrementCounter();
 							break;
 						}
@@ -253,7 +270,30 @@ public class EditSimulation {
 				controller.appendToLog("All of the users have been moved to the outside of the house");
 			}
 		});
-		
+
+		this.context.getSetSeasonsBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String winterStart = context.getComboBoxWinterStart().getSelectedItem().toString();
+				String winterEnd = context.getComboBoxWinterEnd().getSelectedItem().toString();
+				String summerStart = context.getComboBoxSummerStart().getSelectedItem().toString();
+				String summerEnd = context.getComboBoxSummerEnd().getSelectedItem().toString();
+				int winterStartMonth = getNumericalMonth(winterStart);
+				int winterEndMonth = getNumericalMonth(winterEnd);
+				int summerStartMonth = getNumericalMonth(summerStart);
+				int summerEndMonth = getNumericalMonth(summerEnd);
+				ArrayList<Integer> winter = createSeason(winterStartMonth,winterEndMonth);
+				ArrayList<Integer> summer = createSeason(summerStartMonth,summerEndMonth);
+				if (!hasOverlap(winter, summer)) {
+					heat.setSummerSeason(getStringSeason(summer));
+					heat.setWinterSeason(getStringSeason(winter));
+					console.msg("Winter months have been set from " + winterStart + " to " + winterEnd);
+					console.msg("Summer months have been set from " + summerStart + " to " + summerEnd);
+				} else {
+					console.msg("The winter and summer months are not valid because they overlap each other");
+				}
+			}
+		});
+
 		/** User ComboBox **/
 		PopupMenuListener userListListener = new PopupMenuListener() {
 			boolean initialized = false;
@@ -279,10 +319,110 @@ public class EditSimulation {
 	 * Repaints frame if the simulator is on
 	 */
 	private void paint() {
-		if(simulationButton.isSimulatorState())
+		if (simulationButton.isSimulatorState())
 			frame.repaint();
 	}
+
+	private int getNumericalMonth(String month) {
+		switch (month) {
+		case "January":
+			return 1;
+		case "February":
+			return 2;
+		case "March":
+			return 3;
+		case "April":
+			return 4;
+		case "May":
+			return 5;
+		case "June":
+			return 6;
+		case "July":
+			return 7;
+		case "August":
+			return 8;
+		case "September":
+			return 9;
+		case "October":
+			return 10;
+		case "November":
+			return 11;
+		case "December":
+			return 12;
+		default:
+			return 0;
+		}
+	}
 	
+	private ArrayList<String> getStringSeason(ArrayList<Integer> season) {
+		ArrayList<String> seasonString = new ArrayList<String>(); 
+		for (int a : season) {
+			switch(a) {
+			case 1:
+				seasonString.add("January");
+				break;
+			case 2:
+				seasonString.add("February");
+				break;
+			case 3:
+				seasonString.add("March");
+				break;
+			case 4:
+				seasonString.add("April");
+				break;
+			case 5:
+				seasonString.add("May");
+				break;
+			case 6:
+				seasonString.add("June");
+				break;
+			case 7:
+				seasonString.add("July");
+				break;
+			case 8:
+				seasonString.add("August");
+				break;
+			case 9:
+				seasonString.add("September");
+				break;
+			case 10:
+				seasonString.add("October");
+				break;
+			case 11:
+				seasonString.add("November");
+				break;
+			case 12:
+				seasonString.add("December");
+				break;
+			default:
+				break;
+			}
+		}
+		return seasonString;
+	}
+
+	private ArrayList<Integer> createSeason(int start, int end) {
+		ArrayList<Integer> season = new ArrayList<Integer>();
+		int a = start;
+		while (!season.contains(start) || !season.contains(end)) {
+			season.add(a);
+			if(a == 12)
+				a = 1;
+			else
+				a++;
+		}
+		return season;
+	}
+	
+	private boolean hasOverlap(ArrayList<Integer> winter, ArrayList<Integer> summer) {
+		for (int i = 0; i < winter.size(); i++) {
+			for (int j = 0; j < summer.size(); j++) {
+				if(winter.get(i) == summer.get(j))
+					return true;
+			}
+		}
+		return false;
+	}
 	/**
 	 * Getter
 	 */

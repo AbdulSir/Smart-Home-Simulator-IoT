@@ -382,11 +382,11 @@ public class SHCController {
 		pw.write("[" + formatter.format(date) + "] " + text + "\n");
 	}
 
-	public static SHCController getShcController() {
+	public static SHCController getSHCController() {
 		if (shcController != null)
 			return shcController;
 		else {
-			SHCController.shcController = new SHCController(SHSGui.getShs(),SHPController.getShpController());
+			SHCController.shcController = new SHCController(SHSGui.getSHS(),SHPController.getSHPController());
 			return shcController;
 		}
 	}

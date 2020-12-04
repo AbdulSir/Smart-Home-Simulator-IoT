@@ -31,6 +31,7 @@ import com.toedter.calendar.JDateChooser;
 import controller.SHSController;
 import controller.SHPController;
 import controller.SHCController;
+import controller.SHHController;
 import model.Users;
 import model.ReadingJsonFile;
 
@@ -109,6 +110,7 @@ public class SHSGui extends JFrame {
 	private static SHPController securityController;
 	private static SHCController coreController;
 	private static SHSController controller;
+	private static SHHController heatController;
 
 	/**
 	 * Launch the application.
@@ -117,11 +119,12 @@ public class SHSGui extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SHSGui frame = getShs();
+					SHSGui frame = getSHS();
 					// Controller
-					securityController = SHPController.getShpController();
-					coreController = SHCController.getShcController();
+					securityController = SHPController.getSHPController();
+					coreController = SHCController.getSHCController();
 					controller = SHSController.getSHSController();
+					heatController = SHHController.getSHHController();
 					securityController.setSimulationButton(controller.getSimulationButton());
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -314,6 +317,10 @@ public class SHSGui extends JFrame {
 		JPanel panelSHS = new JPanel();
 		tabbedPane.addTab("SHS", null, panelSHS, null);
 		pressbuttonEditContext = new JButton("Edit Context Of Simulator");
+		pressbuttonEditContext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 
 		JPanel panelUser = new JPanel();
 		enterNewUsername = new JTextField();
@@ -675,34 +682,50 @@ public class SHSGui extends JFrame {
 		/** Form Open Button **/
 
 		JPanel panel = new JPanel();
+		
+		JPanel panel_3 = new JPanel();
+		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
+		gl_panel_3.setHorizontalGroup(
+			gl_panel_3.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 459, Short.MAX_VALUE)
+		);
+		gl_panel_3.setVerticalGroup(
+			gl_panel_3.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 56, Short.MAX_VALUE)
+		);
+		panel_3.setLayout(gl_panel_3);
 
 		GroupLayout gl_panelProfile = new GroupLayout(panelProfile);
 		gl_panelProfile.setHorizontalGroup(
 			gl_panelProfile.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelProfile.createSequentialGroup()
 					.addGap(153)
-					.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+					.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
 					.addGap(148))
 				.addGroup(gl_panelProfile.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+					.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
 					.addContainerGap())
 				.addGroup(gl_panelProfile.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+					.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
 					.addContainerGap())
 				.addGroup(gl_panelProfile.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+					.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
 					.addContainerGap())
 				.addGroup(gl_panelProfile.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 420, Short.MAX_VALUE)
+					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 452, Short.MAX_VALUE)
 					.addContainerGap())
 				.addGroup(gl_panelProfile.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
 					.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 459, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_panelProfile.setVerticalGroup(
 			gl_panelProfile.createParallelGroup(Alignment.LEADING)
@@ -710,7 +733,7 @@ public class SHSGui extends JFrame {
 					.addContainerGap()
 					.addComponent(togglebuttonSimulator)
 					.addGap(7)
-					.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+					.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -719,7 +742,9 @@ public class SHSGui extends JFrame {
 					.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
-					.addGap(192))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
+					.addGap(130))
 		);
 
 		JLabel dateLabel = new JLabel("Date");
@@ -1436,7 +1461,7 @@ public class SHSGui extends JFrame {
 		return awayLightsStopTime;
 	}
 
-	public static SHSGui getShs() {
+	public static SHSGui getSHS() {
 		if (shs != null)
 			return shs;
 		else {

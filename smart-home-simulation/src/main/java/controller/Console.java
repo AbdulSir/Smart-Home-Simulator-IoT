@@ -39,7 +39,7 @@ public class Console {
 		if (console != null)
 			return console;
 		else {
-			Console.console = new Console(SHSGui.getShs().getTextAreaConsoleLog());
+			Console.console = new Console(SHSGui.getSHS().getTextAreaConsoleLog());
 			return console;
 		}
 	}

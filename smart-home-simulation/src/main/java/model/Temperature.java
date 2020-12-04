@@ -49,22 +49,13 @@ public class Temperature {
 
 		in.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				// get text value
-				String insideTempStrValue = in.getText();
-				// change str to int
-				int insideTempIntValue = Integer.parseInt(insideTempStrValue);
-				// call set method
-				setInsideTemp(insideTempIntValue);
-				frame.getIndoorHouseTempValue().setText(insideTempStrValue + "\u00B0C");
-				console.msg("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
-				controller.appendToLog(
-						"The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
-			}
+				setInsideTemperatureFunction(in, frame, console, controller);
+				}
 		});
 	}
 
 	/**
-	 * set temperature outside in constructor
+	 * set temperature outside method in constructor
 	 */
 	public void setOutsideTemperatureFunction(JTextField out, SHSGui frame, Console console, SHSController controller) {
 		// get text value
@@ -80,7 +71,7 @@ public class Temperature {
 	}
 
 	/**
-	 * set temperature outside in constructor
+	 * set temperature inside method in constructor
 	 */
 	public void setInsideTemperatureFunction(JTextField in, SHSGui frame, Console console, SHSController controller) {
 		// get text value

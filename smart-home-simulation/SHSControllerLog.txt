@@ -1,2 +1,2 @@
-[04/12/2020 16:37:41] The temperature for the inside of the house has been set at 13°C
-[04/12/2020 16:37:45] The temperature for the outside of the house has been set at 12°C
+[04/12/2020 16:49:55] The temperature for the outside of the house has been set at 13°C
+[04/12/2020 16:49:57] The temperature for the inside of the house has been set at 16°C

@@ -1,4 +1,2 @@
-[04/12/2020 15:24:08] The time has been set at 15:24
-[04/12/2020 15:24:08] The date has been set to 3-Dec-2020
-[04/12/2020 15:25:30] Simulator ON
-[04/12/2020 15:25:35] Simulator OFF
+[04/12/2020 16:37:41] The temperature for the inside of the house has been set at 13°C
+[04/12/2020 16:37:45] The temperature for the outside of the house has been set at 12°C

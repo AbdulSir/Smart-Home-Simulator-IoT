@@ -24,7 +24,6 @@ public class Temperature {
 	private static Temperature temperature;
 	private SHSController controller;
 
-
 	/**
 	 * Constructor
 	 */
@@ -35,26 +34,16 @@ public class Temperature {
 	 * Parametrized Constructor
 	 */
 
-
-
-	public Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console, SHSController controller) {
+	public Temperature(SHSGui frame, final JTextField out, final JTextField in, final Console console,
+			SHSController controller) {
 
 		this.frame = frame;
 		this.console = console;
 		this.controller = controller;
-		
+
 		out.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-
-				// get text value
-				String outsideTempStrValue = out.getText();
-				// change str to int
-				int outsideTempIntValue = Integer.parseInt(outsideTempStrValue);
-				// call set method
-				setOutsideTemp(outsideTempIntValue);
-				frame.getOutdoorTemperatureValue().setText(outsideTempStrValue + "\u00B0C");
-				console.msg("The temperature for the outside of the house has been set at " + outsideTemp + "\u00B0C");
-				controller.appendToLog("The temperature for the outside of the house has been set at " + outsideTemp + "\u00B0C");
+				setOutsideTemperatureFunction(out, frame, console, controller);
 			}
 		});
 
@@ -68,9 +57,42 @@ public class Temperature {
 				setInsideTemp(insideTempIntValue);
 				frame.getIndoorHouseTempValue().setText(insideTempStrValue + "\u00B0C");
 				console.msg("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
-				controller.appendToLog("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
+				controller.appendToLog(
+						"The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
 			}
 		});
+	}
+
+	/**
+	 * set temperature outside in constructor
+	 */
+	public void setOutsideTemperatureFunction(JTextField out, SHSGui frame, Console console, SHSController controller) {
+		// get text value
+		String outsideTempStrValue = out.getText();
+		// change str to int
+		int outsideTempIntValue = Integer.parseInt(outsideTempStrValue);
+		// call set method
+		setOutsideTemp(outsideTempIntValue);
+		frame.getOutdoorTemperatureValue().setText(outsideTempStrValue + "\u00B0C");
+		console.msg("The temperature for the outside of the house has been set at " + outsideTemp + "\u00B0C");
+		controller
+				.appendToLog("The temperature for the outside of the house has been set at " + outsideTemp + "\u00B0C");
+	}
+
+	/**
+	 * set temperature outside in constructor
+	 */
+	public void setInsideTemperatureFunction(JTextField in, SHSGui frame, Console console, SHSController controller) {
+		// get text value
+		String insideTempStrValue = in.getText();
+		// change str to int
+		int insideTempIntValue = Integer.parseInt(insideTempStrValue);
+		// call set method
+		setInsideTemp(insideTempIntValue);
+		frame.getIndoorHouseTempValue().setText(insideTempStrValue + "\u00B0C");
+		console.msg("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
+		controller.appendToLog(
+				"The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
 	}
 
 	/**
@@ -100,6 +122,7 @@ public class Temperature {
 	public void setInsideTemp(int x) {
 		this.insideTemp = x;
 	}
+
 	public static Temperature getTemperature() {
 		if (temperature != null)
 			return temperature;

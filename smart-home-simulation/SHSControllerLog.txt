@@ -1,0 +1,4 @@
+[04/12/2020 15:24:08] The time has been set at 15:24
+[04/12/2020 15:24:08] The date has been set to 3-Dec-2020
+[04/12/2020 15:25:30] Simulator ON
+[04/12/2020 15:25:35] Simulator OFF

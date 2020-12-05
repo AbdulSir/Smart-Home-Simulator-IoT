@@ -3,14 +3,23 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 
+import model.ReadingJsonFile;
 import model.RoomCounter;
 import model.Temperature;
+import model.Time;
 import model.Users;
 import view.SHSGui;
 
@@ -22,79 +31,194 @@ public class SHHController {
 	private ArrayList<String> winterMonths;
 	private ArrayList<String> summerMonths;
 	private static SHHController shhController;
-//	private ArrayList<RoomCounter> rooms;
-	
-	public SHHController() {}
-	
+	private ArrayList<RoomCounter> rooms;
+	private ReadingJsonFile rjFile;
+	private Time time;
+	private int desiredTemp;
+
+	public SHHController() {
+	}
+
 	public SHHController(SHSGui frame) {
 		this.frame = frame;
 		this.console = Console.getConsole();
 		this.user = Users.getUser();
-//		this.rooms = RoomCounter.getRooms();
+		rooms = RoomCounter.getRooms();
+		this.time = Time.getWatch();
+		UserEvents();
 	}
-	
-	/**
-	 * arbitrarily group rooms in a zone
-	 * zone1 contains BedRM and Master BedRM
-	 * zone2 contains LivingRM and Kitchen
-	 * zone3 contains BathRM and Garage
-	 */
-	private RoomCounter[] zone1 = {RoomCounter.getBedRM(), RoomCounter.getMasterBedRM()};
-	private RoomCounter[] zone2 = {RoomCounter.getLivingRM(), RoomCounter.getKitchen()};
-	private RoomCounter[] zone3 = {RoomCounter.getBathRM(), RoomCounter.getGarage()};
-	
-	
+
 	private void UserEvents() {
-//		final JComboBox zoneComboBox = this.frame.getZoneComboBox();
-//		zoneComboBox.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				String currentZoneSelected = zoneComboBox.getSelectedItem().toString();
-//				switch(currentZoneSelected) {
-//				case "ZONE 1":
-//					frame.getDisplayZoneLabel().setText(currentZoneSelected + "" + zone1.toString());
-//					break;
-//				case "ZONE 2":
-//					frame.getDisplayZoneLabel().setText(currentZoneSelected + "" + zone2.toString());
-//					break;
-//				case "ZONE 3":
-//					frame.getDisplayZoneLabel().setText(currentZoneSelected + "" + zone3.toString());
-//					break;
-//				default:
-//					frame.getDisplayZoneLabel().setText("");
-//					break;	
-//				}
-//				frame.repaint();
-//			}
-//		});
+
+		/**
+		 * Select Zone event
+		 */
+		final JComboBox zoneComboBox = this.frame.getZoneComboBox();
+		zoneComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				String currentZoneSelected = zoneComboBox.getSelectedItem().toString();
+
+				/**
+				 * Display rooms in a zone in SHH
+				 */
+				switch (currentZoneSelected) {
+				case "ZONE 1":
+					frame.getDisplayZoneLabel().setText(getRoomZone(1));
+					break;
+				case "ZONE 2":
+					frame.getDisplayZoneLabel().setText(getRoomZone(2));
+					break;
+				case "ZONE 3":
+					frame.getDisplayZoneLabel().setText(getRoomZone(3));
+					break;
+				default:
+					frame.getDisplayZoneLabel().setText("");
+					break;
+				}
+			}
+		});
+
+		/**
+		 * Select room to add to zone event
+		 */
+		JButton btnAddRoomToZone = this.frame.getBtnAddRoomToZone();
+		JComboBox roomToZoneComboBox = this.frame.getRoomToZoneComboBox();
+		btnAddRoomToZone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String currentZoneSelected = zoneComboBox.getSelectedItem().toString();
+				int currentRoomSelected = roomToZoneComboBox.getSelectedIndex();
+
+				switch (currentZoneSelected) {
+				case "ZONE 1":
+					rooms.get(currentRoomSelected).setZone(1);
+					break;
+				case "ZONE 2":
+					rooms.get(currentRoomSelected).setZone(2);
+					break;
+				case "ZONE 3":
+					rooms.get(currentRoomSelected).setZone(3);
+					break;
+				}
+			}
+		});
+
+		/**
+		 * Adding desired temperature for a period of time
+		 */
+		JButton btnAcceptPeriod = this.frame.getBtnAcceptPeriod();
+		JComboBox periodComboBox = this.frame.getPeriodComboBox();
+		JSpinner initalPeriod = this.frame.getInitialPeriodJSpinner();
+		JSpinner finalPeriod = this.frame.getFinalPeriodJSpinner();
+
+		JTextField desiredTempTextField = this.frame.getDesiredTempTextField();
+
+		desiredTempTextField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String desiredTempStr = desiredTempTextField.getText();
+				setDesiredTemp(Integer.parseInt(desiredTempStr));
+			}
+		});
+
+		btnAcceptPeriod.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int currentZoneSelected = zoneComboBox.getSelectedIndex();
+				String currentPeriodSelected = periodComboBox.getSelectedItem().toString();
+
+				Date initalPeriodTime = (Date) initalPeriod.getValue();
+				String formattedInitialPeriodTime = new SimpleDateFormat("HH:mm").format(initalPeriodTime);
+
+				Date finalPeriodTime = (Date) finalPeriod.getValue();
+				String formattedfinalPeriodTime = new SimpleDateFormat("HH:mm").format(finalPeriodTime);
+
+				Timer clockTimer = new Timer();
+				clockTimer.schedule(new TimerTask() {
+					public void run() {
+						Date currentTime = time.getTime();
+						String formattedCurrentTime = new SimpleDateFormat("HH:mm").format(currentTime);
+
+						if (currentTime != null && initalPeriodTime != null) {
+							if ((formattedCurrentTime).compareTo(formattedInitialPeriodTime) > 0
+									&& (formattedCurrentTime).compareTo(formattedfinalPeriodTime) < 0) {
+								// all rooms of selected zone will have desired temperature for this period of
+								// time
+								for (int i = 0; i < rooms.size(); i++) {
+									if (currentZoneSelected + 1 == rooms.get(i).getZone()) {
+										rooms.get(i).setTemperature(desiredTemp);
+									}
+								}
+							}
+						}
+
+//						if (currentTime != null && finalPeriodTime != null) {
+//							if ((formattedCurrentTime).compareTo(formattedfinalPeriodTime) > 0) {
+//								
+//							}
+//						}
+					}
+				}, 50, 50);
+
+			}
+		});
 	}
-	
+
 	/**
-	 * Getter 
+	 * Get the zone of a room
+	 * 
+	 * @param zoneNum
+	 * @return
+	 */
+	private String getRoomZone(int zoneNum) {
+		String roomsList = "";
+		for (int i = 0; i < rooms.size(); i++) {
+			if (zoneNum == rooms.get(i).getZone()) {
+				roomsList += rooms.get(i).getLocation() + ", ";
+			}
+		}
+		return roomsList;
+	}
+
+	private int setDesiredTemp(String temp) {
+
+		return 0;
+	}
+
+	/**
+	 * Getter
 	 */
 	public ArrayList<String> getWinterSeason() {
 		return winterMonths;
 	}
 
 	/**
-	 * Setter 
+	 * Setter
 	 */
 	public void setWinterSeason(ArrayList<String> winterMonths) {
 		this.winterMonths = winterMonths;
 	}
+
 	/**
-	 * Getter 
+	 * Getter
 	 */
 	public ArrayList<String> getSummerSeason() {
 		return summerMonths;
 	}
 
 	/**
-	 * Setter 
+	 * Setter
 	 */
 	public void setSummerSeason(ArrayList<String> summerMonths) {
 		this.summerMonths = summerMonths;
 	}
-	
+
+	/**
+	 * Setter
+	 */
+	public void setDesiredTemp(int desiredTemp) {
+		this.desiredTemp = desiredTemp;
+	}
+
 	public static SHHController getSHHController() {
 		if (shhController != null)
 			return shhController;
@@ -102,7 +226,7 @@ public class SHHController {
 			SHHController.shhController = new SHHController(SHSGui.getSHS());
 			return shhController;
 		}
-		
+
 	}
-	
+
 }

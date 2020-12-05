@@ -7,29 +7,22 @@ public class RoomCounter {
 	private int count;
 	private static ArrayList<RoomCounter> rooms = new ArrayList<RoomCounter>();
 	private static RoomCounter roomCounter;
-	private static RoomCounter BedRM;	
-	private static RoomCounter MasterBedRM;
-	private static RoomCounter BathRM;
-	private static RoomCounter Kitchen;
-	private static RoomCounter LivingRM;
-	private static RoomCounter Garage;	
-	
+	private int temperature;
+	private int zone;
+
 	/** Default Constructor **/
-	private RoomCounter() {}
-	
+	private RoomCounter() {
+	}
+
 	/** Parametrized Constructor **/
 	public RoomCounter(String location) {
 		this.location = location;
 		count = 0;
 		rooms.add(this);
-		BedRM = rooms.get(0);
-		MasterBedRM = rooms.get(1);
-		BathRM = rooms.get(2);
-		Kitchen = rooms.get(3);
-		LivingRM = rooms.get(4);
-		Garage = rooms.get(5);
+		setTemperature(0);
+		zone = 1;
 	}
-	
+
 	/**
 	 * Method will increment the count when someone enters a room
 	 */
@@ -43,47 +36,52 @@ public class RoomCounter {
 	public void decrementCounter() {
 		count--;
 	}
+
 	/**
-	 * Getter 
+	 * Getter
 	 */
 	public String getLocation() {
 		return location;
 	}
 
 	/**
-	 * Setter 
+	 * Setter
 	 */
 	public void setLocation(String location) {
 		this.location = location;
 	}
 
 	/**
-	 * Getter 
+	 * Getter
 	 */
 	public int getCount() {
 		return count;
 	}
 
 	/**
-	 * Setter 
+	 * Setter
 	 */
 	public void setCount(int count) {
 		this.count = count;
 	}
 
 	/**
-	 * Getter 
+	 * Getter
 	 */
 	public static ArrayList<RoomCounter> getRooms() {
 		return rooms;
 	}
 
 	/**
-	 * Setter 
+	 * Setter
 	 */
 	public static void setRooms(ArrayList<RoomCounter> rooms) {
 		RoomCounter.rooms = rooms;
 	}
+
+	/**
+	 * Getter
+	 */
 	public static RoomCounter getRoomCounter() {
 		if (roomCounter != null)
 			return roomCounter;
@@ -92,58 +90,42 @@ public class RoomCounter {
 			return roomCounter;
 		}
 	}
-	
-	public static RoomCounter getBedRM() {
-		return BedRM;
-	}
 
-	public static void setBedRM(RoomCounter bedRM) {
-		BedRM = bedRM;
-	}
-
-	public static RoomCounter getMasterBedRM() {
-		return MasterBedRM;
-	}
-
-	public static void setMasterBedRM(RoomCounter masterBedRM) {
-		MasterBedRM = masterBedRM;
-	}
-
-	public static RoomCounter getBathRM() {
-		return BathRM;
-	}
-
-	public static void setBathRM(RoomCounter bathRM) {
-		BathRM = bathRM;
-	}
-
-	public static RoomCounter getKitchen() {
-		return Kitchen;
-	}
-
-	public static void setKitchen(RoomCounter kitchen) {
-		Kitchen = kitchen;
-	}
-
-	public static RoomCounter getLivingRM() {
-		return LivingRM;
-	}
-
-	public static void setLivingRM(RoomCounter livingRM) {
-		LivingRM = livingRM;
-	}
-
-	public static RoomCounter getGarage() {
-		return Garage;
-	}
-
-	public static void setGarage(RoomCounter garage) {
-		Garage = garage;
-	}
-
+	/**
+	 * Setter
+	 * 
+	 * @param roomCounter
+	 */
 	public static void setRoomCounter(RoomCounter roomCounter) {
 		RoomCounter.roomCounter = roomCounter;
 	}
 
+	/**
+	 * Getter
+	 */
+	public int getTemperature() {
+		return temperature;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTemperature(int temperature) {
+		this.temperature = temperature;
+	}
+
+	/**
+	 * Getter
+	 */
+	public int getZone() {
+		return zone;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setZone(int zone) {
+		this.zone = zone;
+	}
 
 }

@@ -55,6 +55,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.awt.ComponentOrientation;
 
 public class SHSGui extends JFrame {
 	private static SHSGui shs;
@@ -112,13 +113,19 @@ public class SHSGui extends JFrame {
 	private JCheckBox chckbxBackyardLight;
 	private JCheckBox chckbxEntranceLight;
 	private JComboBox zoneComboBox;
-	private JLabel displayZoneLabel;
+	private JTextArea displayZoneLabel;
+	private JButton btnAddRoomToZone;
+	private JComboBox roomToZoneComboBox;
+	private JTextField desiredTempTextField;
+	private JComboBox periodComboBox;
+	private JSpinner initialPeriodJSpinner;
+	private JSpinner finalPeriodJSpinner;
+	private JButton btnAcceptPeriod;
 
 	private static SHPController securityController;
 	private static SHCController coreController;
 	private static SHSController controller;
 	private static SHHController heatController;
-	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -162,9 +169,9 @@ public class SHSGui extends JFrame {
 
 		/** Termiante on close **/
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		/** Closes streams for log files when the application is closed by the user**/
-		this.addWindowListener((new WindowListener(){
+
+		/** Closes streams for log files when the application is closed by the user **/
+		this.addWindowListener((new WindowListener() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				coreController.getPrintWriter().flush();
@@ -174,27 +181,33 @@ public class SHSGui extends JFrame {
 				controller.getPrintWriter().flush();
 				controller.getPrintWriter().close();
 			}
+
 			@Override
 			public void windowOpened(WindowEvent e) {
 			}
+
 			@Override
 			public void windowClosed(WindowEvent e) {
-				
+
 			}
+
 			@Override
 			public void windowIconified(WindowEvent e) {
 			}
+
 			@Override
 			public void windowDeiconified(WindowEvent e) {
 			}
+
 			@Override
 			public void windowActivated(WindowEvent e) {
 			}
+
 			@Override
 			public void windowDeactivated(WindowEvent e) {
 			}
-           }));
-            
+		}));
+
 		/** Window Size **/
 		setBounds(100, 100, 1301, 808);
 
@@ -246,33 +259,29 @@ public class SHSGui extends JFrame {
 		panelView = new JPanel();
 
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panelProfile, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panelConsole, GroupLayout.PREFERRED_SIZE, 795, Short.MAX_VALUE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(panelControl, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))
-					.addContainerGap())
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup().addContainerGap()
+						.addComponent(panelProfile, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(panelConsole, GroupLayout.PREFERRED_SIZE, 795, Short.MAX_VALUE)
+								.addGroup(gl_contentPane.createSequentialGroup()
+										.addComponent(panelControl, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))
+						.addContainerGap()));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(
+				Alignment.TRAILING,
+				gl_contentPane.createSequentialGroup().addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(panelProfile, GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
-								.addComponent(panelControl, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panelConsole, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)))
-					.addGap(10))
-		);
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(panelView, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+										.addComponent(panelControl, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 575,
+												Short.MAX_VALUE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(panelConsole, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)))
+						.addGap(10)));
 		GroupLayout gl_panelView = new GroupLayout(panelView);
 		gl_panelView.setHorizontalGroup(
 				gl_panelView.createParallelGroup(Alignment.LEADING).addGap(0, 438, Short.MAX_VALUE));
@@ -346,7 +355,8 @@ public class SHSGui extends JFrame {
 		});
 
 		comboBoxPermission = new JComboBox();
-		comboBoxPermission.setModel(new DefaultComboBoxModel(new String[] { "PARENT", "CHILDREN", "GUEST", "STRANGER" }));
+		comboBoxPermission
+				.setModel(new DefaultComboBoxModel(new String[] { "PARENT", "CHILDREN", "GUEST", "STRANGER" }));
 
 		JLabel labelUserSetting = new JLabel("USER SETTING");
 		GroupLayout gl_panelUser = new GroupLayout(panelUser);
@@ -390,30 +400,25 @@ public class SHSGui extends JFrame {
 
 		JPanel panel_2 = new JPanel();
 		GroupLayout gl_panelSHS = new GroupLayout(panelSHS);
-		gl_panelSHS.setHorizontalGroup(
-			gl_panelSHS.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelSHS.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_1, Alignment.TRAILING, 0, 0, Short.MAX_VALUE)
-						.addComponent(panelUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(pressbuttonEditContext, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-						.addComponent(panel_2, 0, 0, Short.MAX_VALUE))
-					.addContainerGap())
-		);
-		gl_panelSHS.setVerticalGroup(
-			gl_panelSHS.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelSHS.createSequentialGroup()
-					.addGap(10)
-					.addComponent(panelUser, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pressbuttonEditContext, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
+		gl_panelSHS.setHorizontalGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelSHS.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING)
+								.addComponent(panel_1, Alignment.TRAILING, 0, 0, Short.MAX_VALUE)
+								.addComponent(panelUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(pressbuttonEditContext, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+								.addComponent(panel_2, 0, 0, Short.MAX_VALUE))
+						.addContainerGap()));
+		gl_panelSHS.setVerticalGroup(gl_panelSHS.createParallelGroup(Alignment.LEADING).addGroup(gl_panelSHS
+				.createSequentialGroup().addGap(10)
+				.addComponent(panelUser, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(pressbuttonEditContext, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+				.addContainerGap()));
 
 		JLabel labelTemperatureSetting = new JLabel("TEMPERATURE SETTING");
 		JLabel labelOutsideTemp = new JLabel("Outside Temp :");
@@ -478,52 +483,48 @@ public class SHSGui extends JFrame {
 		timeSpinner.setModel(new SpinnerDateModel());
 		timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
 		presstimebtn = new JButton("Set new Date & Time");
-		
-				slider = new JSlider();
-				slider.setValue(0);
-				
-						slider.setToolTipText("");
-						slider.setPaintLabels(true);
-						slider.setSnapToTicks(true);
-						slider.setMaximum(120);
-						slider.setPaintTicks(true);
-						slider.setMinorTickSpacing(15);
+
+		slider = new JSlider();
+		slider.setValue(0);
+
+		slider.setToolTipText("");
+		slider.setPaintLabels(true);
+		slider.setSnapToTicks(true);
+		slider.setMaximum(120);
+		slider.setPaintTicks(true);
+		slider.setMinorTickSpacing(15);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(dateChooser, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-								.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
-									.addComponent(labelTime, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE))
-								.addComponent(labelDateAndTimeSetting, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
+				.createSequentialGroup().addContainerGap()
+				.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
+						.createSequentialGroup()
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(dateChooser, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 286,
+										Short.MAX_VALUE)
+								.addGroup(Alignment.TRAILING,
+										gl_panel_1.createSequentialGroup()
+												.addComponent(labelTime, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+												.addPreferredGap(ComponentPlacement.RELATED).addComponent(timeSpinner,
+														GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE))
+								.addComponent(labelDateAndTimeSetting, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE,
+										286, Short.MAX_VALUE)
 								.addComponent(slider, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE))
-							.addContainerGap())
+						.addContainerGap())
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(presstimebtn, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-							.addGap(2))))
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(6)
-					.addComponent(labelDateAndTimeSetting, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(labelTime)
-						.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-					.addComponent(presstimebtn))
-		);
+								.addComponent(presstimebtn, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+								.addGap(2)))));
+		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
+				.createSequentialGroup().addGap(6)
+				.addComponent(labelDateAndTimeSetting, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(
+						dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE).addComponent(labelTime).addComponent(
+						timeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE).addComponent(presstimebtn)));
 		panel_1.setLayout(gl_panel_1);
 		panelSHS.setLayout(gl_panelSHS);
 		JPanel panelSHC = new JPanel();
@@ -591,115 +592,160 @@ public class SHSGui extends JFrame {
 		WindowsPanel.add(openWindowsButton);
 
 		/** SHP PANEL **/
-
-		/** Time to alert authorities **/
-		
-		/** Away Mode Lights remain open **/
-		
-		/** Away Mode Button **/
-		
-		/** SHH PANEL **/
 		JPanel panelSHP = new JPanel();
 		tabbedPane.addTab("SHP", null, panelSHP, null);
 		panelSHP.setLayout(null);
-		timeToAlertInput = new JTextField();
-		timeToAlertInput.setBounds(153, 128, 130, 26);
-		panelSHP.add(timeToAlertInput);
-		timeToAlertInput.setColumns(10);
-		
-		JLabel timeToAlertLabel = new JLabel("Time until authorities are alerted (seconds):");
-		timeToAlertLabel.setBounds(10, 100, 290, 26);
-		panelSHP.add(timeToAlertLabel);
-		JLabel setAwayLightsLabel = new JLabel("Away Mode Lights");
-		setAwayLightsLabel.setBounds(10, 172, 130, 16);
-		panelSHP.add(setAwayLightsLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Remain on from");
-		lblNewLabel_1.setBounds(10, 428, 105, 16);
-		panelSHP.add(lblNewLabel_1);
-		
-		awayLightsStartTime = new JSpinner();
-		awayLightsStartTime.setBounds(113, 420, 91, 32);
-		awayLightsStartTime.setModel(new SpinnerDateModel());
-		awayLightsStartTime.setEditor(new JSpinner.DateEditor(awayLightsStartTime, "HH:mm"));
-		panelSHP.add(awayLightsStartTime);
-		
-		JLabel lblNewLabel_2 = new JLabel("to");
-		lblNewLabel_2.setBounds(205, 429, 16, 14);
-		panelSHP.add(lblNewLabel_2);
-		
-		awayLightsStopTime = new JSpinner();
-		awayLightsStopTime.setBounds(216, 420, 91, 32);
-		awayLightsStopTime.setModel(new SpinnerDateModel());
-		awayLightsStopTime.setEditor(new JSpinner.DateEditor(awayLightsStopTime, "HH:mm"));
-		panelSHP.add(awayLightsStopTime);	
-		
-		chckbxBedRMLight = new JCheckBox("BedRM");	
-		chckbxMasterBedRMLight = new JCheckBox("Master BedRM");	
-		chckbxBathRMLight = new JCheckBox("BathRM");	
-		chckbxKitchenLight = new JCheckBox("Kitchen");	
-		chckbxLivingRMLight = new JCheckBox("Living RM");	
-		chckbxGarageLight = new JCheckBox("Garage");		
-		chckbxBackyardLight = new JCheckBox("Backyard");	
-		chckbxEntranceLight = new JCheckBox("Entrance");	
-		
-		chckbxEntranceLight.setBounds(10, 377, 97, 23);
-		panelSHP.add(chckbxEntranceLight);	
-		chckbxBedRMLight.setBounds(10, 195, 97, 23);
-		panelSHP.add(chckbxBedRMLight);		
-		chckbxMasterBedRMLight.setBounds(10, 221, 130, 23);
-		panelSHP.add(chckbxMasterBedRMLight);		
-		chckbxBathRMLight.setBounds(10, 247, 97, 23);
-		panelSHP.add(chckbxBathRMLight);		
-		chckbxKitchenLight.setBounds(10, 273, 97, 23);
-		panelSHP.add(chckbxKitchenLight);		
-		chckbxLivingRMLight.setBounds(10, 299, 97, 23);
-		panelSHP.add(chckbxLivingRMLight);		
-		chckbxGarageLight.setBounds(10, 325, 97, 23);
-		panelSHP.add(chckbxGarageLight);		
-		chckbxBackyardLight.setBounds(10, 351, 97, 23);
-		panelSHP.add(chckbxBackyardLight);
-		
-		btnAwayLights = new JButton("Confirm");
-		btnAwayLights.setBounds(180, 464, 120, 23);
-		panelSHP.add(btnAwayLights);
+
+		/** Away Mode Button **/
 		AwayModeToggleButton = new JToggleButton("Away Mode ON/OFF");
 		AwayModeToggleButton.setBounds(10, 30, 290, 29);
 		panelSHP.add(AwayModeToggleButton);
 		JPanel panelSHH = new JPanel();
 		tabbedPane.addTab("SHH", null, panelSHH, null);
 		panelSHH.setLayout(null);
-		
-		zoneComboBox = new JComboBox();
-		zoneComboBox.setModel(new DefaultComboBoxModel(new String[] { "ZONE 1", "ZONE 2", "ZONE 3"}));
-		zoneComboBox.setBounds(10, 61, 83, 22);
-		panelSHH.add(zoneComboBox);
-		
-		displayZoneLabel = new JLabel("");
-		displayZoneLabel.setBounds(103, 65, 209, 14);
-		panelSHH.add(displayZoneLabel);
-		
-		JLabel selectZoneLabel = new JLabel("Select a zone:");
-		selectZoneLabel.setBounds(10, 36, 83, 14);
-		panelSHH.add(selectZoneLabel);
-		
+		timeToAlertInput = new JTextField();
+		timeToAlertInput.setBounds(153, 128, 130, 26);
+		panelSHP.add(timeToAlertInput);
+		timeToAlertInput.setColumns(10);
+
+		/** Time to alert authorities **/
+		JLabel timeToAlertLabel = new JLabel("Time until authorities are alerted (seconds):");
+		timeToAlertLabel.setBounds(10, 100, 290, 26);
+		panelSHP.add(timeToAlertLabel);
+		JLabel setAwayLightsLabel = new JLabel("Away Mode Lights");
+		setAwayLightsLabel.setBounds(10, 172, 130, 16);
+		panelSHP.add(setAwayLightsLabel);
+
+		/** Away Mode Lights remain open **/
+		JLabel lblNewLabel_1 = new JLabel("Remain on from");
+		lblNewLabel_1.setBounds(10, 428, 105, 16);
+		panelSHP.add(lblNewLabel_1);
+
+		awayLightsStartTime = new JSpinner();
+		awayLightsStartTime.setBounds(113, 420, 91, 32);
+		awayLightsStartTime.setModel(new SpinnerDateModel());
+		awayLightsStartTime.setEditor(new JSpinner.DateEditor(awayLightsStartTime, "HH:mm"));
+		panelSHP.add(awayLightsStartTime);
+
+		JLabel lblNewLabel_2 = new JLabel("to");
+		lblNewLabel_2.setBounds(205, 429, 16, 14);
+		panelSHP.add(lblNewLabel_2);
+
+		awayLightsStopTime = new JSpinner();
+		awayLightsStopTime.setBounds(216, 420, 91, 32);
+		awayLightsStopTime.setModel(new SpinnerDateModel());
+		awayLightsStopTime.setEditor(new JSpinner.DateEditor(awayLightsStopTime, "HH:mm"));
+		panelSHP.add(awayLightsStopTime);
+
+		chckbxBedRMLight = new JCheckBox("BedRM");
+		chckbxMasterBedRMLight = new JCheckBox("Master BedRM");
+		chckbxBathRMLight = new JCheckBox("BathRM");
+		chckbxKitchenLight = new JCheckBox("Kitchen");
+		chckbxLivingRMLight = new JCheckBox("Living RM");
+		chckbxGarageLight = new JCheckBox("Garage");
+		chckbxBackyardLight = new JCheckBox("Backyard");
+		chckbxEntranceLight = new JCheckBox("Entrance");
+
+		chckbxEntranceLight.setBounds(10, 377, 97, 23);
+		panelSHP.add(chckbxEntranceLight);
+		chckbxBedRMLight.setBounds(10, 195, 97, 23);
+		panelSHP.add(chckbxBedRMLight);
+		chckbxMasterBedRMLight.setBounds(10, 221, 130, 23);
+		panelSHP.add(chckbxMasterBedRMLight);
+		chckbxBathRMLight.setBounds(10, 247, 97, 23);
+		panelSHP.add(chckbxBathRMLight);
+		chckbxKitchenLight.setBounds(10, 273, 97, 23);
+		panelSHP.add(chckbxKitchenLight);
+		chckbxLivingRMLight.setBounds(10, 299, 97, 23);
+		panelSHP.add(chckbxLivingRMLight);
+		chckbxGarageLight.setBounds(10, 325, 97, 23);
+		panelSHP.add(chckbxGarageLight);
+		chckbxBackyardLight.setBounds(10, 351, 97, 23);
+		panelSHP.add(chckbxBackyardLight);
+
+		btnAwayLights = new JButton("Confirm");
+		btnAwayLights.setBounds(180, 464, 120, 23);
+		panelSHP.add(btnAwayLights);
+
+		/** SHH panel **/
 		JLabel HeatingLabel = new JLabel("SmartHome Heating");
 		HeatingLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		HeatingLabel.setBounds(55, 11, 201, 14);
 		panelSHH.add(HeatingLabel);
-		
-		JLabel selectDesiredTempLabel = new JLabel("Select desired temperature for each zone(s):");
-		selectDesiredTempLabel.setBounds(10, 97, 246, 14);
-		panelSHH.add(selectDesiredTempLabel);
-		
-		textField = new JTextField();
-		textField.setBounds(10, 122, 86, 20);
-		panelSHH.add(textField);
-		textField.setColumns(10);
-		
+
+		/** Select zone **/
+		JLabel selectZoneLabel = new JLabel("Select a zone:");
+		selectZoneLabel.setBounds(10, 36, 83, 14);
+		panelSHH.add(selectZoneLabel);
+
+		zoneComboBox = new JComboBox();
+		zoneComboBox.setModel(new DefaultComboBoxModel(new String[] { "ZONE 1", "ZONE 2", "ZONE 3" }));
+		zoneComboBox.setBounds(10, 61, 83, 22);
+		panelSHH.add(zoneComboBox);
+
+		/** Selct room **/
+		JLabel roomToZoneLabel = new JLabel("Add a room to zone:");
+		roomToZoneLabel.setBounds(103, 36, 182, 14);
+		panelSHH.add(roomToZoneLabel);
+
+		roomToZoneComboBox = new JComboBox();
+		roomToZoneComboBox.setBounds(103, 61, 101, 22);
+		panelSHH.add(roomToZoneComboBox);
+
+		btnAddRoomToZone = new JButton("Add");
+		btnAddRoomToZone.setBounds(214, 61, 71, 23);
+		panelSHH.add(btnAddRoomToZone);
+
+		displayZoneLabel = new JTextArea();
+		displayZoneLabel.setLineWrap(true);
+		displayZoneLabel.setWrapStyleWord(true);
+		displayZoneLabel.setEditable(false);
+		displayZoneLabel.setBounds(10, 94, 209, 48);
+		panelSHH.add(displayZoneLabel);
+
+		/** Set desired temperature **/
+		JLabel setDesiredTempLabel = new JLabel("Set desired temperature:");
+		setDesiredTempLabel.setBounds(10, 153, 246, 14);
+		panelSHH.add(setDesiredTempLabel);
+
+		desiredTempTextField = new JTextField();
+		desiredTempTextField.setBounds(10, 178, 86, 22);
+		panelSHH.add(desiredTempTextField);
+		desiredTempTextField.setColumns(10);
+
 		JLabel desiredTempLabel = new JLabel("\u00B0C");
-		desiredTempLabel.setBounds(103, 125, 46, 14);
+		desiredTempLabel.setBounds(103, 182, 46, 14);
 		panelSHH.add(desiredTempLabel);
+
+		/** Select period **/
+		JLabel selectPeriodLabel_3 = new JLabel("Select period: ");
+		selectPeriodLabel_3.setBounds(10, 211, 83, 14);
+		panelSHH.add(selectPeriodLabel_3);
+
+		periodComboBox = new JComboBox();
+		periodComboBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3" }));
+		periodComboBox.setBounds(10, 242, 42, 22);
+		panelSHH.add(periodComboBox);
+
+		initialPeriodJSpinner = new JSpinner();
+		initialPeriodJSpinner.setBounds(62, 242, 71, 22);
+		initialPeriodJSpinner.setModel(new SpinnerDateModel());
+		initialPeriodJSpinner.setEditor(new JSpinner.DateEditor(initialPeriodJSpinner, "HH:mm"));
+		panelSHH.add(initialPeriodJSpinner);
+
+		JLabel periodToLabel = new JLabel("to");
+		periodToLabel.setBounds(143, 246, 18, 14);
+		panelSHH.add(periodToLabel);
+
+		finalPeriodJSpinner = new JSpinner();
+		finalPeriodJSpinner.setBounds(160, 242, 65, 22);
+		finalPeriodJSpinner.setModel(new SpinnerDateModel());
+		finalPeriodJSpinner.setEditor(new JSpinner.DateEditor(finalPeriodJSpinner, "HH:mm"));
+		panelSHH.add(finalPeriodJSpinner);
+
+		btnAcceptPeriod = new JButton("Accept");
+		btnAcceptPeriod.setBounds(235, 242, 77, 23);
+		panelSHH.add(btnAcceptPeriod);
 
 		/** Add Tab **/
 		JPanel panelPlus = new JPanel();
@@ -721,70 +767,48 @@ public class SHSGui extends JFrame {
 		/** Form Open Button **/
 
 		JPanel panel = new JPanel();
-		
+
 		JPanel panel_3 = new JPanel();
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
-		gl_panel_3.setHorizontalGroup(
-			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 459, Short.MAX_VALUE)
-		);
-		gl_panel_3.setVerticalGroup(
-			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 56, Short.MAX_VALUE)
-		);
+		gl_panel_3
+				.setHorizontalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING).addGap(0, 459, Short.MAX_VALUE));
+		gl_panel_3.setVerticalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING).addGap(0, 56, Short.MAX_VALUE));
 		panel_3.setLayout(gl_panel_3);
 
 		GroupLayout gl_panelProfile = new GroupLayout(panelProfile);
-		gl_panelProfile.setHorizontalGroup(
-			gl_panelProfile.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfile.createSequentialGroup()
-					.addGap(153)
-					.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-					.addGap(148))
-				.addGroup(gl_panelProfile.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 452, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 459, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		gl_panelProfile.setVerticalGroup(
-			gl_panelProfile.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfile.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(togglebuttonSimulator)
-					.addGap(7)
-					.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panelHouseInfo, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
-					.addGap(130))
-		);
+		gl_panelProfile.setHorizontalGroup(gl_panelProfile.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfile.createSequentialGroup().addGap(153)
+						.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE).addGap(148))
+				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
+						.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+						.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
+						.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE).addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
+						.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+						.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
+						.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 452, Short.MAX_VALUE)
+						.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE).addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
+						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 459, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		gl_panelProfile.setVerticalGroup(gl_panelProfile.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap().addComponent(togglebuttonSimulator)
+						.addGap(7).addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(panelHouseInfo, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
+						.addGap(130)));
 
 		JLabel dateLabel = new JLabel("Date");
 
@@ -794,34 +818,29 @@ public class SHSGui extends JFrame {
 
 		timeValue = new JLabel("N/A");
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(dateLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
-						.addComponent(timeLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(timeValue, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-							.addGap(10))
-						.addComponent(dateValue, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
-					.addContainerGap())
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(dateLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-						.addComponent(dateValue, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(timeLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-						.addComponent(timeValue, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(59, Short.MAX_VALUE))
-		);
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(dateLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
+								.addComponent(timeLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(
+								ComponentPlacement.UNRELATED)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+										.addComponent(timeValue, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+										.addGap(10))
+								.addComponent(dateValue, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+						.addContainerGap()));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(dateLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+								.addComponent(dateValue, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(timeLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+								.addComponent(timeValue, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(59, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
 
 		/** House Temperature **/
@@ -831,24 +850,16 @@ public class SHSGui extends JFrame {
 		indoorHouseTempValue = new JLabel("0");
 
 		GroupLayout gl_panelHouseInfo = new GroupLayout(panelHouseInfo);
-		gl_panelHouseInfo.setHorizontalGroup(
-			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelHouseInfo.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(houseTempLabel)
-					.addGap(114)
-					.addComponent(indoorHouseTempValue, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		gl_panelHouseInfo.setVerticalGroup(
-			gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelHouseInfo.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelHouseInfo.createParallelGroup(Alignment.BASELINE)
-						.addComponent(houseTempLabel)
-						.addComponent(indoorHouseTempValue, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(20, Short.MAX_VALUE))
-		);
+		gl_panelHouseInfo.setHorizontalGroup(gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelHouseInfo.createSequentialGroup().addContainerGap().addComponent(houseTempLabel)
+						.addGap(114).addComponent(indoorHouseTempValue, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+						.addContainerGap()));
+		gl_panelHouseInfo.setVerticalGroup(gl_panelHouseInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelHouseInfo.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panelHouseInfo.createParallelGroup(Alignment.BASELINE).addComponent(houseTempLabel)
+								.addComponent(indoorHouseTempValue, GroupLayout.PREFERRED_SIZE, 16,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(20, Short.MAX_VALUE)));
 		panelHouseInfo.setLayout(gl_panelHouseInfo);
 
 		/** Weather Label **/
@@ -895,62 +906,57 @@ public class SHSGui extends JFrame {
 		labelBoxLocation = new JLabel();
 
 		JLabel labelPermission = new JLabel("Permission");
-		
+
 		userLocationLabel = new JLabel("N/A");
-		
+
 		labelUserPermissionValue = new JLabel("N/A");
 
 		GroupLayout gl_panelProfileInfo = new GroupLayout(panelProfileInfo);
-		gl_panelProfileInfo.setHorizontalGroup(
-			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+		gl_panelProfileInfo.setHorizontalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup().addContainerGap().addGroup(gl_panelProfileInfo
+						.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelProfileInfo.createSequentialGroup()
-							.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(labelLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(labelPermission, GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))
-							.addGap(110)
-							.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(labelLocation, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)
+										.addComponent(labelPermission, GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))
+								.addGap(110)
+								.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panelProfileInfo.createSequentialGroup()
+												.addComponent(userLocationLabel, GroupLayout.DEFAULT_SIZE, 211,
+														Short.MAX_VALUE)
+												.addPreferredGap(ComponentPlacement.RELATED))
+										.addComponent(labelUserPermissionValue, GroupLayout.DEFAULT_SIZE, 217,
+												Short.MAX_VALUE))
+								.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+						.addGroup(gl_panelProfileInfo.createSequentialGroup()
+								.addComponent(labelRole, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(comboBoxRole, 0, 221, Short.MAX_VALUE)))
+						.addGap(0)));
+		gl_panelProfileInfo.setVerticalGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfileInfo.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE).addComponent(labelRole)
+								.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(8)
+						.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panelProfileInfo.createSequentialGroup().addGap(6)
+										.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
 								.addGroup(gl_panelProfileInfo.createSequentialGroup()
-									.addComponent(userLocationLabel, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED))
-								.addComponent(labelUserPermissionValue, GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
-							.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
-						.addGroup(gl_panelProfileInfo.createSequentialGroup()
-							.addComponent(labelRole, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(comboBoxRole, 0, 221, Short.MAX_VALUE)))
-					.addGap(0))
-		);
-		gl_panelProfileInfo.setVerticalGroup(
-			gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfileInfo.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-						.addComponent(labelRole)
-						.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(8)
-					.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelProfileInfo.createSequentialGroup()
-							.addGap(6)
-							.addComponent(labelBoxLocation, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
-						.addGroup(gl_panelProfileInfo.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-								.addComponent(labelPermission, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-								.addComponent(labelUserPermissionValue))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
-								.addComponent(labelLocation)
-								.addComponent(userLocationLabel))))
-					.addContainerGap())
-		);
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+												.addComponent(labelPermission, GroupLayout.PREFERRED_SIZE, 14,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(labelUserPermissionValue))
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addGroup(gl_panelProfileInfo.createParallelGroup(Alignment.BASELINE)
+												.addComponent(labelLocation).addComponent(userLocationLabel))))
+						.addContainerGap()));
 		panelProfileInfo.setLayout(gl_panelProfileInfo);
 		panelProfile.setLayout(gl_panelProfile);
 		contentPane.setLayout(gl_contentPane);
 	}
-
 
 	/**
 	 * Getter
@@ -1444,7 +1450,7 @@ public class SHSGui extends JFrame {
 	public void setAwayModeToggleButton(JToggleButton awayModeToggleButton) {
 		AwayModeToggleButton = awayModeToggleButton;
 	}
-	
+
 	/**
 	 * Getter
 	 */
@@ -1458,64 +1464,182 @@ public class SHSGui extends JFrame {
 	public void setTimeToAlertInput(JTextField timeToAlertInput) {
 		this.timeToAlertInput = timeToAlertInput;
 	}
-	
+
 	/**
 	 * Getter
 	 */
 	public JButton getBtnAwayLights() {
 		return btnAwayLights;
 	}
-	
+
 	/** Checkbox getters **/
 	public JCheckBox getChckbxBedRMLight() {
 		return chckbxBedRMLight;
 	}
+
 	public JCheckBox getChckbxMasterBedRMLight() {
 		return chckbxMasterBedRMLight;
 	}
+
 	public JCheckBox getChckbxBathRMLight() {
 		return chckbxBathRMLight;
 	}
+
 	public JCheckBox getChckbxKitchenLight() {
 		return chckbxKitchenLight;
 	}
+
 	public JCheckBox getChckbxLivingRMLight() {
 		return chckbxLivingRMLight;
 	}
+
 	public JCheckBox getChckbxGarageLight() {
 		return chckbxGarageLight;
 	}
+
 	public JCheckBox getChckbxBackyardLight() {
 		return chckbxBackyardLight;
 	}
+
 	public JCheckBox getChckbxEntranceLight() {
 		return chckbxEntranceLight;
 	}
-	
-	/** Start & stop time getters for Away mode lights**/
+
+	/** Start & stop time getters for Away mode lights **/
 	public JSpinner getAwayLightsStartTime() {
 		return awayLightsStartTime;
 	}
+
 	public JSpinner getAwayLightsStopTime() {
 		return awayLightsStopTime;
 	}
-	
+
+	/**
+	 * Getter
+	 */
 	public JComboBox getZoneComboBox() {
 		return zoneComboBox;
 	}
 
+	/**
+	 * Setter
+	 */
 	public void setZoneComboBox(JComboBox zoneComboBox) {
 		this.zoneComboBox = zoneComboBox;
 	}
 
-	public JLabel getDisplayZoneLabel() {
+	/**
+	 * Getter
+	 */
+	public JTextArea getDisplayZoneLabel() {
 		return displayZoneLabel;
 	}
 
-	public void setDisplayZoneLabel(JLabel displayZoneLabel) {
+	/**
+	 * Setter
+	 */
+	public void setDisplayZoneLabel(JTextArea displayZoneLabel) {
 		this.displayZoneLabel = displayZoneLabel;
 	}
-	
+
+	/**
+	 * Getter
+	 */
+	public JButton getBtnAddRoomToZone() {
+		return btnAddRoomToZone;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setBtnAddRoomToZone(JButton btnAddRoomToZone) {
+		this.btnAddRoomToZone = btnAddRoomToZone;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JComboBox getRoomToZoneComboBox() {
+		return roomToZoneComboBox;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JTextField getDesiredTempTextField() {
+		return desiredTempTextField;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setDesiredTempTextField(JTextField desiredTempTextField) {
+		this.desiredTempTextField = desiredTempTextField;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JComboBox getPeriodComboBox() {
+		return periodComboBox;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setPeriodComboBox(JComboBox periodComboBox) {
+		this.periodComboBox = periodComboBox;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JSpinner getInitialPeriodJSpinner() {
+		return initialPeriodJSpinner;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setInitialPeriodJSpinner(JSpinner initialPeriodJSpinner) {
+		this.initialPeriodJSpinner = initialPeriodJSpinner;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JSpinner getFinalPeriodJSpinner() {
+		return finalPeriodJSpinner;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setFinalPeriodJSpinner(JSpinner finalPeriodJSpinner) {
+		this.finalPeriodJSpinner = finalPeriodJSpinner;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getBtnAcceptPeriod() {
+		return btnAcceptPeriod;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setBtnAcceptPeriod(JButton btnAcceptPeriod) {
+		this.btnAcceptPeriod = btnAcceptPeriod;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setRoomToZoneComboBox(JComboBox roomToZoneComboBox) {
+		this.roomToZoneComboBox = roomToZoneComboBox;
+	}
+
 	public static SHSGui getSHS() {
 		if (shs != null)
 			return shs;
@@ -1523,6 +1647,6 @@ public class SHSGui extends JFrame {
 			SHSGui.shs = new SHSGui();
 			return shs;
 		}
-		
-	}	
+
+	}
 }

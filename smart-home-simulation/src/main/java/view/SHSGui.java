@@ -51,6 +51,10 @@ import java.util.Hashtable;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.JCheckBox;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class SHSGui extends JFrame {
 	private static SHSGui shs;
@@ -107,10 +111,14 @@ public class SHSGui extends JFrame {
 	private JCheckBox chckbxGarageLight;
 	private JCheckBox chckbxBackyardLight;
 	private JCheckBox chckbxEntranceLight;
+	private JComboBox zoneComboBox;
+	private JLabel displayZoneLabel;
+
 	private static SHPController securityController;
 	private static SHCController coreController;
 	private static SHSController controller;
 	private static SHHController heatController;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -338,8 +346,7 @@ public class SHSGui extends JFrame {
 		});
 
 		comboBoxPermission = new JComboBox();
-		comboBoxPermission
-				.setModel(new DefaultComboBoxModel(new String[] { "PARENT", "CHILDREN", "GUEST", "STRANGER" }));
+		comboBoxPermission.setModel(new DefaultComboBoxModel(new String[] { "PARENT", "CHILDREN", "GUEST", "STRANGER" }));
 
 		JLabel labelUserSetting = new JLabel("USER SETTING");
 		GroupLayout gl_panelUser = new GroupLayout(panelUser);
@@ -661,6 +668,38 @@ public class SHSGui extends JFrame {
 		panelSHP.add(AwayModeToggleButton);
 		JPanel panelSHH = new JPanel();
 		tabbedPane.addTab("SHH", null, panelSHH, null);
+		panelSHH.setLayout(null);
+		
+		zoneComboBox = new JComboBox();
+		zoneComboBox.setModel(new DefaultComboBoxModel(new String[] { "ZONE 1", "ZONE 2", "ZONE 3"}));
+		zoneComboBox.setBounds(10, 61, 83, 22);
+		panelSHH.add(zoneComboBox);
+		
+		displayZoneLabel = new JLabel("");
+		displayZoneLabel.setBounds(103, 65, 209, 14);
+		panelSHH.add(displayZoneLabel);
+		
+		JLabel selectZoneLabel = new JLabel("Select a zone:");
+		selectZoneLabel.setBounds(10, 36, 83, 14);
+		panelSHH.add(selectZoneLabel);
+		
+		JLabel HeatingLabel = new JLabel("SmartHome Heating");
+		HeatingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		HeatingLabel.setBounds(55, 11, 201, 14);
+		panelSHH.add(HeatingLabel);
+		
+		JLabel selectDesiredTempLabel = new JLabel("Select desired temperature for each zone(s):");
+		selectDesiredTempLabel.setBounds(10, 97, 246, 14);
+		panelSHH.add(selectDesiredTempLabel);
+		
+		textField = new JTextField();
+		textField.setBounds(10, 122, 86, 20);
+		panelSHH.add(textField);
+		textField.setColumns(10);
+		
+		JLabel desiredTempLabel = new JLabel("\u00B0C");
+		desiredTempLabel.setBounds(103, 125, 46, 14);
+		panelSHH.add(desiredTempLabel);
 
 		/** Add Tab **/
 		JPanel panelPlus = new JPanel();
@@ -1460,7 +1499,23 @@ public class SHSGui extends JFrame {
 	public JSpinner getAwayLightsStopTime() {
 		return awayLightsStopTime;
 	}
+	
+	public JComboBox getZoneComboBox() {
+		return zoneComboBox;
+	}
 
+	public void setZoneComboBox(JComboBox zoneComboBox) {
+		this.zoneComboBox = zoneComboBox;
+	}
+
+	public JLabel getDisplayZoneLabel() {
+		return displayZoneLabel;
+	}
+
+	public void setDisplayZoneLabel(JLabel displayZoneLabel) {
+		this.displayZoneLabel = displayZoneLabel;
+	}
+	
 	public static SHSGui getSHS() {
 		if (shs != null)
 			return shs;

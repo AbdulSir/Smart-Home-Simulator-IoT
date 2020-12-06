@@ -9,6 +9,7 @@ public class RoomCounter {
 	private static RoomCounter roomCounter;
 	private double temperature;
 	private int zone;
+	private boolean isTempOverridden;
 
 	/** Default Constructor **/
 	private RoomCounter() {
@@ -21,6 +22,7 @@ public class RoomCounter {
 		rooms.add(this);
 		setTemperature(0);
 		zone = 1;
+		isTempOverridden = false;
 	}
 
 	/**
@@ -126,6 +128,20 @@ public class RoomCounter {
 	 */
 	public void setZone(int zone) {
 		this.zone = zone;
+	}
+
+	/**
+	 * Getter
+	 */
+	public boolean isTempOverridden() {
+		return isTempOverridden;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTempOverridden(boolean isTempOverridden) {
+		this.isTempOverridden = isTempOverridden;
 	}
 
 }

@@ -168,7 +168,9 @@ public class SHHController {
 									// time
 									for (int i = 0; i < rooms.size(); i++) {
 										if (zone.getCurrentZone() + 1 == rooms.get(i).getZone()) {
-											rooms.get(i).setTemperature(zone.getDesiredTemperature());
+											if (!rooms.get(i).isTempOverridden()) {
+												rooms.get(i).setTemperature(zone.getDesiredTemperature());
+											}
 											System.out.println(rooms.get(i).getLocation() + "    "
 													+ rooms.get(i).getTemperature());
 										}
@@ -181,7 +183,7 @@ public class SHHController {
 				}, 1000, 1000);
 			}
 		});
-		
+
 		/**
 		 * Display room temperature
 		 */
@@ -190,25 +192,38 @@ public class SHHController {
 			public void actionPerformed(ActionEvent arg0) {
 				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
 
-				frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()));
+				if (rooms.get(currentRoomSelected).isTempOverridden()) {
+					frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature())
+							+ " \u00B0C " + " OVERRIDDEN");
+				} else {
+					frame.getLabelCurrentTemp()
+							.setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()) + " \u00B0C ");
+				}
+
 			}
 		});
-		
+
 		/**
 		 * Set new room temperature
 		 */
 		JButton btnSetTemp = this.frame.getBtnSetTemp();
 		btnSetTemp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();				
+				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
 				double newTemp = Double.parseDouble(frame.getNewTempValue().getText());
-				
+
 				rooms.get(currentRoomSelected).setTemperature(newTemp);
-				
-				frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()) + "Overriden");
+
+				// set temperature of room overridden
+				rooms.get(currentRoomSelected).setTempOverridden(true);
+
+				String currentRoom = rooms.get(currentRoomSelected).getLocation();
+
+				// console message
+				Console.getConsole().msg(currentRoom + " new temperature is " + newTemp + " \u00B0C.");
 			}
 		});
-		
+
 		/**
 		 * Set default summer and winter temperature
 		 */
@@ -220,29 +235,27 @@ public class SHHController {
 				Date currentTimeDate = time.getTime();
 				String formattedCurrentTime = new SimpleDateFormat("mm").format(currentTimeDate);
 				int currentMonth = Integer.parseInt(formattedCurrentTime);
-				if(SHPController.getSHPController().getAwayMode() == true) {
+				if (SHPController.getSHPController().getAwayMode() == true) {
 					double defaultSummer = Double.parseDouble(defaultSummerTextField.getText());
 					setDefaultSummerTemp(defaultSummer);
 					double defaultWinter = Double.parseDouble(defaultWinterTextField.getText());
 					setDefaultSummerTemp(defaultWinter);
-					
-					if(summerMonths.contains(currentMonth)) {
-						for(int i=0; i<rooms.size(); i++) {
+
+					if (summerMonths.contains(currentMonth)) {
+						for (int i = 0; i < rooms.size(); i++) {
 							rooms.get(i).setTemperature(defaultSummer);
 						}
-					}else if(winterMonths.contains(currentMonth)) {
-						for(int i=0; i<rooms.size(); i++) {
+					} else if (winterMonths.contains(currentMonth)) {
+						for (int i = 0; i < rooms.size(); i++) {
 							rooms.get(i).setTemperature(defaultWinter);
 						}
 					}
-				}else 
+				} else
 					console.msg("Away Mode not ON");
 			}
 		});
-	
-	}
-	
 
+	}
 
 	/**
 	 * Get the zone of a room
@@ -346,7 +359,5 @@ public class SHHController {
 	public void setDefaultWinterTemp(double defaultWinterTemp) {
 		this.defaultWinterTemp = defaultWinterTemp;
 	}
-	
-	
 
 }

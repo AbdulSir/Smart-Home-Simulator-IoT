@@ -779,7 +779,7 @@ public class SHSGui extends JFrame {
 		panelSHH.add(comboBoxSetRoomTemp);
 
 		labelCurrentTemp = new JLabel("");
-		labelCurrentTemp.setBounds(91, 304, 197, 23);
+		labelCurrentTemp.setBounds(103, 303, 197, 23);
 		panelSHH.add(labelCurrentTemp);
 
 		JLabel lblSelectRoom = new JLabel("Select room:");

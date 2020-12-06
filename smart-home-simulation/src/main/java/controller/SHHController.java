@@ -401,7 +401,7 @@ public class SHHController {
 				setUpperThreshold(upperThresh);
 				double lowerThresh = Double.parseDouble(LowerThresholdTextField.getText());
 				setLowerThreshold(lowerThresh);
-				console.msg("The thresholds have been set.g");
+				console.msg("The thresholds have been set.");
 			}
 		});
 

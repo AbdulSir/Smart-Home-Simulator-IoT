@@ -178,6 +178,7 @@ public class SHSController {
 				frame.getLightsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getOpenWindowsComboBox().setModel(new DefaultComboBoxModel(userWindowsArray));
 				frame.getRoomToZoneComboBox().setModel(new DefaultComboBoxModel(itemsArray));
+				frame.getComboBoxSetRoomTemp().setModel(new DefaultComboBoxModel(itemsArray));
 
 				// refresh layout
 				frame.repaint();

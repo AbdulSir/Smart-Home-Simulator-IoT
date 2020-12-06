@@ -179,6 +179,33 @@ public class SHHController {
 				}, 1000, 1000);
 			}
 		});
+		
+		/**
+		 * Display room temperature
+		 */
+		JComboBox comboBoxSetRoomTemp = this.frame.getComboBoxSetRoomTemp();
+		comboBoxSetRoomTemp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
+
+				frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()));
+			}
+		});
+		
+		/**
+		 * Set new room temperature
+		 */
+		JButton btnSetTemp = this.frame.getBtnSetTemp();
+		btnSetTemp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();				
+				double newTemp = Double.parseDouble(frame.getNewTempValue().getText());
+				
+				rooms.get(currentRoomSelected).setTemperature(newTemp);
+				
+				frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()) + "Overriden");
+			}
+		});
 	}
 
 	/**

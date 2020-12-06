@@ -1,3 +1,0 @@
-[05/12/2020 21:19:43] The time has been set at 21:19:33
-[05/12/2020 21:19:43] The date has been set to Dec 15, 2020
-[05/12/2020 21:19:45] Simulator ON

@@ -1,5 +1,5 @@
-[06/12/2020 15:16:24] The temperature for the outside of the house has been set at 11.0°C
-[06/12/2020 15:16:25] The temperature for the inside of the house has been set at 11.0°C
-[06/12/2020 15:16:32] The time has been set at 15:16:21
-[06/12/2020 15:16:32] The date has been set to 1-Dec-2020
-[06/12/2020 15:17:10] Simulator ON
+[06/12/2020 17:25:13] The temperature for the outside of the house has been set at 11.0°C
+[06/12/2020 17:25:15] The temperature for the inside of the house has been set at 11.0°C
+[06/12/2020 17:25:18] The time has been set at 17:25:08
+[06/12/2020 17:25:18] The date has been set to 1-Dec-2020
+[06/12/2020 17:26:12] Simulator ON

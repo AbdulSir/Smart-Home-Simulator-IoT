@@ -3,6 +3,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -192,6 +193,8 @@ public class SHHController {
 									// all rooms of selected zone will have desired temperature for this period of
 									// time
 									
+									// This function here increments the temperature to the desired value
+									// Right now it only work if you need to increase the temperature, not if you want to decrement it 
 									for (int a = 0; a < rooms.size(); a++) {
 										if (rooms.get(a).getCurrentRoomTemperature() < rooms.get(a)
 												.getDesiredRoomTemperature()) {
@@ -200,23 +203,54 @@ public class SHHController {
 											clockTimer.scheduleAtFixedRate(new TimerTask() {
 												public void run() {
 													// Your code
-
+												
+													DecimalFormat form = new DecimalFormat("#.#");    
 													rooms.get(innerA).setCurrentRoomTemperature(
 															rooms.get(innerA).getCurrentRoomTemperature() + 0.1);
 													System.out.println("Current Temperature for "
 																	+ rooms.get(innerA).getLocation() + " is "
-																	+ rooms.get(innerA).getCurrentRoomTemperature());
-													if (rooms.get(innerA).getCurrentRoomTemperature() > rooms
+																	+ Double.valueOf(form.format(rooms.get(innerA).getCurrentRoomTemperature())));
+													if (Double.valueOf(form.format(rooms.get(innerA).getCurrentRoomTemperature())) == rooms
 															.get(innerA).getDesiredRoomTemperature()) {
 														System.out.println("Current Temperature for "
 																+ rooms.get(innerA).getLocation() + " has reached Desired Temperature of "
-																+ rooms.get(innerA).getCurrentRoomTemperature());
+																+ Double.valueOf(form.format(rooms.get(innerA).getCurrentRoomTemperature())));
+														
 														clockTimer.cancel();
 														clockTimer.purge();
 													}
 												}
 											}, 0, 1000);
 
+										}
+										else if (rooms.get(a).getCurrentRoomTemperature() > rooms.get(a)
+												.getDesiredRoomTemperature()) {
+
+											final Integer innerA = new Integer(a);
+	
+											clockTimer.scheduleAtFixedRate(new TimerTask() {
+												public void run() {
+													// Your code
+													
+													DecimalFormat form = new DecimalFormat("#.#");    
+													rooms.get(innerA).setCurrentRoomTemperature(
+															rooms.get(innerA).getCurrentRoomTemperature() - 0.1);
+													System.out.println("Current Temperature for "
+																	+ rooms.get(innerA).getLocation() + " is "
+																	+ Double.valueOf(form.format(rooms.get(innerA).getCurrentRoomTemperature())));
+													if (Double.valueOf(form.format(rooms.get(innerA).getCurrentRoomTemperature())) == rooms
+															.get(innerA).getDesiredRoomTemperature()) {
+														System.out.println("Current Temperature for "
+																+ rooms.get(innerA).getLocation() + " has reached Desired Temperature of "
+																+ Double.valueOf(form.format(rooms.get(innerA).getCurrentRoomTemperature())));
+														
+														clockTimer.cancel();
+														clockTimer.purge();
+													}
+												}
+											}, 0, 1000);
+
+										
 										}
 									}
 								}

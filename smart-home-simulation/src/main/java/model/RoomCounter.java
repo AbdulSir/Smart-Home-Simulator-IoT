@@ -7,7 +7,7 @@ public class RoomCounter {
 	private int count;
 	private static ArrayList<RoomCounter> rooms = new ArrayList<RoomCounter>();
 	private static RoomCounter roomCounter;
-	private int temperature;
+	private double temperature;
 	private int zone;
 
 	/** Default Constructor **/
@@ -103,14 +103,14 @@ public class RoomCounter {
 	/**
 	 * Getter
 	 */
-	public int getTemperature() {
+	public double getTemperature() {
 		return temperature;
 	}
 
 	/**
 	 * Setter
 	 */
-	public void setTemperature(int temperature) {
+	public void setTemperature(double temperature) {
 		this.temperature = temperature;
 	}
 

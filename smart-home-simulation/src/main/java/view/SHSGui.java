@@ -246,7 +246,7 @@ public class SHSGui extends JFrame {
 		JPanel panelProfile = new JPanel();
 		panelProfile.setBackground(Color.WHITE);
 		// Profile image
-		labelProfileImage = new JLabel("Apply");
+		labelProfileImage = new JLabel("");
 		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
 
 		/** Horizontal Tabs **/

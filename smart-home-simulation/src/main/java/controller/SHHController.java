@@ -35,7 +35,7 @@ public class SHHController {
 	private ArrayList<RoomCounter> rooms;
 	private ReadingJsonFile rjFile;
 	private Time time;
-	private int desiredTemp;
+	private double desiredTemp;
 	private Zone zone;
 
 	public SHHController() {
@@ -134,10 +134,10 @@ public class SHHController {
 
 				Date finalPeriodTime = (Date) finalPeriod.getValue();
 				String formattedfinalPeriodTime = new SimpleDateFormat("HH:mm:ss").format(finalPeriodTime);
-				
+
 				String desiredTempStr = desiredTempTextField.getText();
 				int desiredTempInt = (Integer.parseInt(desiredTempStr));
-				
+
 				Zone zone = new Zone(currentZoneSelected, currentPeriodSelected, formattedInitialPeriodTime,
 						formattedfinalPeriodTime, desiredTempInt);
 //				if (currentTime != null && finalPeriodTime != null) {
@@ -167,7 +167,8 @@ public class SHHController {
 									for (int i = 0; i < rooms.size(); i++) {
 										if (zone.getCurrentZone() + 1 == rooms.get(i).getZone()) {
 											rooms.get(i).setTemperature(zone.getDesiredTemperature());
-											System.out.println(rooms.get(i).getLocation()+"    "+rooms.get(i).getTemperature());
+											System.out.println(rooms.get(i).getLocation() + "    "
+													+ rooms.get(i).getTemperature());
 										}
 									}
 								}
@@ -193,8 +194,8 @@ public class SHHController {
 				roomsList += rooms.get(i).getLocation() + ", ";
 			}
 		}
-		if(!roomsList.equals(""))
-			roomsList = roomsList.substring(0, roomsList.length()-2);
+		if (!roomsList.equals(""))
+			roomsList = roomsList.substring(0, roomsList.length() - 2);
 		return roomsList;
 	}
 
@@ -234,8 +235,15 @@ public class SHHController {
 	/**
 	 * Setter
 	 */
-	public void setDesiredTemp(int desiredTemp) {
+	public void setDesiredTemp(double desiredTemp) {
 		this.desiredTemp = desiredTemp;
+	}
+
+	/**
+	 * Getter
+	 */
+	public double getDesiredTemp() {
+		return desiredTemp;
 	}
 
 	public static SHHController getSHHController() {
@@ -246,10 +254,6 @@ public class SHHController {
 			return shhController;
 		}
 
-	}
-
-	public int getDesiredTemp() {
-		return desiredTemp;
 	}
 
 }

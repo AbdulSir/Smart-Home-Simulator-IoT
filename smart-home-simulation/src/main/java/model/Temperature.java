@@ -17,8 +17,8 @@ import view.SHSGui;
 
 public class Temperature {
 
-	private int outsideTemp;
-	private int insideTemp;
+	private double outsideTemp;
+	private double insideTemp;
 	private Console console;
 	private SHSGui frame;
 	private static Temperature temperature;
@@ -50,7 +50,7 @@ public class Temperature {
 		in.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				setInsideTemperatureFunction(in, frame, console, controller);
-				}
+			}
 		});
 	}
 
@@ -82,35 +82,34 @@ public class Temperature {
 		setInsideTemp(insideTempIntValue);
 		frame.getIndoorHouseTempValue().setText(insideTempStrValue + "\u00B0C");
 		console.msg("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
-		controller.appendToLog(
-				"The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
+		controller.appendToLog("The temperature for the inside of the house has been set at " + insideTemp + "\u00B0C");
 	}
 
 	/**
 	 * Getter
 	 */
-	public int getOutsideTemp() {
+	public double getOutsideTemp() {
 		return outsideTemp;
 	}
 
 	/**
 	 * Setter
 	 */
-	public void setOutsideTemp(int x) {
+	public void setOutsideTemp(double x) {
 		this.outsideTemp = x;
 	}
 
 	/**
 	 * Getter
 	 */
-	public int getInsideTemp() {
+	public double getInsideTemp() {
 		return insideTemp;
 	}
 
 	/**
 	 * Setter
 	 */
-	public void setInsideTemp(int x) {
+	public void setInsideTemp(double x) {
 		this.insideTemp = x;
 	}
 

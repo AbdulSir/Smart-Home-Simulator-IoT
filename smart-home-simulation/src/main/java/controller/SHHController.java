@@ -144,8 +144,14 @@ public class SHHController {
 
 				String desiredTempStr = desiredTempTextField.getText();
 				int desiredTempInt = (Integer.parseInt(desiredTempStr));
-
-				Zone zone = new Zone(currentZoneSelected, currentPeriodSelected, formattedInitialPeriodTime,
+//				for (int a = 0; a < rooms.size(); a++) {
+//					System.out.println("Room "+rooms.get(a).getLocation()+" "+rooms.get(a).getZone()+" CurrentZone Selected "+currentZoneSelected);
+//					if (rooms.get(a).getZone() == (currentZoneSelected+1)) {
+//						rooms.get(a).setDesiredRoomTemperature(desiredTempInt);
+//						System.out.println(rooms.get(a).getDesiredRoomTemperature());
+//					}
+//				}
+				Zone zone = new Zone((currentZoneSelected+1), currentPeriodSelected, formattedInitialPeriodTime,
 						formattedfinalPeriodTime, desiredTempInt);
 //				if (currentTime != null && finalPeriodTime != null) {
 //				if ((formattedCurrentTime).compareTo(formattedfinalPeriodTime) > 0) {
@@ -158,7 +164,21 @@ public class SHHController {
 		JButton shhApplyBtn = this.frame.getShhApplyBtn();
 		shhApplyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				zone.printZoneDetails();
+				// Apply all zone temperatures to each room
+				for (Zone zone : zone.getZoneList()) {
+					System.out.println("we are in " + zone.getCurrentZone());
+					for (int i = 0; i < rooms.size(); i++) {
+						System.out.println(rooms.get(i).getLocation() + " is in Zone " + rooms.get(i).getZone());
+						if ((zone.getCurrentZone() == rooms.get(i).getZone())) {
+							if (!rooms.get(i).isTempOverridden()) {
+								rooms.get(i).setDesiredRoomTemperature(zone.getDesiredTemperature());
+							}
+						}
+						System.out.println("DESIRED TEMPERATURE FOR ROOM " + rooms.get(i).getLocation() + " IS "
+								+ rooms.get(i).getDesiredRoomTemperature());
+					}
+				}
+				
 				Timer clockTimer = new Timer();
 				clockTimer.schedule(new TimerTask() {
 					public void run() {
@@ -171,13 +191,32 @@ public class SHHController {
 										&& (formattedCurrentTime).compareTo(zone.getFinalPeriod()) < 0) {
 									// all rooms of selected zone will have desired temperature for this period of
 									// time
-									for (int i = 0; i < rooms.size(); i++) {
-										if (zone.getCurrentZone() + 1 == rooms.get(i).getZone()) {
-											if (!rooms.get(i).isTempOverridden()) {
-												rooms.get(i).setTemperature(zone.getDesiredTemperature());
-											}
-											System.out.println(rooms.get(i).getLocation() + "    "
-													+ rooms.get(i).getTemperature());
+									
+									for (int a = 0; a < rooms.size(); a++) {
+										if (rooms.get(a).getCurrentRoomTemperature() < rooms.get(a)
+												.getDesiredRoomTemperature()) {
+											final Integer innerA = new Integer(a);
+	
+											clockTimer.scheduleAtFixedRate(new TimerTask() {
+												public void run() {
+													// Your code
+
+													rooms.get(innerA).setCurrentRoomTemperature(
+															rooms.get(innerA).getCurrentRoomTemperature() + 0.1);
+													System.out.println("Current Temperature for "
+																	+ rooms.get(innerA).getLocation() + " is "
+																	+ rooms.get(innerA).getCurrentRoomTemperature());
+													if (rooms.get(innerA).getCurrentRoomTemperature() > rooms
+															.get(innerA).getDesiredRoomTemperature()) {
+														System.out.println("Current Temperature for "
+																+ rooms.get(innerA).getLocation() + " has reached Desired Temperature of "
+																+ rooms.get(innerA).getCurrentRoomTemperature());
+														clockTimer.cancel();
+														clockTimer.purge();
+													}
+												}
+											}, 0, 1000);
+
 										}
 									}
 								}
@@ -196,14 +235,16 @@ public class SHHController {
 		comboBoxSetRoomTemp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
-				frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()));
+				frame.getLabelCurrentTemp()
+						.setText(String.valueOf(rooms.get(currentRoomSelected).getCurrentRoomTemperature()));
 
 				if (rooms.get(currentRoomSelected).isTempOverridden()) {
-					frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature())
-							+ " \u00B0C " + " OVERRIDDEN");
-				} else {
 					frame.getLabelCurrentTemp()
-							.setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()) + " \u00B0C ");
+							.setText(String.valueOf(rooms.get(currentRoomSelected).getCurrentRoomTemperature())
+									+ " \u00B0C " + " OVERRIDDEN");
+				} else {
+					frame.getLabelCurrentTemp().setText(
+							String.valueOf(rooms.get(currentRoomSelected).getCurrentRoomTemperature()) + " \u00B0C ");
 				}
 
 			}
@@ -217,10 +258,10 @@ public class SHHController {
 			public void actionPerformed(ActionEvent arg0) {
 				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
 				double newTemp = Double.parseDouble(frame.getNewTempValue().getText());
-				rooms.get(currentRoomSelected).setTemperature(newTemp);
-				frame.getLabelCurrentTemp()
-						.setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()) + "Overriden");
-				rooms.get(currentRoomSelected).setTemperature(newTemp);
+				rooms.get(currentRoomSelected).setDesiredRoomTemperature(newTemp);
+				frame.getLabelCurrentTemp().setText(
+						String.valueOf(rooms.get(currentRoomSelected).getDesiredRoomTemperature()) + "Overriden");
+				rooms.get(currentRoomSelected).setDesiredRoomTemperature(newTemp);
 
 				// set temperature of room overridden
 				rooms.get(currentRoomSelected).setTempOverridden(true);
@@ -251,13 +292,13 @@ public class SHHController {
 					if (summerMonths != null && winterMonths != null) {
 						if (summerMonths.contains(currentMonth)) {
 							for (int i = 0; i < rooms.size(); i++)
-								rooms.get(i).setTemperature(defaultSummer);
+								rooms.get(i).setDesiredRoomTemperature(defaultSummer);
 						} else if (winterMonths.contains(currentMonth)) {
 							for (int i = 0; i < rooms.size(); i++)
-								rooms.get(i).setTemperature(defaultWinter);
+								rooms.get(i).setDesiredRoomTemperature(defaultWinter);
 						} else {
 							for (int i = 0; i < rooms.size(); i++) {
-								rooms.get(i).setTemperature(temperature.getInsideTemp());
+								rooms.get(i).setDesiredRoomTemperature(temperature.getInsideTemp());
 							}
 						}
 					} else
@@ -272,34 +313,34 @@ public class SHHController {
 		 * lower than any of the temperatures in any of the rooms. We will also check if
 		 * the inside temperature is equal to 0.
 		 */
-		Timer tempTimer = new Timer();
-		tempTimer.schedule(new TimerTask() {
-			public void run() {
-				for (Room room : rooms) {
-					if (temperature.getOutsideTemp() < room.getTemperature()
-							&& SHPController.getSHPController().getAwayMode() == false) {
-						for (int i = 0; i < window.size(); i++) {
-							if (window.get(i).getLocation().equals(room.getLocation())) {
-								if (!window.get(i).isBlocked()) {
-									window.get(i).setOpen(true);
-									paint();
-									console.msg("The window in the " + room.getLocation()
-											+ " has been opened due to difference in temperature");
-									break;
-								} else
-									console.msg("The outdoor temperature is lower than the temperature in the "
-											+ room.getLocation()
-											+ ". The window cannot be opened because it is blocked.");
-							}
-						}
-					}
-				}
-				if (temperature.getInsideTemp() == 0 && counter % 60 == 0) {
-					console.msg("The temperature inside of the house is at 0\u00B0C. The pipes might burst.");
-				}
-				counter++;
-			}
-		}, 1000, 1000);
+//		Timer tempTimer = new Timer();
+//		tempTimer.schedule(new TimerTask() {
+//			public void run() {
+//				for (Room room : rooms) {
+//					if (temperature.getOutsideTemp() < room.getCurrentRoomTemperature()
+//							&& SHPController.getSHPController().getAwayMode() == false) {
+//						for (int i = 0; i < window.size(); i++) {
+//							if (window.get(i).getLocation().equals(room.getLocation())) {
+//								if (!window.get(i).isBlocked()) {
+//									window.get(i).setOpen(true);
+//									paint();
+//									console.msg("The window in the " + room.getLocation()
+//											+ " has been opened due to difference in temperature");
+//									break;
+//								} else
+//									console.msg("The outdoor temperature is lower than the temperature in the "
+//											+ room.getLocation()
+//											+ ". The window cannot be opened because it is blocked.");
+//							}
+//						}
+//					}
+//				}
+//				if (Temperature.getTemperature().getInsideTemp() == 0 && counter % 60 == 0) {
+//					console.msg("The temperature inside of the house is at 0\u00B0C. The pipes might burst.");
+//				}
+//				counter++;
+//			}
+//		}, 1000, 1000);
 
 	}
 

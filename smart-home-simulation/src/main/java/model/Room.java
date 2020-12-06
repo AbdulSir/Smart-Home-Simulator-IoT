@@ -7,7 +7,8 @@ public class Room {
 	private int count;
 	private static ArrayList<Room> rooms = new ArrayList<Room>();
 	private static Room roomCounter;
-	private double temperature;
+	private double desiredTemperature;
+	private double currentTemperature;
 	private int zone;
 	private boolean isTempOverridden;
 
@@ -20,7 +21,8 @@ public class Room {
 		this.location = location;
 		count = 0;
 		rooms.add(this);
-		setTemperature(0);
+		setCurrentRoomTemperature(Temperature.getTemperature().getInsideTemp());
+		setDesiredRoomTemperature(0);
 		zone = 1;
 		isTempOverridden = false;
 	}
@@ -105,15 +107,15 @@ public class Room {
 	/**
 	 * Getter
 	 */
-	public double getTemperature() {
-		return temperature;
+	public double getDesiredRoomTemperature() {
+		return desiredTemperature;
 	}
 
 	/**
 	 * Setter
 	 */
-	public void setTemperature(double temperature) {
-		this.temperature = temperature;
+	public void setDesiredRoomTemperature(double temperature) {
+		this.desiredTemperature = temperature;
 	}
 
 	/**
@@ -142,6 +144,14 @@ public class Room {
 	 */
 	public void setTempOverridden(boolean isTempOverridden) {
 		this.isTempOverridden = isTempOverridden;
+	}
+
+	public double getCurrentRoomTemperature() {
+		return currentTemperature;
+	}
+
+	public void setCurrentRoomTemperature(double currentTemperature) {
+		this.currentTemperature = currentTemperature;
 	}
 
 }

@@ -17,8 +17,8 @@ import view.SHSGui;
 
 public class Temperature {
 
-	private double outsideTemp;
-	private double insideTemp;
+	private static double outsideTemp;
+	private static double insideTemp;
 	private Console console;
 	private SHSGui frame;
 	private static Temperature temperature;

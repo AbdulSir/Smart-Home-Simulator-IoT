@@ -48,7 +48,7 @@ public class Time {
 	/**
 	 * Default constructor
 	 */
-	private Time() {
+	public Time() {
 		date = null;
 		dateChooser = null;
 		t = null;

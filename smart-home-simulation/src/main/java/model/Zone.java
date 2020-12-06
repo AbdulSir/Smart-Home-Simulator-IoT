@@ -1,0 +1,50 @@
+package model;
+
+import java.util.ArrayList;
+
+public class Zone {
+	private static ArrayList<Zone> zoneList = new ArrayList<Zone>();
+	private int currentZone; 
+	private String period;
+	private String initialPeriod;
+	private String finalPeriod;
+	private int desiredTemperature;
+	
+	public Zone() {}
+	public Zone(int currentZone, String period, String initialPeriod, String finalPeriod, int desiredTemperature) {
+		this.currentZone = currentZone;
+		this.period = period;
+		this.initialPeriod = initialPeriod;
+		this.finalPeriod = finalPeriod;
+		this.desiredTemperature = desiredTemperature;
+		getZoneList().add(this);
+	}
+	public void printZoneDetails() {
+		for (Zone zone : getZoneList()) {
+			System.out.println("CurrentZone is " + (zone.getCurrentZone()+ 1));
+			System.out.println("Period is " + zone.getPeriod());
+			System.out.println("Initial Time Period is " + zone.getInitialPeriod());
+			System.out.println("Final Time Period is " + zone.getFinalPeriod());
+			System.out.println("Desired Temperature is " + zone.getDesiredTemperature());
+			System.out.println("-----------");
+		}
+	}
+	public static ArrayList<Zone> getZoneList() {
+		return zoneList;
+	}
+	public int getCurrentZone() {
+		return currentZone;
+	}
+	public String getPeriod() {
+		return period;
+	}
+	public String getInitialPeriod() {
+		return initialPeriod;
+	}
+	public String getFinalPeriod() {
+		return finalPeriod;
+	}
+	public int getDesiredTemperature() {
+		return desiredTemperature;
+	}
+}

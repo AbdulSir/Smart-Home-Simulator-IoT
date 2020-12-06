@@ -121,11 +121,13 @@ public class SHSGui extends JFrame {
 	private JSpinner initialPeriodJSpinner;
 	private JSpinner finalPeriodJSpinner;
 	private JButton btnAcceptPeriod;
-
+	private JButton shhApplyBtn;
+	
 	private static SHPController securityController;
 	private static SHCController coreController;
 	private static SHSController controller;
 	private static SHHController heatController;
+
 
 	/**
 	 * Launch the application.
@@ -244,7 +246,7 @@ public class SHSGui extends JFrame {
 		JPanel panelProfile = new JPanel();
 		panelProfile.setBackground(Color.WHITE);
 		// Profile image
-		labelProfileImage = new JLabel("");
+		labelProfileImage = new JLabel("Apply");
 		labelProfileImage.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
 
 		/** Horizontal Tabs **/
@@ -746,6 +748,11 @@ public class SHSGui extends JFrame {
 		btnAcceptPeriod = new JButton("Accept");
 		btnAcceptPeriod.setBounds(235, 242, 77, 23);
 		panelSHH.add(btnAcceptPeriod);
+		
+		shhApplyBtn = new JButton("Apply");
+
+		shhApplyBtn.setBounds(183, 276, 117, 29);
+		panelSHH.add(shhApplyBtn);
 
 		/** Add Tab **/
 		JPanel panelPlus = new JPanel();
@@ -1648,5 +1655,11 @@ public class SHSGui extends JFrame {
 			return shs;
 		}
 
+	}
+	/**
+	 * Getter
+	 */
+	public JButton getShhApplyBtn() {
+		return shhApplyBtn;
 	}
 }

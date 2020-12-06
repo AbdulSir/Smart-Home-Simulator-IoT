@@ -21,6 +21,7 @@ import model.RoomCounter;
 import model.Temperature;
 import model.Time;
 import model.Users;
+import model.Zone;
 import view.SHSGui;
 
 public class SHHController {
@@ -35,6 +36,7 @@ public class SHHController {
 	private ReadingJsonFile rjFile;
 	private Time time;
 	private int desiredTemp;
+	private Zone zone;
 
 	public SHHController() {
 	}
@@ -44,7 +46,8 @@ public class SHHController {
 		this.console = Console.getConsole();
 		this.user = Users.getUser();
 		rooms = RoomCounter.getRooms();
-		this.time = Time.getWatch();
+		this.time = time.getWatch();
+		this.zone = new Zone();
 		UserEvents();
 	}
 
@@ -113,12 +116,12 @@ public class SHHController {
 
 		JTextField desiredTempTextField = this.frame.getDesiredTempTextField();
 
-		desiredTempTextField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String desiredTempStr = desiredTempTextField.getText();
-				setDesiredTemp(Integer.parseInt(desiredTempStr));
-			}
-		});
+//		desiredTempTextField.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				String desiredTempStr = desiredTempTextField.getText();
+//				setDesiredTemp(Integer.parseInt(desiredTempStr));
+//			}
+//		});
 
 		btnAcceptPeriod.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -131,34 +134,48 @@ public class SHHController {
 
 				Date finalPeriodTime = (Date) finalPeriod.getValue();
 				String formattedfinalPeriodTime = new SimpleDateFormat("HH:mm").format(finalPeriodTime);
+				
+				String desiredTempStr = desiredTempTextField.getText();
+				int desiredTempInt = (Integer.parseInt(desiredTempStr));
+				
+				Zone zone = new Zone(currentZoneSelected, currentPeriodSelected, formattedInitialPeriodTime,
+						formattedfinalPeriodTime, desiredTempInt);
+//				if (currentTime != null && finalPeriodTime != null) {
+//				if ((formattedCurrentTime).compareTo(formattedfinalPeriodTime) > 0) {
+//					
+//				}
+//			}
 
+			}
+		});
+		JButton shhApplyBtn = this.frame.getShhApplyBtn();
+		shhApplyBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				zone.printZoneDetails();
 				Timer clockTimer = new Timer();
 				clockTimer.schedule(new TimerTask() {
 					public void run() {
-						Date currentTime = time.getTime();
-						String formattedCurrentTime = new SimpleDateFormat("HH:mm").format(currentTime);
+						for (Zone zone : zone.getZoneList()) {
+							Date currentTime = time.getTime();
+							String formattedCurrentTime = new SimpleDateFormat("HH:mm").format(currentTime);
 
-						if (currentTime != null && initalPeriodTime != null) {
-							if ((formattedCurrentTime).compareTo(formattedInitialPeriodTime) > 0
-									&& (formattedCurrentTime).compareTo(formattedfinalPeriodTime) < 0) {
-								// all rooms of selected zone will have desired temperature for this period of
-								// time
-								for (int i = 0; i < rooms.size(); i++) {
-									if (currentZoneSelected + 1 == rooms.get(i).getZone()) {
-										rooms.get(i).setTemperature(desiredTemp);
+							if (currentTime != null && zone.getInitialPeriod() != null) {
+								if ((formattedCurrentTime).compareTo(zone.getInitialPeriod()) > 0
+										&& (formattedCurrentTime).compareTo(zone.getFinalPeriod()) < 0) {
+									// all rooms of selected zone will have desired temperature for this period of
+									// time
+									for (int i = 0; i < rooms.size(); i++) {
+										if (zone.getCurrentZone() + 1 == rooms.get(i).getZone()) {
+											rooms.get(i).setTemperature(zone.getDesiredTemperature());
+											System.out.println(rooms.get(i).getLocation()+"    "+rooms.get(i).getTemperature());
+										}
 									}
 								}
 							}
 						}
 
-//						if (currentTime != null && finalPeriodTime != null) {
-//							if ((formattedCurrentTime).compareTo(formattedfinalPeriodTime) > 0) {
-//								
-//							}
-//						}
 					}
-				}, 50, 50);
-
+				}, 1000, 1000);
 			}
 		});
 	}
@@ -227,6 +244,10 @@ public class SHHController {
 			return shhController;
 		}
 
+	}
+
+	public int getDesiredTemp() {
+		return desiredTemp;
 	}
 
 }

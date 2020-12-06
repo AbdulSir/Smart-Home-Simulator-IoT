@@ -193,6 +193,8 @@ public class SHHController {
 				roomsList += rooms.get(i).getLocation() + ", ";
 			}
 		}
+		if(!roomsList.equals(""))
+			roomsList = roomsList.substring(0, roomsList.length()-2);
 		return roomsList;
 	}
 

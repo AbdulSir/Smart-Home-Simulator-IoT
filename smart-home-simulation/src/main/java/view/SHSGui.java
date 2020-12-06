@@ -677,25 +677,25 @@ public class SHSGui extends JFrame {
 
 		/** Select zone **/
 		JLabel selectZoneLabel = new JLabel("Select a zone:");
-		selectZoneLabel.setBounds(10, 36, 83, 14);
+		selectZoneLabel.setBounds(10, 37, 95, 14);
 		panelSHH.add(selectZoneLabel);
 
 		zoneComboBox = new JComboBox();
 		zoneComboBox.setModel(new DefaultComboBoxModel(new String[] { "ZONE 1", "ZONE 2", "ZONE 3" }));
-		zoneComboBox.setBounds(10, 61, 83, 22);
+		zoneComboBox.setBounds(10, 61, 107, 22);
 		panelSHH.add(zoneComboBox);
 
 		/** Selct room **/
 		JLabel roomToZoneLabel = new JLabel("Add a room to zone:");
-		roomToZoneLabel.setBounds(103, 36, 182, 14);
+		roomToZoneLabel.setBounds(118, 37, 182, 14);
 		panelSHH.add(roomToZoneLabel);
 
 		roomToZoneComboBox = new JComboBox();
-		roomToZoneComboBox.setBounds(103, 61, 101, 22);
+		roomToZoneComboBox.setBounds(113, 61, 121, 22);
 		panelSHH.add(roomToZoneComboBox);
 
 		btnAddRoomToZone = new JButton("Add");
-		btnAddRoomToZone.setBounds(214, 61, 71, 23);
+		btnAddRoomToZone.setBounds(229, 61, 71, 23);
 		panelSHH.add(btnAddRoomToZone);
 
 		displayZoneLabel = new JTextArea();
@@ -721,32 +721,32 @@ public class SHSGui extends JFrame {
 
 		/** Select period **/
 		JLabel selectPeriodLabel_3 = new JLabel("Select period: ");
-		selectPeriodLabel_3.setBounds(10, 211, 83, 14);
+		selectPeriodLabel_3.setBounds(10, 211, 107, 14);
 		panelSHH.add(selectPeriodLabel_3);
 
 		periodComboBox = new JComboBox();
 		periodComboBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3" }));
-		periodComboBox.setBounds(10, 242, 42, 22);
+		periodComboBox.setBounds(10, 242, 64, 22);
 		panelSHH.add(periodComboBox);
 
 		initialPeriodJSpinner = new JSpinner();
-		initialPeriodJSpinner.setBounds(62, 242, 71, 22);
+		initialPeriodJSpinner.setBounds(81, 241, 71, 22);
 		initialPeriodJSpinner.setModel(new SpinnerDateModel());
 		initialPeriodJSpinner.setEditor(new JSpinner.DateEditor(initialPeriodJSpinner, "HH:mm"));
 		panelSHH.add(initialPeriodJSpinner);
 
 		JLabel periodToLabel = new JLabel("to");
-		periodToLabel.setBounds(143, 246, 18, 14);
+		periodToLabel.setBounds(162, 245, 18, 14);
 		panelSHH.add(periodToLabel);
 
 		finalPeriodJSpinner = new JSpinner();
-		finalPeriodJSpinner.setBounds(160, 242, 65, 22);
+		finalPeriodJSpinner.setBounds(191, 241, 65, 22);
 		finalPeriodJSpinner.setModel(new SpinnerDateModel());
 		finalPeriodJSpinner.setEditor(new JSpinner.DateEditor(finalPeriodJSpinner, "HH:mm"));
 		panelSHH.add(finalPeriodJSpinner);
 
 		btnAcceptPeriod = new JButton("Accept");
-		btnAcceptPeriod.setBounds(235, 242, 77, 23);
+		btnAcceptPeriod.setBounds(179, 275, 77, 23);
 		panelSHH.add(btnAcceptPeriod);
 		
 		shhApplyBtn = new JButton("Apply");
@@ -775,47 +775,51 @@ public class SHSGui extends JFrame {
 
 		JPanel panel = new JPanel();
 
-		JPanel panel_3 = new JPanel();
-		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
-		gl_panel_3
-				.setHorizontalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING).addGap(0, 459, Short.MAX_VALUE));
-		gl_panel_3.setVerticalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING).addGap(0, 56, Short.MAX_VALUE));
-		panel_3.setLayout(gl_panel_3);
-
 		GroupLayout gl_panelProfile = new GroupLayout(panelProfile);
-		gl_panelProfile.setHorizontalGroup(gl_panelProfile.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfile.createSequentialGroup().addGap(153)
-						.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE).addGap(148))
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-						.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE).addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-						.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 452, Short.MAX_VALUE)
-						.addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE).addContainerGap())
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap()
-						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 459, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		gl_panelProfile.setVerticalGroup(gl_panelProfile.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelProfile.createSequentialGroup().addContainerGap().addComponent(togglebuttonSimulator)
-						.addGap(7).addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panelHouseInfo, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
-						.addGap(130)));
+		gl_panelProfile.setHorizontalGroup(
+			gl_panelProfile.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addGap(153)
+					.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+					.addGap(148))
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelOutsideInfo, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelHouseInfo, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(togglebuttonSimulator, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 462, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panelProfile.setVerticalGroup(
+			gl_panelProfile.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelProfile.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(togglebuttonSimulator)
+					.addGap(7)
+					.addComponent(labelProfileImage, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(panelProfileInfo, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelHouseInfo, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelOutsideInfo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
+					.addGap(192))
+		);
 
 		JLabel dateLabel = new JLabel("Date");
 

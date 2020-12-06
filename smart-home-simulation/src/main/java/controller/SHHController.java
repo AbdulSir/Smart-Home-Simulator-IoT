@@ -418,13 +418,13 @@ public class SHHController {
 							&& SHPController.getSHPController().getAwayMode() == false) {
 						for (int i = 0; i < window.size(); i++) {
 							if (window.get(i).getLocation().equals(room.getLocation())) {
-								if (!window.get(i).isBlocked()) {
+								if (!window.get(i).isBlocked()  && counter % 60 == 0) {
 									window.get(i).setOpen(true);
 									paint();
 									console.msg("The window in the " + room.getLocation()
 											+ " has been opened due to difference in temperature");
 									break;
-								} else
+								} else if (counter % 60 == 0)
 									console.msg("The outdoor temperature is lower than the temperature in the "
 											+ room.getLocation()
 											+ ". The window cannot be opened because it is blocked.");

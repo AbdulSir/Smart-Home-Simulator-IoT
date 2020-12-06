@@ -723,16 +723,16 @@ public class SHSGui extends JFrame {
 
 		/** Set desired temperature **/
 		JLabel setDesiredTempLabel = new JLabel("Set desired temperature:");
-		setDesiredTempLabel.setBounds(10, 153, 246, 14);
+		setDesiredTempLabel.setBounds(10, 153, 159, 14);
 		panelSHH.add(setDesiredTempLabel);
 
 		desiredTempTextField = new JTextField();
-		desiredTempTextField.setBounds(132, 153, 86, 22);
+		desiredTempTextField.setBounds(170, 149, 86, 22);
 		panelSHH.add(desiredTempTextField);
 		desiredTempTextField.setColumns(10);
 
 		JLabel desiredTempLabel = new JLabel("\u00B0C");
-		desiredTempLabel.setBounds(223, 153, 46, 14);
+		desiredTempLabel.setBounds(254, 153, 46, 14);
 		panelSHH.add(desiredTempLabel);
 
 		/** Select period **/
@@ -742,21 +742,21 @@ public class SHSGui extends JFrame {
 
 		periodComboBox = new JComboBox();
 		periodComboBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3" }));
-		periodComboBox.setBounds(132, 178, 46, 22);
+		periodComboBox.setBounds(100, 175, 64, 22);
 		panelSHH.add(periodComboBox);
 
 		initialPeriodJSpinner = new JSpinner();
-		initialPeriodJSpinner.setBounds(10, 203, 71, 22);
+		initialPeriodJSpinner.setBounds(10, 203, 86, 22);
 		initialPeriodJSpinner.setModel(new SpinnerDateModel());
 		initialPeriodJSpinner.setEditor(new JSpinner.DateEditor(initialPeriodJSpinner, "HH:mm:ss"));
 		panelSHH.add(initialPeriodJSpinner);
 
 		JLabel periodToLabel = new JLabel("to");
-		periodToLabel.setBounds(91, 207, 18, 14);
+		periodToLabel.setBounds(99, 207, 18, 14);
 		panelSHH.add(periodToLabel);
 
 		finalPeriodJSpinner = new JSpinner();
-		finalPeriodJSpinner.setBounds(118, 203, 77, 22);
+		finalPeriodJSpinner.setBounds(118, 203, 86, 22);
 		finalPeriodJSpinner.setModel(new SpinnerDateModel());
 		finalPeriodJSpinner.setEditor(new JSpinner.DateEditor(finalPeriodJSpinner, "HH:mm:ss"));
 		panelSHH.add(finalPeriodJSpinner);
@@ -771,11 +771,11 @@ public class SHSGui extends JFrame {
 
 		shhApplyBtn = new JButton("Apply");
 
-		shhApplyBtn.setBounds(182, 231, 117, 29);
+		shhApplyBtn.setBounds(91, 229, 117, 29);
 		panelSHH.add(shhApplyBtn);
 
 		comboBoxSetRoomTemp = new JComboBox();
-		comboBoxSetRoomTemp.setBounds(74, 271, 107, 22);
+		comboBoxSetRoomTemp.setBounds(91, 270, 107, 22);
 		panelSHH.add(comboBoxSetRoomTemp);
 
 		labelCurrentTemp = new JLabel("");
@@ -842,7 +842,7 @@ public class SHSGui extends JFrame {
 		panelSHH.add(btnDefaultSeasonTemp);
 
 		lblThreshold = new JLabel("Set threshold(\u00B0C):");
-		lblThreshold.setBounds(10, 450, 107, 14);
+		lblThreshold.setBounds(10, 450, 127, 14);
 		panelSHH.add(lblThreshold);
 
 		textFieldUpperThreshold = new JTextField();

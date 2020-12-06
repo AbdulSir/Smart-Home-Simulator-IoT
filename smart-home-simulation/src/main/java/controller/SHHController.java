@@ -173,7 +173,9 @@ public class SHHController {
 									// time
 									for (int i = 0; i < rooms.size(); i++) {
 										if (zone.getCurrentZone() + 1 == rooms.get(i).getZone()) {
-											rooms.get(i).setTemperature(zone.getDesiredTemperature());
+											if (!rooms.get(i).isTempOverridden()) {
+												rooms.get(i).setTemperature(zone.getDesiredTemperature());
+											}
 											System.out.println(rooms.get(i).getLocation() + "    "
 													+ rooms.get(i).getTemperature());
 										}
@@ -195,6 +197,15 @@ public class SHHController {
 			public void actionPerformed(ActionEvent arg0) {
 				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
 				frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()));
+
+				if (rooms.get(currentRoomSelected).isTempOverridden()) {
+					frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature())
+							+ " \u00B0C " + " OVERRIDDEN");
+				} else {
+					frame.getLabelCurrentTemp()
+							.setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()) + " \u00B0C ");
+				}
+
 			}
 		});
 
@@ -209,6 +220,15 @@ public class SHHController {
 				rooms.get(currentRoomSelected).setTemperature(newTemp);
 				frame.getLabelCurrentTemp()
 						.setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()) + "Overriden");
+				rooms.get(currentRoomSelected).setTemperature(newTemp);
+
+				// set temperature of room overridden
+				rooms.get(currentRoomSelected).setTempOverridden(true);
+
+				String currentRoom = rooms.get(currentRoomSelected).getLocation();
+
+				// console message
+				Console.getConsole().msg(currentRoom + " new temperature is " + newTemp + " \u00B0C.");
 			}
 		});
 
@@ -238,6 +258,15 @@ public class SHHController {
 						}
 					} else 
 						console.msg("The winter and summer months have not been set. Operation Failed.");
+					if (summerMonths.contains(currentMonth)) {
+						for (int i = 0; i < rooms.size(); i++) {
+							rooms.get(i).setTemperature(defaultSummer);
+						}
+					} else if (winterMonths.contains(currentMonth)) {
+						for (int i = 0; i < rooms.size(); i++) {
+							rooms.get(i).setTemperature(defaultWinter);
+						}
+					}
 				} else
 					console.msg("Away Mode not ON");
 			}

@@ -251,22 +251,17 @@ public class SHHController {
 					if (summerMonths != null && winterMonths != null) {
 						if (summerMonths.contains(currentMonth)) {
 							for (int i = 0; i < rooms.size(); i++)
-								rooms.get(i).setTemperature(defaultSummerTemp);
+								rooms.get(i).setTemperature(defaultSummer);
 						} else if (winterMonths.contains(currentMonth)) {
 							for (int i = 0; i < rooms.size(); i++)
-								rooms.get(i).setTemperature(defaultWinterTemp);
+								rooms.get(i).setTemperature(defaultWinter);
+						} else {
+							for (int i = 0; i < rooms.size(); i++) {
+								rooms.get(i).setTemperature(temperature.getInsideTemp());
+							}
 						}
 					} else
 						console.msg("The winter and summer months have not been set. Operation Failed.");
-					if (summerMonths.contains(currentMonth)) {
-						for (int i = 0; i < rooms.size(); i++) {
-							rooms.get(i).setTemperature(defaultSummer);
-						}
-					} else if (winterMonths.contains(currentMonth)) {
-						for (int i = 0; i < rooms.size(); i++) {
-							rooms.get(i).setTemperature(defaultWinter);
-						}
-					}
 				} else
 					console.msg("Away Mode not ON");
 			}
@@ -274,7 +269,7 @@ public class SHHController {
 
 		/**
 		 * This timer will allow us to constantly check if the outdoor temperature is
-		 * lower than any of the temperatures in any of the rooms We will also check if
+		 * lower than any of the temperatures in any of the rooms. We will also check if
 		 * the inside temperature is equal to 0.
 		 */
 		Timer tempTimer = new Timer();

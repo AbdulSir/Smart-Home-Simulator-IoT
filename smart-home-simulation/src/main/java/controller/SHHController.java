@@ -42,6 +42,7 @@ public class SHHController {
 	private ArrayList<Windows> window;
 	private double defaultSummerTemp;
 	private double defaultWinterTemp;
+	private boolean isUserLoggedIn;
 	private int counter = 0;
 	private double upperThreshold;
 	private double lowerThreshold;
@@ -58,10 +59,10 @@ public class SHHController {
 		this.zone = new Zone();
 		this.temperature = Temperature.getTemperature();
 		this.window = Windows.getWindowList();
-		UserEvents();
+		userEvents();
 	}
 
-	private void UserEvents() {
+	private void userEvents() {
 
 		/**
 		 * Select Zone event
@@ -69,25 +70,30 @@ public class SHHController {
 		final JComboBox zoneComboBox = this.frame.getZoneComboBox();
 		zoneComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Users loggedUser = user.getLoggedUser();
+				if (hasPermissions(loggedUser, "N/A")) {
+					String currentZoneSelected = zoneComboBox.getSelectedItem().toString();
 
-				String currentZoneSelected = zoneComboBox.getSelectedItem().toString();
-
-				/**
-				 * Display rooms in a zone in SHH
-				 */
-				switch (currentZoneSelected) {
-				case "ZONE 1":
-					frame.getDisplayZoneLabel().setText(getRoomZone(1));
-					break;
-				case "ZONE 2":
-					frame.getDisplayZoneLabel().setText(getRoomZone(2));
-					break;
-				case "ZONE 3":
-					frame.getDisplayZoneLabel().setText(getRoomZone(3));
-					break;
-				default:
-					frame.getDisplayZoneLabel().setText("");
-					break;
+					/**
+					 * Display rooms in a zone in SHH
+					 */
+					switch (currentZoneSelected) {
+					case "ZONE 1":
+						frame.getDisplayZoneLabel().setText(getRoomZone(1));
+						break;
+					case "ZONE 2":
+						frame.getDisplayZoneLabel().setText(getRoomZone(2));
+						break;
+					case "ZONE 3":
+						frame.getDisplayZoneLabel().setText(getRoomZone(3));
+						break;
+					default:
+						frame.getDisplayZoneLabel().setText("");
+						break;
+					}
+				} else if (isUserLoggedIn) {
+					console.msg(
+							"You do not have the permission to execute this command. Reason: Permission status of user");
 				}
 			}
 		});
@@ -99,19 +105,25 @@ public class SHHController {
 		JComboBox roomToZoneComboBox = this.frame.getRoomToZoneComboBox();
 		btnAddRoomToZone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String currentZoneSelected = zoneComboBox.getSelectedItem().toString();
-				int currentRoomSelected = roomToZoneComboBox.getSelectedIndex();
+				Users loggedUser = user.getLoggedUser();
+				if (hasPermissions(loggedUser, "N/A")) {
+					String currentZoneSelected = zoneComboBox.getSelectedItem().toString();
+					int currentRoomSelected = roomToZoneComboBox.getSelectedIndex();
 
-				switch (currentZoneSelected) {
-				case "ZONE 1":
-					rooms.get(currentRoomSelected).setZone(1);
-					break;
-				case "ZONE 2":
-					rooms.get(currentRoomSelected).setZone(2);
-					break;
-				case "ZONE 3":
-					rooms.get(currentRoomSelected).setZone(3);
-					break;
+					switch (currentZoneSelected) {
+					case "ZONE 1":
+						rooms.get(currentRoomSelected).setZone(1);
+						break;
+					case "ZONE 2":
+						rooms.get(currentRoomSelected).setZone(2);
+						break;
+					case "ZONE 3":
+						rooms.get(currentRoomSelected).setZone(3);
+						break;
+					}
+				} else if (isUserLoggedIn) {
+					console.msg(
+							"You do not have the permission to execute this command. Reason: Permission status of user");
 				}
 			}
 		});
@@ -135,18 +147,20 @@ public class SHHController {
 
 		btnAcceptPeriod.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Users loggedUser = user.getLoggedUser();
+				if (hasPermissions(loggedUser, "N/A")) {
+					int currentZoneSelected = zoneComboBox.getSelectedIndex();
+					String currentPeriodSelected = periodComboBox.getSelectedItem().toString();
 
-				int currentZoneSelected = zoneComboBox.getSelectedIndex();
-				String currentPeriodSelected = periodComboBox.getSelectedItem().toString();
+					Date initalPeriodTime = (Date) initalPeriod.getValue();
+					String formattedInitialPeriodTime = new SimpleDateFormat("HH:mm:ss").format(initalPeriodTime);
 
-				Date initalPeriodTime = (Date) initalPeriod.getValue();
-				String formattedInitialPeriodTime = new SimpleDateFormat("HH:mm:ss").format(initalPeriodTime);
+					Date finalPeriodTime = (Date) finalPeriod.getValue();
+					String formattedfinalPeriodTime = new SimpleDateFormat("HH:mm:ss").format(finalPeriodTime);
 
-				Date finalPeriodTime = (Date) finalPeriod.getValue();
-				String formattedfinalPeriodTime = new SimpleDateFormat("HH:mm:ss").format(finalPeriodTime);
+					String desiredTempStr = desiredTempTextField.getText();
+					int desiredTempInt = (Integer.parseInt(desiredTempStr));
 
-				String desiredTempStr = desiredTempTextField.getText();
-				int desiredTempInt = (Integer.parseInt(desiredTempStr));
 //				for (int a = 0; a < rooms.size(); a++) {
 //					System.out.println("Room "+rooms.get(a).getLocation()+" "+rooms.get(a).getZone()+" CurrentZone Selected "+currentZoneSelected);
 //					if (rooms.get(a).getZone() == (currentZoneSelected+1)) {
@@ -154,15 +168,19 @@ public class SHHController {
 //						System.out.println(rooms.get(a).getDesiredRoomTemperature());
 //					}
 //				}
-				Zone zone = new Zone((currentZoneSelected + 1), currentPeriodSelected, formattedInitialPeriodTime,
-						formattedfinalPeriodTime, desiredTempInt);
+					Zone zone = new Zone((currentZoneSelected + 1), currentPeriodSelected, formattedInitialPeriodTime,
+							formattedfinalPeriodTime, desiredTempInt);
 //				if (currentTime != null && finalPeriodTime != null) {
 //				if ((formattedCurrentTime).compareTo(formattedfinalPeriodTime) > 0) {
 //					
 //				}
 //			}
-
+				} else if (isUserLoggedIn) {
+					console.msg(
+							"You do not have the permission to execute this command. Reason: Permission status of user");
+				}
 			}
+
 		});
 		JButton shhApplyBtn = this.frame.getShhApplyBtn();
 		shhApplyBtn.addActionListener(new ActionListener() {
@@ -278,18 +296,32 @@ public class SHHController {
 		 */
 		JComboBox comboBoxSetRoomTemp = this.frame.getComboBoxSetRoomTemp();
 		comboBoxSetRoomTemp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
-				frame.getLabelCurrentTemp()
-						.setText(String.valueOf(rooms.get(currentRoomSelected).getCurrentRoomTemperature()));
 
-				if (rooms.get(currentRoomSelected).isTempOverridden()) {
+			public void actionPerformed(ActionEvent arg0) {
+				Users loggedUser = user.getLoggedUser();
+				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
+				String location = rooms.get(currentRoomSelected).getLocation();
+				if (hasPermissions(loggedUser, location)) {
 					frame.getLabelCurrentTemp()
-							.setText(String.valueOf(rooms.get(currentRoomSelected).getCurrentRoomTemperature())
-									+ " \u00B0C " + " OVERRIDDEN");
-				} else {
-					frame.getLabelCurrentTemp().setText(
-							String.valueOf(rooms.get(currentRoomSelected).getCurrentRoomTemperature()) + " \u00B0C ");
+							.setText(String.valueOf(rooms.get(currentRoomSelected).getDesiredRoomTemperature()));
+
+					if (rooms.get(currentRoomSelected).isTempOverridden()) {
+						frame.getLabelCurrentTemp()
+								.setText(String.valueOf(rooms.get(currentRoomSelected).getDesiredRoomTemperature())
+										+ " \u00B0C " + " (Overriden)");
+					} else {
+						frame.getLabelCurrentTemp()
+								.setText(String.valueOf(rooms.get(currentRoomSelected).getDesiredRoomTemperature())
+										+ " \u00B0C ");
+					}
+				} else if (isUserLoggedIn) {
+					if (!loggedUser.getLocation().equals(location) && (!loggedUser.getPermission().equals("STRANGER")
+							&& !loggedUser.getPermission().equals("CHILDREN"))) {
+						console.msg("You do not have the permission to execute this command. Reason: Location");
+					} else {
+						console.msg(
+								"You do not have the permission to execute this command. Reason: Permission status of user");
+					}
 				}
 
 			}
@@ -301,20 +333,33 @@ public class SHHController {
 		JButton btnSetTemp = this.frame.getBtnSetTemp();
 		btnSetTemp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Users loggedUser = user.getLoggedUser();
 				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
-				double newTemp = Double.parseDouble(frame.getNewTempValue().getText());
-				rooms.get(currentRoomSelected).setDesiredRoomTemperature(newTemp);
-				frame.getLabelCurrentTemp().setText(
-						String.valueOf(rooms.get(currentRoomSelected).getDesiredRoomTemperature()) + "Overriden");
-				rooms.get(currentRoomSelected).setDesiredRoomTemperature(newTemp);
+				String location = rooms.get(currentRoomSelected).getLocation();
+				if (hasPermissions(loggedUser, location)) {
+					double newTemp = Double.parseDouble(frame.getNewTempValue().getText());
+					rooms.get(currentRoomSelected).setDesiredRoomTemperature(newTemp);
+					frame.getLabelCurrentTemp()
+							.setText(String.valueOf(rooms.get(currentRoomSelected).getDesiredRoomTemperature())
+									+ "\u00B0C  (Overriden)");
+					rooms.get(currentRoomSelected).setDesiredRoomTemperature(newTemp);
 
-				// set temperature of room overridden
-				rooms.get(currentRoomSelected).setTempOverridden(true);
+					// set temperature of room overridden
+					rooms.get(currentRoomSelected).setTempOverridden(true);
 
-				String currentRoom = rooms.get(currentRoomSelected).getLocation();
+					String currentRoom = rooms.get(currentRoomSelected).getLocation();
 
-				// console message
-				Console.getConsole().msg(currentRoom + " new temperature is " + newTemp + " \u00B0C.");
+					// console message
+					Console.getConsole().msg(currentRoom + " new temperature is " + newTemp + " \u00B0C.");
+				} else if (isUserLoggedIn) {
+					if (!loggedUser.getLocation().equals(location) && (!loggedUser.getPermission().equals("STRANGER")
+							&& !loggedUser.getPermission().equals("CHILDREN"))) {
+						console.msg("You do not have the permission to execute this command. Reason: Location");
+					} else {
+						console.msg(
+								"You do not have the permission to execute this command. Reason: Permission status of user");
+					}
+				}
 			}
 		});
 
@@ -326,30 +371,23 @@ public class SHHController {
 		JTextField defaultWinterTextField = this.frame.getTextFieldDefaultWinter();
 		defaultOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Date currentTimeDate = time.getTime();
-				String formattedCurrentTime = new SimpleDateFormat("MM").format(currentTimeDate);
-				int currentMonth = Integer.parseInt(formattedCurrentTime);
-				if (SHPController.getSHPController().getAwayMode() == true) {
-					double defaultSummer = Double.parseDouble(defaultSummerTextField.getText());
-					setDefaultSummerTemp(defaultSummer);
-					double defaultWinter = Double.parseDouble(defaultWinterTextField.getText());
-					setDefaultSummerTemp(defaultWinter);
-					if (summerMonths != null && winterMonths != null) {
-						if (summerMonths.contains(currentMonth)) {
-							for (int i = 0; i < rooms.size(); i++)
-								rooms.get(i).setDesiredRoomTemperature(defaultSummer);
-						} else if (winterMonths.contains(currentMonth)) {
-							for (int i = 0; i < rooms.size(); i++)
-								rooms.get(i).setDesiredRoomTemperature(defaultWinter);
-						} else {
-							for (int i = 0; i < rooms.size(); i++) {
-								rooms.get(i).setDesiredRoomTemperature(temperature.getInsideTemp());
-							}
-						}
-					} else
-						console.msg("The winter and summer months have not been set. Operation Failed.");
-				} else
-					console.msg("Away Mode not ON");
+				Users loggedUser = user.getLoggedUser();
+				if (hasPermissions(loggedUser, "N/A")) {
+					if (defaultSummerTextField.getText().toString().equals("")
+							|| defaultWinterTextField.getText().equals("")) {
+						console.msg(
+								"One or both of the text fields, for the default seasonal Away Mode temperatures,\nhave not been filled. Operation Failed.");
+					} else {
+						double defaultSummer = Double.parseDouble(defaultSummerTextField.getText());
+						setDefaultSummerTemp(defaultSummer);
+						double defaultWinter = Double.parseDouble(defaultWinterTextField.getText());
+						setDefaultWinterTemp(defaultWinter);
+						console.msg("The default temperatures for Summer & Winter (Away Mode) have been set");
+					}
+				} else if (isUserLoggedIn) {
+					console.msg(
+							"You do not have the permission to execute this command. Reason: Permission status of user");
+				}
 			}
 		});
 
@@ -363,21 +401,7 @@ public class SHHController {
 				setUpperThreshold(upperThresh);
 				double lowerThresh = Double.parseDouble(LowerThresholdTextField.getText());
 				setLowerThreshold(lowerThresh);
-
-				Timer clockTimer = new Timer();
-				clockTimer.schedule(new TimerTask() {
-					public void run() {
-						for (int i = 0; i < rooms.size(); i++) {
-							if (rooms.get(i).getCurrentRoomTemperature() == upperThresh) {
-								console.msg(
-										"WARNING! " + rooms.get(i).getLocation() + " has reached the upper threshold.");
-							} else if (rooms.get(i).getCurrentRoomTemperature() == lowerThresh) {
-								console.msg(
-										"WARNING! " + rooms.get(i).getLocation() + " has reached the lower threshold.");
-							}
-						}
-					}
-				}, 1000, 1000);
+				console.msg("The thresholds have been set.g");
 			}
 		});
 
@@ -386,35 +410,40 @@ public class SHHController {
 		 * lower than any of the temperatures in any of the rooms. We will also check if
 		 * the inside temperature is equal to 0.
 		 */
-//		Timer tempTimer = new Timer();
-//		tempTimer.schedule(new TimerTask() {
-//			public void run() {
-//				for (Room room : rooms) {
-//					if (temperature.getOutsideTemp() < room.getCurrentRoomTemperature()
-//							&& SHPController.getSHPController().getAwayMode() == false) {
-//						for (int i = 0; i < window.size(); i++) {
-//							if (window.get(i).getLocation().equals(room.getLocation())) {
-//								if (!window.get(i).isBlocked()) {
-//									window.get(i).setOpen(true);
-//									paint();
-//									console.msg("The window in the " + room.getLocation()
-//											+ " has been opened due to difference in temperature");
-//									break;
-//								} else
-//									console.msg("The outdoor temperature is lower than the temperature in the "
-//											+ room.getLocation()
-//											+ ". The window cannot be opened because it is blocked.");
-//							}
-//						}
-//					}
-//				}
-//				if (Temperature.getTemperature().getInsideTemp() == 0 && counter % 60 == 0) {
-//					console.msg("The temperature inside of the house is at 0\u00B0C. The pipes might burst.");
-//				}
-//				counter++;
-//			}
-//		}, 1000, 1000);
-
+		Timer tempTimer = new Timer();
+		tempTimer.schedule(new TimerTask() {
+			public void run() {
+				for (Room room : rooms) {
+					if (temperature.getOutsideTemp() < room.getDesiredRoomTemperature()
+							&& SHPController.getSHPController().getAwayMode() == false) {
+						for (int i = 0; i < window.size(); i++) {
+							if (window.get(i).getLocation().equals(room.getLocation())) {
+								if (!window.get(i).isBlocked()) {
+									window.get(i).setOpen(true);
+									paint();
+									console.msg("The window in the " + room.getLocation()
+											+ " has been opened due to difference in temperature");
+									break;
+								} else
+									console.msg("The outdoor temperature is lower than the temperature in the "
+											+ room.getLocation()
+											+ ". The window cannot be opened because it is blocked.");
+							}
+						}
+					}
+					if (!UpperThresholdTextField.getText().equals("") && !LowerThresholdTextField.getText().equals("")) {
+						if (room.getCurrentRoomTemperature() >= getUpperThreshold() && counter % 60 == 0) {
+							console.msg("WARNING! The temperature in the " + room.getLocation()
+									+ " has reached the upper threshold.");
+						} else if (room.getCurrentRoomTemperature() <= getLowerThreshold() && counter % 60 == 0) {
+							console.msg("WARNING! The temperature in the " + room.getLocation()
+									+ " has reached the lower threshold.");
+						}
+					}
+				}
+				counter++;
+			}
+		}, 1000, 1000);
 	}
 
 	/**
@@ -540,6 +569,35 @@ public class SHHController {
 	 */
 	public void setDefaultWinterTemp(double defaultWinterTemp) {
 		this.defaultWinterTemp = defaultWinterTemp;
+	}
+
+	public boolean hasPermissions(Users user, String location) {
+		if (user == null) {
+			if (counter % 2 != 0) {
+				console.msg("The system does not have a logged-in user");
+			}
+			isUserLoggedIn = false;
+			return false;
+		}
+		switch (user.getPermission()) {
+		case "PARENT":
+			isUserLoggedIn = true;
+			return true;
+		case "CHILDREN":
+			isUserLoggedIn = true;
+			return false;
+		case "GUEST":
+			isUserLoggedIn = true;
+			if (user.getLocation().equals(location))
+				return true;
+			else
+				return false;
+		case "STRANGER":
+			isUserLoggedIn = true;
+			return false;
+		default:
+			return false;
+		}
 	}
 
 	/**

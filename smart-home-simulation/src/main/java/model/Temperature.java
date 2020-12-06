@@ -88,7 +88,7 @@ public class Temperature {
 	/**
 	 * Getter
 	 */
-	public double getOutsideTemp() {
+	public static double getOutsideTemp() {
 		return outsideTemp;
 	}
 
@@ -102,7 +102,7 @@ public class Temperature {
 	/**
 	 * Getter
 	 */
-	public double getInsideTemp() {
+	public static double getInsideTemp() {
 		return insideTemp;
 	}
 

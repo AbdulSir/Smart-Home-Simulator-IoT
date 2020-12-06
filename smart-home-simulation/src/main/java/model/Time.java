@@ -102,7 +102,7 @@ public class Time {
 	 */
 	public void setTimeFromSpinnner(JSpinner time_spinner, SHSGui frame) {
 		Date value = (Date) time_spinner.getValue();
-		String formattedValue = new SimpleDateFormat("HH:mm").format(value);
+		String formattedValue = new SimpleDateFormat("HH:mm:ss").format(value);
 		frame.getTimeValue().setText(formattedValue);
 		setTime(value);
 		console.msg("The time has been set at " + formattedValue);
@@ -119,12 +119,12 @@ public class Time {
 		console.msg("The date has been set to " + strDate);
 		controller.appendToLog("The date has been set to " + strDate);
 	}
-	
+
 	/**
 	 * Display Time
 	 */
 	public void displayTime(SHSGui frame) {
-		String timeToString = new SimpleDateFormat("HH:mm").format(getTime());
+		String timeToString = new SimpleDateFormat("HH:mm:ss").format(getTime());
 		frame.getTimeValue().setText(timeToString);
 	}
 
@@ -134,7 +134,10 @@ public class Time {
 	public void incrementTime() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(getTime());
-		calendar.add(Calendar.MINUTE, increment_time_value);
+		if (getIncrement_time_value() == 1)
+			calendar.add(Calendar.SECOND, increment_time_value);
+		else
+			calendar.add(Calendar.MINUTE, increment_time_value);
 		setTime(calendar.getTime());
 	}
 

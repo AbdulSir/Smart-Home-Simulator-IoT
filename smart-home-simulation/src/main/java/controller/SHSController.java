@@ -532,7 +532,7 @@ public class SHSController {
 		// Add position label in the slider
 		JSlider slider = this.frame.getSlider();
 		Hashtable position = new Hashtable();
-		position.put(1, new JLabel("1m"));
+		position.put(1, new JLabel("1s"));
 		position.put(15, new JLabel("15m"));
 		position.put(30, new JLabel("30m"));
 		position.put(45, new JLabel("45m"));

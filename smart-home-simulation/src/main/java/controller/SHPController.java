@@ -162,9 +162,9 @@ public class SHPController {
 			public void actionPerformed(ActionEvent arg0) {
 				if(awayMode == true) {
 					Date startALTime = (Date) startAwayLightTime.getValue();
-					String formattedStartALTime = new SimpleDateFormat("HH:mm").format(startALTime);
+					String formattedStartALTime = new SimpleDateFormat("HH:mm:ss").format(startALTime);
 					Date stopALTime = (Date) stopAwayLightTime.getValue();
-					String formattedStopALTime = new SimpleDateFormat("HH:mm").format(stopALTime);
+					String formattedStopALTime = new SimpleDateFormat("HH:mm:ss").format(stopALTime);
 	
 					ArrayList<Lights> lightsList = lights.getLightsList();
 					
@@ -178,7 +178,7 @@ public class SHPController {
 					clockTimer.schedule(new TimerTask() {
 						public void run() {
 							Date currentTime = time.getTime();
-							String formattedCurrentTime = new SimpleDateFormat("HH:mm").format(currentTime);
+							String formattedCurrentTime = new SimpleDateFormat("HH:mm:ss").format(currentTime);
 								if (currentTime != null && startALTime != null) {
 									if ((formattedCurrentTime).compareTo(formattedStartALTime) > 0 && (formattedCurrentTime).compareTo(formattedStopALTime) < 0) { 
 									    if(frame.getChckbxBedRMLight().isSelected())

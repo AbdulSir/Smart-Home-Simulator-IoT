@@ -483,7 +483,7 @@ public class SHSGui extends JFrame {
 		JLabel labelTime = new JLabel("Time: ");
 		timeSpinner = new JSpinner();
 		timeSpinner.setModel(new SpinnerDateModel());
-		timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
+		timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm:ss"));
 		presstimebtn = new JButton("Set new Date & Time");
 
 		slider = new JSlider();
@@ -626,7 +626,7 @@ public class SHSGui extends JFrame {
 		awayLightsStartTime = new JSpinner();
 		awayLightsStartTime.setBounds(113, 420, 91, 32);
 		awayLightsStartTime.setModel(new SpinnerDateModel());
-		awayLightsStartTime.setEditor(new JSpinner.DateEditor(awayLightsStartTime, "HH:mm"));
+		awayLightsStartTime.setEditor(new JSpinner.DateEditor(awayLightsStartTime, "HH:mm:ss"));
 		panelSHP.add(awayLightsStartTime);
 
 		JLabel lblNewLabel_2 = new JLabel("to");
@@ -636,7 +636,7 @@ public class SHSGui extends JFrame {
 		awayLightsStopTime = new JSpinner();
 		awayLightsStopTime.setBounds(216, 420, 91, 32);
 		awayLightsStopTime.setModel(new SpinnerDateModel());
-		awayLightsStopTime.setEditor(new JSpinner.DateEditor(awayLightsStopTime, "HH:mm"));
+		awayLightsStopTime.setEditor(new JSpinner.DateEditor(awayLightsStopTime, "HH:mm:ss"));
 		panelSHP.add(awayLightsStopTime);
 
 		chckbxBedRMLight = new JCheckBox("BedRM");
@@ -732,7 +732,7 @@ public class SHSGui extends JFrame {
 		initialPeriodJSpinner = new JSpinner();
 		initialPeriodJSpinner.setBounds(81, 241, 71, 22);
 		initialPeriodJSpinner.setModel(new SpinnerDateModel());
-		initialPeriodJSpinner.setEditor(new JSpinner.DateEditor(initialPeriodJSpinner, "HH:mm"));
+		initialPeriodJSpinner.setEditor(new JSpinner.DateEditor(initialPeriodJSpinner, "HH:mm:ss"));
 		panelSHH.add(initialPeriodJSpinner);
 
 		JLabel periodToLabel = new JLabel("to");
@@ -742,7 +742,7 @@ public class SHSGui extends JFrame {
 		finalPeriodJSpinner = new JSpinner();
 		finalPeriodJSpinner.setBounds(191, 241, 65, 22);
 		finalPeriodJSpinner.setModel(new SpinnerDateModel());
-		finalPeriodJSpinner.setEditor(new JSpinner.DateEditor(finalPeriodJSpinner, "HH:mm"));
+		finalPeriodJSpinner.setEditor(new JSpinner.DateEditor(finalPeriodJSpinner, "HH:mm:ss"));
 		panelSHH.add(finalPeriodJSpinner);
 
 		btnAcceptPeriod = new JButton("Accept");

@@ -130,10 +130,10 @@ public class SHHController {
 				String currentPeriodSelected = periodComboBox.getSelectedItem().toString();
 
 				Date initalPeriodTime = (Date) initalPeriod.getValue();
-				String formattedInitialPeriodTime = new SimpleDateFormat("HH:mm").format(initalPeriodTime);
+				String formattedInitialPeriodTime = new SimpleDateFormat("HH:mm:ss").format(initalPeriodTime);
 
 				Date finalPeriodTime = (Date) finalPeriod.getValue();
-				String formattedfinalPeriodTime = new SimpleDateFormat("HH:mm").format(finalPeriodTime);
+				String formattedfinalPeriodTime = new SimpleDateFormat("HH:mm:ss").format(finalPeriodTime);
 				
 				String desiredTempStr = desiredTempTextField.getText();
 				int desiredTempInt = (Integer.parseInt(desiredTempStr));
@@ -157,7 +157,7 @@ public class SHHController {
 					public void run() {
 						for (Zone zone : zone.getZoneList()) {
 							Date currentTime = time.getTime();
-							String formattedCurrentTime = new SimpleDateFormat("HH:mm").format(currentTime);
+							String formattedCurrentTime = new SimpleDateFormat("HH:mm:ss").format(currentTime);
 
 							if (currentTime != null && zone.getInitialPeriod() != null) {
 								if ((formattedCurrentTime).compareTo(zone.getInitialPeriod()) > 0

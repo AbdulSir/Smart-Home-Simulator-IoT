@@ -10,7 +10,7 @@ import javax.swing.Timer;
 import javax.swing.event.*;
 
 import model.Lights;
-import model.RoomCounter;
+import model.Room;
 import model.Users;
 import model.Windows;
 import view.ContextSimulation;
@@ -29,7 +29,7 @@ public class EditSimulation {
 	private SHPController security;
 	private SHSController controller;
 	private SHHController heat;
-	private RoomCounter rooms;
+	private Room rooms;
 
 	/**
 	 * Constructor
@@ -45,7 +45,7 @@ public class EditSimulation {
 		this.core = core;
 		this.security = security;
 		windows = Windows.getWindow();
-		rooms = RoomCounter.getRoomCounter();
+		rooms = Room.getRoomCounter();
 		this.controller = controller;
 		this.heat = heat;
 

@@ -153,7 +153,9 @@ public class SHSGui extends JFrame {
 					coreController = SHCController.getSHCController();
 					controller = SHSController.getSHSController();
 					heatController = SHHController.getSHHController();
+					coreController.setSimulationButton(controller.getSimulationButton());
 					securityController.setSimulationButton(controller.getSimulationButton());
+					heatController.setSimulationButton(controller.getSimulationButton());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -799,11 +801,11 @@ public class SHSGui extends JFrame {
 		panelSHH.add(lblNewTemp);
 		
 		lblCurrentTemp = new JLabel("Current Temp:");
-		lblCurrentTemp.setBounds(10, 370, 86, 17);
+		lblCurrentTemp.setBounds(10, 370, 95, 17);
 		panelSHH.add(lblCurrentTemp);
 		
 		lblSetDefaultTemp = new JLabel("Set default temperature");
-		lblSetDefaultTemp.setBounds(10, 426, 139, 14);
+		lblSetDefaultTemp.setBounds(10, 426, 154, 14);
 		panelSHH.add(lblSetDefaultTemp);
 		
 		lblDefaultSummer = new JLabel("Summer");

@@ -17,10 +17,11 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
 import model.ReadingJsonFile;
-import model.RoomCounter;
+import model.Room;
 import model.Temperature;
 import model.Time;
 import model.Users;
+import model.Windows;
 import model.Zone;
 import view.SHSGui;
 
@@ -32,13 +33,15 @@ public class SHHController {
 	private ArrayList<Integer> winterMonths;
 	private ArrayList<Integer> summerMonths;
 	private static SHHController shhController;
-	private ArrayList<RoomCounter> rooms;
-	private ReadingJsonFile rjFile;
+	private ArrayList<Room> rooms;
 	private Time time;
 	private double desiredTemp;
 	private Zone zone;
+	private SimulationButton simulationButton;
+	private ArrayList<Windows> window;
 	private double defaultSummerTemp;
 	private double defaultWinterTemp;
+	private int counter = 0;
 
 	public SHHController() {
 	}
@@ -47,9 +50,11 @@ public class SHHController {
 		this.frame = frame;
 		this.console = Console.getConsole();
 		this.user = Users.getUser();
-		rooms = RoomCounter.getRooms();
+		rooms = Room.getRooms();
 		this.time = time.getWatch();
 		this.zone = new Zone();
+		this.temperature = Temperature.getTemperature();
+		this.window = Windows.getWindowList();
 		UserEvents();
 	}
 
@@ -181,7 +186,7 @@ public class SHHController {
 				}, 1000, 1000);
 			}
 		});
-		
+
 		/**
 		 * Display room temperature
 		 */
@@ -189,26 +194,24 @@ public class SHHController {
 		comboBoxSetRoomTemp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
-
 				frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()));
 			}
 		});
-		
+
 		/**
 		 * Set new room temperature
 		 */
 		JButton btnSetTemp = this.frame.getBtnSetTemp();
 		btnSetTemp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();				
+				int currentRoomSelected = comboBoxSetRoomTemp.getSelectedIndex();
 				double newTemp = Double.parseDouble(frame.getNewTempValue().getText());
-				
 				rooms.get(currentRoomSelected).setTemperature(newTemp);
-				
-				frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()) + "Overriden");
+				frame.getLabelCurrentTemp()
+						.setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()) + "Overriden");
 			}
 		});
-		
+
 		/**
 		 * Set default summer and winter temperature
 		 */
@@ -218,31 +221,60 @@ public class SHHController {
 		defaultOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Date currentTimeDate = time.getTime();
-				String formattedCurrentTime = new SimpleDateFormat("mm").format(currentTimeDate);
+				String formattedCurrentTime = new SimpleDateFormat("MM").format(currentTimeDate);
 				int currentMonth = Integer.parseInt(formattedCurrentTime);
-				if(SHPController.getSHPController().getAwayMode() == true) {
+				if (SHPController.getSHPController().getAwayMode() == true) {
 					double defaultSummer = Double.parseDouble(defaultSummerTextField.getText());
 					setDefaultSummerTemp(defaultSummer);
 					double defaultWinter = Double.parseDouble(defaultWinterTextField.getText());
 					setDefaultSummerTemp(defaultWinter);
-					
-					if(summerMonths.contains(currentMonth)) {
-						for(int i=0; i<rooms.size(); i++) {
-							rooms.get(i).setTemperature(defaultSummer);
+					if (summerMonths != null && winterMonths != null) {
+						if (summerMonths.contains(currentMonth)) {
+							for (int i = 0; i < rooms.size(); i++) 
+								rooms.get(i).setTemperature(defaultSummerTemp);
+						} else if (winterMonths.contains(currentMonth)) {
+							for (int i = 0; i < rooms.size(); i++) 
+								rooms.get(i).setTemperature(defaultWinterTemp);
 						}
-					}else if(winterMonths.contains(currentMonth)) {
-						for(int i=0; i<rooms.size(); i++) {
-							rooms.get(i).setTemperature(defaultWinter);
-						}
-					}
-				}else 
+					} else 
+						console.msg("The winter and summer months have not been set. Operation Failed.");
+				} else
 					console.msg("Away Mode not ON");
 			}
 		});
-	
-	}
-	
+		
+		/**
+		 * This timer will allow us to constantly check if the outdoor temperature is lower than any of the temperatures in any of the rooms
+		 */
+		Timer tempTimer = new Timer();
+		tempTimer.schedule(new TimerTask() {
+			public void run() {
+				for (Room room : rooms) {
+					if(temperature.getOutsideTemp() < room.getTemperature() && SHPController.getSHPController().getAwayMode() == false) {
+						for (int i = 0; i < window.size(); i++) {
+							for (int j = 0; j < rooms.size(); j++) {
+								if(window.get(i).getLocation().equals(rooms.get(j).getLocation())) {
+									if(!window.get(i).isBlocked()) {
+										window.get(i).setOpen(true);
+										paint();
+										console.msg("The window in the " + rooms.get(j).getLocation() + " has been opened due to difference in temperature");
+									}
+									else
+										console.msg("The outdoor temperature is lower than the temperature in the " + rooms.get(j).getLocation()
+												+ ". The window cannot be opened because it is blocked.");
+								}
+							}
+						}
+					}
+				}
+				if (temperature.getInsideTemp() == 0 && counter % 90 == 0) {
+					console.msg("The temperature inside of the house is at 0\u00B0C. The pipes might burst.");
+				}
+				counter++;
+			}
+		}, 1000, 1000);
 
+	}
 
 	/**
 	 * Get the zone of a room
@@ -309,6 +341,20 @@ public class SHHController {
 		return desiredTemp;
 	}
 
+	/**
+	 * Getter
+	 */
+	public SimulationButton getSimulationButton() {
+		return simulationButton;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setSimulationButton(SimulationButton simulationButton) {
+		this.simulationButton = simulationButton;
+	}
+
 	public static SHHController getSHHController() {
 		if (shhController != null)
 			return shhController;
@@ -318,7 +364,15 @@ public class SHHController {
 		}
 
 	}
-
+	
+	/**
+	 * Repaints frame if the simulator is on
+	 */
+	private void paint() {
+		if (simulationButton.isSimulatorState())
+			frame.repaint();
+	}
+	
 	/**
 	 * Getter
 	 */
@@ -346,7 +400,5 @@ public class SHHController {
 	public void setDefaultWinterTemp(double defaultWinterTemp) {
 		this.defaultWinterTemp = defaultWinterTemp;
 	}
-	
-	
 
 }

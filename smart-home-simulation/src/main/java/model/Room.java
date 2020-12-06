@@ -2,20 +2,20 @@ package model;
 
 import java.util.ArrayList;
 
-public class RoomCounter {
+public class Room {
 	private String location;
 	private int count;
-	private static ArrayList<RoomCounter> rooms = new ArrayList<RoomCounter>();
-	private static RoomCounter roomCounter;
+	private static ArrayList<Room> rooms = new ArrayList<Room>();
+	private static Room roomCounter;
 	private double temperature;
 	private int zone;
 
 	/** Default Constructor **/
-	private RoomCounter() {
+	private Room() {
 	}
 
 	/** Parametrized Constructor **/
-	public RoomCounter(String location) {
+	public Room(String location) {
 		this.location = location;
 		count = 0;
 		rooms.add(this);
@@ -68,25 +68,25 @@ public class RoomCounter {
 	/**
 	 * Getter
 	 */
-	public static ArrayList<RoomCounter> getRooms() {
+	public static ArrayList<Room> getRooms() {
 		return rooms;
 	}
 
 	/**
 	 * Setter
 	 */
-	public static void setRooms(ArrayList<RoomCounter> rooms) {
-		RoomCounter.rooms = rooms;
+	public static void setRooms(ArrayList<Room> rooms) {
+		Room.rooms = rooms;
 	}
 
 	/**
 	 * Getter
 	 */
-	public static RoomCounter getRoomCounter() {
+	public static Room getRoomCounter() {
 		if (roomCounter != null)
 			return roomCounter;
 		else {
-			RoomCounter.roomCounter = new RoomCounter();
+			Room.roomCounter = new Room();
 			return roomCounter;
 		}
 	}
@@ -96,8 +96,8 @@ public class RoomCounter {
 	 * 
 	 * @param roomCounter
 	 */
-	public static void setRoomCounter(RoomCounter roomCounter) {
-		RoomCounter.roomCounter = roomCounter;
+	public static void setRoomCounter(Room roomCounter) {
+		Room.roomCounter = roomCounter;
 	}
 
 	/**

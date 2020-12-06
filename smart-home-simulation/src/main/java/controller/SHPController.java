@@ -114,7 +114,8 @@ public class SHPController {
 								for (int i = 0; i < doors.getDoorList().size(); i++) {
 									doors.getDoorList().get(i).setOpen(false);
 									doors.getDoorList().get(i).setLocked(true);
-								}			
+								}
+								
 								paint();
 							}
 							else if (state == ItemEvent.DESELECTED) {

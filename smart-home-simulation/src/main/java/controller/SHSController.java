@@ -24,7 +24,7 @@ import model.Doors;
 import model.HouseLayout;
 import model.Lights;
 import model.ReadingJsonFile;
-import model.RoomCounter;
+import model.Room;
 import model.Temperature;
 import model.Time;
 import model.Users;
@@ -44,7 +44,7 @@ public class SHSController {
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
 	private SHPController securityController;
-	private RoomCounter rooms;
+	private Room rooms;
 	private static SHSController shsController;
 	private PrintWriter pw;
 
@@ -57,7 +57,7 @@ public class SHSController {
 		/** Main GUI **/
 		this.frame = frame;
 		user = Users.getUser();
-		rooms = RoomCounter.getRoomCounter();
+		rooms = Room.getRoomCounter();
 
 		/** Create default User **/
 		Users defaultUser = new Users("Admin", "PARENT");
@@ -71,7 +71,7 @@ public class SHSController {
 
 		/** SHC Controller **/
 		this.coreController = coreController;
-		this.coreController.setSimButton(simulationButton);
+		
 
 		/** SHP Controller **/
 		this.securityController = securityController;
@@ -151,11 +151,11 @@ public class SHSController {
 					new Windows(rjFile.getRoomArray().get(i).toString());
 					new Doors(rjFile.getRoomArray().get(i).toString());
 					new Lights(rjFile.getRoomArray().get(i).toString());
-					new RoomCounter(rjFile.getRoomArray().get(i).toString());
+					new Room(rjFile.getRoomArray().get(i).toString());
 					if (i == rjFile.getRoomArray().size() - 1) {
 						new Doors("Entrance");
 						new Lights("Entrance");
-						new RoomCounter("Entrance");
+						new Room("Entrance");
 					}
 				}
 				userRoomArray[userRoomArray.length - 1] = "Outside";
@@ -429,7 +429,7 @@ public class SHSController {
 						break;
 					}
 				}
-				for (RoomCounter room : rooms.getRooms()) {
+				for (Room room : rooms.getRooms()) {
 					if (room.getLocation().equals(location)) {
 						room.decrementCounter();
 						break;

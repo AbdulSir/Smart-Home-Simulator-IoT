@@ -211,7 +211,7 @@ public class SHHController {
 													DecimalFormat form = new DecimalFormat("#.#");
 													rooms.get(innerA).setCurrentRoomTemperature(
 															rooms.get(innerA).getCurrentRoomTemperature() + 0.1);
-													System.out.println("Current Temperature for "
+													console.msg("Current Temperature for "
 
 															+ rooms.get(innerA).getLocation() + " is "
 															+ Double.valueOf(form.format(
@@ -219,7 +219,7 @@ public class SHHController {
 													if (Double.valueOf(form.format(
 															rooms.get(innerA).getCurrentRoomTemperature())) == rooms
 																	.get(innerA).getDesiredRoomTemperature()) {
-														System.out.println("Current Temperature for "
+														console.msg("Current Temperature for "
 																+ rooms.get(innerA).getLocation()
 																+ " has reached Desired Temperature of "
 																+ Double.valueOf(form.format(rooms.get(innerA)
@@ -243,14 +243,14 @@ public class SHHController {
 													DecimalFormat form = new DecimalFormat("#.#");
 													rooms.get(innerA).setCurrentRoomTemperature(
 															rooms.get(innerA).getCurrentRoomTemperature() - 0.1);
-													System.out.println("Current Temperature for "
+													console.msg("Current Temperature for "
 															+ rooms.get(innerA).getLocation() + " is "
 															+ Double.valueOf(form.format(
 																	rooms.get(innerA).getCurrentRoomTemperature())));
 													if (Double.valueOf(form.format(
 															rooms.get(innerA).getCurrentRoomTemperature())) == rooms
 																	.get(innerA).getDesiredRoomTemperature()) {
-														System.out.println("Current Temperature for "
+														console.msg("Current Temperature for "
 																+ rooms.get(innerA).getLocation()
 																+ " has reached Desired Temperature of "
 																+ Double.valueOf(form.format(rooms.get(innerA)

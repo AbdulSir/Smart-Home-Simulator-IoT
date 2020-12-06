@@ -250,13 +250,13 @@ public class SHHController {
 					setDefaultSummerTemp(defaultWinter);
 					if (summerMonths != null && winterMonths != null) {
 						if (summerMonths.contains(currentMonth)) {
-							for (int i = 0; i < rooms.size(); i++) 
+							for (int i = 0; i < rooms.size(); i++)
 								rooms.get(i).setTemperature(defaultSummerTemp);
 						} else if (winterMonths.contains(currentMonth)) {
-							for (int i = 0; i < rooms.size(); i++) 
+							for (int i = 0; i < rooms.size(); i++)
 								rooms.get(i).setTemperature(defaultWinterTemp);
 						}
-					} else 
+					} else
 						console.msg("The winter and summer months have not been set. Operation Failed.");
 					if (summerMonths.contains(currentMonth)) {
 						for (int i = 0; i < rooms.size(); i++) {
@@ -271,32 +271,35 @@ public class SHHController {
 					console.msg("Away Mode not ON");
 			}
 		});
-		
+
 		/**
-		 * This timer will allow us to constantly check if the outdoor temperature is lower than any of the temperatures in any of the rooms
+		 * This timer will allow us to constantly check if the outdoor temperature is
+		 * lower than any of the temperatures in any of the rooms We will also check if
+		 * the inside temperature is equal to 0.
 		 */
 		Timer tempTimer = new Timer();
 		tempTimer.schedule(new TimerTask() {
 			public void run() {
 				for (Room room : rooms) {
-					if(temperature.getOutsideTemp() < room.getTemperature() && SHPController.getSHPController().getAwayMode() == false) {
+					if (temperature.getOutsideTemp() < room.getTemperature()
+							&& SHPController.getSHPController().getAwayMode() == false) {
 						for (int i = 0; i < window.size(); i++) {
-							for (int j = 0; j < rooms.size(); j++) {
-								if(window.get(i).getLocation().equals(rooms.get(j).getLocation())) {
-									if(!window.get(i).isBlocked()) {
-										window.get(i).setOpen(true);
-										paint();
-										console.msg("The window in the " + rooms.get(j).getLocation() + " has been opened due to difference in temperature");
-									}
-									else
-										console.msg("The outdoor temperature is lower than the temperature in the " + rooms.get(j).getLocation()
-												+ ". The window cannot be opened because it is blocked.");
-								}
+							if (window.get(i).getLocation().equals(room.getLocation())) {
+								if (!window.get(i).isBlocked()) {
+									window.get(i).setOpen(true);
+									paint();
+									console.msg("The window in the " + room.getLocation()
+											+ " has been opened due to difference in temperature");
+									break;
+								} else
+									console.msg("The outdoor temperature is lower than the temperature in the "
+											+ room.getLocation()
+											+ ". The window cannot be opened because it is blocked.");
 							}
 						}
 					}
 				}
-				if (temperature.getInsideTemp() == 0 && counter % 90 == 0) {
+				if (temperature.getInsideTemp() == 0 && counter % 60 == 0) {
 					console.msg("The temperature inside of the house is at 0\u00B0C. The pipes might burst.");
 				}
 				counter++;
@@ -393,7 +396,7 @@ public class SHHController {
 		}
 
 	}
-	
+
 	/**
 	 * Repaints frame if the simulator is on
 	 */
@@ -401,7 +404,7 @@ public class SHHController {
 		if (simulationButton.isSimulatorState())
 			frame.repaint();
 	}
-	
+
 	/**
 	 * Getter
 	 */

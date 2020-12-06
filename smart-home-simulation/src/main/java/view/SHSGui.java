@@ -122,16 +122,23 @@ public class SHSGui extends JFrame {
 	private JSpinner finalPeriodJSpinner;
 	private JButton btnAcceptPeriod;
 	private JButton shhApplyBtn;
-
-	private static SHPController securityController;
-	private static SHCController coreController;
-	private static SHSController controller;
-	private static SHHController heatController;
 	private JComboBox comboBoxSetRoomTemp;
 	private JButton btnSetTemp;
 	private JTextField newTempValue;
 	private JLabel labelCurrentTemp;
 	private JLabel lblCurrentTemp;
+	private JLabel lblSetDefaultTemp;
+	private JLabel lblDefaultSummer;
+	private JLabel lblDefaultWinter;
+	private JTextField textFieldDefaultSummer;
+	private JTextField textFieldDefaultWinter;
+	
+	private static SHPController securityController;
+	private static SHCController coreController;
+	private static SHSController controller;
+	private static SHHController heatController;
+	private JButton btnDefaultSeasonTemp;
+
 
 	/**
 	 * Launch the application.
@@ -794,6 +801,40 @@ public class SHSGui extends JFrame {
 		lblCurrentTemp = new JLabel("Current Temp:");
 		lblCurrentTemp.setBounds(10, 370, 86, 17);
 		panelSHH.add(lblCurrentTemp);
+		
+		lblSetDefaultTemp = new JLabel("Set default temperature");
+		lblSetDefaultTemp.setBounds(10, 426, 139, 14);
+		panelSHH.add(lblSetDefaultTemp);
+		
+		lblDefaultSummer = new JLabel("Summer");
+		lblDefaultSummer.setBounds(10, 451, 86, 14);
+		panelSHH.add(lblDefaultSummer);
+		
+		lblDefaultWinter = new JLabel("Winter");
+		lblDefaultWinter.setBounds(10, 476, 86, 14);
+		panelSHH.add(lblDefaultWinter);
+		
+		textFieldDefaultSummer = new JTextField();
+		textFieldDefaultSummer.setBounds(103, 448, 46, 20);
+		panelSHH.add(textFieldDefaultSummer);
+		textFieldDefaultSummer.setColumns(10);
+		
+		textFieldDefaultWinter = new JTextField();
+		textFieldDefaultWinter.setBounds(103, 473, 46, 20);
+		panelSHH.add(textFieldDefaultWinter);
+		textFieldDefaultWinter.setColumns(10);
+		
+		JLabel desiredTempLabel_1 = new JLabel("\u00B0C");
+		desiredTempLabel_1.setBounds(157, 451, 46, 14);
+		panelSHH.add(desiredTempLabel_1);
+		
+		JLabel desiredTempLabel_2 = new JLabel("\u00B0C");
+		desiredTempLabel_2.setBounds(157, 476, 46, 14);
+		panelSHH.add(desiredTempLabel_2);
+		
+		btnDefaultSeasonTemp = new JButton("OK");
+		btnDefaultSeasonTemp.setBounds(182, 472, 89, 23);
+		panelSHH.add(btnDefaultSeasonTemp);
 
 		/** Add Tab **/
 		JPanel panelPlus = new JPanel();
@@ -1748,4 +1789,41 @@ public class SHSGui extends JFrame {
 		this.labelCurrentTemp = labelCurrentTemp;
 	}
 
+	/**
+	 * Getter
+	 */
+	public JTextField getTextFieldDefaultSummer() {
+		return textFieldDefaultSummer;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTextFieldDefaultSummer(JTextField textFieldDefaultSummer) {
+		this.textFieldDefaultSummer = textFieldDefaultSummer;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JTextField getTextFieldDefaultWinter() {
+		return textFieldDefaultWinter;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTextFieldDefaultWinter(JTextField textFieldDefaultWinter) {
+		this.textFieldDefaultWinter = textFieldDefaultWinter;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getBtnDefaultSummer() {
+		return btnDefaultSeasonTemp;
+	}
+
+	
+	
 }

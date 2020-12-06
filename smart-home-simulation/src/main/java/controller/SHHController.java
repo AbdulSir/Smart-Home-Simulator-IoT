@@ -29,14 +29,16 @@ public class SHHController {
 	private Console console;
 	private Users user;
 	private Temperature temperature;
-	private ArrayList<String> winterMonths;
-	private ArrayList<String> summerMonths;
+	private ArrayList<Integer> winterMonths;
+	private ArrayList<Integer> summerMonths;
 	private static SHHController shhController;
 	private ArrayList<RoomCounter> rooms;
 	private ReadingJsonFile rjFile;
 	private Time time;
 	private double desiredTemp;
 	private Zone zone;
+	private double defaultSummerTemp;
+	private double defaultWinterTemp;
 
 	public SHHController() {
 	}
@@ -206,7 +208,41 @@ public class SHHController {
 				frame.getLabelCurrentTemp().setText(String.valueOf(rooms.get(currentRoomSelected).getTemperature()) + "Overriden");
 			}
 		});
+		
+		/**
+		 * Set default summer and winter temperature
+		 */
+		JButton defaultOK = this.frame.getBtnDefaultSummer();
+		JTextField defaultSummerTextField = this.frame.getTextFieldDefaultSummer();
+		JTextField defaultWinterTextField = this.frame.getTextFieldDefaultWinter();
+		defaultOK.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Date currentTimeDate = time.getTime();
+				String formattedCurrentTime = new SimpleDateFormat("mm").format(currentTimeDate);
+				int currentMonth = Integer.parseInt(formattedCurrentTime);
+				if(SHPController.getSHPController().getAwayMode() == true) {
+					double defaultSummer = Double.parseDouble(defaultSummerTextField.getText());
+					setDefaultSummerTemp(defaultSummer);
+					double defaultWinter = Double.parseDouble(defaultWinterTextField.getText());
+					setDefaultSummerTemp(defaultWinter);
+					
+					if(summerMonths.contains(currentMonth)) {
+						for(int i=0; i<rooms.size(); i++) {
+							rooms.get(i).setTemperature(defaultSummer);
+						}
+					}else if(winterMonths.contains(currentMonth)) {
+						for(int i=0; i<rooms.size(); i++) {
+							rooms.get(i).setTemperature(defaultWinter);
+						}
+					}
+				}else 
+					console.msg("Away Mode not ON");
+			}
+		});
+	
 	}
+	
+
 
 	/**
 	 * Get the zone of a room
@@ -234,29 +270,29 @@ public class SHHController {
 	/**
 	 * Getter
 	 */
-	public ArrayList<String> getWinterSeason() {
+	public ArrayList<Integer> getWinterSeason() {
 		return winterMonths;
 	}
 
 	/**
 	 * Setter
 	 */
-	public void setWinterSeason(ArrayList<String> winterMonths) {
+	public void setWinterSeason(ArrayList<Integer> winterMonths) {
 		this.winterMonths = winterMonths;
 	}
 
 	/**
 	 * Getter
 	 */
-	public ArrayList<String> getSummerSeason() {
+	public ArrayList<Integer> getSummerSeason() {
 		return summerMonths;
 	}
 
 	/**
 	 * Setter
 	 */
-	public void setSummerSeason(ArrayList<String> summerMonths) {
-		this.summerMonths = summerMonths;
+	public void setSummerSeason(ArrayList<Integer> summer) {
+		this.summerMonths = summer;
 	}
 
 	/**
@@ -282,5 +318,35 @@ public class SHHController {
 		}
 
 	}
+
+	/**
+	 * Getter
+	 */
+	public double getDefaultSummerTemp() {
+		return defaultSummerTemp;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setDefaultSummerTemp(double defaultSummerTemp) {
+		this.defaultSummerTemp = defaultSummerTemp;
+	}
+
+	/**
+	 * Getter
+	 */
+	public double getDefaultWinterTemp() {
+		return defaultWinterTemp;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setDefaultWinterTemp(double defaultWinterTemp) {
+		this.defaultWinterTemp = defaultWinterTemp;
+	}
+	
+	
 
 }

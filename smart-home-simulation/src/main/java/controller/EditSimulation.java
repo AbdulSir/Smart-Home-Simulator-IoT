@@ -284,8 +284,8 @@ public class EditSimulation {
 				ArrayList<Integer> winter = createSeason(winterStartMonth,winterEndMonth);
 				ArrayList<Integer> summer = createSeason(summerStartMonth,summerEndMonth);
 				if (!hasOverlap(winter, summer)) {
-					heat.setSummerSeason(getStringSeason(summer));
-					heat.setWinterSeason(getStringSeason(winter));
+					heat.setSummerSeason(summer);
+					heat.setWinterSeason(winter);
 					console.msg("Winter months have been set from " + winterStart + " to " + winterEnd);
 					console.msg("Summer months have been set from " + summerStart + " to " + summerEnd);
 				} else {
@@ -354,52 +354,52 @@ public class EditSimulation {
 		}
 	}
 	
-	private ArrayList<String> getStringSeason(ArrayList<Integer> season) {
-		ArrayList<String> seasonString = new ArrayList<String>(); 
-		for (int a : season) {
-			switch(a) {
-			case 1:
-				seasonString.add("January");
-				break;
-			case 2:
-				seasonString.add("February");
-				break;
-			case 3:
-				seasonString.add("March");
-				break;
-			case 4:
-				seasonString.add("April");
-				break;
-			case 5:
-				seasonString.add("May");
-				break;
-			case 6:
-				seasonString.add("June");
-				break;
-			case 7:
-				seasonString.add("July");
-				break;
-			case 8:
-				seasonString.add("August");
-				break;
-			case 9:
-				seasonString.add("September");
-				break;
-			case 10:
-				seasonString.add("October");
-				break;
-			case 11:
-				seasonString.add("November");
-				break;
-			case 12:
-				seasonString.add("December");
-				break;
-			default:
-				break;
-			}
-		}
-		return seasonString;
-	}
+//	private ArrayList<String> getStringSeason(ArrayList<Integer> season) {
+//		ArrayList<String> seasonString = new ArrayList<String>(); 
+//		for (int a : season) {
+//			switch(a) {
+//			case 1:
+//				seasonString.add("January");
+//				break;
+//			case 2:
+//				seasonString.add("February");
+//				break;
+//			case 3:
+//				seasonString.add("March");
+//				break;
+//			case 4:
+//				seasonString.add("April");
+//				break;
+//			case 5:
+//				seasonString.add("May");
+//				break;
+//			case 6:
+//				seasonString.add("June");
+//				break;
+//			case 7:
+//				seasonString.add("July");
+//				break;
+//			case 8:
+//				seasonString.add("August");
+//				break;
+//			case 9:
+//				seasonString.add("September");
+//				break;
+//			case 10:
+//				seasonString.add("October");
+//				break;
+//			case 11:
+//				seasonString.add("November");
+//				break;
+//			case 12:
+//				seasonString.add("December");
+//				break;
+//			default:
+//				break;
+//			}
+//		}
+//		return seasonString;
+//	}
 
 	private ArrayList<Integer> createSeason(int start, int end) {
 		ArrayList<Integer> season = new ArrayList<Integer>();

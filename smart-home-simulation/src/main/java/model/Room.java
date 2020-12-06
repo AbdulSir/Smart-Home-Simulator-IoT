@@ -22,7 +22,7 @@ public class Room {
 		count = 0;
 		rooms.add(this);
 		setCurrentRoomTemperature(Temperature.getTemperature().getInsideTemp());
-		setDesiredRoomTemperature(0);
+		setDesiredRoomTemperature(Temperature.getTemperature().getInsideTemp());
 		zone = 1;
 		isTempOverridden = false;
 	}

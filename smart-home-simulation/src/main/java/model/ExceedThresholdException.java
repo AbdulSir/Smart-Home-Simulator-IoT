@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.JOptionPane;
+
 /**
  * Exception class that handle potential burst to pipe if the temperature exceed threshold
  *
@@ -13,6 +15,7 @@ public class ExceedThresholdException extends Exception{
 	 */
 	public ExceedThresholdException(String message) {
 		super(message);
+		msgDialog();
 	}
 	
 	/**
@@ -20,6 +23,13 @@ public class ExceedThresholdException extends Exception{
 	 */
 	public ExceedThresholdException() {
 		super("Pipes about to burst!");
+		msgDialog();
 	}
 	
+	/**
+	 * Dialog box
+	 */
+	public void msgDialog() {
+        JOptionPane.showMessageDialog(null, "Pipes about to burst!", "InfoBox: " + "Warning", JOptionPane.INFORMATION_MESSAGE);
+	}
 }

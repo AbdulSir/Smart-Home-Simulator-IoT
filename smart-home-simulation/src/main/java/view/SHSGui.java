@@ -132,13 +132,16 @@ public class SHSGui extends JFrame {
 	private JLabel lblDefaultWinter;
 	private JTextField textFieldDefaultSummer;
 	private JTextField textFieldDefaultWinter;
-	
+
 	private static SHPController securityController;
 	private static SHCController coreController;
 	private static SHSController controller;
 	private static SHHController heatController;
 	private JButton btnDefaultSeasonTemp;
-
+	private JLabel lblThreshold;
+	private JTextField textFieldUpperThreshold;
+	private JTextField textFieldLowerThreshold;
+	private JButton btnThresholdOK;
 
 	/**
 	 * Launch the application.
@@ -724,36 +727,36 @@ public class SHSGui extends JFrame {
 		panelSHH.add(setDesiredTempLabel);
 
 		desiredTempTextField = new JTextField();
-		desiredTempTextField.setBounds(10, 178, 86, 22);
+		desiredTempTextField.setBounds(132, 153, 86, 22);
 		panelSHH.add(desiredTempTextField);
 		desiredTempTextField.setColumns(10);
 
 		JLabel desiredTempLabel = new JLabel("\u00B0C");
-		desiredTempLabel.setBounds(103, 182, 46, 14);
+		desiredTempLabel.setBounds(223, 153, 46, 14);
 		panelSHH.add(desiredTempLabel);
 
 		/** Select period **/
 		JLabel selectPeriodLabel_3 = new JLabel("Select period: ");
-		selectPeriodLabel_3.setBounds(10, 211, 107, 14);
+		selectPeriodLabel_3.setBounds(10, 178, 107, 14);
 		panelSHH.add(selectPeriodLabel_3);
 
 		periodComboBox = new JComboBox();
 		periodComboBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3" }));
-		periodComboBox.setBounds(118, 207, 46, 22);
+		periodComboBox.setBounds(132, 178, 46, 22);
 		panelSHH.add(periodComboBox);
 
 		initialPeriodJSpinner = new JSpinner();
-		initialPeriodJSpinner.setBounds(20, 242, 71, 22);
+		initialPeriodJSpinner.setBounds(10, 203, 71, 22);
 		initialPeriodJSpinner.setModel(new SpinnerDateModel());
 		initialPeriodJSpinner.setEditor(new JSpinner.DateEditor(initialPeriodJSpinner, "HH:mm:ss"));
 		panelSHH.add(initialPeriodJSpinner);
 
 		JLabel periodToLabel = new JLabel("to");
-		periodToLabel.setBounds(103, 244, 18, 14);
+		periodToLabel.setBounds(91, 207, 18, 14);
 		panelSHH.add(periodToLabel);
 
 		finalPeriodJSpinner = new JSpinner();
-		finalPeriodJSpinner.setBounds(121, 242, 77, 22);
+		finalPeriodJSpinner.setBounds(118, 203, 77, 22);
 		finalPeriodJSpinner.setModel(new SpinnerDateModel());
 		finalPeriodJSpinner.setEditor(new JSpinner.DateEditor(finalPeriodJSpinner, "HH:mm:ss"));
 		panelSHH.add(finalPeriodJSpinner);
@@ -763,28 +766,28 @@ public class SHSGui extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnAcceptPeriod.setBounds(223, 242, 77, 23);
+		btnAcceptPeriod.setBounds(205, 203, 77, 23);
 		panelSHH.add(btnAcceptPeriod);
 
 		shhApplyBtn = new JButton("Apply");
 
-		shhApplyBtn.setBounds(157, 275, 117, 29);
+		shhApplyBtn.setBounds(182, 231, 117, 29);
 		panelSHH.add(shhApplyBtn);
 
 		comboBoxSetRoomTemp = new JComboBox();
-		comboBoxSetRoomTemp.setBounds(10, 337, 107, 22);
+		comboBoxSetRoomTemp.setBounds(74, 271, 107, 22);
 		panelSHH.add(comboBoxSetRoomTemp);
 
 		labelCurrentTemp = new JLabel("");
-		labelCurrentTemp.setBounds(103, 370, 197, 23);
+		labelCurrentTemp.setBounds(91, 304, 197, 23);
 		panelSHH.add(labelCurrentTemp);
 
-		JLabel lblSelectRoom = new JLabel("Select Room");
-		lblSelectRoom.setBounds(10, 303, 290, 23);
+		JLabel lblSelectRoom = new JLabel("Select room:");
+		lblSelectRoom.setBounds(10, 271, 290, 23);
 		panelSHH.add(lblSelectRoom);
 
 		newTempValue = new JTextField();
-		newTempValue.setBounds(103, 395, 86, 20);
+		newTempValue.setBounds(91, 338, 86, 20);
 		panelSHH.add(newTempValue);
 		newTempValue.setColumns(10);
 
@@ -793,50 +796,76 @@ public class SHSGui extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnSetTemp.setBounds(200, 394, 89, 23);
+		btnSetTemp.setBounds(182, 338, 89, 23);
 		panelSHH.add(btnSetTemp);
 
 		JLabel lblNewTemp = new JLabel("New Temp:");
-		lblNewTemp.setBounds(10, 398, 86, 17);
+		lblNewTemp.setBounds(10, 340, 86, 17);
 		panelSHH.add(lblNewTemp);
-		
+
 		lblCurrentTemp = new JLabel("Current Temp:");
-		lblCurrentTemp.setBounds(10, 370, 95, 17);
+		lblCurrentTemp.setBounds(10, 304, 95, 17);
 		panelSHH.add(lblCurrentTemp);
-		
+
 		lblSetDefaultTemp = new JLabel("Set default temperature");
-		lblSetDefaultTemp.setBounds(10, 426, 154, 14);
+		lblSetDefaultTemp.setBounds(10, 369, 154, 14);
 		panelSHH.add(lblSetDefaultTemp);
-		
+
 		lblDefaultSummer = new JLabel("Summer");
-		lblDefaultSummer.setBounds(10, 451, 86, 14);
+		lblDefaultSummer.setBounds(10, 394, 86, 14);
 		panelSHH.add(lblDefaultSummer);
-		
+
 		lblDefaultWinter = new JLabel("Winter");
-		lblDefaultWinter.setBounds(10, 476, 86, 14);
+		lblDefaultWinter.setBounds(10, 419, 86, 14);
 		panelSHH.add(lblDefaultWinter);
-		
+
 		textFieldDefaultSummer = new JTextField();
-		textFieldDefaultSummer.setBounds(103, 448, 46, 20);
+		textFieldDefaultSummer.setBounds(91, 394, 46, 20);
 		panelSHH.add(textFieldDefaultSummer);
 		textFieldDefaultSummer.setColumns(10);
-		
+
 		textFieldDefaultWinter = new JTextField();
-		textFieldDefaultWinter.setBounds(103, 473, 46, 20);
+		textFieldDefaultWinter.setBounds(91, 419, 46, 20);
 		panelSHH.add(textFieldDefaultWinter);
 		textFieldDefaultWinter.setColumns(10);
-		
+
 		JLabel desiredTempLabel_1 = new JLabel("\u00B0C");
-		desiredTempLabel_1.setBounds(157, 451, 46, 14);
+		desiredTempLabel_1.setBounds(147, 397, 46, 14);
 		panelSHH.add(desiredTempLabel_1);
-		
+
 		JLabel desiredTempLabel_2 = new JLabel("\u00B0C");
-		desiredTempLabel_2.setBounds(157, 476, 46, 14);
+		desiredTempLabel_2.setBounds(147, 422, 46, 14);
 		panelSHH.add(desiredTempLabel_2);
-		
+
 		btnDefaultSeasonTemp = new JButton("OK");
-		btnDefaultSeasonTemp.setBounds(182, 472, 89, 23);
+		btnDefaultSeasonTemp.setBounds(180, 415, 89, 23);
 		panelSHH.add(btnDefaultSeasonTemp);
+
+		lblThreshold = new JLabel("Set threshold(\u00B0C):");
+		lblThreshold.setBounds(10, 450, 107, 14);
+		panelSHH.add(lblThreshold);
+
+		textFieldUpperThreshold = new JTextField();
+		textFieldUpperThreshold.setBounds(55, 472, 46, 20);
+		panelSHH.add(textFieldUpperThreshold);
+		textFieldUpperThreshold.setColumns(10);
+
+		textFieldLowerThreshold = new JTextField();
+		textFieldLowerThreshold.setBounds(55, 498, 46, 20);
+		panelSHH.add(textFieldLowerThreshold);
+		textFieldLowerThreshold.setColumns(10);
+
+		JLabel lblUpperThreshold = new JLabel("Upper:");
+		lblUpperThreshold.setBounds(10, 475, 46, 14);
+		panelSHH.add(lblUpperThreshold);
+
+		JLabel lblLowerThreshold = new JLabel("Lower:");
+		lblLowerThreshold.setBounds(10, 501, 46, 14);
+		panelSHH.add(lblLowerThreshold);
+
+		btnThresholdOK = new JButton("OK");
+		btnThresholdOK.setBounds(180, 497, 89, 23);
+		panelSHH.add(btnThresholdOK);
 
 		/** Add Tab **/
 		JPanel panelPlus = new JPanel();
@@ -1822,10 +1851,29 @@ public class SHSGui extends JFrame {
 	/**
 	 * Getter
 	 */
-	public JButton getBtnDefaultSummer() {
+	public JButton getBtnDefaultSeasonTemp() {
 		return btnDefaultSeasonTemp;
 	}
 
-	
-	
+	/**
+	 * Getter
+	 */
+	public JTextField getTextFieldUpperThreshold() {
+		return textFieldUpperThreshold;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JTextField getTextFieldLowerThreshold() {
+		return textFieldLowerThreshold;
+	}
+
+	/**
+	 * Getter
+	 */
+	public JButton getBtnThresholdOK() {
+		return btnThresholdOK;
+	}
+
 }

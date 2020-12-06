@@ -42,6 +42,8 @@ public class SHHController {
 	private double defaultSummerTemp;
 	private double defaultWinterTemp;
 	private int counter = 0;
+	private double upperThreshold;
+	private double lowerThreshold;
 
 	public SHHController() {
 	}
@@ -151,7 +153,7 @@ public class SHHController {
 //						System.out.println(rooms.get(a).getDesiredRoomTemperature());
 //					}
 //				}
-				Zone zone = new Zone((currentZoneSelected+1), currentPeriodSelected, formattedInitialPeriodTime,
+				Zone zone = new Zone((currentZoneSelected + 1), currentPeriodSelected, formattedInitialPeriodTime,
 						formattedfinalPeriodTime, desiredTempInt);
 //				if (currentTime != null && finalPeriodTime != null) {
 //				if ((formattedCurrentTime).compareTo(formattedfinalPeriodTime) > 0) {
@@ -178,7 +180,7 @@ public class SHHController {
 								+ rooms.get(i).getDesiredRoomTemperature());
 					}
 				}
-				
+
 				Timer clockTimer = new Timer();
 				clockTimer.schedule(new TimerTask() {
 					public void run() {
@@ -191,12 +193,12 @@ public class SHHController {
 										&& (formattedCurrentTime).compareTo(zone.getFinalPeriod()) < 0) {
 									// all rooms of selected zone will have desired temperature for this period of
 									// time
-									
+
 									for (int a = 0; a < rooms.size(); a++) {
 										if (rooms.get(a).getCurrentRoomTemperature() < rooms.get(a)
 												.getDesiredRoomTemperature()) {
 											final Integer innerA = new Integer(a);
-	
+
 											clockTimer.scheduleAtFixedRate(new TimerTask() {
 												public void run() {
 													// Your code
@@ -204,12 +206,13 @@ public class SHHController {
 													rooms.get(innerA).setCurrentRoomTemperature(
 															rooms.get(innerA).getCurrentRoomTemperature() + 0.1);
 													System.out.println("Current Temperature for "
-																	+ rooms.get(innerA).getLocation() + " is "
-																	+ rooms.get(innerA).getCurrentRoomTemperature());
+															+ rooms.get(innerA).getLocation() + " is "
+															+ rooms.get(innerA).getCurrentRoomTemperature());
 													if (rooms.get(innerA).getCurrentRoomTemperature() > rooms
 															.get(innerA).getDesiredRoomTemperature()) {
 														System.out.println("Current Temperature for "
-																+ rooms.get(innerA).getLocation() + " has reached Desired Temperature of "
+																+ rooms.get(innerA).getLocation()
+																+ " has reached Desired Temperature of "
 																+ rooms.get(innerA).getCurrentRoomTemperature());
 														clockTimer.cancel();
 														clockTimer.purge();
@@ -276,7 +279,7 @@ public class SHHController {
 		/**
 		 * Set default summer and winter temperature
 		 */
-		JButton defaultOK = this.frame.getBtnDefaultSummer();
+		JButton defaultOK = this.frame.getBtnDefaultSeasonTemp();
 		JTextField defaultSummerTextField = this.frame.getTextFieldDefaultSummer();
 		JTextField defaultWinterTextField = this.frame.getTextFieldDefaultWinter();
 		defaultOK.addActionListener(new ActionListener() {
@@ -305,6 +308,32 @@ public class SHHController {
 						console.msg("The winter and summer months have not been set. Operation Failed.");
 				} else
 					console.msg("Away Mode not ON");
+			}
+		});
+
+		/** Set upper and lower threshold **/
+		JButton thresholdOK = this.frame.getBtnThresholdOK();
+		JTextField UpperThresholdTextField = this.frame.getTextFieldUpperThreshold();
+		JTextField LowerThresholdTextField = this.frame.getTextFieldLowerThreshold();
+		thresholdOK.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				double upperThresh = Double.parseDouble(UpperThresholdTextField.getText());
+				setUpperThreshold(upperThresh);
+				double lowerThresh = Double.parseDouble(LowerThresholdTextField.getText());
+				setLowerThreshold(lowerThresh);
+
+				Timer clockTimer = new Timer();
+				clockTimer.schedule(new TimerTask() {
+					public void run() {
+						for (int i = 0; i < rooms.size(); i++) {
+							if (rooms.get(i).getCurrentRoomTemperature() == upperThresh) {
+								console.msg("WARNING! " + rooms.get(i).getLocation() + " has reached the upper threshold.");
+							}else if(rooms.get(i).getCurrentRoomTemperature() == lowerThresh) {
+								console.msg("WARNING! " + rooms.get(i).getLocation() + " has reached the lower threshold.");
+							}
+						}
+					}
+				}, 1000, 1000);
 			}
 		});
 
@@ -467,6 +496,34 @@ public class SHHController {
 	 */
 	public void setDefaultWinterTemp(double defaultWinterTemp) {
 		this.defaultWinterTemp = defaultWinterTemp;
+	}
+
+	/**
+	 * Getter
+	 */
+	public double getUpperThreshold() {
+		return upperThreshold;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setUpperThreshold(double upperThreshold) {
+		this.upperThreshold = upperThreshold;
+	}
+
+	/**
+	 * Getter
+	 */
+	public double getLowerThreshold() {
+		return lowerThreshold;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setLowerThreshold(double lowerThreshold) {
+		this.lowerThreshold = lowerThreshold;
 	}
 
 }

@@ -396,8 +396,9 @@ public class SHHController {
 		Timer tempTimer = new Timer();
 		tempTimer.schedule(new TimerTask() {
 			public void run() {
+				int messageCounter = 0;
 				for (Room room : rooms) {
-					if (temperature.getOutsideTemp() < room.getDesiredRoomTemperature()
+					if (temperature.getOutsideTemp() < room.getCurrentRoomTemperature()
 							&& SHPController.getSHPController().getAwayMode() == false) {
 						for (int i = 0; i < window.size(); i++) {
 							if (window.get(i).getLocation().equals(room.getLocation())) {
@@ -413,6 +414,8 @@ public class SHHController {
 											+ ". The window cannot be opened because it is blocked.");
 							}
 						}
+					} else if (temperature.getOutsideTemp() < room.getCurrentRoomTemperature() && SHPController.getSHPController().getAwayMode() == true && counter % 60 == 0) {
+						console.msg("The window in the " +room.getLocation()+ " will not be opened since Away Mode is activated.");
 					}
 					if (hasThresholdBeenSet && room.getCurrentRoomTemperature() >= getUpperThreshold() && counter % 60 == 0) {
 						console.msg("WARNING! The temperature in the " + room.getLocation()

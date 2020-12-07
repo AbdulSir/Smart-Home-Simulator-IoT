@@ -77,4 +77,8 @@ public class Zone {
 	public double getDesiredTemperature() {
 		return desiredTemperature;
 	}
+
+	public void setDesiredTemperature(double desiredTemperature) {
+		this.desiredTemperature = desiredTemperature;
+	}
 }

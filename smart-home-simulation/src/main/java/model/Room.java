@@ -13,7 +13,7 @@ public class Room {
 	private boolean isTempOverridden;
 
 	/** Default Constructor **/
-	private Room() {
+	public Room() {
 	}
 
 	/** Parametrized Constructor **/

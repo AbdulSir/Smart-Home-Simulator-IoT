@@ -11,9 +11,11 @@ public class Room {
 	private double currentTemperature;
 	private int zone;
 	private boolean isTempOverridden;
+	private boolean heater;
+	private boolean ac;
 
 	/** Default Constructor **/
-	public Room() {
+	private Room() {
 	}
 
 	/** Parametrized Constructor **/
@@ -25,6 +27,8 @@ public class Room {
 		setDesiredRoomTemperature(Temperature.getTemperature().getInsideTemp());
 		zone = 1;
 		isTempOverridden = false;
+		heater=false;
+		ac=false;
 	}
 
 	/**
@@ -152,6 +156,21 @@ public class Room {
 
 	public void setCurrentRoomTemperature(double currentTemperature) {
 		this.currentTemperature = currentTemperature;
+	}
+	public boolean isHeater() {
+		return heater;
+	}
+
+	public void setHeater(boolean heater) {
+		this.heater = heater;
+	}
+
+	public boolean isAc() {
+		return ac;
+	}
+
+	public void setAc(boolean ac) {
+		this.ac = ac;
 	}
 
 }

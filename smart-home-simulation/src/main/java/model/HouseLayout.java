@@ -30,6 +30,8 @@ public class HouseLayout extends JPanel {
 	private BufferedImage userImage;
 	private BufferedImage blocked;
 	private BufferedImage awayModeIcon;
+	private BufferedImage ac;
+	private BufferedImage heater;
 	private SHPController security;
 	private ReadingJsonFile rjFile;
 	private static HouseLayout houseLayout;
@@ -47,16 +49,17 @@ public class HouseLayout extends JPanel {
 	 * @param g
 	 */
 	public void drawRooms(Graphics g) {
+		ArrayList<Room> rooms = Room.getRooms();
 		try {
 			int offSet = 0;
 			int countOutside = 0;
 			int countEntrance = 0;
 			int countRoom = 0;
 			userImage = ImageIO.read(getClass().getResource("/resources/user-2-icon.png"));
-			
+			ac = ImageIO.read(getClass().getResource("/resources/AC.png"));
+			heater = ImageIO.read(getClass().getResource("/resources/Heater.png"));
 			Users users = Users.getUser();
 			ArrayList<Users> usersArray = users.getUserList();
-			ArrayList<Room> rooms = Room.getRooms();
 			for (int i = 0; i < rjFile.getRoomArray().size(); i++) {
 				if (i == 0) {
 					g.drawRect(0, 0, 400, 100);
@@ -89,7 +92,11 @@ public class HouseLayout extends JPanel {
 				}
 				if (i < 4) {
 					drawRoom(g, rjFile.getRoomArray().get(i).toString());
-					g.drawString("Temp.: " + Math.round((rooms.get(rooms.size()-1).getCurrentRoomTemperature())*100.0)/100.0 + "\u00B0C ",10,65);
+					if (rooms.get(i).isAc())
+						g.drawImage(ac, 25, 0, 25, 25, null);
+					if (rooms.get(i).isHeater())
+						g.drawImage(heater, 25, 0, 25, 25, null);
+					g.drawString("Temp: " + Math.round((rooms.get(rooms.size()-1).getCurrentRoomTemperature())*100.0)/100.0 + "\u00B0C ",10,65);
 					int x = 40, y = 70;
 					for (int j = 0; j < usersArray.size(); j++) {
 						if (rjFile.getRoomArray().get(i).toString().equals(usersArray.get(j).getLocation())) {
@@ -154,6 +161,11 @@ public class HouseLayout extends JPanel {
 				}
 				if (i >= 4) {
 					drawRoom(g, rjFile.getRoomArray().get(i).toString());
+					drawRoom(g, rjFile.getRoomArray().get(i).toString());
+					if (rooms.get(i).isAc())
+						g.drawImage(ac, 25, 0, 25, 25, null);
+					if (rooms.get(i).isHeater())
+						g.drawImage(heater, 25, 0, 25, 25, null);
 					g.drawString("Temp.: " + Math.round((rooms.get(rooms.size()-1).getCurrentRoomTemperature())*100.0)/100.0 + "\u00B0C ",10,65);
 					int x = 40, y = 70;
 					for (int j = 0; j < usersArray.size(); j++) {

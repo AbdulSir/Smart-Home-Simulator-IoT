@@ -46,6 +46,7 @@ public class SHHController {
 	private int counter = 0;
 	private double upperThreshold;
 	private double lowerThreshold;
+	private boolean hasThresholdBeenSet;
 
 	public SHHController() {
 	}
@@ -59,6 +60,7 @@ public class SHHController {
 		this.zone = new Zone();
 		this.temperature = Temperature.getTemperature();
 		this.window = Windows.getWindowList();
+		hasThresholdBeenSet = false;
 		userEvents();
 	}
 
@@ -208,11 +210,7 @@ public class SHHController {
 													DecimalFormat form = new DecimalFormat("#.#");
 													rooms.get(innerA).setCurrentRoomTemperature(
 															rooms.get(innerA).getCurrentRoomTemperature() + 0.1);
-													console.msg("Current Temperature for "
-
-															+ rooms.get(innerA).getLocation() + " is "
-															+ Double.valueOf(form.format(
-																	rooms.get(innerA).getCurrentRoomTemperature())));
+													paint();
 													if (Double.valueOf(form.format(
 															rooms.get(innerA).getCurrentRoomTemperature())) == rooms
 																	.get(innerA).getDesiredRoomTemperature()) {
@@ -221,7 +219,7 @@ public class SHHController {
 																+ " has reached Desired Temperature of "
 																+ Double.valueOf(form.format(rooms.get(innerA)
 																		.getCurrentRoomTemperature())));
-
+														paint();
 														clockTimer.cancel();
 														clockTimer.purge();
 													}
@@ -240,10 +238,7 @@ public class SHHController {
 													DecimalFormat form = new DecimalFormat("#.#");
 													rooms.get(innerA).setCurrentRoomTemperature(
 															rooms.get(innerA).getCurrentRoomTemperature() - 0.1);
-													console.msg("Current Temperature for "
-															+ rooms.get(innerA).getLocation() + " is "
-															+ Double.valueOf(form.format(
-																	rooms.get(innerA).getCurrentRoomTemperature())));
+													paint();
 													if (Double.valueOf(form.format(
 															rooms.get(innerA).getCurrentRoomTemperature())) == rooms
 																	.get(innerA).getDesiredRoomTemperature()) {
@@ -252,7 +247,7 @@ public class SHHController {
 																+ " has reached Desired Temperature of "
 																+ Double.valueOf(form.format(rooms.get(innerA)
 																		.getCurrentRoomTemperature())));
-
+														paint();
 														clockTimer.cancel();
 														clockTimer.purge();
 													}
@@ -287,12 +282,13 @@ public class SHHController {
 					if (rooms.get(currentRoomSelected).isTempOverridden()) {
 						frame.getLabelCurrentTemp()
 								.setText(String.valueOf(rooms.get(currentRoomSelected).getDesiredRoomTemperature())
-										+ " \u00B0C " + " (Overriden)");
+										+ "\u00B0C " + " (Overriden)");
 					} else {
 						frame.getLabelCurrentTemp()
 								.setText(String.valueOf(rooms.get(currentRoomSelected).getDesiredRoomTemperature())
-										+ " \u00B0C ");
+										+ "\u00B0C ");
 					}
+					paint();
 				} else if (isUserLoggedIn) {
 					if (!loggedUser.getLocation().equals(location) && (!loggedUser.getPermission().equals("STRANGER")
 							&& !loggedUser.getPermission().equals("CHILDREN"))) {
@@ -330,6 +326,7 @@ public class SHHController {
 
 					// console message
 					Console.getConsole().msg(currentRoom + " new temperature is " + newTemp + " \u00B0C.");
+					paint();
 				} else if (isUserLoggedIn) {
 					if (!loggedUser.getLocation().equals(location) && (!loggedUser.getPermission().equals("STRANGER")
 							&& !loggedUser.getPermission().equals("CHILDREN"))) {
@@ -376,11 +373,18 @@ public class SHHController {
 		JTextField LowerThresholdTextField = this.frame.getTextFieldLowerThreshold();
 		thresholdOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				double upperThresh = Double.parseDouble(UpperThresholdTextField.getText());
-				setUpperThreshold(upperThresh);
-				double lowerThresh = Double.parseDouble(LowerThresholdTextField.getText());
-				setLowerThreshold(lowerThresh);
-				console.msg("The thresholds have been set.");
+				if (UpperThresholdTextField.getText().toString().equals("")
+						|| LowerThresholdTextField.getText().equals("")) {
+					console.msg(
+							"One or both of the text fields, for the threshold temperatures, have not been\nfilled. Operation Failed.");
+				} else {
+					double upperThresh = Double.parseDouble(UpperThresholdTextField.getText());
+					setUpperThreshold(upperThresh);
+					double lowerThresh = Double.parseDouble(LowerThresholdTextField.getText());
+					setLowerThreshold(lowerThresh);
+					hasThresholdBeenSet = true;
+					console.msg("The thresholds have been set.");
+				}
 			}
 		});
 
@@ -397,7 +401,7 @@ public class SHHController {
 							&& SHPController.getSHPController().getAwayMode() == false) {
 						for (int i = 0; i < window.size(); i++) {
 							if (window.get(i).getLocation().equals(room.getLocation())) {
-								if (!window.get(i).isBlocked()  && counter % 60 == 0) {
+								if (!window.get(i).isBlocked() && counter % 60 == 0) {
 									window.get(i).setOpen(true);
 									paint();
 									console.msg("The window in the " + room.getLocation()
@@ -410,14 +414,12 @@ public class SHHController {
 							}
 						}
 					}
-					if (!UpperThresholdTextField.getText().equals("") && !LowerThresholdTextField.getText().equals("")) {
-						if (room.getCurrentRoomTemperature() >= getUpperThreshold() && counter % 60 == 0) {
-							console.msg("WARNING! The temperature in the " + room.getLocation()
-									+ " has reached the upper threshold.");
-						} else if (room.getCurrentRoomTemperature() <= getLowerThreshold() && counter % 60 == 0) {
-							console.msg("WARNING! The temperature in the " + room.getLocation()
-									+ " has reached the lower threshold.");
-						}
+					if (hasThresholdBeenSet && room.getCurrentRoomTemperature() >= getUpperThreshold() && counter % 60 == 0) {
+						console.msg("WARNING! The temperature in the " + room.getLocation()
+								+ " has reached the upper threshold.");
+					} else if (hasThresholdBeenSet && room.getCurrentRoomTemperature() <= getLowerThreshold() && counter % 60 == 0) {
+						console.msg("WARNING! The temperature in the " + room.getLocation()
+								+ " has reached the lower threshold.");
 					}
 				}
 				counter++;
@@ -549,9 +551,11 @@ public class SHHController {
 	public void setDefaultWinterTemp(double defaultWinterTemp) {
 		this.defaultWinterTemp = defaultWinterTemp;
 	}
-	
+
 	/**
-	 * Method will determine whether or not a user has the permission to execute a command
+	 * Method will determine whether or not a user has the permission to execute a
+	 * command
+	 * 
 	 * @param user
 	 * @param location
 	 * @return

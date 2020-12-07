@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
+import model.ExceedThresholdException;
 import model.ReadingJsonFile;
 import model.Room;
 import model.Temperature;
@@ -156,7 +157,6 @@ public class SHHController {
 					int desiredTempInt = (Integer.parseInt(desiredTempStr));
 					Zone zone = new Zone((currentZoneSelected + 1), currentPeriodSelected, formattedInitialPeriodTime,
 							formattedfinalPeriodTime, desiredTempInt);
-					console.msg("The times periods have been set.");
 				} else if (isUserLoggedIn) {
 					console.msg(
 							"You do not have the permission to execute this command. Reason: Permission status of user");
@@ -168,7 +168,6 @@ public class SHHController {
 		shhApplyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Apply all zone temperatures to each room
-				console.msg("The parameters for the Heating/AC module have been applied");
 				for (Zone zone : zone.getZoneList()) {
 					System.out.println("we are in " + zone.getCurrentZone());
 					for (int i = 0; i < rooms.size(); i++) {
@@ -207,20 +206,29 @@ public class SHHController {
 
 											clockTimer.scheduleAtFixedRate(new TimerTask() {
 												public void run() {
-													// Your code
-
+													// Displaying the heater icon
+													rooms.get(innerA).setAc(false);
+													rooms.get(innerA).setHeater(true);
 													DecimalFormat form = new DecimalFormat("#.#");
 													rooms.get(innerA).setCurrentRoomTemperature(
-															rooms.get(innerA).getCurrentRoomTemperature() + 0.1);
+															Math.round(rooms.get(innerA).getCurrentRoomTemperature() * 10.0)/10.0 + 0.1);
 													paint();
 													if (Double.valueOf(form.format(
 															rooms.get(innerA).getCurrentRoomTemperature())) == rooms
 																	.get(innerA).getDesiredRoomTemperature()) {
+														rooms.get(innerA).setCurrentRoomTemperature(
+																Math.round(rooms.get(innerA).getCurrentRoomTemperature() * 10.0)/10.0);
 														console.msg("Current Temperature for "
 																+ rooms.get(innerA).getLocation()
 																+ " has reached Desired Temperature of "
 																+ Double.valueOf(form.format(rooms.get(innerA)
 																		.getCurrentRoomTemperature())));
+														//Removing all icons
+														for (int i =0; i<rooms.size(); i++)
+														{
+															rooms.get(i).setAc(false);
+															rooms.get(i).setHeater(false);
+														}
 														paint();
 														clockTimer.cancel();
 														clockTimer.purge();
@@ -235,20 +243,29 @@ public class SHHController {
 
 											clockTimer.scheduleAtFixedRate(new TimerTask() {
 												public void run() {
-													// Your code
-
+													// Displaying the AC icon
+													rooms.get(innerA).setAc(true);
+													rooms.get(innerA).setHeater(false);
+													paint();
 													DecimalFormat form = new DecimalFormat("#.#");
 													rooms.get(innerA).setCurrentRoomTemperature(
-															rooms.get(innerA).getCurrentRoomTemperature() - 0.1);
+															Math.round(rooms.get(innerA).getCurrentRoomTemperature() * 10.0)/10.0 - 0.1);
 													paint();
 													if (Double.valueOf(form.format(
 															rooms.get(innerA).getCurrentRoomTemperature())) == rooms
 																	.get(innerA).getDesiredRoomTemperature()) {
+														rooms.get(innerA).setCurrentRoomTemperature(
+																Math.round(rooms.get(innerA).getCurrentRoomTemperature() * 10.0)/10.0);
 														console.msg("Current Temperature for "
 																+ rooms.get(innerA).getLocation()
 																+ " has reached Desired Temperature of "
 																+ Double.valueOf(form.format(rooms.get(innerA)
 																		.getCurrentRoomTemperature())));
+														for (int i =0; i<rooms.size(); i++)
+														{
+															rooms.get(i).setAc(false);
+															rooms.get(i).setHeater(false);
+														}
 														paint();
 														clockTimer.cancel();
 														clockTimer.purge();
@@ -416,17 +433,25 @@ public class SHHController {
 											+ ". The window cannot be opened because it is blocked.");
 							}
 						}
+					} 
+					else if (temperature.getOutsideTemp() < room.getCurrentRoomTemperature() && SHPController.getSHPController().getAwayMode() == true && counter % 60 == 0) {
+						console.msg("The window in the " +room.getLocation()+ " will not be opened since Away Mode is activated.");
 					}
-					if (hasThresholdBeenSet && room.getCurrentRoomTemperature() >= getUpperThreshold() && counter % 60 == 0) {
-						console.msg("WARNING! The temperature in the " + room.getLocation()
-								+ " has reached the upper threshold.");
-					} else if (hasThresholdBeenSet && room.getCurrentRoomTemperature() <= getLowerThreshold() && counter % 60 == 0) {
-						console.msg("WARNING! The temperature in the " + room.getLocation()
-								+ " has reached the lower threshold.");
+					
+					try {
+						if (hasThresholdBeenSet && room.getCurrentRoomTemperature() >= getUpperThreshold() && counter % 60 == 0) {
+							console.msg("WARNING! The temperature in the " + room.getLocation()
+									+ " has reached the upper threshold.");
+							throw new ExceedThresholdException();
+						} 
+						else if (hasThresholdBeenSet && room.getCurrentRoomTemperature() <= getLowerThreshold() && counter % 60 == 0) {
+							console.msg("WARNING! The temperature in the " + room.getLocation()+ " has reached the lower threshold.");
+							throw new ExceedThresholdException();
+						}
 					}
-				}
-				if (SHPController.getSHPController().getAwayMode() == true && counter % 60 == 0) {
-					console.msg("The windows will not be opened since Away Mode is activated.");
+					catch (ExceedThresholdException e) {
+						e.getMessage();
+					}
 				}
 				counter++;
 			}

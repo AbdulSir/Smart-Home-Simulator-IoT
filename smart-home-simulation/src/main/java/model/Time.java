@@ -221,6 +221,8 @@ public class Time {
 			return watch;
 		else {
 			Time.watch = new Time();
+			//this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(),
+			//		frame.getSlider(), console, this);
 			return watch;
 		}
 	}

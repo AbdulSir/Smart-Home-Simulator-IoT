@@ -158,6 +158,7 @@ public class SHSGui extends JFrame {
 					heatController = SHHController.getSHHController();
 					coreController.setSimulationButton(controller.getSimulationButton());
 					securityController.setSimulationButton(controller.getSimulationButton());
+					securityController.setTime(controller.getTime());
 					heatController.setSimulationButton(controller.getSimulationButton());
 					frame.setVisible(true);
 				} catch (Exception e) {

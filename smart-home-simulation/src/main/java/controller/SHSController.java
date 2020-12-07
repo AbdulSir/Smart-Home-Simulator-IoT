@@ -604,6 +604,20 @@ public class SHSController {
 	}
 
 	/**
+	 * Getter
+	 */
+	public Time getTime() {
+		return time;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
+	/**
 	 * Append all of the console messages to the corresponding log file
 	 */
 	public void appendToLog(String text) {

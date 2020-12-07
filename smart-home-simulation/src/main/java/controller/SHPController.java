@@ -79,7 +79,6 @@ public class SHPController {
 		this.lights = Lights.getLight();
 		this.startAwayLightTime = frame.getAwayLightsStartTime();
 		this.stopAwayLightTime = frame.getAwayLightsStopTime();
-		this.time = Time.getWatch();
 		this.heat = SHHController.getSHHController();
 		this.temperature = Temperature.getTemperature();
 		this.rooms = Room.getRooms();
@@ -285,6 +284,21 @@ public class SHPController {
 	public int getTimeToAlert() {
 		return timeToAlert;
 	}
+	
+	/**
+	 * Getter
+	 */
+	public Time getTime() {
+		return time;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
 
 	/**
 	 * Setter
@@ -393,7 +407,7 @@ public class SHPController {
 	}
 	
 	public void setSeasonalTemperature() {
-		Date currentTimeDate = time.getTime();
+		Date currentTimeDate = time.getDate();
 		String formattedCurrentTime = new SimpleDateFormat("MM").format(currentTimeDate);
 		int currentMonth = Integer.parseInt(formattedCurrentTime);
 		if (heat.getSummerSeason() != null && heat.getWinterSeason() != null) {

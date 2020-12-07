@@ -11,7 +11,7 @@ import controller.SimulationButtonTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ LogInTest.class, ManageUserTest.class, MoveLoggedUser.class, PlacePeopleTest.class,
-		ProfileFileTest.class, ReadingJsonFileTest.class, TemperatureTest.class, TimeSpeedTest.class, TimeTest.class,
+		ProfileFileTest.class, ReadingJsonFileTest.class, TimeSpeedTest.class, TimeTest.class,
 		WindowsTest.class, PermissionsTest.class, SHCTest.class, SHPTest.class, SimulationButtonTest.class })
 public class AllTests {
 

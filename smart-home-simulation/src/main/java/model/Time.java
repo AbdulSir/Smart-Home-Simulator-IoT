@@ -114,8 +114,9 @@ public class Time {
 	 */
 	public void setDateFromSpinnner(JDateChooser date, SHSGui frame) {
 		Date setDate = date.getDate();
-		String strDate = DateFormat.getDateInstance().format(setDate);
+		String strDate = new SimpleDateFormat("dd-MMM-YYYY").format(setDate);
 		frame.getDateValue().setText(strDate);
+		setDate(setDate);
 		console.msg("The date has been set to " + strDate);
 		controller.appendToLog("The date has been set to " + strDate);
 	}

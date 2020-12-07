@@ -24,7 +24,7 @@ import model.Doors;
 import model.HouseLayout;
 import model.Lights;
 import model.ReadingJsonFile;
-import model.RoomCounter;
+import model.Room;
 import model.Temperature;
 import model.Time;
 import model.Users;
@@ -44,21 +44,23 @@ public class SHSController {
 	private ReadingJsonFile rjFile;
 	private SHCController coreController;
 	private SHPController securityController;
-	private RoomCounter rooms;
+	private Room rooms;
 	private static SHSController shsController;
 	private PrintWriter pw;
+
 	public SHSController() {
 
 	}
 
-	private SHSController(SHSGui frame, SHCController coreController, SHPController securityController, SHHController heat) {
+	private SHSController(SHSGui frame, SHCController coreController, SHPController securityController,
+			SHHController heat) {
 		/** Main GUI **/
 		this.frame = frame;
 		user = Users.getUser();
-		rooms = RoomCounter.getRoomCounter();
+		rooms = Room.getRoomCounter();
 
 		/** Create default User **/
-		Users defaultUser = new Users("Admin","PARENT");
+		Users defaultUser = new Users("Admin", "PARENT");
 
 		/** Control Console **/
 		this.console = Console.getConsole();
@@ -67,33 +69,31 @@ public class SHSController {
 		/** Simulation Button **/
 		this.simulationButton = SimulationButton.getSimulatorButton();
 
-
-
-
-
 		/** SHC Controller **/
 		this.coreController = coreController;
-		this.coreController.setSimButton(simulationButton);
 		
+
 		/** SHP Controller **/
-		this.securityController=securityController;
-		
+		this.securityController = securityController;
+
 		/** PrintWriter **/
 		try {
 			pw = new PrintWriter(new FileOutputStream("SHSControllerLog.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		/** Temperature Control **/
 		this.temperature = new Temperature(frame, frame.getOutsideTemp(), frame.getHouseTemp(), console, this);
-		
+
 		/** Time **/
-		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(), frame.getSlider(), console, this);
-		
+		this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(),
+				frame.getSlider(), console, this);
+
 		/** Edit Simulation **/
-		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton, frame, coreController, securityController, this, heat);
-		
+		this.editSimulation = new EditSimulation(frame.getPressbuttonEditContext(), user, console, simulationButton,
+				frame, coreController, securityController, this, heat);
+
 		// Open File
 		readFileEvent();
 
@@ -151,11 +151,11 @@ public class SHSController {
 					new Windows(rjFile.getRoomArray().get(i).toString());
 					new Doors(rjFile.getRoomArray().get(i).toString());
 					new Lights(rjFile.getRoomArray().get(i).toString());
-					new RoomCounter(rjFile.getRoomArray().get(i).toString());
+					new Room(rjFile.getRoomArray().get(i).toString());
 					if (i == rjFile.getRoomArray().size() - 1) {
 						new Doors("Entrance");
 						new Lights("Entrance");
-						new RoomCounter("Entrance");
+						new Room("Entrance");
 					}
 				}
 				userRoomArray[userRoomArray.length - 1] = "Outside";
@@ -165,24 +165,27 @@ public class SHSController {
 				// Setting count of entrance to account for default user
 				rooms.getRooms().get(itemsArray.length - 1).incrementCounter();
 				coreController.checkLights();
-				
+
 				// 2d layout
 				houseLayout = new HouseLayout(rjFile, securityController);
 				houseLayout = HouseLayout.getHouseLayout();
 				frame.getPanelView().add(houseLayout);
 
 				editSimulation.getContext().getComboBoxLocation().setModel(new DefaultComboBoxModel(userRoomArray));
-				editSimulation.getContext().getComboBoxWindowLocation().setModel(new DefaultComboBoxModel(userWindowsArray));
+				editSimulation.getContext().getComboBoxWindowLocation()
+						.setModel(new DefaultComboBoxModel(userWindowsArray));
 				frame.getDoorsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getLightsComboBox().setModel(new DefaultComboBoxModel(itemsArray));
 				frame.getOpenWindowsComboBox().setModel(new DefaultComboBoxModel(userWindowsArray));
+				frame.getRoomToZoneComboBox().setModel(new DefaultComboBoxModel(itemsArray));
+				frame.getComboBoxSetRoomTemp().setModel(new DefaultComboBoxModel(itemsArray));
 
 				// refresh layout
 				frame.repaint();
 			}
 		});
 	}
-	
+
 	/**
 	 * Save user in .txt file Event Handler
 	 */
@@ -277,10 +280,10 @@ public class SHSController {
 						}
 
 						user.setUserList(file_list_users);
-						for(int i = 0; i < user.getUserList().size(); i++) {
+						for (int i = 0; i < user.getUserList().size(); i++) {
 							String location = user.getUserList().get(i).getLocation();
-							for(int j = 0; j < rooms.getRooms().size(); j++) {
-								if(rooms.getRooms().get(j).getLocation().equals(location)) {
+							for (int j = 0; j < rooms.getRooms().size(); j++) {
+								if (rooms.getRooms().get(j).getLocation().equals(location)) {
 									rooms.getRooms().get(j).incrementCounter();
 									break;
 								}
@@ -288,7 +291,7 @@ public class SHSController {
 						}
 						rooms.getRooms().get(rooms.getRooms().size() - 1).decrementCounter();
 						coreController.checkLights();
-						
+
 						// Close Stream
 						fis.close();
 						ois.close();
@@ -311,8 +314,6 @@ public class SHSController {
 		});
 
 	}
-	
-	
 
 	/**
 	 * User Event Handler
@@ -332,29 +333,36 @@ public class SHSController {
 					if (user.getName().equalsIgnoreCase(userToMakeActive)) {
 						user.setActiveUser(true);
 						permission = user.getPermission();
-						console.msg("A new user is logged into the system: " + user.getName() + ". UserID: " + user.getUserNumber());
-						appendToLog("A new user is logged into the system: " + user.getName() + ". UserID: " + user.getUserNumber());
+						console.msg("A new user is logged into the system: " + user.getName() + ". UserID: "
+								+ user.getUserNumber());
+						appendToLog("A new user is logged into the system: " + user.getName() + ". UserID: "
+								+ user.getUserNumber());
 						frame.getUserLocationLabel().setText(user.getLocation());
 						frame.getLabelUserPermissionValue().setText(user.getPermission());
 						break;
 					}
 				}
-				switch(permission) {
+				switch (permission) {
 				case "PARENT":
-					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/mother.png")));
+					frame.getLabelProfileImage()
+							.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/mother.png")));
 					break;
 				case "CHILDREN":
-					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/daughter.png")));
+					frame.getLabelProfileImage()
+							.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/daughter.png")));
 					break;
 				case "GUEST":
-					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/guest.png")));
+					frame.getLabelProfileImage()
+							.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/guest.png")));
 					break;
 				case "STRANGER":
-					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/stranger.png")));
+					frame.getLabelProfileImage()
+							.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/stranger.png")));
 					break;
 				default:
-					frame.getLabelProfileImage().setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
-					break;	
+					frame.getLabelProfileImage()
+							.setIcon(new ImageIcon(SHSGui.class.getResource("/resources/default.png")));
+					break;
 				}
 				paint();
 			}
@@ -386,8 +394,10 @@ public class SHSController {
 							break;
 						}
 					}
-					console.msg(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
-					appendToLog(NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+					console.msg(
+							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
+					appendToLog(
+							NewUsername + " has been added. UserID: " + user.getUserList().get(index).getUserNumber());
 					rooms.getRooms().get(rooms.getRooms().size() - 1).incrementCounter();
 					coreController.checkLights();
 					paint();
@@ -419,7 +429,7 @@ public class SHSController {
 						break;
 					}
 				}
-				for (RoomCounter room : rooms.getRooms()) {
+				for (Room room : rooms.getRooms()) {
 					if (room.getLocation().equals(location)) {
 						room.decrementCounter();
 						break;
@@ -477,6 +487,7 @@ public class SHSController {
 		});
 
 	}
+
 	/**
 	 * On Click Simulation Button Event Handler
 	 */
@@ -491,10 +502,10 @@ public class SHSController {
 
 					// Run timer
 					time.startTimer();
-					
-					//Refresh UI
+
+					// Refresh UI
 					frame.repaint();
-					
+
 					// Display Message to Console
 					console.msg("Simulator ON");
 					appendToLog("Simulator ON");
@@ -522,7 +533,7 @@ public class SHSController {
 		// Add position label in the slider
 		JSlider slider = this.frame.getSlider();
 		Hashtable position = new Hashtable();
-		position.put(1, new JLabel("1m"));
+		position.put(1, new JLabel("1s"));
 		position.put(15, new JLabel("15m"));
 		position.put(30, new JLabel("30m"));
 		position.put(45, new JLabel("45m"));
@@ -553,7 +564,7 @@ public class SHSController {
 	 * Repaints frame if the simulator is on
 	 */
 	private void paint() {
-		if(simulationButton.isSimulatorState())
+		if (simulationButton.isSimulatorState())
 			frame.repaint();
 	}
 
@@ -564,18 +575,19 @@ public class SHSController {
 		if (shsController != null)
 			return shsController;
 		else {
-			SHSController.shsController = new SHSController(SHSGui.getSHS(),SHCController.getSHCController(),SHPController.getSHPController(), SHHController.getSHHController());
+			SHSController.shsController = new SHSController(SHSGui.getSHS(), SHCController.getSHCController(),
+					SHPController.getSHPController(), SHHController.getSHHController());
 			return shsController;
 		}
-		
+
 	}
+
 	/**
 	 * Getter
 	 */
 	public ReadingJsonFile getRjFile() {
 		return rjFile;
-	}	
-
+	}
 
 	/**
 	 * Getter
@@ -590,7 +602,21 @@ public class SHSController {
 	public void setPrintWriter(PrintWriter pw) {
 		this.pw = pw;
 	}
-	
+
+	/**
+	 * Getter
+	 */
+	public Time getTime() {
+		return time;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
 	/**
 	 * Append all of the console messages to the corresponding log file
 	 */

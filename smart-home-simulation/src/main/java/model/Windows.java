@@ -58,7 +58,7 @@ public class Windows {
 	 * 
 	 * @return All Windows
 	 */
-	public ArrayList<Windows> getWindowList() {
+	public static ArrayList<Windows> getWindowList() {
 		return windowList;
 	}
 

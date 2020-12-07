@@ -24,6 +24,8 @@ import javax.swing.JToggleButton;
 
 import model.Doors;
 import model.Lights;
+import model.Room;
+import model.Temperature;
 import model.Time;
 import model.Users;
 import model.Windows;
@@ -49,6 +51,12 @@ public class SHPController {
 	private SimulationButton simulationButton;
 	private PrintWriter pw;
 	private static SHPController shpController;
+	
+	private SHHController heat;
+	private Temperature temperature;
+	private ArrayList<Room> rooms;
+	private int currentMonth;
+	
 	public SHPController() {
 	}
 
@@ -71,7 +79,9 @@ public class SHPController {
 		this.lights = Lights.getLight();
 		this.startAwayLightTime = frame.getAwayLightsStartTime();
 		this.stopAwayLightTime = frame.getAwayLightsStopTime();
-		this.time = Time.getWatch();
+		this.heat = SHHController.getSHHController();
+		this.temperature = Temperature.getTemperature();
+		this.rooms = Room.getRooms();
 		
 		try {
 			pw = new PrintWriter(new FileOutputStream("SHPControllerLog.txt"));
@@ -114,7 +124,9 @@ public class SHPController {
 								for (int i = 0; i < doors.getDoorList().size(); i++) {
 									doors.getDoorList().get(i).setOpen(false);
 									doors.getDoorList().get(i).setLocked(true);
-								}			
+								}
+								
+								setSeasonalTemperature();
 								paint();
 							}
 							else if (state == ItemEvent.DESELECTED) {
@@ -162,9 +174,9 @@ public class SHPController {
 			public void actionPerformed(ActionEvent arg0) {
 				if(awayMode == true) {
 					Date startALTime = (Date) startAwayLightTime.getValue();
-					String formattedStartALTime = new SimpleDateFormat("HH:mm").format(startALTime);
+					String formattedStartALTime = new SimpleDateFormat("HH:mm:ss").format(startALTime);
 					Date stopALTime = (Date) stopAwayLightTime.getValue();
-					String formattedStopALTime = new SimpleDateFormat("HH:mm").format(stopALTime);
+					String formattedStopALTime = new SimpleDateFormat("HH:mm:ss").format(stopALTime);
 	
 					ArrayList<Lights> lightsList = lights.getLightsList();
 					
@@ -178,7 +190,7 @@ public class SHPController {
 					clockTimer.schedule(new TimerTask() {
 						public void run() {
 							Date currentTime = time.getTime();
-							String formattedCurrentTime = new SimpleDateFormat("HH:mm").format(currentTime);
+							String formattedCurrentTime = new SimpleDateFormat("HH:mm:ss").format(currentTime);
 								if (currentTime != null && startALTime != null) {
 									if ((formattedCurrentTime).compareTo(formattedStartALTime) > 0 && (formattedCurrentTime).compareTo(formattedStopALTime) < 0) { 
 									    if(frame.getChckbxBedRMLight().isSelected())
@@ -272,6 +284,21 @@ public class SHPController {
 	public int getTimeToAlert() {
 		return timeToAlert;
 	}
+	
+	/**
+	 * Getter
+	 */
+	public Time getTime() {
+		return time;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
 
 	/**
 	 * Setter
@@ -325,6 +352,20 @@ public class SHPController {
 	}
 
 	/**
+	 * Getter
+	 */
+	public int getCurrentMonth() {
+		return currentMonth;
+	}
+
+	/**
+	 * Setter
+	 */
+	public void setCurrentMonth(int currentMonth) {
+		this.currentMonth = currentMonth;
+	}
+
+	/**
 	 * Determines if the logged-in user has access to these commands
 	 * 
 	 * @param user
@@ -363,6 +404,26 @@ public class SHPController {
 	private void paint() {
 		if(simulationButton.isSimulatorState())
 			frame.repaint();
+	}
+	
+	public void setSeasonalTemperature() {
+		Date currentTimeDate = time.getDate();
+		String formattedCurrentTime = new SimpleDateFormat("MM").format(currentTimeDate);
+		int currentMonth = Integer.parseInt(formattedCurrentTime);
+		if (heat.getSummerSeason() != null && heat.getWinterSeason() != null) {
+			if (heat.getSummerSeason().contains(currentMonth)) {
+				for (int i = 0; i < rooms.size(); i++)
+					rooms.get(i).setDesiredRoomTemperature(heat.getDefaultSummerTemp());
+			} else if (heat.getWinterSeason().contains(currentMonth)) {
+				for (int i = 0; i < rooms.size(); i++)
+					rooms.get(i).setDesiredRoomTemperature(heat.getDefaultWinterTemp());
+			} else {
+				for (int i = 0; i < rooms.size(); i++) {
+					rooms.get(i).setDesiredRoomTemperature(temperature.getInsideTemp());
+				}
+			}
+		} else
+			console.msg("The winter and summer months have not been set. Operation Failed.");
 	}
 	
 	/**

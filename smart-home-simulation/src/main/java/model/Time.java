@@ -45,47 +45,34 @@ public class Time {
 
 	private SHSController controller;
 
-
 	/**
 	 * Default constructor
 	 */
-	private Time() {
+	public Time() {
 		date = null;
 		dateChooser = null;
-		t= null;
+		t = null;
 		time = null;
 		increment_time_value = 0;
 	}
-	
+
 	/**
 	 * Constructor
 	 */
-	public Time(SHSGui frame, JButton btn, JSpinner time_spinner, JDateChooser date, JSlider slider, Console console, SHSController controller) {
+	public Time(SHSGui frame, JButton btn, JSpinner time_spinner, JDateChooser date, JSlider slider, Console console,
+			SHSController controller) {
 		this.increment_time_value = 1;
 		this.console = console;
 		this.frame = frame;
 		this.controller = controller;
-		
+
 		// listen for button click
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
 				// set time
-				Date value = (Date) time_spinner.getValue();
-				String formattedValue = new SimpleDateFormat("HH:mm").format(value);
-				frame.getTimeValue().setText(formattedValue);
-				setTime(value);
-
+				setTimeFromSpinnner(time_spinner, frame);
 				// set date
-				Date setDate = date.getDate();
-				String strDate = DateFormat.getDateInstance().format(setDate);
-				frame.getDateValue().setText(strDate);
-
-				// display console message
-				console.msg("The time has been set at " + formattedValue);
-				controller.appendToLog("The time has been set at " + formattedValue);
-				console.msg("The date has been set to " + strDate);
-				controller.appendToLog("The date has been set to " + strDate);
+				setDateFromSpinnner(date, frame);
 			}
 		});
 
@@ -98,23 +85,61 @@ public class Time {
 
 		// constantly incrementing timer
 		this.t = new Timer(1000, new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				// make sure there a value for time
 				if (getTime() != null) {
-
 					// display time
-					String timeToString = new SimpleDateFormat("HH:mm").format(getTime());
-					frame.getTimeValue().setText(timeToString);
-
+					displayTime(frame);
 					// increment time
-					Calendar calendar = Calendar.getInstance();
-					calendar.setTime(getTime());
-					calendar.add(Calendar.MINUTE, increment_time_value);
-					setTime(calendar.getTime());
+					incrementTime();
 				}
 			}
 		});
+	}
+
+	/**
+	 * Set Time from spinner
+	 */
+	public void setTimeFromSpinnner(JSpinner time_spinner, SHSGui frame) {
+		Date value = (Date) time_spinner.getValue();
+		String formattedValue = new SimpleDateFormat("HH:mm:ss").format(value);
+		frame.getTimeValue().setText(formattedValue);
+		setTime(value);
+		console.msg("The time has been set at " + formattedValue);
+		controller.appendToLog("The time has been set at " + formattedValue);
+	}
+
+	/**
+	 * Set date from spinner
+	 */
+	public void setDateFromSpinnner(JDateChooser date, SHSGui frame) {
+		Date setDate = date.getDate();
+		String strDate = new SimpleDateFormat("dd-MMM-YYYY").format(setDate);
+		frame.getDateValue().setText(strDate);
+		setDate(setDate);
+		console.msg("The date has been set to " + strDate);
+		controller.appendToLog("The date has been set to " + strDate);
+	}
+
+	/**
+	 * Display Time
+	 */
+	public void displayTime(SHSGui frame) {
+		String timeToString = new SimpleDateFormat("HH:mm:ss").format(getTime());
+		frame.getTimeValue().setText(timeToString);
+	}
+
+	/**
+	 * Increment Time
+	 */
+	public void incrementTime() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getTime());
+		if (getIncrement_time_value() == 1)
+			calendar.add(Calendar.SECOND, increment_time_value);
+		else
+			calendar.add(Calendar.MINUTE, increment_time_value);
+		setTime(calendar.getTime());
 	}
 
 	/**
@@ -190,11 +215,14 @@ public class Time {
 
 		this.increment_time_value = increment_time_value;
 	}
+
 	public static Time getWatch() {
 		if (watch != null)
 			return watch;
 		else {
 			Time.watch = new Time();
+			//this.time = new Time(frame, frame.getPresstimeBtn(), frame.getTimeSpinner(), frame.getDateChooser(),
+			//		frame.getSlider(), console, this);
 			return watch;
 		}
 	}

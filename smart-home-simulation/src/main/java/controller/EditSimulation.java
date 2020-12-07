@@ -10,7 +10,7 @@ import javax.swing.Timer;
 import javax.swing.event.*;
 
 import model.Lights;
-import model.RoomCounter;
+import model.Room;
 import model.Users;
 import model.Windows;
 import view.ContextSimulation;
@@ -29,7 +29,7 @@ public class EditSimulation {
 	private SHPController security;
 	private SHSController controller;
 	private SHHController heat;
-	private RoomCounter rooms;
+	private Room rooms;
 
 	/**
 	 * Constructor
@@ -45,7 +45,7 @@ public class EditSimulation {
 		this.core = core;
 		this.security = security;
 		windows = Windows.getWindow();
-		rooms = RoomCounter.getRoomCounter();
+		rooms = Room.getRoomCounter();
 		this.controller = controller;
 		this.heat = heat;
 
@@ -271,6 +271,7 @@ public class EditSimulation {
 			}
 		});
 
+		/** Sets the summer & winter season **/
 		this.context.getSetSeasonsBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String winterStart = context.getComboBoxWinterStart().getSelectedItem().toString();
@@ -284,8 +285,8 @@ public class EditSimulation {
 				ArrayList<Integer> winter = createSeason(winterStartMonth,winterEndMonth);
 				ArrayList<Integer> summer = createSeason(summerStartMonth,summerEndMonth);
 				if (!hasOverlap(winter, summer)) {
-					heat.setSummerSeason(getStringSeason(summer));
-					heat.setWinterSeason(getStringSeason(winter));
+					heat.setSummerSeason(summer);
+					heat.setWinterSeason(winter);
 					console.msg("Winter months have been set from " + winterStart + " to " + winterEnd);
 					console.msg("Summer months have been set from " + summerStart + " to " + summerEnd);
 				} else {
@@ -323,6 +324,11 @@ public class EditSimulation {
 			frame.repaint();
 	}
 
+	/**
+	 * Returns the numerical digit corresponding to a month in a year
+	 * @param month
+	 * @return
+	 */
 	private int getNumericalMonth(String month) {
 		switch (month) {
 		case "January":
@@ -353,54 +359,13 @@ public class EditSimulation {
 			return 0;
 		}
 	}
-	
-	private ArrayList<String> getStringSeason(ArrayList<Integer> season) {
-		ArrayList<String> seasonString = new ArrayList<String>(); 
-		for (int a : season) {
-			switch(a) {
-			case 1:
-				seasonString.add("January");
-				break;
-			case 2:
-				seasonString.add("February");
-				break;
-			case 3:
-				seasonString.add("March");
-				break;
-			case 4:
-				seasonString.add("April");
-				break;
-			case 5:
-				seasonString.add("May");
-				break;
-			case 6:
-				seasonString.add("June");
-				break;
-			case 7:
-				seasonString.add("July");
-				break;
-			case 8:
-				seasonString.add("August");
-				break;
-			case 9:
-				seasonString.add("September");
-				break;
-			case 10:
-				seasonString.add("October");
-				break;
-			case 11:
-				seasonString.add("November");
-				break;
-			case 12:
-				seasonString.add("December");
-				break;
-			default:
-				break;
-			}
-		}
-		return seasonString;
-	}
 
+	/**
+	 * Creates an array list of integers with the months for each season
+	 * @param start
+	 * @param end
+	 * @return
+	 */
 	private ArrayList<Integer> createSeason(int start, int end) {
 		ArrayList<Integer> season = new ArrayList<Integer>();
 		int a = start;
@@ -414,6 +379,12 @@ public class EditSimulation {
 		return season;
 	}
 	
+	/**
+	 * Checks if the user created an overlap between the winter and summer seasons
+	 * @param winter
+	 * @param summer
+	 * @return
+	 */
 	private boolean hasOverlap(ArrayList<Integer> winter, ArrayList<Integer> summer) {
 		for (int i = 0; i < winter.size(); i++) {
 			for (int j = 0; j < summer.size(); j++) {

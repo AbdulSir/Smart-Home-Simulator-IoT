@@ -10,7 +10,7 @@ import java.util.Date;
 
 import model.Doors;
 import model.Lights;
-import model.RoomCounter;
+import model.Room;
 import model.Users;
 import model.Windows;
 import view.SHSGui;
@@ -22,7 +22,7 @@ public class SHCController {
 	private Users user;
 	private Lights lights;
 	private Doors doors;
-	private RoomCounter rooms;
+	private Room rooms;
 	private SimulationButton simulationButton;
 	private static boolean AutoModeState;
 	private boolean isUserLoggedIn;
@@ -44,7 +44,7 @@ public class SHCController {
 		user = Users.getUser();
 		lights = Lights.getLight();
 		doors = Doors.getDoor();
-		rooms = RoomCounter.getRoomCounter();
+		rooms = Room.getRoomCounter();
 		AutoModeState = false;
 		isUserLoggedIn = true;
 		counter = 0;
@@ -281,14 +281,14 @@ public class SHCController {
 	/**
 	 * Getter
 	 */
-	public SimulationButton getSimButton() {
+	public SimulationButton getSimulationButton() {
 		return simulationButton;
 	}
 
 	/**
 	 * Setter
 	 */
-	public void setSimButton(SimulationButton simulationButton) {
+	public void setSimulationButton(SimulationButton simulationButton) {
 		this.simulationButton = simulationButton;
 	}
 

@@ -137,14 +137,6 @@ public class SHHController {
 		JSpinner finalPeriod = this.frame.getFinalPeriodJSpinner();
 
 		JTextField desiredTempTextField = this.frame.getDesiredTempTextField();
-
-//		desiredTempTextField.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				String desiredTempStr = desiredTempTextField.getText();
-//				setDesiredTemp(Integer.parseInt(desiredTempStr));
-//			}
-//		});
-
 		btnAcceptPeriod.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Users loggedUser = user.getLoggedUser();
@@ -160,21 +152,8 @@ public class SHHController {
 
 					String desiredTempStr = desiredTempTextField.getText();
 					int desiredTempInt = (Integer.parseInt(desiredTempStr));
-
-//				for (int a = 0; a < rooms.size(); a++) {
-//					System.out.println("Room "+rooms.get(a).getLocation()+" "+rooms.get(a).getZone()+" CurrentZone Selected "+currentZoneSelected);
-//					if (rooms.get(a).getZone() == (currentZoneSelected+1)) {
-//						rooms.get(a).setDesiredRoomTemperature(desiredTempInt);
-//						System.out.println(rooms.get(a).getDesiredRoomTemperature());
-//					}
-//				}
 					Zone zone = new Zone((currentZoneSelected + 1), currentPeriodSelected, formattedInitialPeriodTime,
 							formattedfinalPeriodTime, desiredTempInt);
-//				if (currentTime != null && finalPeriodTime != null) {
-//				if ((formattedCurrentTime).compareTo(formattedfinalPeriodTime) > 0) {
-//					
-//				}
-//			}
 				} else if (isUserLoggedIn) {
 					console.msg(
 							"You do not have the permission to execute this command. Reason: Permission status of user");
@@ -570,7 +549,13 @@ public class SHHController {
 	public void setDefaultWinterTemp(double defaultWinterTemp) {
 		this.defaultWinterTemp = defaultWinterTemp;
 	}
-
+	
+	/**
+	 * Method will determine whether or not a user has the permission to execute a command
+	 * @param user
+	 * @param location
+	 * @return
+	 */
 	public boolean hasPermissions(Users user, String location) {
 		if (user == null) {
 			if (counter % 2 != 0) {

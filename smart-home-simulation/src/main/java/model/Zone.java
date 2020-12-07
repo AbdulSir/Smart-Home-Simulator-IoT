@@ -10,9 +10,15 @@ public class Zone {
 	private String finalPeriod;
 	private double desiredTemperature;
 
+	/**
+	 * Constructor
+	 */
 	public Zone() {
 	}
 
+	/**
+	 * Parametrized Constructor
+	 */
 	public Zone(int currentZone, String period, String initialPeriod, String finalPeriod, double desiredTemperature) {
 		this.currentZone = currentZone;
 		this.period = period;

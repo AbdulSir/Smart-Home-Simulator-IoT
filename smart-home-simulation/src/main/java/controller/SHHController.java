@@ -419,11 +419,11 @@ public class SHHController {
 			public void run() {
 				int messageCounter = 0;
 				for (Room room : rooms) {
-					if (temperature.getOutsideTemp() < room.getCurrentRoomTemperature()
+					if (temperature.getOutsideTemp() < room.getDesiredRoomTemperature()
 							&& SHPController.getSHPController().getAwayMode() == false) {
 						for (int i = 0; i < window.size(); i++) {
 							if (window.get(i).getLocation().equals(room.getLocation())) {
-								if (!window.get(i).isBlocked() && counter % 60 == 0) {
+								if (!window.get(i).isBlocked() && counter % 60 == 0 && !window.get(i).isOpen()) {
 									window.get(i).setOpen(true);
 									paint();
 									console.msg("The window in the " + room.getLocation()
@@ -436,17 +436,17 @@ public class SHHController {
 							}
 						}
 					} 
-					else if (temperature.getOutsideTemp() < room.getCurrentRoomTemperature() && SHPController.getSHPController().getAwayMode() == true && counter % 60 == 0) {
+					else if (temperature.getOutsideTemp() < room.getDesiredRoomTemperature() && SHPController.getSHPController().getAwayMode() == true && counter % 60 == 0) {
 						console.msg("The window in the " +room.getLocation()+ " will not be opened since Away Mode is activated.");
 					}
 					
 					try {
-						if (hasThresholdBeenSet && room.getCurrentRoomTemperature() >= getUpperThreshold() && counter % 60 == 0) {
+						if (hasThresholdBeenSet && room.getDesiredRoomTemperature() >= getUpperThreshold() && counter % 60 == 0) {
 							console.msg("WARNING! The temperature in the " + room.getLocation()
 									+ " has reached the upper threshold.");
 							throw new ExceedThresholdException();
 						} 
-						else if (hasThresholdBeenSet && room.getCurrentRoomTemperature() <= getLowerThreshold() && counter % 60 == 0) {
+						else if (hasThresholdBeenSet && room.getDesiredRoomTemperature() <= getLowerThreshold() && counter % 60 == 0) {
 							console.msg("WARNING! The temperature in the " + room.getLocation()+ " has reached the lower threshold.");
 							throw new ExceedThresholdException();
 						}

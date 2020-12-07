@@ -15,7 +15,7 @@ public class Room {
 	private boolean ac;
 
 	/** Default Constructor **/
-	private Room() {
+	Room() {
 	}
 
 	/** Parametrized Constructor **/

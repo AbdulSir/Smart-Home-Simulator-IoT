@@ -157,6 +157,7 @@ public class SHHController {
 					int desiredTempInt = (Integer.parseInt(desiredTempStr));
 					Zone zone = new Zone((currentZoneSelected + 1), currentPeriodSelected, formattedInitialPeriodTime,
 							formattedfinalPeriodTime, desiredTempInt);
+					console.msg("The parameters have been accepted.");
 				} else if (isUserLoggedIn) {
 					console.msg(
 							"You do not have the permission to execute this command. Reason: Permission status of user");
@@ -168,6 +169,7 @@ public class SHHController {
 		shhApplyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Apply all zone temperatures to each room
+				console.msg("The parameters for the Heating/AC module have been set");
 				for (Zone zone : zone.getZoneList()) {
 					System.out.println("we are in " + zone.getCurrentZone());
 					for (int i = 0; i < rooms.size(); i++) {

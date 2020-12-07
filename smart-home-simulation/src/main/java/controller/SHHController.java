@@ -156,6 +156,7 @@ public class SHHController {
 					int desiredTempInt = (Integer.parseInt(desiredTempStr));
 					Zone zone = new Zone((currentZoneSelected + 1), currentPeriodSelected, formattedInitialPeriodTime,
 							formattedfinalPeriodTime, desiredTempInt);
+					console.msg("The times periods have been set.");
 				} else if (isUserLoggedIn) {
 					console.msg(
 							"You do not have the permission to execute this command. Reason: Permission status of user");
@@ -167,6 +168,7 @@ public class SHHController {
 		shhApplyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Apply all zone temperatures to each room
+				console.msg("The parameters for the Heating/AC module have been applied");
 				for (Zone zone : zone.getZoneList()) {
 					System.out.println("we are in " + zone.getCurrentZone());
 					for (int i = 0; i < rooms.size(); i++) {
@@ -414,8 +416,6 @@ public class SHHController {
 											+ ". The window cannot be opened because it is blocked.");
 							}
 						}
-					} else if (temperature.getOutsideTemp() < room.getCurrentRoomTemperature() && SHPController.getSHPController().getAwayMode() == true && counter % 60 == 0) {
-						console.msg("The window in the " +room.getLocation()+ " will not be opened since Away Mode is activated.");
 					}
 					if (hasThresholdBeenSet && room.getCurrentRoomTemperature() >= getUpperThreshold() && counter % 60 == 0) {
 						console.msg("WARNING! The temperature in the " + room.getLocation()
@@ -424,6 +424,9 @@ public class SHHController {
 						console.msg("WARNING! The temperature in the " + room.getLocation()
 								+ " has reached the lower threshold.");
 					}
+				}
+				if (SHPController.getSHPController().getAwayMode() == true && counter % 60 == 0) {
+					console.msg("The windows will not be opened since Away Mode is activated.");
 				}
 				counter++;
 			}
